@@ -153,6 +153,10 @@
 (use-package clojure-snippets :ensure t)
 (use-package clojure-mode-extra-font-locking :ensure t)
 
+(add-hook 'cider-repl-mode-hook 'eldoc-mode)
+(add-hook 'cider-repl-mode-hook 'paredit-mode)
+(add-hook 'clojure-mode-hook 'paredit-mode)
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; C/C++ configuration
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -283,8 +287,9 @@
 (require 'find-dired)
 (setq find-ls-option '("-print0 | xargs -0 ls -ld" . "-ld"))
 
-;; Add eldoc to anything elisp mode
+;; Run elisp with eldoc-mode and paredit-mode
 (add-hook 'emacs-lisp-mode-hook 'eldoc-mode)
+(add-hook 'emacs-lisp-mode-hook 'paredit-mode)
 
 ;; prefer ibuffer over list-buffers
 (fset 'list-buffers 'ibuffer)
@@ -334,9 +339,6 @@
 
 (use-package ivy :ensure t
   :diminish (ivy-mode . "")
-  :bind
-  (:map ivy-mode-map
-        ("C-'" . ivy-avy))
   :config
   (ivy-mode 1)
   ;; add ‘recentf-mode’ and bookmarks to ‘ivy-switch-buffer’.
@@ -363,33 +365,6 @@
 ;; org mode gets auto-fill and bullets mode
 (add-hook 'org-mode-hook (lambda() (turn-on-auto-fill)))
 (add-hook 'org-mode-hook 'org-bullets-mode)
-
-;;
-;; Very COOL toggle-split-windows functionality - picked this one off twitter
-;;
-(defun my-iswitchb-close()
-  "Open iswitchb or, if in minibuffer go to next match. Handy way
-to cycle through the ring."
-  (interactive)
-  (if (window-minibuffer-p (selected-window))
-      (keyboard-escape-quit)))
-
-;; Toggle between split windows and a single window
-(defun toggle-windows-split()
-  "Switch back and forth between one window and whatever split of
-windows we might have in the frame. The idea is to maximize the
-current buffer, while being able to go back to the previous split
-of windows in the frame simply by calling this command again."
-  (interactive)
-  (if (not (window-minibuffer-p (selected-window)))
-      (progn
-        (if (< 1 (count-windows))
-            (progn
-              (window-configuration-to-register ?u)
-              (delete-other-windows))
-          (jump-to-register ?u))))
-  (my-iswitchb-close))
-(define-key global-map (kbd "C-|") 'toggle-windows-split)
 
 ;; Turn on some stuff that's normally set off
 (put 'narrow-to-region 'disabled nil)
