@@ -230,30 +230,32 @@
   (interactive)
   (grep (concat "grep -n " (grep-exp-at-point) " *")))
 
-(defun my-ansi-term (term-name cmd)
-  "Create an ansi term with a name - other than *ansi-term* given TERM-NAME and CMD."
-  (interactive "sName for terminal: \nsCommand to run [/bin/bash]: ")
-  (if (= 0 (length cmd)) (setq cmd "/bin/bash"))
-  (ansi-term cmd)
-  (rename-buffer term-name))
+(unless (eq window-system 'w32)
+  (defun my-ansi-term (term-name cmd)
+    "Create an ansi term with a name - other than *ansi-term* given TERM-NAME and CMD."
+    (interactive "sName for terminal: \nsCommand to run [/bin/bash]: ")
+    (if (= 0 (length cmd)) (setq cmd "/bin/bash"))
+    (ansi-term cmd)
+    (rename-buffer term-name))
 
 ;; Get bash/python file definitions. This fixes the problem where
 ;; a file is read in with a #!/.../[bash|python] that doesn't automatically
 ;; set its mode properly. This looks for the #! line and tries to make
 ;; sense of it...
-(require 'sh-script)
-(defun my-find-file-hook ()
-  "If `fundamental-mode', look for script type so the mode gets properly set."
-  (if (eq major-mode 'fundamental-mode)
-      (condition-case nil
-          (save-excursion
-            (goto-char (point-min))
-            (re-search-forward "^#!\s*/.*/\\(python\\|bash\\).*$")
-            (if (string= (match-string 1) "python")
-                (python-mode)
-              (sh-mode)))
-        (error nil))))
-(add-hook 'find-file-hook 'my-find-file-hook)
+  (require 'sh-script)
+
+  (defun my-find-file-hook ()
+    "If `fundamental-mode', look for script type so the mode gets properly set."
+    (if (eq major-mode 'fundamental-mode)
+	(condition-case nil
+	    (save-excursion
+	      (goto-char (point-min))
+	      (re-search-forward "^#!\s*/.*/\\(python\\|bash\\).*$")
+	      (if (string= (match-string 1) "python")
+		  (python-mode)
+		(sh-mode)))
+	  (error nil))))
+  (add-hook 'find-file-hook 'my-find-file-hook))
 
 ;; Makefiles should be tab indented and 8 space tab width.
 (defun my-makefile-hook ()
@@ -331,7 +333,7 @@
 ;; Every five minutes save the session
 (require 'timer)
 (require 'desktop)
-(set-variable 'desktop-path (cons (getenv "PWD") desktop-path))
+(set-variable 'desktop-path (cons default-directory desktop-path))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; IVY CONFIG
@@ -406,7 +408,6 @@
  '(compilation-error-regexp-systems-list (quote (gnu perl)))
  '(confirm-kill-emacs (quote yes-or-no-p))
  '(cscope-do-not-update-database t)
- '(custom-file "~/repos/my-config/init.el")
  '(desktop-save-mode t)
  '(diff-switches "-bc")
  '(dired-listing-switches "-alh")
@@ -497,7 +498,6 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(default ((t (:family "DejaVu Sans Mono" :foundry "unknown" :slant normal :weight normal :height 98 :width normal))))
  '(Info-quoted ((t (:foreground "red3"))))
  '(powerline-active1 ((t (:inherit mode-line :background "dark salmon"))))
  '(powerline-active2 ((t (:inherit mode-line :background "dark turquoise"))))
@@ -522,4 +522,4 @@
                      (fx/time-subtract-millis
                       after-init-time before-init-time))))
 
-;;; adam.init.el ends here
+;;; init.el ends here
