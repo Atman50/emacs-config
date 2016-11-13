@@ -18,6 +18,11 @@
 ;; Add in the lisp directory stashed away in .emacs.d
 (add-to-list 'load-path (expand-file-name "lisp" user-emacs-directory))
 
+;; Load up local omnisharp (roslyn flavor)
+(add-to-list 'load-path (expand-file-name "~/repos/omnisharp-emacs"))
+(load-library "omnisharp")
+;;(setq omnisharp-debug t)
+
 ;; Debug on error
 (setq debug-on-error t)
 
@@ -27,6 +32,12 @@
 ;; Bootstrap config
 (require 'init-elpa)       ;; Install required packages
 (require 'init-tramp)      ;; Tramp setting
+
+(use-package csharp-mode :ensure t :defer t
+  :config
+  (progn
+    (add-hook 'csharp-mode-hook 'company-mode)
+    (add-hook 'csharp-mode-hook 'omnisharp-mode)))
 
 ;; other packages
 (use-package google-this :ensure t :defer t)
@@ -48,10 +59,12 @@
 (use-package plantuml-mode :ensure t :defer t :if (window-system))
 
 ;; stuff for ansible
-(use-package yaml-mode :ensure t :defer t)
+(use-package yaml-mode :ensure t :defer t
+  :config
+  (add-hook 'yaml-mode-hook 'ansible-doc-mode))
 (use-package ansible :ensure t :defer t)
 (use-package ansible-doc :ensure t :defer t)
-(add-hook 'yaml-mode-hook 'ansible-doc-mode)
+
 
 ;; Way cool undo-tree - learned from the emacs hangouts.
 ;; This with git-timemachine is useful
@@ -69,42 +82,35 @@
 ;; Python configuration
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(use-package anaconda-mode :ensure t)
-(use-package company :ensure t)
-(use-package company-anaconda :ensure t)
-(use-package company-ansible :ensure t)
-(use-package flycheck :ensure t)
-(use-package flycheck-pyflakes :ensure t)
-(use-package pylint :ensure t)
-(use-package python-docstring :ensure t
+(use-package anaconda-mode :ensure t :defer t)
+(use-package company :ensure t :defer t
   :config
   (progn
-    (setq-default python-indent-offset 4))
-  )
+   (add-to-list 'company-backends 'company-anaconda)
+   (add-to-list 'company-backends 'company-ansible)
+   (add-to-list 'company-backends 'company-omnisharp)))
+(use-package company-anaconda :ensure t :defer t)
+(use-package company-ansible :ensure t :defer t)
+(use-package flycheck :ensure t :defer t)
+(use-package flycheck-pyflakes :ensure t :defer t)
+(use-package pylint :ensure t :defer t)
+(use-package python-docstring :ensure t :defer t
+  :config
+  (setq-default python-indent-offset 4))
 
 ;; We rely on the python and flycheck package
-(use-package python :ensure t)
+(use-package python :ensure t :defer t
+  :config
+  (progn
+    (add-hook 'python-mode-hook 'anaconda-mode)
+    (add-hook 'python-mode-hook 'anaconda-eldoc-mode)
+    (add-hook 'python-mode-hook 'company-mode)
 
-(add-hook 'python-mode-hook 'anaconda-mode)
-(add-hook 'python-mode-hook 'anaconda-eldoc-mode)
-
-;; Try sphinx-doc??
-;;(use-package sphinx-doc :ensure t)
-;;(add-hook 'python-mode-hook 'sphinx-doc-mode)
-
-;;prompting package for anaconda
-(eval-after-load "company"
-  '(progn
-     (add-to-list 'company-backends 'company-anaconda)
-     (add-to-list 'company-backends 'company-ansible)))
-(use-package company :ensure t)
-(add-hook 'python-mode-hook 'company-mode)
-
-(defun python-config--disable-ac (orig-fun &rest args)
-  "Don't allow for auto-complete mode in python mode, otherwise call ORIG-FUN with ARGS."
-  (unless (eq major-mode 'python-mode)
-    (apply orig-fun args)))
-(advice-add 'auto-complete-mode :around #'python-config--disable-ac)
+    (defun python-config--disable-ac (orig-fun &rest args)
+      "Don't allow for auto-complete mode in python mode, otherwise call ORIG-FUN with ARGS."
+      (unless (eq major-mode 'python-mode)
+        (apply orig-fun args)))
+    (advice-add 'auto-complete-mode :around #'python-config--disable-ac)))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; FLYCHECK configuration
@@ -139,23 +145,26 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Projectile
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(use-package projectile :ensure t)
-(use-package org-projectile :ensure t)
-(use-package ibuffer-projectile :ensure t)
+(use-package projectile :ensure t :defer t)
+(use-package org-projectile :ensure t :defer t)
+(use-package ibuffer-projectile :ensure t :defer t)
 (projectile-global-mode 1)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Clojure
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(use-package cider :ensure t)
-(use-package paredit :ensure t)
-(use-package clojure-mode :ensure t)
-(use-package clojure-snippets :ensure t)
-(use-package clojure-mode-extra-font-locking :ensure t)
+(use-package cider :ensure t :defer t
+  :config
+  (progn
+    (add-hook 'cider-repl-mode-hook 'eldoc-mode)
+    (add-hook 'cider-repl-mode-hook 'paredit-mode)))
+(use-package paredit :ensure t :defer t)
+(use-package clojure-mode :ensure t :defer t
+  :config
+  (add-hook 'clojure-mode-hook 'paredit-mode))
+(use-package clojure-snippets :ensure t :defer t)
+(use-package clojure-mode-extra-font-locking :ensure t :defer t)
 
-(add-hook 'cider-repl-mode-hook 'eldoc-mode)
-(add-hook 'cider-repl-mode-hook 'paredit-mode)
-(add-hook 'clojure-mode-hook 'paredit-mode)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; C/C++ configuration
@@ -202,8 +211,8 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Some more packages
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(use-package xterm-color :ensure t)
-(use-package which-key :ensure t)
+(use-package xterm-color :ensure t :defer t)
+(use-package which-key :ensure t :defer t)
 ;;(use-package focus :ensure t)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -439,6 +448,9 @@
  '(magit-pull-arguments nil)
  '(magit-repository-directories (quote (("~/repos" . 1))))
  '(make-backup-files nil)
+ '(omnisharp-auto-complete-popup-help-delay 1)
+ '(omnisharp-server-executable-path
+   "~/repos/omnisharp-roslyn/artifacts/publish/OmniSharp/default/net46/OmniSharp.exe")
  '(org-agenda-files (quote ("~/Org/work.org")))
  '(org-babel-load-languages (quote ((awk . t) (python . t))))
  '(org-babel-python-command "/usr/local/bin/python2.7")
@@ -458,7 +470,7 @@
     ((sequence "TODO(t/!)" "WAIT(w/!)" "PROG(p/!)" "STBY(s/!)" "ASSIGNED(a/!)" "|" "DONE(d/!)" "COMPLETE(c/!)"))))
  '(package-selected-packages
    (quote
-    (plantuml-mode clojure-mode-extra-font-locking paredit yatemplate yaml-mode xterm-color which-key visual-regexp use-package undo-tree sphinx-doc smart-shift smart-mode-line sicp rich-minority python-docstring pylint protobuf-mode php-mode org-projectile org-bullets org-autolist ob-ipython markdown-mode magit-find-file magit-filenotify latex-preview-pane ido-vertical-mode ibuffer-projectile google-this git-timemachine function-args flycheck-pyflakes exec-path-from-shell dockerfile-mode diminish company-ansible company-anaconda clojure-snippets chef-mode bind-key ansible-doc ansible)))
+    (popup csharp-mode shut-up plantuml-mode clojure-mode-extra-font-locking paredit yatemplate yaml-mode xterm-color which-key visual-regexp use-package undo-tree sphinx-doc smart-shift smart-mode-line sicp rich-minority python-docstring pylint protobuf-mode php-mode org-projectile org-bullets org-autolist ob-ipython markdown-mode magit-find-file magit-filenotify latex-preview-pane ido-vertical-mode ibuffer-projectile google-this git-timemachine function-args flycheck-pyflakes exec-path-from-shell dockerfile-mode diminish company-ansible company-anaconda clojure-snippets chef-mode bind-key ansible-doc ansible)))
  '(python-indent-trigger-commands (quote (yas-expand yas/expand)))
  '(python-shell-completion-setup-code "from IPython.core.completerlib import module_completion")
  '(python-shell-completion-string-code
