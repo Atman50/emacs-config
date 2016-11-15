@@ -30,7 +30,8 @@
 
 ;; list of installed packages
 (defvar fx-packages
-  '(anaconda-mode
+  '(ag
+    anaconda-mode
     ansible
     ansible-doc
     async

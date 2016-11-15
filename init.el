@@ -155,7 +155,8 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (use-package xterm-color :ensure t :defer t)
 (use-package which-key :ensure t :defer t)
-;;(use-package focus :ensure t)
+
+(use-package ag :ensure t :defer t)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; bits-o-configuration
@@ -333,6 +334,17 @@
         search-ring
 	regexp-search-ring))
 
+;; This I picked up from searching web because of emacs.exe.stackdump files
+;; repeatedly getting created in the directories I was working in. Seems the
+;; console somehow intereacts poorly with windows unless these changes are made
+(if (eq window-system 'w32)
+    (progn
+      (add-hook 'comint-output-filter-functions 'shell-strip-ctrl-m nil t)
+      (add-hook 'comint-output-filter-functions 'comint-watch-for-password-prompt nil t)
+      (setq explicit-shell-file-name "bash.exe")
+      (setq shell-file-name explicit-shell-file-name)))
+
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; C U S T O M I Z A T I O N  section
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -407,7 +419,7 @@
     ((sequence "TODO(t/!)" "WAIT(w/!)" "PROG(p/!)" "STBY(s/!)" "ASSIGNED(a/!)" "|" "DONE(d/!)" "COMPLETE(c/!)"))))
  '(package-selected-packages
    (quote
-    (popup csharp-mode shut-up plantuml-mode paredit yatemplate yaml-mode xterm-color which-key visual-regexp use-package undo-tree sphinx-doc smart-shift smart-mode-line sicp rich-minority python-docstring pylint protobuf-mode php-mode org-projectile org-bullets org-autolist ob-ipython markdown-mode magit-find-file magit-filenotify latex-preview-pane ido-vertical-mode ibuffer-projectile google-this git-timemachine function-args flycheck-pyflakes exec-path-from-shell dockerfile-mode diminish company-ansible company-anaconda chef-mode bind-key ansible-doc ansible)))
+    (ag popup csharp-mode shut-up plantuml-mode paredit yatemplate yaml-mode xterm-color which-key visual-regexp use-package undo-tree sphinx-doc smart-shift smart-mode-line sicp rich-minority python-docstring pylint protobuf-mode php-mode org-projectile org-bullets org-autolist ob-ipython markdown-mode magit-find-file magit-filenotify latex-preview-pane ido-vertical-mode ibuffer-projectile google-this git-timemachine function-args flycheck-pyflakes exec-path-from-shell dockerfile-mode diminish company-ansible company-anaconda chef-mode bind-key ansible-doc ansible)))
  '(python-indent-trigger-commands (quote (yas-expand yas/expand)))
  '(python-shell-completion-setup-code "from IPython.core.completerlib import module_completion")
  '(python-shell-completion-string-code
@@ -417,18 +429,6 @@
  '(python-shell-interpreter-args "-i")
  '(python-shell-prompt-output-regexp "Out\\[[0-9]+\\]: ")
  '(python-shell-prompt-regexp "In \\[[0-9]+\\]: ")
- '(safe-local-variable-values
-   (quote
-    ((eval condition-case nil
-           (setq cmake-ide-project-dir
-                 (locate-dominating-file buffer-file-name ".dir-locals.el"))
-           (error nil))
-     (eval condition-case nil
-           (setq cmake-ide-build-dir
-                 (concat
-                  (locate-dominating-file buffer-file-name ".dir-locals.el")
-                  "cbuild"))
-           (error nil)))))
  '(scroll-bar-mode (quote right))
  '(sentence-end-double-space nil)
  '(show-paren-mode t nil (paren))
