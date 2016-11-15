@@ -36,10 +36,6 @@
     async
     bind-key
     chef-mode
-    cider
-    clojure-mode
-    clojure-mode-extra-font-locking
-    clojure-snippets
     company
     company-anaconda
     company-ansible
@@ -51,7 +47,6 @@
     f
     flycheck
     flycheck-pyflakes
-    ;; focus    
     function-args
     git-commit
     git-timemachine

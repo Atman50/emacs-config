@@ -151,64 +151,6 @@
 (projectile-global-mode 1)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; Clojure
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(use-package cider :ensure t :defer t
-  :config
-  (progn
-    (add-hook 'cider-repl-mode-hook 'eldoc-mode)
-    (add-hook 'cider-repl-mode-hook 'paredit-mode)))
-(use-package paredit :ensure t :defer t)
-(use-package clojure-mode :ensure t :defer t
-  :config
-  (add-hook 'clojure-mode-hook 'paredit-mode))
-(use-package clojure-snippets :ensure t :defer t)
-(use-package clojure-mode-extra-font-locking :ensure t :defer t)
-
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; C/C++ configuration
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; Load up cc-mode
-(require 'cc-mode)
-(require 'cc-vars)
-
-(use-package function-args :ensure t)
-
-;; Add c++ mode map
-(define-key c++-mode-map "\C-c\C-m" 'compile)
-
-;; Add the C files to the c++-mode
-(setq auto-mode-alist
-      (append '(("\\.c$"    . c++-mode)
-                ("\\.h$"    . c++-mode)
-                ("\\.idl$"  . c++-mode)
-                ("[mM]ake\\.*"  . makefile-gmake-mode)
-                ("\\.MAK$"  . makefile-gmake-mode)
-                ("\\.jsp$"  . html-mode)
-                ("\\.inc$"  . html-mode)
-                ("\\.dwt$"  . html-mode)
-                ("\\.prp$"  . text-mode)
-                ("\\.xsd$"  . xml-mode)
-                ("\\.lst$"  . text-mode)
-                ("\\.def$"  . python-mode)
-                ("\\.\\([pP]\\([Llm]\\|erl\\|od\\)\\|al\\)\\'" . cperl-mode))
-              auto-mode-alist))
-
-;; Turn on auto fill and column to fill to
-(add-hook 'c-mode-common-hook
-          (lambda ()
-            (set-variable 'tab-width 4)
-            (turn-on-auto-fill)
-            (when c-tab-always-indent (setq c-tab-always-indent nil))
-            (setq fill-column 80)))
-
-(setq c-style-alist
-      (append c-style-alist
-              '(("adam" "gnu"
-                 (c-basic-offset . 4)))))
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Some more packages
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (use-package xterm-color :ensure t :defer t)
@@ -239,32 +181,32 @@
   (interactive)
   (grep (concat "grep -n " (grep-exp-at-point) " *")))
 
-(unless (eq window-system 'w32)
-  (defun my-ansi-term (term-name cmd)
-    "Create an ansi term with a name - other than *ansi-term* given TERM-NAME and CMD."
-    (interactive "sName for terminal: \nsCommand to run [/bin/bash]: ")
-    (if (= 0 (length cmd)) (setq cmd "/bin/bash"))
-    (ansi-term cmd)
-    (rename-buffer term-name))
+(defun my-ansi-term (term-name cmd)
+  "Create an ansi term with a name - other than *ansi-term* given TERM-NAME and CMD."
+  (interactive "sName for terminal: \nsCommand to run [/bin/bash]: ")
+  (if (= 0 (length cmd)) (setq cmd "/bin/bash"))
+  (ansi-term cmd)
+  (rename-buffer term-name))
 
 ;; Get bash/python file definitions. This fixes the problem where
 ;; a file is read in with a #!/.../[bash|python] that doesn't automatically
 ;; set its mode properly. This looks for the #! line and tries to make
 ;; sense of it...
-  (require 'sh-script)
 
-  (defun my-find-file-hook ()
-    "If `fundamental-mode', look for script type so the mode gets properly set."
-    (if (eq major-mode 'fundamental-mode)
-	(condition-case nil
-	    (save-excursion
-	      (goto-char (point-min))
-	      (re-search-forward "^#!\s*/.*/\\(python\\|bash\\).*$")
-	      (if (string= (match-string 1) "python")
-		  (python-mode)
-		(sh-mode)))
-	  (error nil))))
-  (add-hook 'find-file-hook 'my-find-file-hook))
+(use-package sh-script :ensure t :defer t)
+
+(defun my-find-file-hook ()
+  "If `fundamental-mode', look for script type so the mode gets properly set."
+  (if (eq major-mode 'fundamental-mode)
+      (condition-case nil
+          (save-excursion
+            (goto-char (point-min))
+            (re-search-forward "^#!\s*/.*/\\(python\\|bash\\).*$")
+            (if (string= (match-string 1) "python")
+                (python-mode)
+              (sh-mode)))
+        (error nil))))
+(add-hook 'find-file-hook 'my-find-file-hook)
 
 ;; Makefiles should be tab indented and 8 space tab width.
 (defun my-makefile-hook ()
@@ -290,13 +232,10 @@
       (set-variable 'truncate-lines nil)
     (set-variable 'truncate-lines t)))
 
-;; Easier window movement
-(require 'windmove)
-(windmove-default-keybindings 'control) ; leave 'shift for selecting while moving
-
 ;; If I ever use find-dired - this is a speed up suggested
-(require 'find-dired)
-(setq find-ls-option '("-print0 | xargs -0 ls -ld" . "-ld"))
+(use-package find-dired :ensure t :defer t
+  :config
+  (setq find-ls-option '("-print0 | xargs -0 ls -ld" . "-ld")))
 
 ;; Run elisp with eldoc-mode and paredit-mode
 (add-hook 'emacs-lisp-mode-hook 'eldoc-mode)
@@ -336,13 +275,11 @@
 ;; For ediff mode
 (setq-default ediff-ignore-similar-regions t)
 
-;; Sentences end with a single space please
-(setq sentence-end-double-space nil)
-
 ;; Every five minutes save the session
 (require 'timer)
-(require 'desktop)
-(set-variable 'desktop-path (cons default-directory desktop-path))
+(use-package desktop :ensure t :defer t
+  :config
+  (set-variable 'desktop-path (cons default-directory desktop-path)))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; IVY CONFIG
@@ -450,7 +387,7 @@
  '(make-backup-files nil)
  '(omnisharp-auto-complete-popup-help-delay 1)
  '(omnisharp-server-executable-path
-   "~/repos/omnisharp-roslyn/artifacts/publish/OmniSharp/default/net46/OmniSharp.exe")
+   "~/repos/omnisharp-roslyn/artifacts/publish/OmniSharp/default/netcoreapp1.0/OmniSharp.exe")
  '(org-agenda-files (quote ("~/Org/work.org")))
  '(org-babel-load-languages (quote ((awk . t) (python . t))))
  '(org-babel-python-command "/usr/local/bin/python2.7")
@@ -470,7 +407,7 @@
     ((sequence "TODO(t/!)" "WAIT(w/!)" "PROG(p/!)" "STBY(s/!)" "ASSIGNED(a/!)" "|" "DONE(d/!)" "COMPLETE(c/!)"))))
  '(package-selected-packages
    (quote
-    (popup csharp-mode shut-up plantuml-mode clojure-mode-extra-font-locking paredit yatemplate yaml-mode xterm-color which-key visual-regexp use-package undo-tree sphinx-doc smart-shift smart-mode-line sicp rich-minority python-docstring pylint protobuf-mode php-mode org-projectile org-bullets org-autolist ob-ipython markdown-mode magit-find-file magit-filenotify latex-preview-pane ido-vertical-mode ibuffer-projectile google-this git-timemachine function-args flycheck-pyflakes exec-path-from-shell dockerfile-mode diminish company-ansible company-anaconda clojure-snippets chef-mode bind-key ansible-doc ansible)))
+    (popup csharp-mode shut-up plantuml-mode paredit yatemplate yaml-mode xterm-color which-key visual-regexp use-package undo-tree sphinx-doc smart-shift smart-mode-line sicp rich-minority python-docstring pylint protobuf-mode php-mode org-projectile org-bullets org-autolist ob-ipython markdown-mode magit-find-file magit-filenotify latex-preview-pane ido-vertical-mode ibuffer-projectile google-this git-timemachine function-args flycheck-pyflakes exec-path-from-shell dockerfile-mode diminish company-ansible company-anaconda chef-mode bind-key ansible-doc ansible)))
  '(python-indent-trigger-commands (quote (yas-expand yas/expand)))
  '(python-shell-completion-setup-code "from IPython.core.completerlib import module_completion")
  '(python-shell-completion-string-code
@@ -493,6 +430,7 @@
                   "cbuild"))
            (error nil)))))
  '(scroll-bar-mode (quote right))
+ '(sentence-end-double-space nil)
  '(show-paren-mode t nil (paren))
  '(sml/no-confirm-load-theme t)
  '(sml/theme (quote light))
