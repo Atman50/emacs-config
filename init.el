@@ -20,8 +20,8 @@
 
 ;; Load up local omnisharp (roslyn flavor)
 (add-to-list 'load-path (expand-file-name "~/repos/omnisharp-emacs"))
+(setq omnisharp-debug t)
 (load-library "omnisharp")
-;;(setq omnisharp-debug t)
 
 ;; Debug on error
 (setq debug-on-error t)
@@ -46,6 +46,7 @@
 (use-package magit :ensure t :defer t)
 (use-package magit-filenotify :ensure t :defer t)
 (use-package magit-find-file :ensure t :defer t)
+(use-package magit-gh-pulls :ensure t :defer t)
 (use-package git-timemachine :ensure t :defer t)
 
 (use-package org :ensure t :defer t)
@@ -376,18 +377,18 @@
  '(electric-pair-mode t)
  '(eshell-history-size 1024)
  '(fill-column 78)
- '(flycheck-json-python-json-executable "/usr/local/bin/python2.7")
+ '(flycheck-json-python-json-executable "/usr/bin/python2.7")
  '(flycheck-python-flake8-executable "/usr/local/bin/flake8")
- '(flycheck-python-pycompile-executable "/usr/local/bin/python2.7")
- '(flycheck-python-pyflakes-executable "/usr/local/bin/pyflakes")
- '(flycheck-python-pylint-executable "/usr/local/bin/pylint")
+ '(flycheck-python-pycompile-executable "/usr/bin/python2.7")
+ '(flycheck-python-pyflakes-executable "/usr/bin/pyflakes")
+ '(flycheck-python-pylint-executable "/usr/bin/pylint")
  '(font-lock-global-modes t)
  '(font-lock-maximum-size nil)
  '(font-lock-mode t t (font-lock))
  '(git-commit-style-convention-checks (quote (non-empty-second-line overlong-summary-line)))
  '(global-font-lock-mode t nil (font-lock))
  '(gud-gud-gdb-command-name "gdb -i=mi")
- '(gud-pdb-command-name "/usr/local/bin/python2.7 -m pdb")
+ '(gud-pdb-command-name "/usr/bin/python2.7 -m pdb")
  '(helm-candidate-number-limit 500)
  '(indent-tabs-mode nil)
  '(inhibit-startup-screen t)
@@ -402,7 +403,7 @@
    "~/repos/omnisharp-roslyn/artifacts/publish/OmniSharp/default/netcoreapp1.0/OmniSharp.exe")
  '(org-agenda-files (quote ("~/Org/work.org")))
  '(org-babel-load-languages (quote ((awk . t) (python . t))))
- '(org-babel-python-command "/usr/local/bin/python2.7")
+ '(org-babel-python-command "/usr/bin/python2.7")
  '(org-catch-invisible-edits (quote show))
  '(org-clock-into-drawer "CLOCKING")
  '(org-default-notes-file "~/Org/notes.org")
@@ -419,16 +420,29 @@
     ((sequence "TODO(t/!)" "WAIT(w/!)" "PROG(p/!)" "STBY(s/!)" "ASSIGNED(a/!)" "|" "DONE(d/!)" "COMPLETE(c/!)"))))
  '(package-selected-packages
    (quote
-    (ag popup csharp-mode shut-up plantuml-mode paredit yatemplate yaml-mode xterm-color which-key visual-regexp use-package undo-tree sphinx-doc smart-shift smart-mode-line sicp rich-minority python-docstring pylint protobuf-mode php-mode org-projectile org-bullets org-autolist ob-ipython markdown-mode magit-find-file magit-filenotify latex-preview-pane ido-vertical-mode ibuffer-projectile google-this git-timemachine function-args flycheck-pyflakes exec-path-from-shell dockerfile-mode diminish company-ansible company-anaconda chef-mode bind-key ansible-doc ansible)))
+    (magit-gh-pulls ag popup csharp-mode shut-up plantuml-mode paredit yatemplate yaml-mode xterm-color which-key visual-regexp use-package undo-tree sphinx-doc smart-shift smart-mode-line sicp rich-minority python-docstring pylint protobuf-mode php-mode org-projectile org-bullets org-autolist ob-ipython markdown-mode magit-find-file magit-filenotify latex-preview-pane ido-vertical-mode ibuffer-projectile google-this git-timemachine function-args flycheck-pyflakes exec-path-from-shell dockerfile-mode diminish company-ansible company-anaconda chef-mode bind-key ansible-doc ansible)))
  '(python-indent-trigger-commands (quote (yas-expand yas/expand)))
  '(python-shell-completion-setup-code "from IPython.core.completerlib import module_completion")
  '(python-shell-completion-string-code
    "';'.join(get_ipython().Completer.all_completions('''%s'''))
 ")
- '(python-shell-interpreter "/usr/local/bin/python2.7")
+ '(python-shell-interpreter "/usr/bin/python2.7")
  '(python-shell-interpreter-args "-i")
  '(python-shell-prompt-output-regexp "Out\\[[0-9]+\\]: ")
  '(python-shell-prompt-regexp "In \\[[0-9]+\\]: ")
+ '(safe-local-variable-values
+   (quote
+    ((eval condition-case nil
+           (setq cmake-ide-project-dir
+                 (locate-dominating-file buffer-file-name ".dir-locals.el"))
+           (error nil))
+     (eval condition-case nil
+           (setq cmake-ide-build-dir
+                 (concat
+                  (locate-dominating-file buffer-file-name ".dir-locals.el")
+                  "cbuild"))
+           (error nil))
+     (cmake-ide-build-dir . "build-make"))))
  '(scroll-bar-mode (quote right))
  '(sentence-end-double-space nil)
  '(show-paren-mode t nil (paren))

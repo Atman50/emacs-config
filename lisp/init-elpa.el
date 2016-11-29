@@ -60,6 +60,7 @@
     magit
     magit-filenotify
     magit-find-file
+    magit-gh-pulls
     magit-popup
     markdown-mode
     ob-ipython
