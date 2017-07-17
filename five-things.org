@@ -37,21 +37,25 @@
 * Emacs helps those who help themselves
 ** *Don't Panic*
 **  Help starts with ~C-h~
-   |-----+-----------------------------------------------------------------|
-   | C-h | Description                                                     |
-   |-----+-----------------------------------------------------------------|
-   | ?   | List of the help you can get after C-h                          |
-   | m   | Mode. Very helpful for all those special mode-based key strokes |
-   | i   | *Info*. Just amazing                                            |
-   | a   | Apropos - shows a list of functions matching expression         |
-   | f   | Describe function                                               |
-   | v   | Describe variable                                               |
-   | k   | Describe key                                                    |
-   | b   | Show bindings                                                   |
-   |-----+-----------------------------------------------------------------|
-** Info is for real
+   |-------+-----------------------------------------------------------------|
+   | ~C-h~ | Description                                                     |
+   |-------+-----------------------------------------------------------------|
+   | ~?~   | List of the help you can get after C-h                          |
+   | ~m~   | Mode. Very helpful for all those special mode-based key strokes |
+   | ~i~   | *Info*. Just amazing                                            |
+   | ~a~   | Apropos - shows a list of functions matching expression         |
+   | ~f~   | Describe function                                               |
+   | ~v~   | Describe variable                                               |
+   | ~k~   | Describe key                                                    |
+   | ~b~   | Show bindings                                                   |
+   |-------+-----------------------------------------------------------------|
+** *Info* is for real
    Everything you need to know about emacs can be found here (cannot be
    stressed enough). Google is a good source too, but always start with info.
+** Use the *menu*
+   Many times I've been amazed at what's up on the menu area. For example,
+   under the ~Tools~ menu there is a ~Version Control~ menu. Emacs, out of the
+   box, understands git, svn, cvs, ....
 
 * Dynamic Abbreviations
   - ~M-/~ - PFM
@@ -64,10 +68,10 @@
   - Not built-in (we'll cover extensible)
 
 * "Easy" customization
-  - customize-group
-  - customize-face
-  - I bind ~C-hc~ to customize-gruop
-  - I put customizations in separate file (see Extensible)
+  - ~M-x customize-group~
+  - ~M-x customize-face~
+  - It is handy to bind ~C-hc~ to customize-gruop
+  - It is useful to put customizations in separate file (see Extensible)
 
 * Extensible
 ** Packages
@@ -88,6 +92,9 @@
     #+END_SRC
 
 *** Split customizations out
+    Having customizations in the ~init.el~ file makes it more difficult to put
+    your initialization under source control. Keep your customizations
+    separate.
     #+BEGIN_SRC emacs-lisp
     ;; Your customizations are stored in the custom.el file
     ;;    *DO THIS FIRST SO YOU CAN CUSTOMIZE PACKAGES BEFORE LOADING THEM*
@@ -98,6 +105,8 @@
     #+END_SRC
 
 *** Setup the ~package-archives~
+    The packages reside in different locations. Add them here and make sure to
+    get org from the org-specific repository.
     #+BEGIN_SRC emacs-lisp
     (unless (assoc-default "melpa" package-archives)
       (add-to-list 'package-archives '("melpa" . "http://melpa.org/packages/") t))
@@ -133,5 +142,13 @@
     #+END_SRC
 
 *** Now add your customizations
+    A very handy tool for beginners is ~which-key~. This creates a nice popup
+    in the mini-buffer that allows you to see all the bindings available.
+    #+BEGIN_SRC emacs-lisp
+    (use-package which-key :ensure t :defer t)
+    ;; Turn it on
+    (which-key-mode 1)
+    #+END_SRC
 
-* Much more
+* That's all folks
+  Questions? Comments?
