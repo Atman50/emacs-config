@@ -150,5 +150,10 @@
     (which-key-mode 1)
     #+END_SRC
 
+* More stuff
+  - Try things, especially magit for git users
+  - Completion modes!!!
+  - Open different types of files (surprises abound)
+
 * That's all folks
   Questions? Comments?
