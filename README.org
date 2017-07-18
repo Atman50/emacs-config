@@ -17,8 +17,9 @@
     1. Create a ~${HOME}/.emacs.d~ directory and copy the ~init.el~ and
        ~custom.el~ files into the newly created directory
     2. Clone this repo into the ~.emacs.d~ directory
+
        #+BEGIN_SRC shell
-       git clone https://github.com/Atman50/emacs-config.git ~/.emacs.d
+       $ git clone https://github.com/Atman50/emacs-config.git ~/.emacs.d
        #+END_SRC
   - Start emacs. NOTE: this can take a while as it's loading/compiling bunches
     of packages included by ~init.el~. To get a feel for what it's working on
@@ -35,7 +36,7 @@
    (package-initialize)
    #+END_SRC
 
-** Separate out ~custom.el~
+** Separate out custom settings
    I like to keep my ~init.el~ file under source code control and hence try to
    keep my custom settings (via emacs built-in customization) separate. This
    allows me to use Emacs on many different platforms, keeping most of the
@@ -54,11 +55,11 @@
    #+BEGIN_SRC emacs-lisp
    ;; Setup package path
    (unless (assoc-default "melpa" package-archives)
-   (add-to-list 'package-archives '("melpa" . "http://melpa.org/packages/") t))
+       (add-to-list 'package-archives '("melpa" . "http://melpa.org/packages/") t))
    (unless (assoc-default "org" package-archives)
-   (add-to-list 'package-archives '("org" . "http://orgmode.org/elpa/") t))
+       (add-to-list 'package-archives '("org" . "http://orgmode.org/elpa/") t))
    (unless (assoc-default "gnu" package-archives)
-   (add-to-list 'package-archives '("gnu" . "http://elpa.gnu.org/packages/") t))
+       (add-to-list 'package-archives '("gnu" . "http://elpa.gnu.org/packages/") t))
    ;; Setup pinned stuff for org
    (setq package-pinned-packages '((org . "org")
    (org-plus-contrib . "org")))
@@ -199,8 +200,11 @@
 **** Custome mode line
      I like this one, but there are many. Feel free to nuke this as your mood
      suits. 
-     #+BEGIN_SRC emacs-lisp
+    #+BEGIN_SRC emacs-lisp
     ;; Stuff to do after custom macros
     (use-package smart-mode-line :ensure t :defer t)
     (smart-mode-line-enable)
-    #+END+SRC
+    #+END_SRC
+
+* Suggestions/Comments
+  Are always welcome. Leave 'em here or find me on twitter @Atman50.
