@@ -1,0 +1,206 @@
+#+STARTUP: overview
+#+TITLE: Adam's Emacs Configuration README
+
+* Welcome
+  This is meant to be consumed by anyone who wants to work with Emacs. The
+  configuration here is meant as either a starting place for you as a beginner
+  or a place to find some Emacs tricks for those with more experience.
+
+  Everyone needs to develop their Emacs style and this configuration certainly
+  represents my style. You can adopt, delete, rant or ignore any part of this
+  configuratoin to your heart's desire.
+
+* Quick start
+  All you need to do to adopt this configuration for a *new* Emacs installation:
+  - Install a copy of Emacs 25 or greater
+  - Select one of these methods to populate 
+    1. Create a ~${HOME}/.emacs.d~ directory and copy the ~init.el~ and
+       ~custom.el~ files into the newly created directory
+    2. Clone this repo into the ~.emacs.d~ directory
+       #+BEGIN_SRC shell
+       git clone https://github.com/Atman50/emacs-config.git ~/.emacs.d
+       #+END_SRC
+  - Start emacs. NOTE: this can take a while as it's loading/compiling bunches
+    of packages included by ~init.el~. To get a feel for what it's working on
+    you can do an ~ls ~/.emacs.d/elpa~ which is where installed packages
+    reside.
+
+  For those using this configuration to enhance their already exisitng
+  environments, then read on and grab the pieces that suit you.
+
+* This configration explained
+** Preamble
+   All ~init.el~ files need to have:
+   #+BEGIN_SRC emacs-lisp
+   (package-initialize)
+   #+END_SRC
+
+** Separate out ~custom.el~
+   I like to keep my ~init.el~ file under source code control and hence try to
+   keep my custom settings (via emacs built-in customization) separate. This
+   allows me to use Emacs on many different platforms, keeping most of the
+   platform-specific configuration in the custom.el file - like python
+   settings.
+   #+BEGIN_SRC emacs-lisp
+   ;; Your customizations are stored in the custom.el file
+   ;;    *DO THIS FIRST SO YOU CAN CUSTOMIZE PACKAGES BEFORE LOADING THEM*
+   (setq custom-file (expand-file-name "custom.el" user-emacs-directory))
+   (load custom-file)
+   #+END_SRC
+
+** Point to the repositories
+   The following sets the package archives (if not present already) and fixes
+   the org-mode packages to the org archive:
+   #+BEGIN_SRC emacs-lisp
+   ;; Setup package path
+   (unless (assoc-default "melpa" package-archives)
+   (add-to-list 'package-archives '("melpa" . "http://melpa.org/packages/") t))
+   (unless (assoc-default "org" package-archives)
+   (add-to-list 'package-archives '("org" . "http://orgmode.org/elpa/") t))
+   (unless (assoc-default "gnu" package-archives)
+   (add-to-list 'package-archives '("gnu" . "http://elpa.gnu.org/packages/") t))
+   ;; Setup pinned stuff for org
+   (setq package-pinned-packages '((org . "org")
+   (org-plus-contrib . "org")))
+
+   ;; Re-read the packages
+   (package-refresh-contents)
+   #+END_SRC
+
+** Magical package auto-loader
+   This is some code I whipped up to load the package if not there. The only
+   caveat here is that if there are dependencies that are unspecified by the
+   package itself, then you need to provide those packages with use-package (I
+   had to do this for my omnisharp/C# integration because omnisharp-mode
+   depends on packages that were not loaded yet).
+   #+BEGIN_SRC emacs-lisp -i
+   ;; Make sure the packages install if not there
+   (defun init/auto-install (pkg &rest args)
+     "Advisor for use-package. Pass the same PKG and ARGS."
+     (unless (package-installed-p pkg)
+       (package-install pkg)))
+
+   (init/auto-install 'use-package)
+
+   (advice-add 'use-package :before #'init/auto-install)
+   (require 'use-package)
+   #+END_SRC
+
+** Packges
+   Most of the packages are self explanatory. I'll attempt to add documetation
+   for anything that's not "normal".
+*** Omnisharp
+    I'm a C# developer these days. Omnisharp is the C# IDE I use. If you don't
+    have ~$(HOME)/repos/omnisharp-emacs~ on your system, then you won't get
+    this configuration. Directions for getting this working is in the comment
+    #+BEGIN_SRC emacs-lisp -i
+    ;; To use omnisharp follow directions below
+    ;; Load up local omnisharp (roslyn flavor) - set the load-path to where you've put
+    ;; the omnisharp-emacs repo: https://github.com/OmniSharp/omnisharp-emacs.git
+    ;; this site also contains all of the directions for getting omnisharp running.
+    (defvar config/use-omnisharp (and (eq window-system 'w32) (file-exists-p (expand-file-name "~/repos/omnisharp-emacs"))))
+    (when config/use-omnisharp
+      (add-to-list 'load-path (expand-file-name "~/repos/omnisharp-emacs"))
+
+      ;; dependencies
+      (use-package popup)
+      (use-package flycheck)
+      (use-package s)
+      (use-package shut-up)
+      (load-library "omnisharp")
+  
+      (use-package csharp-mode
+        :config
+        (progn
+          (add-hook 'csharp-mode-hook 'company-mode)
+          (add-hook 'csharp-mode-hook 'omnisharp-mode))))
+    #+END_SRC
+
+*** Python
+    You will need to define where your various tools exist. Namely, you'll
+    want to define ~python-shell-interpreter~ as ipyhton. You may also have to
+    define values for the folowing to get things working:
+    - ~flycheck-json-python-json-executable~
+    - ~flycheck-python-flake8-executable~
+    - ~flycheck-python-pycompile-executable~
+    - ~flycheck-python-pyflakes-executable~
+    - ~flycheck-python-pylint-executable~
+    #+BEGIN_SRC emacs-lisp -i
+    ;; You'll need anaconda-mode in your python (via pip). Install ipython, anaconda-mode, pyflake8/flake8, pylint
+    (use-package anaconda-mode
+    (use-package company
+      :config
+      (progn
+       (add-to-list 'company-backends 'company-anaconda)
+       (add-to-list 'company-backends 'company-ansible)
+       (when config/use-omnisharp
+         (add-to-list 'company-backends 'company-omnisharp))))
+    (use-package company-anaconda)
+    (use-package flycheck
+      :config
+      (global-flycheck-mode))
+
+    (use-package flycheck-pyflakes) ;; flycheck uses flake8!
+    (use-package pylint)
+    (use-package python-docstring
+      :config
+      (setq-default python-indent-offset 4))
+
+    ;; We rely on the python and flycheck package
+    (use-package python
+      :config
+      (progn
+        (add-hook 'python-mode-hook 'anaconda-mode)
+        (add-hook 'python-mode-hook 'anaconda-eldoc-mode)
+        (add-hook 'python-mode-hook 'company-mode)
+        (defun python-config--disable-ac (orig-fun &rest args)
+          "Don't allow for auto-complete mode in python mode, otherwise call ORIG-FUN with ARGS."
+          (unless (eq major-mode 'python-mode)
+            (apply orig-fun args)))
+        (advice-add 'auto-complete-mode :around #'python-config--disable-ac)
+        ;; This I found at: https://github.com/proofit404/anaconda-mode/issues/164, but it might be eldoc
+        (remove-hook 'anaconda-mode-response-read-fail-hook 'anaconda-mode-show-unreadable-response)))
+    #+END_SRC
+
+*** bits-o-configuration
+**** ~my-ansi-term~
+     Handy defun to create named ansi terminals. Handy for doing things where
+     you want the ~<TAB>~ key to be passed for interpretation by the
+     underlying program. For example, I use ansi-terms for psql (PostgresSQL
+     prompt) and bash.
+**** ~my-find-file-hook~
+     As the name implies this gets run whenever a file is read in. It's used
+     to find files that start with the language: "~#!/usr/bin/sh~" or
+     "~#!/bin/python~". This lets me set the appropriate language if not
+     specified by a file extension.
+**** Key bindings
+     Completely a personal thing. These are my bindings for what they're
+     worth.
+**** Retained history
+     This is a wicked cool (yup, from Boston) history retainer that allows you
+     to do things like select a buffer that doesn't exist but was read at some
+     point during your Emacs' history. VERY HANDY and many thanks to Sacha for
+     the code:
+
+     #+BEGIN_SRC emacs-lisp -i
+    ;; Stolen from Sacha Chua's emacs setup
+    ;;    http://pages.sachachua.com/.emacs.d/Sacha.html
+    ;; Nice history
+    (require 'savehist)
+    (setq savehist-file (expand-file-name "savehist" user-emacs-directory))
+    (savehist-mode 1)
+    (setq history-length t)
+    (setq history-delete-duplicates t)
+    (setq savehist-additional-variables
+          '(kill-ring
+            search-ring
+    	regexp-search-ring))
+    #+END_SRC
+**** Custome mode line
+     I like this one, but there are many. Feel free to nuke this as your mood
+     suits. 
+     #+BEGIN_SRC emacs-lisp
+    ;; Stuff to do after custom macros
+    (use-package smart-mode-line :ensure t :defer t)
+    (smart-mode-line-enable)
+    #+END+SRC

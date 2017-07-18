@@ -65,30 +65,30 @@
   (use-package shut-up)
   (load-library "omnisharp")
   
-  (use-package csharp-mode :ensure t :defer t
+  (use-package csharp-mode
     :config
     (progn
       (add-hook 'csharp-mode-hook 'company-mode)
       (add-hook 'csharp-mode-hook 'omnisharp-mode))))
 
 ;; other packages
-(use-package terraform-mode :ensure t :defer t)
-(use-package bind-key :ensure t :defer t)
-(use-package git-commit :ensure t :defer t)
-(use-package magit :ensure t :defer t)
-(use-package magit-filenotify :ensure t :defer t)
-(use-package magit-find-file :ensure t :defer t)
-(use-package git-timemachine :ensure t :defer t)
+(use-package terraform-mode)
+(use-package bind-key)
+(use-package git-commit)
+(use-package magit)
+(use-package magit-filenotify)
+(use-package magit-find-file)
+(use-package git-timemachine)
 
-(use-package org :ensure t :defer t
+(use-package org
   :config (progn
             (add-hook 'org-mode-hook (lambda() (turn-on-auto-fill)))
             (add-hook 'org-mode-hook 'org-bullets-mode)))
-(use-package org-plus-contrib :ensure t :defer t)
-(use-package org-autolist :ensure t :defer t)
+(use-package org-plus-contrib)
+(use-package org-autolist)
 
-(use-package magit-popup :ensure t :defer t)
-(use-package protobuf-mode :ensure t :defer t)
+(use-package magit-popup)
+(use-package protobuf-mode)
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -99,27 +99,27 @@
 ;; This, of course, uses Python36 as the default version.
 
 ;; You'll need anaconda-mode in your python (via pip). Install ipython, anaconda-mode, pyflake8/flake8, pylint
-(use-package anaconda-mode :ensure t :defer t)
-(use-package company :ensure t :defer t
+(use-package anaconda-mode)
+(use-package company
   :config
   (progn
    (add-to-list 'company-backends 'company-anaconda)
    (add-to-list 'company-backends 'company-ansible)
    (when config/use-omnisharp
      (add-to-list 'company-backends 'company-omnisharp))))
-(use-package company-anaconda :ensure t :defer t)
-(use-package flycheck :ensure t
+(use-package company-anaconda)
+(use-package flycheck
   :config
   (global-flycheck-mode))
 
-(use-package flycheck-pyflakes :ensure t :defer t) ;; flycheck uses flake8!
-(use-package pylint :ensure t :defer t)
-(use-package python-docstring :ensure t :defer t
+(use-package flycheck-pyflakes) ;; flycheck uses flake8!
+(use-package pylint)
+(use-package python-docstring
   :config
   (setq-default python-indent-offset 4))
 
 ;; We rely on the python and flycheck package
-(use-package python :ensure t :defer t
+(use-package python
   :config
   (progn
     (add-hook 'python-mode-hook 'anaconda-mode)
@@ -138,14 +138,14 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (use-package yasnippet
-  :ensure t
+ 
   :config (progn
             (yas-global-mode t)
             (yas-reload-all)
             ;; Setup to allow for yasnippets to use code to expand
             (require 'warnings)
             (add-to-list 'warning-suppress-types '(yasnippet backquote-change))))
-(use-package yatemplate :ensure t)
+(use-package yatemplate)
 
 ;; Fix yas indent issues
 (add-hook 'python-mode-hook
@@ -157,24 +157,24 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Projectile
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(use-package projectile :ensure t :defer t
+(use-package projectile
   :config (progn
             (setq projectile-completion-system 'ivy)))
 
-(use-package org-projectile :ensure t :defer t)
-(use-package ibuffer-projectile :ensure t :defer t)
+(use-package org-projectile)
+(use-package ibuffer-projectile)
 (projectile-mode 1)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Some more packages
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(use-package xterm-color :ensure t :defer t)
-(use-package which-key :ensure t :defer t)
+(use-package xterm-color)
+(use-package which-key)
 (which-key-mode 1)
-(use-package sh-script :ensure t :defer t)
+(use-package sh-script)
 
 ;; To use this package you'll need silversearcher (ag) installed on your system.
-(use-package ag :ensure t :defer t)
+(use-package ag)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; DESKTOP STICKINESS
@@ -184,7 +184,7 @@
 ;; you to have various .emacs.desktop files scattered about: Each repo can
 ;; have it's own "state".
 ;; Turn this on by setting desktop-save-mode
-(use-package desktop :ensure t :defer t
+(use-package desktop
  :config
  (set-variable 'desktop-path (cons default-directory desktop-path)))
 
@@ -192,7 +192,7 @@
 ;; IVY CONFIG
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(use-package ivy :ensure t
+(use-package ivy
   :diminish (ivy-mode . "")
   :config
   (ivy-mode 1)
@@ -210,10 +210,10 @@
         '((t   . ivy--regex-ignore-order))))
 
 ;; We can use counsel with ivy
-(use-package counsel :ensure t :defer t)
-(use-package counsel-projectile :ensure t :defer t)
+(use-package counsel)
+(use-package counsel-projectile)
 (use-package swiper
-  :ensure t
+ 
   :init (ivy-mode 1)
   :bind (("C-c s" . swiper)))
 
@@ -311,7 +311,7 @@
 	regexp-search-ring))
 
 ;; Stuff to do after custom macros
-(use-package smart-mode-line :ensure t :defer t)
+(use-package smart-mode-line)
 (smart-mode-line-enable)
 
 ;;; init.el ends here

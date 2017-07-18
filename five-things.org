@@ -101,7 +101,6 @@
     (setq custom-file (expand-file-name "custom.el" user-emacs-directory))
     (load custom-file)
     ;; Initialize the package system
-    (package-initialize)
     #+END_SRC
 
 *** Setup the ~package-archives~
@@ -113,7 +112,7 @@
     (unless (assoc-default "org" package-archives)
       (add-to-list 'package-archives '("org" . "http://orgmode.org/elpa/") t))
     (unless (assoc-default "gnu" package-archives)
-      (add-to-list 'package-archives '("gnu" . "http://elpa.gnu.org/packages/") t))
+      (add-to-list 'package-ar1chives '("gnu" . "http://elpa.gnu.org/packages/") t))
     ;; Setup pinned stuff for org
     (setq package-pinned-packages '((org . "org")
                                     (org-plus-contrib . "org")))
