@@ -18,29 +18,8 @@
 ;;              Setup the package stuff                   ;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-;; Setup package path
-(unless (assoc-default "melpa" package-archives)
-  (add-to-list 'package-archives '("melpa" . "http://melpa.org/packages/") t))
-(unless (assoc-default "org" package-archives)
-  (add-to-list 'package-archives '("org" . "http://orgmode.org/elpa/") t))
-(unless (assoc-default "gnu" package-archives)
-  (add-to-list 'package-archives '("gnu" . "http://elpa.gnu.org/packages/") t))
-;; Setup pinned stuff for org
-(setq package-pinned-packages '((org . "org")
-                                (org-plus-contrib . "org")))
-
-;; Re-read the packages
-(package-refresh-contents)
-
-;; Make sure the packages install if not there
-(defun init/auto-install (pkg &rest args)
-  "Advisor for use-package. Pass the same PKG and ARGS."
-  (unless (package-installed-p pkg)
-    (package-install pkg)))
-
-(init/auto-install 'use-package)
-
-(advice-add 'use-package :before #'init/auto-install)
+(unless (package-installed-p 'use-package)
+  (package-install 'use-package))
 (require 'use-package)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -81,10 +60,11 @@
 (use-package git-timemachine)
 
 (use-package org
+  :pin org
   :config (progn
             (add-hook 'org-mode-hook (lambda() (turn-on-auto-fill)))
             (add-hook 'org-mode-hook 'org-bullets-mode)))
-(use-package org-plus-contrib)
+(use-package org-plus-contrib :pin org)
 (use-package org-autolist)
 
 (use-package magit-popup)
@@ -138,7 +118,7 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (use-package yasnippet
- 
+  :demand
   :config (progn
             (yas-global-mode t)
             (yas-reload-all)
@@ -170,7 +150,6 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (use-package xterm-color)
 (use-package which-key)
-(which-key-mode 1)
 (use-package sh-script)
 
 ;; To use this package you'll need silversearcher (ag) installed on your system.
