@@ -81,10 +81,9 @@
 
 (use-package org-plus-contrib
   :pin org
-  :config
-  (progn
-    (add-hook 'org-mode-hook (lambda() (turn-on-auto-fill)))
-    (add-hook 'org-mode-hook 'org-bullets-mode)))
+  :demand)
+(add-hook 'org-mode-hook (lambda() (turn-on-auto-fill)))
+(add-hook 'org-mode-hook 'org-bullets-mode)
 
 (use-package org-autolist)
 

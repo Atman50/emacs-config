@@ -110,7 +110,7 @@
  '(default ((t (:slant normal :weight normal :height 98 :width normal :foundry "outline" :family "DejaVu Sans Mono"))))
  '(Info-quoted ((t (:foreground "red3"))))
  '(powerline-active1 ((t (:inherit mode-line :background "dark salmon"))))
- '(powerline-active2 ((t (:inherit mode-line :background "dark turquoise"))))
+ '(powerline-active2 ((t (:inherit mode-line :background "sky blue"))))
  '(powerline-inactive1 ((t (:inherit mode-line-inactive :background "dark gray"))))
  '(powerline-inactive2 ((t (:inherit mode-line-inactive :background "dim gray"))))
  '(region ((t (:background "sky blue" :distant-foreground "gtk_selection_fg_color")))))
