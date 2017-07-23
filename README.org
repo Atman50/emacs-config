@@ -48,6 +48,7 @@
    (setq custom-file (expand-file-name "custom.el" user-emacs-directory))
    (load custom-file)
    #+END_SRC
+
    The settings loaded here (if you start with the ~custom.el~ file here) will
    do all sorts of good things:
    - Sets the ~package-archives~ list to include the melpa, gnu and org
@@ -61,11 +62,23 @@
      cursor under the close parenthesis.
    - Sets up ~use-package~ to always ensure and defer loading (~:ensure t
      :defer t~) unless overridden.
+
+** Point to the repositories
+   The ~custom.el~ file sets up the ~package-archives~ variable to include the
+   following repositories:
+   - melpa - http://melpa.org/packages/ - "stable" packages
+   - org - http://orgmode.org/elpa/  - the most up-to-date org repository
+   - gnu - http://elpa.gnu.org/packages/ - the default package library
+
 ** Load up use-package
-   use-package is phenominal. It has everything buil-in including the ability
+   ~use-package~ is phenominal. It has everything buil-in including the ability
    to load the package on demand (:ensure). Just make sure that use-package is
-   availble.
+   availble. In ~custom.el~ we tell ~use-package~ to always ensure and defer
+   which is overridden for some packages with :demand.
    #+BEGIN_SRC emacs-lisp -i
+    ;; Package paths are setup via custom.el
+    (package-refresh-contents)
+
     (unless (package-installed-p 'use-package)
       (package-install 'use-package))
     (require 'use-package)
@@ -74,78 +87,17 @@
 ** Packages
    Most of the packages are self explanatory. I'll attempt to add documetation
    for anything that's not "normal".
+*** Powerline
+    I'm a convert. I like powerline.
 *** Omnisharp
     I'm a C# developer these days. Omnisharp is the C# IDE I use. If you don't
     have ~$(HOME)/repos/omnisharp-emacs~ on your system, then you won't get
-    this configuration. Directions for getting this working is in the comment
-    #+BEGIN_SRC emacs-lisp -i
-    ;; To use omnisharp follow directions below
-    ;; Load up local omnisharp (roslyn flavor) - set the load-path to where you've put
-    ;; the omnisharp-emacs repo: https://github.com/OmniSharp/omnisharp-emacs.git
-    ;; this site also contains all of the directions for getting omnisharp running.
-    (defvar config/use-omnisharp (and (eq window-system 'w32) (file-exists-p (expand-file-name "~/repos/omnisharp-emacs"))))
-    (when config/use-omnisharp
-      (add-to-list 'load-path (expand-file-name "~/repos/omnisharp-emacs"))
+    this configuration. Directions for getting this working is in the comment.
 
-      ;; dependencies
-      (use-package popup)
-      (use-package flycheck)
-      (use-package s)
-      (use-package shut-up)
-      (load-library "omnisharp")
-  
-      (use-package csharp-mode
-        :config
-        (progn
-          (add-hook 'csharp-mode-hook 'company-mode)
-          (add-hook 'csharp-mode-hook 'omnisharp-mode))))
-    #+END_SRC
-
-*** Python
-    You will need to define where your various tools exist. Namely, you'll
-    want to define ~python-shell-interpreter~ as ipyhton. You may also have to
-    define values for the folowing to get things working:
-    - ~flycheck-json-python-json-executable~
-    - ~flycheck-python-flake8-executable~
-    - ~flycheck-python-pycompile-executable~
-    - ~flycheck-python-pyflakes-executable~
-    - ~flycheck-python-pylint-executable~
-    #+BEGIN_SRC emacs-lisp -i
-    ;; You'll need anaconda-mode in your python (via pip). Install ipython, anaconda-mode, pyflake8/flake8, pylint
-    (use-package anaconda-mode
-    (use-package company
-      :config
-      (progn
-       (add-to-list 'company-backends 'company-anaconda)
-       (add-to-list 'company-backends 'company-ansible)
-       (when config/use-omnisharp
-         (add-to-list 'company-backends 'company-omnisharp))))
-    (use-package company-anaconda)
-    (use-package flycheck
-      :config
-      (global-flycheck-mode))
-
-    (use-package flycheck-pyflakes) ;; flycheck uses flake8!
-    (use-package pylint)
-    (use-package python-docstring
-      :config
-      (setq-default python-indent-offset 4))
-
-    ;; We rely on the python and flycheck package
-    (use-package python
-      :config
-      (progn
-        (add-hook 'python-mode-hook 'anaconda-mode)
-        (add-hook 'python-mode-hook 'anaconda-eldoc-mode)
-        (add-hook 'python-mode-hook 'company-mode)
-        (defun python-config--disable-ac (orig-fun &rest args)
-          "Don't allow for auto-complete mode in python mode, otherwise call ORIG-FUN with ARGS."
-          (unless (eq major-mode 'python-mode)
-            (apply orig-fun args)))
-        (advice-add 'auto-complete-mode :around #'python-config--disable-ac)
-        ;; This I found at: https://github.com/proofit404/anaconda-mode/issues/164, but it might be eldoc
-        (remove-hook 'anaconda-mode-response-read-fail-hook 'anaconda-mode-show-unreadable-response)))
-    #+END_SRC
+*** Python configuratoin
+    You may need to define some of the python variables that point to
+    executables if they are in strange places on your system - they certainly
+    for me since I run Emacs from Cygwin64 on Windows 10 - ugh.
 
 *** bits-o-configuration
 **** ~my-ansi-term~
@@ -165,30 +117,10 @@
      This is a wicked cool (yup, from Boston) history retainer that allows you
      to do things like select a buffer that doesn't exist but was read at some
      point during your Emacs' history. VERY HANDY and many thanks to Sacha for
-     the code:
+     the code.
 
-     #+BEGIN_SRC emacs-lisp -i
-    ;; Stolen from Sacha Chua's emacs setup
-    ;;    http://pages.sachachua.com/.emacs.d/Sacha.html
-    ;; Nice history
-    (require 'savehist)
-    (setq savehist-file (expand-file-name "savehist" user-emacs-directory))
-    (savehist-mode 1)
-    (setq history-length t)
-    (setq history-delete-duplicates t)
-    (setq savehist-additional-variables
-          '(kill-ring
-            search-ring
-    	regexp-search-ring))
-    #+END_SRC
-**** Custome mode line
-     I like this one, but there are many. Feel free to nuke this as your mood
-     suits. 
-    #+BEGIN_SRC emacs-lisp
-    ;; Stuff to do after custom macros
-    (use-package smart-mode-line :ensure t :defer t)
-    (smart-mode-line-enable)
-    #+END_SRC
+     Again these settings can be found in the custom file (savehist and
+     history variables).
 
 * Suggestions/Comments
   Are always welcome. Leave 'em here or find me on twitter @Atman50.
