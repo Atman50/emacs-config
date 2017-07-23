@@ -71,7 +71,7 @@
     (require 'use-package)
    #+END_SRC
 
-** Packges
+** Packages
    Most of the packages are self explanatory. I'll attempt to add documetation
    for anything that's not "normal".
 *** Omnisharp
