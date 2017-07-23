@@ -79,7 +79,7 @@
  '(python-shell-completion-string-code
    "';'.join(get_ipython().Completer.all_completions('''%s'''))
 ")
- '(python-shell-interpreter-args "-i -q")
+ '(python-shell-interpreter "ipython")
  '(python-shell-prompt-output-regexp "Out\\[[0-9]+\\]: ")
  '(python-shell-prompt-regexp "In \\[[0-9]+\\]: ")
  '(savehist-additional-variables (quote (kill-ring search-ring regexp-search-ring)))
@@ -101,7 +101,6 @@
  '(which-function-mode t)
  '(which-key-mode t)
  '(yas-global-mode t))
-
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.

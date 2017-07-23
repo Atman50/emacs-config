@@ -1,15 +1,21 @@
-;;; init.el --- Generic init el for Carbonite Emacs users.
+;;; init.el --- emacs initialization file
 
 ;; Copyright (C) 2017 Adam Taylor
 
 ;;; Commentary:
-;;    My Emacs configuration
+;;    My Emacs configuration. Not trying to make everyone else like me but
+;;    this might be a handy starting point for others.
 ;;
-;;    Most customize-able settings have been moved into the custom.el file.
-;;    The packages are configured via their customizable variables. Use the
-;;    M-x customize-group and M-x customize-variable for help. You can also
-;;    just look through the custom.el file directly.
+;;    Some benefits of this configuration:
+;;       - Most settings are in the custom.el file so it's easy to change the
+;;         look and feel without having to edit this file. Just customize group
+;;         and face
+;;       - Extensive use of use-package allows this init file to be portable: if
+;;         you don't have the packages installed on the target system, they will
+;;         automatically install
+;;       - This makes it easier to keep init.el cleaner
 ;;
+;;    Feel free to use all or part of this configuration
 
 ;;; Code:
 
@@ -128,6 +134,25 @@
     (advice-add 'auto-complete-mode :around #'python-config--disable-ac)
     ;; This I found at: https://github.com/proofit404/anaconda-mode/issues/164, but it might be eldoc
     (remove-hook 'anaconda-mode-response-read-fail-hook 'anaconda-mode-show-unreadable-response)))
+
+(use-package gud :demand)
+
+;; When we are running python in cygwin, the idea is to use the Windows-based python
+;; (pointed to by the path) rather than cygwin's. This means that in this particular
+;; configuration - running cygwin and using a Window's python, we need to change the
+;; Windows-style filename returned by python pdb to the cygwin-based name.
+;; This is done as advice to gud-find-file.
+(when (eq system-type 'cygwin)
+  (defun cygwin/gud-get-file (old-function file)
+    "Advisor defun for gud-get-file gets passed FILE in windows format. This advisor
+     changes the argument cygpath (if necessary)"
+    (let ((cygpath (replace-regexp-in-string "\\\\" "/" file)))
+      (if (string-match "[a-z]:/cygwin64" cygpath)
+          (setq cygpath (substring cygpath 11 nil))
+        (unless (string-prefix-p "/cygdrive/" cygpath)
+          (setq cygpath (concat "/cygdrive/" (replace-regexp-in-string ":" "" cygpath)))))
+      (apply old-function (list cygpath))))
+  (advice-add 'gud-find-file :around #'cygwin/gud-get-file))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; yasnippet configuration
