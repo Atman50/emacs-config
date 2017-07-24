@@ -54,6 +54,7 @@
  '(magit-repository-directories (quote (("~/repos" . 1))))
  '(make-backup-files nil)
  '(omnisharp-auto-complete-popup-help-delay 1)
+ '(omnisharp-server-executable-path "/usr/local/bin/OmniSharp")
  '(org-catch-invisible-edits (quote show))
  '(org-clock-into-drawer "CLOCKING")
  '(org-log-done (quote time))

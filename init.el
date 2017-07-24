@@ -55,17 +55,10 @@
 ;; Load up local omnisharp (roslyn flavor) - set the load-path to where you've put
 ;; the omnisharp-emacs repo: https://github.com/OmniSharp/omnisharp-emacs.git
 ;; this site also contains all of the directions for getting omnisharp running.
-(defvar config/use-omnisharp (and (eq window-system 'w32) (file-exists-p (expand-file-name "~/repos/omnisharp-emacs"))))
+(defvar config/use-omnisharp (file-exists-p "/usr/local/bin/OmniSharp"))
 (when config/use-omnisharp
-  (add-to-list 'load-path (expand-file-name "~/repos/omnisharp-emacs"))
-
-  ;; dependencies
-  (use-package popup)
-  (use-package flycheck)
-  (use-package s)
-  (use-package shut-up)
-  (load-library "omnisharp")
-
+  (use-package omnisharp
+    :diminish "Omni#")
   (use-package csharp-mode
     :config
     (progn
@@ -103,6 +96,7 @@
 ;; You'll need anaconda-mode in your python (via pip). Install ipython, anaconda-mode, pyflake8/flake8, pylint
 (use-package anaconda-mode)
 (use-package company
+  :diminish "Co"
   :config
   (progn
     (add-to-list 'company-backends 'company-anaconda)
@@ -275,6 +269,10 @@
 ;; Use hippie completion
 (bind-key "M-/" 'hippie-expand)
 
+;; Use magit log instead of canned one - this gives us some
+;; extra functionality but breaks multiple source code control systems
+(bind-key "C-x v l" 'magit-log-buffer-file)
+
 ;; handy way of getting back to previous places
 (bind-key "C-x p" 'pop-to-mark-command)
 (setq set-mark-command-repeat-pop t)
@@ -329,6 +327,5 @@
       (add-hook 'comint-output-filter-functions 'comint-watch-for-password-prompt nil t)
       (setq explicit-shell-file-name (if (eq system-type 'windows-nt)  "C:\\cygwin64\\bin\\bash.exe" "bash.exe"))
       (setq shell-file-name explicit-shell-file-name)))
-
 
 ;;; init.el ends here
