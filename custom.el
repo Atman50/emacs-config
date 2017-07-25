@@ -41,7 +41,6 @@
  '(git-commit-style-convention-checks (quote (non-empty-second-line overlong-summary-line)))
  '(global-font-lock-mode t nil (font-lock))
  '(history-delete-duplicates t)
- '(history-length t)
  '(indent-tabs-mode nil)
  '(inhibit-startup-screen t)
  '(ivy-count-format "")
