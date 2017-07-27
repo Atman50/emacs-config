@@ -28,6 +28,7 @@
  '(custom-safe-themes
    (quote
     ("a27c00821ccfd5a78b01e4f35dc056706dd9ede09a8b90c6955ae6a390eb1c1e" default)))
+ '(dabbrev-case-fold-search nil)
  '(diff-switches "-bc")
  '(dired-listing-switches "-alh")
  '(ediff-split-window-function (quote split-window-vertically))
