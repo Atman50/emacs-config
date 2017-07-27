@@ -102,7 +102,7 @@
     (add-to-list 'company-backends 'company-anaconda)
     (when config/use-omnisharp
       (add-to-list 'company-backends 'company-omnisharp))))
-(use-package company-anaconda)
+(use-package company-anaconda :demand t)
 (use-package flycheck
   :config
   (progn
@@ -129,7 +129,7 @@
     ;; This I found at: https://github.com/proofit404/anaconda-mode/issues/164, but it might be eldoc
     (remove-hook 'anaconda-mode-response-read-fail-hook 'anaconda-mode-show-unreadable-response)))
 
-(use-package gud :demand)
+(use-package gud :demand t)
 
 ;; When we are running python in cygwin, the idea is to use the Windows-based python
 ;; (pointed to by the path) rather than cygwin's. This means that in this particular
@@ -265,9 +265,6 @@
 
 ;; Diminish some of the modes
 (diminish 'eldoc-mode "Doc")
-
-;; Use hippie completion
-(bind-key "M-/" 'hippie-expand)
 
 ;; Use magit log instead of canned one - this gives us some
 ;; extra functionality but breaks multiple source code control systems
