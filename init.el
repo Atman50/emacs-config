@@ -134,18 +134,33 @@
 ;; When we are running python in cygwin, the idea is to use the Windows-based python
 ;; (pointed to by the path) rather than cygwin's. This means that in this particular
 ;; configuration - running cygwin and using a Window's python, we need to change the
-;; Windows-style filename returned by python pdb to the cygwin-based name.
-;; This is done as advice to gud-find-file.
+;; Windows-style filename returned by python pdb/anaconda-mode to the cygwin-based name.
 (when (eq system-type 'cygwin)
-  (defun cygwin/gud-get-file (old-function file)
-    "Advisor defun for gud-get-file gets passed FILE in windows format. This advisor
-     changes the argument cygpath (if necessary)"
+
+  (defun cygwin/cygpath (file)
+    "Convert a windows FILE path to a cygwin FILE path."
     (let ((cygpath (replace-regexp-in-string "\\\\" "/" file)))
       (if (string-match "[a-z]:/cygwin64" cygpath)
           (setq cygpath (substring cygpath 11 nil))
         (unless (string-prefix-p "/cygdrive/" cygpath)
           (setq cygpath (concat "/cygdrive/" (replace-regexp-in-string ":" "" cygpath)))))
-      (apply old-function (list cygpath))))
+      cygpath))
+
+  ;; Fix for anaconda mdoe.
+  (defun cygwin/anaconda-mode-definitions-view (result)
+    "Advisor defun for anaconda-mode-definitions-view gets passed RESULT. This advisor converts module-path results."
+    (when (eq (length result) 1)
+      (let ((module-path (assoc 'module-path (car result))))
+        (when module-path
+          (let ((cygpath (cygwin/cygpath (cdr module-path))))
+            (setcdr module-path cygpath))))))
+  (advice-add 'anaconda-mode-definitions-view :before #'cygwin/anaconda-mode-definitions-view)
+
+  ;; Fix for gud
+  (defun cygwin/gud-get-file (old-function file)
+    "Advisor defun for gud-get-file gets passed FILE in windows format. This advisor
+     changes the argument cygpath (if necessary)"
+    (apply old-function (list (cygwin/cygpath file))))
   (advice-add 'gud-find-file :around #'cygwin/gud-get-file))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -266,10 +281,6 @@
 ;; Diminish some of the modes
 (diminish 'eldoc-mode "Doc")
 
-;; Use magit log instead of canned one - this gives us some
-;; extra functionality but breaks multiple source code control systems
-(bind-key "C-x v l" 'magit-log-buffer-file)
-
 ;; handy way of getting back to previous places
 (bind-key "C-x p" 'pop-to-mark-command)
 (setq set-mark-command-repeat-pop t)
@@ -291,6 +302,7 @@
 (bind-key "C-c t" 'toggle-truncate-lines)
 (bind-key "C-c f" 'magit-find-file-other-window)
 (bind-key "C-c g" 'magit-status)
+(bind-key "C-c l" 'magit-log-buffer-file)
 (bind-key "C-c m" 'compile)
 (bind-key "C-c c" 'comment-region)
 (bind-key "C-c u" 'uncomment-region)
