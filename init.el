@@ -154,6 +154,27 @@
           (setq cygpath (concat "/cygdrive/" (replace-regexp-in-string ":" "" cygpath)))))
       cygpath))
 
+  (defun cygwin/winpath (file)
+    "Convert a cygwin FILE path to a windows FILE path."
+    (let ((winpath))
+      (if (string-match "^/cygdrive/\\([a-z]\\)/\\(.*\\)$" file)
+          (setq winpath (concat (match-string 1 file) ":" (match-string 2 file)))
+        (setq winpath (concat "C:\\cygwin64" file)))
+      (replace-regexp-in-string "/" "\\\\" winpath)))
+
+  (defun cygwin/gud-format-command (old-function str arg)
+    "Modify the gud-format-command so that it returns windows file path for STR and ARG which is
+formatted by OLD-FUNCTION"
+    (let ((cmdline (apply old-function (list str arg))))
+      (if (not (string-match "^\\(break \\|clear \\)\\(/.*\\)\\(:[0-9]+\\)$" cmdline))
+          cmdline
+        (let ((cmd (match-string 1 cmdline))
+              (file (match-string 2 cmdline))
+              (linnum (match-string 3 cmdline)))
+          (concat cmd (cygwin/winpath file) linnum)))))
+
+  (advice-add 'gud-format-command :around #'cygwin/gud-format-command)
+
   ;; Fix for anaconda mdoe.
   (defun cygwin/anaconda-mode-definitions-view (result)
     "Advisor defun for anaconda-mode-definitions-view gets passed RESULT. This advisor converts module-path results."
