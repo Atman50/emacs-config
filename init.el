@@ -27,6 +27,13 @@
             (message "init completed in %.2fs"
                      (float-time (time-subtract after-init-time before-init-time)))))
 
+;; Turn down the garbage collector during the loading of this file in case use-package
+;; has do some compiling. Set it back when done with init.
+(setq gc-cons-threshold 64000000)
+(add-hook 'after-init-hook #'(lambda ()
+                               ;; restore after startup
+                               (setq gc-cons-threshold 800000)))
+
 ;; Your customizations are stored in the custom.el file
 ;;    *DO THIS FIRST SO YOU CAN CUSTOMIZE PACKAGES BEFORE LOADING THEM*
 (setq custom-file (expand-file-name "custom.el" user-emacs-directory))
@@ -121,6 +128,7 @@
     (add-hook 'python-mode-hook 'anaconda-mode)
     (add-hook 'python-mode-hook 'anaconda-eldoc-mode)
     (add-hook 'python-mode-hook 'company-mode)
+
     (defun python-config--disable-ac (orig-fun &rest args)
       "Don't allow for auto-complete mode in python mode, otherwise call ORIG-FUN with ARGS."
       (unless (eq major-mode 'python-mode)
