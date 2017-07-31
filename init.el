@@ -1,3 +1,4 @@
+;;; -*- lexical-binding: t; -*-
 ;;; init.el --- emacs initialization file
 
 ;; Copyright (C) 2017 Adam Taylor
@@ -95,6 +96,12 @@
 
 (use-package terraform-mode)
 (use-package protobuf-mode)
+(use-package web-mode
+  :config
+  (progn
+    (add-to-list 'auto-mode-alist '("\\.aspx\\'" . web-mode))
+    (add-to-list 'auto-mode-alist '("\\.ascx\\'" . web-mode))
+    )
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Python configuration
@@ -128,7 +135,6 @@
     (add-hook 'python-mode-hook 'anaconda-mode)
     (add-hook 'python-mode-hook 'anaconda-eldoc-mode)
     (add-hook 'python-mode-hook 'company-mode)
-
     (defun python-config--disable-ac (orig-fun &rest args)
       "Don't allow for auto-complete mode in python mode, otherwise call ORIG-FUN with ARGS."
       (unless (eq major-mode 'python-mode)
