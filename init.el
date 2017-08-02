@@ -100,8 +100,7 @@
   :config
   (progn
     (add-to-list 'auto-mode-alist '("\\.aspx\\'" . web-mode))
-    (add-to-list 'auto-mode-alist '("\\.ascx\\'" . web-mode))
-    )
+    (add-to-list 'auto-mode-alist '("\\.ascx\\'" . web-mode))))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Python configuration
