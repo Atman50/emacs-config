@@ -1,5 +1,5 @@
-;;; -*- lexical-binding: t; -*-
 ;;; init.el --- emacs initialization file
+;;; -*- lexical-binding: t; -*-
 
 ;; Copyright (C) 2017 Adam Taylor
 
@@ -65,6 +65,7 @@
 ;; this site also contains all of the directions for getting omnisharp running.
 (defvar config/use-omnisharp (file-exists-p "/usr/local/bin/OmniSharp"))
 (when config/use-omnisharp
+  (setq omnisharp-debug t)
   (use-package omnisharp
     :diminish "Omni#")
   (use-package csharp-mode
@@ -74,6 +75,7 @@
       (add-hook 'csharp-mode-hook 'omnisharp-mode))))
 
 ;; For powershell on dark background you might need to customize faces
+(load-theme 'leuven t)
 (use-package powerline
   :demand
   :config
@@ -88,9 +90,12 @@
 
 (use-package org-plus-contrib
   :pin org
-  :demand)
-(add-hook 'org-mode-hook (lambda() (turn-on-auto-fill)))
-(add-hook 'org-mode-hook 'org-bullets-mode)
+  :demand t)
+(use-package org-bullets
+  :demand t
+  :config
+  (add-hook 'org-mode-hook 'org-bullets-mode))
+
 
 (use-package org-autolist)
 
@@ -101,6 +106,9 @@
   (progn
     (add-to-list 'auto-mode-alist '("\\.aspx\\'" . web-mode))
     (add-to-list 'auto-mode-alist '("\\.ascx\\'" . web-mode))))
+
+;; Silver searcher support
+(use-package ag)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Python configuration
@@ -134,6 +142,7 @@
     (add-hook 'python-mode-hook 'anaconda-mode)
     (add-hook 'python-mode-hook 'anaconda-eldoc-mode)
     (add-hook 'python-mode-hook 'company-mode)
+
     (defun python-config--disable-ac (orig-fun &rest args)
       "Don't allow for auto-complete mode in python mode, otherwise call ORIG-FUN with ARGS."
       (unless (eq major-mode 'python-mode)
@@ -370,5 +379,10 @@ formatted by OLD-FUNCTION"
       (add-hook 'comint-output-filter-functions 'comint-watch-for-password-prompt nil t)
       (setq explicit-shell-file-name (if (eq system-type 'windows-nt)  "C:\\cygwin64\\bin\\bash.exe" "bash.exe"))
       (setq shell-file-name explicit-shell-file-name)))
+
+;; This fixes a known malicious lisp injection attack prior to 25.3.
+;; See: http://lists.gnu.org/archive/html/info-gnu/2017-09/msg00006.html
+(if (version< emacs-version "25.3")
+    (eval-after-load "enriched" '(defun enriched-decode-display-prop (start end &optional param) (list start end))))
 
 ;;; init.el ends here
