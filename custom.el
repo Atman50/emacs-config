@@ -1,5 +1,5 @@
-;;; -*- lexical-binding: t; -*-
 ;;; custom.el --- Your emacs custom file.
+;;; -*- lexical-binding: t; -*-
 
 ;;; Commentary:
 ;;;    Where your settings are saved. This file is pointed
@@ -16,6 +16,9 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
+ '(ag-ignore-list
+   (quote
+    ("\\\\*.dll" "\\\\*.png" "\\\\*.jpeg" "\\\\*.exe" "\\\\*.csproj")))
  '(auto-save-default nil)
  '(browse-url-browser-function (quote browse-url-chrome))
  '(browse-url-chrome-program "chrome")
@@ -42,20 +45,22 @@
  '(font-lock-maximum-size nil)
  '(git-commit-style-convention-checks (quote (non-empty-second-line overlong-summary-line)))
  '(global-font-lock-mode t nil (font-lock))
+ '(gud-pdb-command-name "python -m pdb")
  '(history-delete-duplicates t)
  '(indent-tabs-mode nil)
  '(inhibit-startup-screen t)
- '(ivy-count-format "")
+ '(ivy-count-format "(%d/%d) ")
  '(ivy-height 16)
  '(ivy-mode t)
  '(ivy-use-virtual-buffers t)
  '(line-move-visual nil)
  '(line-number-display-limit-width 40000)
+ '(magit-completing-read-function (quote ivy-completing-read))
  '(magit-pull-arguments nil)
  '(magit-repository-directories (quote (("~/repos" . 1))))
  '(make-backup-files nil)
  '(omnisharp-auto-complete-popup-help-delay 1)
- '(omnisharp-server-executable-path "/usr/local/bin/OmniSharp")
+ '(omnisharp-server-executable-path "c:/omnisharp-roslyn-v1.27.2/OmniSharp.exe")
  '(org-catch-invisible-edits (quote show))
  '(org-clock-into-drawer "CLOCKING")
  '(org-log-done (quote time))
@@ -73,6 +78,9 @@
     (("gnu" . "http://elpa.gnu.org/packages/")
      ("melpa" . "http://melpa.org/packages/")
      ("org" . "http://orgmode.org/elpa/"))))
+ '(package-selected-packages
+   (quote
+    (counsel-projectile powershell counsel-etags avy ivy-hydra counsel which-key xterm-color ibuffer-projectile org-projectile projectile python-docstring pylint flycheck-pyflakes flycheck elpy company-jedi company ag protobuf-mode terraform-mode org-autolist org-bullets git-timemachine magit-find-file magit-filenotify magit git-commit powerline auto-compile diminish use-package)))
  '(powerline-display-hud nil)
  '(projectile-completion-system (quote ivy))
  '(projectile-mode-line (quote (:eval (format " [%s]" (projectile-project-name)))))
@@ -110,10 +118,10 @@
  ;; If there is more than one, they won't work right.
  '(default ((t (:slant normal :weight normal :height 98 :width normal :foundry "outline" :family "DejaVu Sans Mono"))))
  '(Info-quoted ((t (:foreground "red3"))))
- '(powerline-active1 ((t (:inherit mode-line :background "dark salmon"))))
- '(powerline-active2 ((t (:inherit mode-line :background "sky blue"))))
+ '(powerline-active1 ((t (:inherit mode-line :background "dark red" :foreground "gainsboro"))))
+ '(powerline-active2 ((t (:inherit mode-line :background "dark green" :foreground "white"))))
  '(powerline-inactive1 ((t (:inherit mode-line-inactive :background "dark gray"))))
- '(powerline-inactive2 ((t (:inherit mode-line-inactive :background "dim gray"))))
+ '(powerline-inactive2 ((t (:inherit mode-line-inactive :background "dim gray" :foreground "gainsboro"))))
  '(region ((t (:background "sky blue" :distant-foreground "gtk_selection_fg_color")))))
 
 ;;; custom.el ends here

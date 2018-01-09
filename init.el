@@ -45,6 +45,20 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 ;; Package paths are setup via custom.el
+
+(defvar mswindows-p (string-match "windows" (symbol-name system-type)))
+
+;; avoid troubles with chinese/japanese char on Melpa inst packages Windows
+(when mswindows-p
+  (set-language-environment 'utf-8)
+  (setq locale-coding-system 'utf-8)
+  (set-default-coding-systems 'utf-8)
+  (set-terminal-coding-system 'utf-8)
+  (unless (eq system-type 'windows-nt)
+    (set-selection-coding-system 'utf-8))
+  (prefer-coding-system 'utf-8)
+)
+
 (package-refresh-contents)
 
 ;; Make sure use-package is installed
@@ -56,26 +70,45 @@
 ;;                     PACKAGES                           ;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
+;; For use-package to diminish the mode name on the mode line
+(use-package diminish)
+
+(when (eq system-type 'gnu/linux)
+  (use-package csharp-mode))
+
 (use-package auto-compile
   :config (auto-compile-on-load-mode))
+
+(when mswindows-p
+  (use-package powershell))
 
 ;; To use omnisharp follow directions below
 ;; Load up local omnisharp (roslyn flavor) - set the load-path to where you've put
 ;; the omnisharp-emacs repo: https://github.com/OmniSharp/omnisharp-emacs.git
 ;; this site also contains all of the directions for getting omnisharp running.
-(defvar config/use-omnisharp (file-exists-p "/usr/local/bin/OmniSharp"))
+
+(defvar config/use-omnisharp nil)
+(let ((omnisharp (car (get 'omnisharp-server-executable-path 'saved-value))))
+  (unless (null omnisharp)
+    (setq config/use-omnisharp (file-exists-p omnisharp))))
+
 (when config/use-omnisharp
   (setq omnisharp-debug t)
   (use-package omnisharp
-    :diminish "Omni#")
+    :diminish "Omni#"
+    :bind (:map omnisharp-mode-map
+                ("C-c C-j" . imenu)))
   (use-package csharp-mode
     :config
     (progn
       (add-hook 'csharp-mode-hook 'company-mode)
       (add-hook 'csharp-mode-hook 'omnisharp-mode))))
 
-;; For powershell on dark background you might need to customize faces
+;; Themes
 (load-theme 'leuven t)
+;;(load-theme 'zenburn t)
+;;(load-theme 'sanityinc-tomorrow-blue t)
+
 (use-package powerline
   :demand
   :config
@@ -83,14 +116,16 @@
 
 (use-package bind-key)
 (use-package git-commit)
-(use-package magit)
+(use-package magit
+  :demand)
 (use-package magit-filenotify)
 (use-package magit-find-file)
 (use-package git-timemachine)
 
-(use-package org-plus-contrib
-  :pin org
+(use-package org
+  :pin "org"
   :demand t)
+
 (use-package org-bullets
   :demand t
   :config
@@ -101,11 +136,15 @@
 
 (use-package terraform-mode)
 (use-package protobuf-mode)
-(use-package web-mode
-  :config
-  (progn
-    (add-to-list 'auto-mode-alist '("\\.aspx\\'" . web-mode))
-    (add-to-list 'auto-mode-alist '("\\.ascx\\'" . web-mode))))
+
+;; (use-package web-mode
+;;   :config
+;;   (progn
+;;     (add-to-list 'auto-mode-alist '("\\.aspx\\'" . web-mode))
+;;     (add-to-list 'auto-mode-alist '("\\.ascx\\'" . web-mode))))
+(add-to-list 'auto-mode-alist
+             '("\\.aspx\\'" . html-mode)
+             '("\\.aspcx\\'" . html-mode))
 
 ;; Silver searcher support
 (use-package ag)
@@ -114,16 +153,24 @@
 ;; Python configuration
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-;; You'll need anaconda-mode in your python (via pip). Install ipython, anaconda-mode, pyflake8/flake8, pylint
-(use-package anaconda-mode)
 (use-package company
   :diminish "Co"
   :config
+  (when config/use-omnisharp
+    (add-to-list 'company-backends 'company-omnisharp)))
+
+(use-package company-jedi)
+(use-package elpy :demand t
+  :config
   (progn
-    (add-to-list 'company-backends 'company-anaconda)
-    (when config/use-omnisharp
-      (add-to-list 'company-backends 'company-omnisharp))))
-(use-package company-anaconda :demand t)
+    (elpy-enable)
+    (elpy-use-ipython)
+    (add-hook 'elpy-mode-hook
+              '(lambda ()
+                 (progn
+                   (setq-local flymake-start-syntax-check-on-newline t)
+                   (setq-local flymake-no-changes-timeout 0.5))))))
+
 (use-package flycheck
   :config
   (progn
@@ -139,72 +186,16 @@
 (use-package python
   :config
   (progn
-    (add-hook 'python-mode-hook 'anaconda-mode)
-    (add-hook 'python-mode-hook 'anaconda-eldoc-mode)
+    (add-hook 'python-mode-hook 'flycheck-mode)
     (add-hook 'python-mode-hook 'company-mode)
-
-    (defun python-config--disable-ac (orig-fun &rest args)
-      "Don't allow for auto-complete mode in python mode, otherwise call ORIG-FUN with ARGS."
-      (unless (eq major-mode 'python-mode)
-        (apply orig-fun args)))
-    (advice-add 'auto-complete-mode :around #'python-config--disable-ac)
-    ;; This I found at: https://github.com/proofit404/anaconda-mode/issues/164, but it might be eldoc
-    (remove-hook 'anaconda-mode-response-read-fail-hook 'anaconda-mode-show-unreadable-response)))
+    ;; (defun python-config--disable-ac (orig-fun &rest args)
+    ;;   "Don't allow for auto-complete mode in python mode, otherwise call ORIG-FUN with ARGS."
+    ;;   (unless (eq major-mode 'python-mode)
+    ;;     (apply orig-fun args)))
+    ;; (advice-add 'auto-complete-mode :around #'python-config--disable-ac)
+    ))
 
 (use-package gud :demand t)
-
-;; When we are running python in cygwin, the idea is to use the Windows-based python
-;; (pointed to by the path) rather than cygwin's. This means that in this particular
-;; configuration - running cygwin and using a Window's python, we need to change the
-;; Windows-style filename returned by python pdb/anaconda-mode to the cygwin-based name.
-(when (eq system-type 'cygwin)
-
-  (defun cygwin/cygpath (file)
-    "Convert a windows FILE path to a cygwin FILE path."
-    (let ((cygpath (replace-regexp-in-string "\\\\" "/" file)))
-      (if (string-match "[a-z]:/cygwin64" cygpath)
-          (setq cygpath (substring cygpath 11 nil))
-        (unless (string-prefix-p "/cygdrive/" cygpath)
-          (setq cygpath (concat "/cygdrive/" (replace-regexp-in-string ":" "" cygpath)))))
-      cygpath))
-
-  (defun cygwin/winpath (file)
-    "Convert a cygwin FILE path to a windows FILE path."
-    (let ((winpath))
-      (if (string-match "^/cygdrive/\\([a-z]\\)/\\(.*\\)$" file)
-          (setq winpath (concat (match-string 1 file) ":" (match-string 2 file)))
-        (setq winpath (concat "C:\\cygwin64" file)))
-      (replace-regexp-in-string "/" "\\\\" winpath)))
-
-  (defun cygwin/gud-format-command (old-function str arg)
-    "Modify the gud-format-command so that it returns windows file path for STR and ARG which is
-formatted by OLD-FUNCTION"
-    (let ((cmdline (apply old-function (list str arg))))
-      (if (not (string-match "^\\(break \\|clear \\)\\(/.*\\)\\(:[0-9]+\\)$" cmdline))
-          cmdline
-        (let ((cmd (match-string 1 cmdline))
-              (file (match-string 2 cmdline))
-              (linnum (match-string 3 cmdline)))
-          (concat cmd (cygwin/winpath file) linnum)))))
-
-  (advice-add 'gud-format-command :around #'cygwin/gud-format-command)
-
-  ;; Fix for anaconda mdoe.
-  (defun cygwin/anaconda-mode-definitions-view (result)
-    "Advisor defun for anaconda-mode-definitions-view gets passed RESULT. This advisor converts module-path results."
-    (when (eq (length result) 1)
-      (let ((module-path (assoc 'module-path (car result))))
-        (when module-path
-          (let ((cygpath (cygwin/cygpath (cdr module-path))))
-            (setcdr module-path cygpath))))))
-  (advice-add 'anaconda-mode-definitions-view :before #'cygwin/anaconda-mode-definitions-view)
-
-  ;; Fix for gud
-  (defun cygwin/gud-get-file (old-function file)
-    "Advisor defun for gud-get-file gets passed FILE in windows format. This advisor
-     changes the argument cygpath (if necessary)"
-    (apply old-function (list (cygwin/cygpath file))))
-  (advice-add 'gud-find-file :around #'cygwin/gud-get-file))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; yasnippet configuration
@@ -268,6 +259,9 @@ formatted by OLD-FUNCTION"
 (use-package ivy
   :diminish ""
   :demand
+  :bind (:map ivy-minibuffer-map
+              ("C-w" . ivy-yank-word)      ;; make work like isearch
+              ("C-r" . ivy-previous-line))
   :config
   (progn
     ;; no regexp by default
@@ -278,11 +272,50 @@ formatted by OLD-FUNCTION"
           '((t . ivy--regex-ignore-order)))))
 
 ;; We can use counsel with ivy
-(use-package counsel)
-(use-package counsel-projectile)
+(use-package counsel
+  :bind (("M-x" . counsel-M-x)
+         ("C-x g" . counsel-git)
+         ("C-x C-f" . counsel-find-file))
+  :bind (:map help-map
+              ("f" . counsel-describe-function)
+              ("v" . counsel-describe-variable)
+              ("b" . counsel-descbinds)))
+
+(use-package counsel-projectile
+  :demand
+  :config
+  (counsel-projectile-on))
+
+(use-package counsel-etags)
+
+(use-package ivy-hydra)
+
 (use-package swiper
   :init (ivy-mode 1)
-  :bind (("C-c s" . swiper)))
+  :bind (("C-S-s" . isearch-forward)
+         ("C-s" . swiper)
+         ("C-S-r" . isearch-backward)
+         ("C-r" . swiper)))
+
+(use-package avy)
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Fix yasnippets with other company backends:
+;;  https://emacs.stackexchange.com/questions/10431/get-company-to-show-suggestions-for-yasnippet-names
+;; Add yasnippet support for all company backends
+;; https://github.com/syl20bnr/spacemacs/pull/179
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(defvar company-mode/enable-yas t
+  "Enable yasnippet for all backends.")
+
+(defun company-mode/backend-with-yas (backend)
+  "Add in the company-yasnippet BACKEND."
+  (if (or (not company-mode/enable-yas) (and (listp backend) (member 'company-yasnippet backend)))
+      backend
+    (append (if (consp backend) backend (list backend))
+            '(:with company-yasnippet))))
+
+(setq company-backends (mapcar #'company-mode/backend-with-yas company-backends))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; bits-o-configuration
@@ -369,20 +402,5 @@ formatted by OLD-FUNCTION"
 ;; Nice history
 ;;  history settings are in history and history/savehist customized settings
 (require 'savehist)
-
-;; This I picked up from searching web because of emacs.exe.stackdump files
-;; repeatedly getting created in the directories I was working in. Seems the
-;; console somehow intereacts poorly with windows unless these changes are made
-(if (eq window-system 'w32)
-    (progn
-      (add-hook 'comint-output-filter-functions 'shell-strip-ctrl-m nil t)
-      (add-hook 'comint-output-filter-functions 'comint-watch-for-password-prompt nil t)
-      (setq explicit-shell-file-name (if (eq system-type 'windows-nt)  "C:\\cygwin64\\bin\\bash.exe" "bash.exe"))
-      (setq shell-file-name explicit-shell-file-name)))
-
-;; This fixes a known malicious lisp injection attack prior to 25.3.
-;; See: http://lists.gnu.org/archive/html/info-gnu/2017-09/msg00006.html
-(if (version< emacs-version "25.3")
-    (eval-after-load "enriched" '(defun enriched-decode-display-prop (start end &optional param) (list start end))))
 
 ;;; init.el ends here
