@@ -38,6 +38,9 @@
  '(ediff-split-window-function (quote split-window-vertically))
  '(ediff-window-setup-function (quote ediff-setup-windows-plain))
  '(electric-pair-mode t)
+ '(elpy-modules
+   (quote
+    (elpy-module-company elpy-module-eldoc elpy-module-flymake elpy-module-pyvenv elpy-module-yasnippet elpy-module-django elpy-module-sane-defaults)))
  '(eshell-history-size 1024)
  '(fill-column 78)
  '(flycheck-color-mode-line-face-to-color (quote mode-line-buffer-id))
@@ -78,9 +81,6 @@
     (("gnu" . "http://elpa.gnu.org/packages/")
      ("melpa" . "http://melpa.org/packages/")
      ("org" . "http://orgmode.org/elpa/"))))
- '(package-selected-packages
-   (quote
-    (counsel-projectile powershell counsel-etags avy ivy-hydra counsel which-key xterm-color ibuffer-projectile org-projectile projectile python-docstring pylint flycheck-pyflakes flycheck elpy company-jedi company ag protobuf-mode terraform-mode org-autolist org-bullets git-timemachine magit-find-file magit-filenotify magit git-commit powerline auto-compile diminish use-package)))
  '(powerline-display-hud nil)
  '(projectile-completion-system (quote ivy))
  '(projectile-mode-line (quote (:eval (format " [%s]" (projectile-project-name)))))
@@ -90,8 +90,10 @@
    "';'.join(get_ipython().Completer.all_completions('''%s'''))
 ")
  '(python-shell-interpreter "ipython")
+ '(python-shell-interpreter-args "-i --simple-prompt")
  '(python-shell-prompt-output-regexp "Out\\[[0-9]+\\]: ")
  '(python-shell-prompt-regexp "In \\[[0-9]+\\]: ")
+ '(realgud:ipdb-command-name "ipdb3")
  '(savehist-additional-variables (quote (kill-ring search-ring regexp-search-ring)))
  '(savehist-file "~/.emacs.d/savehist")
  '(savehist-mode t)

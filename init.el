@@ -48,16 +48,8 @@
 
 (defvar mswindows-p (string-match "windows" (symbol-name system-type)))
 
-;; avoid troubles with chinese/japanese char on Melpa inst packages Windows
 (when mswindows-p
-  (set-language-environment 'utf-8)
-  (setq locale-coding-system 'utf-8)
-  (set-default-coding-systems 'utf-8)
-  (set-terminal-coding-system 'utf-8)
-  (unless (eq system-type 'windows-nt)
-    (set-selection-coding-system 'utf-8))
-  (prefer-coding-system 'utf-8)
-)
+  (prefer-coding-system 'utf-8))
 
 (package-refresh-contents)
 
@@ -164,7 +156,6 @@
   :config
   (progn
     (elpy-enable)
-    (elpy-use-ipython)
     (add-hook 'elpy-mode-hook
               '(lambda ()
                  (progn
@@ -195,7 +186,7 @@
     ;; (advice-add 'auto-complete-mode :around #'python-config--disable-ac)
     ))
 
-(use-package gud :demand t)
+(use-package realgud)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; yasnippet configuration
@@ -284,7 +275,7 @@
 (use-package counsel-projectile
   :demand
   :config
-  (counsel-projectile-on))
+  (counsel-projectile-mode t))
 
 (use-package counsel-etags)
 
