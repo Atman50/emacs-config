@@ -87,7 +87,7 @@
 (when config/use-omnisharp
   (setq omnisharp-debug t)
   (use-package omnisharp
-    :diminish "Omni#"
+    :diminish "O#"
     :bind (:map omnisharp-mode-map
                 ("C-c C-j" . imenu)))
   (use-package csharp-mode
@@ -109,7 +109,11 @@
 (use-package bind-key)
 (use-package git-commit)
 (use-package magit
-  :demand)
+  :demand
+  ;; Make the default action a branch checkout, not a branch visit when in branch mode
+  :bind (:map magit-branch-section-map
+              ([remap magit-visit-thing] . magit-branch-checkout)))
+
 (use-package magit-filenotify)
 (use-package magit-find-file)
 (use-package git-timemachine)
