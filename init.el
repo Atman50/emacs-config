@@ -65,14 +65,11 @@
 ;; For use-package to diminish the mode name on the mode line
 (use-package diminish)
 
-(when (eq system-type 'gnu/linux)
-  (use-package csharp-mode))
-
 (use-package auto-compile
   :config (auto-compile-on-load-mode))
 
-(when mswindows-p
-  (use-package powershell))
+(use-package powershell
+  :if mswindows-p)
 
 ;; To use omnisharp follow directions below
 ;; Load up local omnisharp (roslyn flavor) - set the load-path to where you've put
@@ -84,17 +81,21 @@
   (unless (null omnisharp)
     (setq config/use-omnisharp (file-exists-p omnisharp))))
 
-(when config/use-omnisharp
-  (setq omnisharp-debug t)
-  (use-package omnisharp
-    :diminish "O#"
-    :bind (:map omnisharp-mode-map
-                ("C-c C-j" . imenu)))
-  (use-package csharp-mode
-    :config
-    (progn
-      (add-hook 'csharp-mode-hook 'company-mode)
-      (add-hook 'csharp-mode-hook 'omnisharp-mode))))
+(use-package omnisharp
+  :diminish "\u221e"            ;; infinity symbol
+  :if config/use-omnisharp
+  :bind (:map omnisharp-mode-map
+              ("C-c o" . omnisharp-start-omnisharp-server)
+              ("C-c d" . omnisharp-go-to-definition-other-window)
+              ("C-c C-j" . imenu))
+  :config
+  (setq omnisharp-debug t))
+
+(use-package csharp-mode
+  :config
+  (when config/use-omnisharp
+    (add-hook 'csharp-mode-hook 'company-mode)
+    (add-hook 'csharp-mode-hook 'omnisharp-mode)))
 
 ;; Themes
 (load-theme 'leuven t)
@@ -167,6 +168,7 @@
                    (setq-local flymake-no-changes-timeout 0.5))))))
 
 (use-package flycheck
+  :diminish  "\u2714"           ;; heavy checkmark
   :config
   (progn
     (global-flycheck-mode)))
@@ -182,15 +184,9 @@
   :config
   (progn
     (add-hook 'python-mode-hook 'flycheck-mode)
-    (add-hook 'python-mode-hook 'company-mode)
-    ;; (defun python-config--disable-ac (orig-fun &rest args)
-    ;;   "Don't allow for auto-complete mode in python mode, otherwise call ORIG-FUN with ARGS."
-    ;;   (unless (eq major-mode 'python-mode)
-    ;;     (apply orig-fun args)))
-    ;; (advice-add 'auto-complete-mode :around #'python-config--disable-ac)
-    ))
+    (add-hook 'python-mode-hook 'company-mode)))
 
-(use-package realgud)
+(use-package realgud :demand)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; yasnippet configuration
@@ -201,16 +197,13 @@
   :diminish (yas-minor-mode . "")
   :config (progn
             (yas-reload-all)
+            ;; fix tab in term-mode
+            (add-hook 'term-mode-hook (lambda() (yas-minor-mode -1)))
+            ;; Fix yas indent issues
+            (add-hook 'python-mode-hook '(lambda () (set (make-local-variable 'yas-indent-line) 'fixed)))
             ;; Setup to allow for yasnippets to use code to expand
             (require 'warnings)
             (add-to-list 'warning-suppress-types '(yasnippet backquote-change))))
-
-;; Fix yas indent issues
-(add-hook 'python-mode-hook
-          '(lambda () (set (make-local-variable 'yas-indent-line) 'fixed)))
-
-;; fix tab in term-mode
-(add-hook 'term-mode-hook (lambda() (yas-minor-mode -1)))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Projectile
@@ -315,6 +308,13 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; bits-o-configuration
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+;; Limit the length of the current function via `which-function'
+(defvar  which-function-max-width 64 "The maximum width of the which-function string.")
+(advice-add 'which-function :filter-return
+            (lambda (s) (if (< (string-width s) which-function-max-width) s
+                          (concat (truncate-string-to-width s (- which-function-max-width 3)) "..."))))
+
 (defun my-ansi-term (term-name cmd)
   "Create an ansi term with a name - other than *ansi-term* given TERM-NAME and CMD."
   (interactive "sName for terminal: \nsCommand to run [/bin/bash]: ")
@@ -367,13 +367,12 @@
 (bind-key "C-z" 'nil ctl-x-map)
 
 (bind-key "C-c r" 'revert-buffer)
-(when config/use-omnisharp
-  (bind-key "C-c o" 'omnisharp-start-omnisharp-server)
-  (bind-key "C-c d" 'omnisharp-go-to-definition-other-window))
 (bind-key "C-c t" 'toggle-truncate-lines)
+
 (bind-key "C-c f" 'magit-find-file-other-window)
 (bind-key "C-c g" 'magit-status)
 (bind-key "C-c l" 'magit-log-buffer-file)
+
 (bind-key "C-c m" 'compile)
 (bind-key "C-c c" 'comment-region)
 (bind-key "C-c u" 'uncomment-region)
