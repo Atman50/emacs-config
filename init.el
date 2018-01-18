@@ -131,14 +131,22 @@
 
 (use-package org-autolist)
 
-(use-package terraform-mode)
-(use-package protobuf-mode)
+(use-package org-present
+  :config
+  (progn
+    (add-hook 'org-present-mode-hook
+              (lambda ()
+                (org-present-big)
+                (org-display-inline-images)
+                (org-present-hide-cursor)
+                (org-present-read-only)))
+    (add-hook 'org-present-mode-quit-hook
+              (lambda ()
+                (org-present-small)
+                (org-remove-inline-images)
+                (org-present-show-cursor)
+                (org-present-read-write)))))
 
-;; (use-package web-mode
-;;   :config
-;;   (progn
-;;     (add-to-list 'auto-mode-alist '("\\.aspx\\'" . web-mode))
-;;     (add-to-list 'auto-mode-alist '("\\.ascx\\'" . web-mode))))
 (add-to-list 'auto-mode-alist
              '("\\.aspx\\'" . html-mode)
              '("\\.aspcx\\'" . html-mode))
@@ -177,7 +185,7 @@
 (use-package pylint)
 (use-package python-docstring
   :config
-  (setq-default python-indent-offset 4))
+  (python-docstring-install))
 
 ;; We rely on the python and flycheck package
 (use-package python
