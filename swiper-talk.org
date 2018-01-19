@@ -1,0 +1,97 @@
+* Swiper
+
+  ‣ Part of Ivy/Counsel/Swiper (abo-abo)
+
+  ‣ For helm:
+
+    ⁃ swoop
+
+    ⁃ swiper-helm
+
+* Ivy/Counsel/Swiper
+
+  ‣ Excellent doc: http://oremacs.com/swiper/
+
+  ‣ Says swiper, but the manual's title/heading is "Ivy User Manual"
+
+  ‣ Also found a nice [[https://writequit.org/denver-emacs/presentations/2017-04-11-ivy.html][Ivy, Counsel and Swiper]] recent write-up
+
+  ‣ Ivy is a completion framework
+
+  ‣ Straightforward configuration (mostly key bindings - at end of preso)
+
+  ‣ Damn slick feature(s)
+
+    ⁃ Still growing comfortable (isearch muscle memory)
+
+    ⁃ Need to keep exploring
+* Swiper features
+
+  ‣ Regex (can make order independent - see configuration)
+
+  ‣ ivy-occur (C-c C-o) - saved search results, very handy
+
+  ‣ Kind'a like swoops vertical display, can't figure out for swiper
+
+  ‣ Bind C-w to ivy-yank-word (so works like isearch - see configuration)
+
+  ‣ isearch still important (C-S-s, reverse is C-S-r)
+
+* Ivy config
+
+  init.el:
+    #+BEGIN_SRC elisp
+    (use-package ivy
+      :diminish ""
+      :demand
+      :bind (:map ivy-minibuffer-map
+                  ("C-w" . ivy-yank-word)      ;; make work like isearch
+                  ("C-r" . ivy-previous-line))
+      :config
+      (progn
+        (setq ivy-initial-inputs-alist nil)    ;; no regexp by default
+        (setq ivy-re-builders-alist            ;; allow input not in order
+              '((t . ivy--regex-ignore-order)))))
+    #+END_SRC
+
+  custom.el:
+    #+BEGIN_SRC elisp
+     '(ivy-count-format "(%d/%d) ")
+     '(ivy-height 16)
+     '(ivy-mode t)
+     '(ivy-use-virtual-buffers t)
+    #+END_SRC
+
+* Counsel config
+
+  init.el:
+    #+BEGIN_SRC elisp
+    (use-package counsel
+      :bind (("M-x" . counsel-M-x)
+             ("C-x g" . counsel-git)
+             ("C-x C-f" . counsel-find-file)
+             ("C-c C-j" . counsel-imenu))
+      :bind (:map help-map
+                  ("f" . counsel-describe-function)
+                  ("v" . counsel-describe-variable)
+                  ("b" . counsel-descbinds)))
+    (use-package counsel-projectile)
+    (use-package counsel-etags)
+    (use-package ivy-hydra)
+    #+END_SRC
+
+  custom.el:
+    #+BEGIN_SRC elisp
+    '(counsel-projectile-mode t nil (counsel-projectile))
+    #+END_SRC
+  
+* Swiper config
+
+  init.el:
+    #+BEGIN_SRC elisp
+    (use-package swiper
+      :bind (("C-S-s" . isearch-forward)
+             ("C-s" . swiper)
+             ("C-S-r" . isearch-backward)
+             ("C-r" . swiper)))
+    #+END_SRC
