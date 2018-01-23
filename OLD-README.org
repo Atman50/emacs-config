@@ -1,0 +1,126 @@
+#+STARTUP: overview
+#+TITLE: Adam's Emacs Configuration README
+
+* Welcome
+  This is meant to be consumed by anyone who wants to work with Emacs. The
+  configuration here is meant as either a starting place for you as a beginner
+  or a place to find some Emacs tricks for those with more experience.
+
+  Everyone needs to develop their Emacs style and this configuration certainly
+  represents my style. You can adopt, delete, rant or ignore any part of this
+  configuratoin to your heart's desire.
+
+* Quick start
+  All you need to do to adopt this configuration for a *new* Emacs installation:
+  - Install a copy of Emacs 25 or greater
+  - Select one of these methods to populate 
+    1. Create a ~${HOME}/.emacs.d~ directory and copy the ~init.el~ and
+       ~custom.el~ files into the newly created directory
+    2. Clone this repo into the ~.emacs.d~ directory
+
+       #+BEGIN_SRC shell
+       $ git clone https://github.com/Atman50/emacs-config.git ~/.emacs.d
+       #+END_SRC
+  - Start emacs. NOTE: this can take a while as it's loading/compiling bunches
+    of packages included by ~init.el~. To get a feel for what it's working on
+    you can do an ~ls ~/.emacs.d/elpa~ which is where installed packages
+    reside.
+
+  For those using this configuration to enhance their already exisitng
+  environments, then read on and grab the pieces that suit you.
+
+* This configration explained
+** Preamble
+   All ~init.el~ files need to have:
+   #+BEGIN_SRC emacs-lisp
+   (package-initialize)
+   #+END_SRC
+
+** Separate out custom settings
+   I like to keep my ~init.el~ file under source code control and hence try to
+   keep my custom settings (via emacs built-in customization) separate. This
+   allows me to use Emacs on many different platforms, keeping most of the
+   platform-specific configuration in the custom.el file - like python
+   settings.
+   #+BEGIN_SRC emacs-lisp
+   ;; Your customizations are stored in the custom.el file
+   ;;    *DO THIS FIRST SO YOU CAN CUSTOMIZE PACKAGES BEFORE LOADING THEM*
+   (setq custom-file (expand-file-name "custom.el" user-emacs-directory))
+   (load custom-file)
+   #+END_SRC
+
+   The settings loaded here (if you start with the ~custom.el~ file here) will
+   do all sorts of good things:
+   - Sets the ~package-archives~ list to include the melpa, gnu and org
+     repositories.
+   - Turns on which-key mode. Handy for everybody but especially for newbies
+   - Turns on ~global-font-lock-mode~ for all nice colorizations
+   - Sets ~show-paren-mode~ so you can see your matching starting/ending
+     parenthesis, brackets or braces.
+   - Sets ~electric-pari-mode~ to create pairs of parenthesis, quotes, ... So
+     when you type a '(', Emacs will insert the ')' for you and leave the
+     cursor under the close parenthesis.
+   - Sets up ~use-package~ to always ensure and defer loading (~:ensure t
+     :defer t~) unless overridden.
+
+** Point to the repositories
+   The ~custom.el~ file sets up the ~package-archives~ variable to include the
+   following repositories:
+   - melpa - http://melpa.org/packages/ - "stable" packages
+   - org - http://orgmode.org/elpa/  - the most up-to-date org repository
+   - gnu - http://elpa.gnu.org/packages/ - the default package library
+
+** Load up use-package
+   ~use-package~ is phenominal. It has everything buil-in including the ability
+   to load the package on demand (:ensure). Just make sure that use-package is
+   availble. In ~custom.el~ we tell ~use-package~ to always ensure and defer
+   which is overridden for some packages with :demand.
+   #+BEGIN_SRC emacs-lisp -i
+    ;; Package paths are setup via custom.el
+    (package-refresh-contents)
+
+    (unless (package-installed-p 'use-package)
+      (package-install 'use-package))
+    (require 'use-package)
+   #+END_SRC
+
+** Packages
+   Most of the packages are self explanatory. I'll attempt to add documetation
+   for anything that's not "normal".
+*** Powerline
+    I'm a convert. I like powerline.
+*** Omnisharp
+    I'm a C# developer these days. Omnisharp is the C# IDE I use. If you don't
+    have ~$(HOME)/repos/omnisharp-emacs~ on your system, then you won't get
+    this configuration. Directions for getting this working is in the comment.
+
+*** Python configuratoin
+    You may need to define some of the python variables that point to
+    executables if they are in strange places on your system - they certainly
+    for me since I run Emacs from Cygwin64 on Windows 10 - ugh.
+
+*** bits-o-configuration
+**** ~my-ansi-term~
+     Handy defun to create named ansi terminals. Handy for doing things where
+     you want the ~<TAB>~ key to be passed for interpretation by the
+     underlying program. For example, I use ansi-terms for psql (PostgresSQL
+     prompt) and bash.
+**** ~my-find-file-hook~
+     As the name implies this gets run whenever a file is read in. It's used
+     to find files that start with the language: "~#!/usr/bin/sh~" or
+     "~#!/bin/python~". This lets me set the appropriate language if not
+     specified by a file extension.
+**** Key bindings
+     Completely a personal thing. These are my bindings for what they're
+     worth.
+**** Retained history
+     This is a wicked cool (yup, from Boston) history retainer that allows you
+     to do things like select a buffer that doesn't exist but was read at some
+     point during your Emacs' history. VERY HANDY and many thanks to Sacha for
+     the code.
+
+     Again these settings can be found in the custom file (savehist and
+     history variables).
+
+* Suggestions/Comments
+  Are always welcome. Leave 'em here or find me on twitter @Atman50.
