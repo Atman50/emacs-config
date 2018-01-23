@@ -160,7 +160,10 @@
               ("f" . counsel-describe-function)
               ("v" . counsel-describe-variable)
               ("b" . counsel-descbinds)))
-(use-package counsel-projectile)
+(use-package counsel-projectile
+  :demand t
+  :config
+  (counsel-projectile-mode t))
 (use-package counsel-etags)
 (use-package ivy-hydra)
 (use-package swiper

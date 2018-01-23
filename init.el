@@ -48,6 +48,6 @@
 (use-package org
   :demand t
   :pin "org")
-(org-babel-load-file "~/.emacs.d/README.org")
+(org-babel-load-file "~/.emacs.d/README.org" t)
 
 ;;; init.el ends here

@@ -29,7 +29,6 @@
  '(compilation-error-regexp-alist (quote (ant bash java gnu gcc-include lcc perl)))
  '(compilation-error-regexp-systems-list (quote (gnu perl)))
  '(confirm-kill-emacs (quote yes-or-no-p))
- '(counsel-projectile-mode t nil (counsel-projectile))
  '(custom-safe-themes
    (quote
     ("a27c00821ccfd5a78b01e4f35dc056706dd9ede09a8b90c6955ae6a390eb1c1e" default)))
@@ -82,8 +81,11 @@
  '(package-archives
    (quote
     (("gnu" . "http://elpa.gnu.org/packages/")
-     ("melpa" . "http://melpa.org/")
+     ("melpa" . "http://melpa.org/packages/")
      ("org" . "http://orgmode.org/elpa/"))))
+ '(package-selected-packages
+   (quote
+    (avy ivy-hydra counsel-etags counsel-projectile counsel which-key xterm-color ibuffer-projectile org-projectile projectile realgud python-docstring pylint flycheck-pyflakes elpy company-jedi company org-autolist org-bullets git-timemachine magit-find-file magit-filenotify magit git-commit powerline use-package)))
  '(powerline-display-hud nil)
  '(projectile-completion-system (quote ivy))
  '(projectile-mode-line (quote (:eval (format " [%s]" (projectile-project-name)))))
