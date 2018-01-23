@@ -87,7 +87,7 @@
   :bind (:map omnisharp-mode-map
               ("C-c o" . omnisharp-start-omnisharp-server)
               ("C-c d" . omnisharp-go-to-definition-other-window)
-              ("C-c C-j" . imenu))
+              ("C-c C-j" . counsel-imenu))
   :config
   (setq omnisharp-debug t))
 
@@ -111,6 +111,9 @@
 (use-package git-commit)
 (use-package magit
   :demand
+  :bind (("C-c f" . magit-find-file-other-window)
+         ("C-c g" . magit-status)
+         ("C-c l" . magit-log-buffer-file))
   ;; Make the default action a branch checkout, not a branch visit when in branch mode
   :bind (:map magit-branch-section-map
               ([remap magit-visit-thing] . magit-branch-checkout)))
@@ -165,7 +168,8 @@
     (add-to-list 'company-backends 'company-omnisharp)))
 
 (use-package company-jedi)
-(use-package elpy :demand t
+(use-package elpy
+  :demand t
   :config
   (progn
     (elpy-enable)
@@ -178,8 +182,7 @@
 (use-package flycheck
   :diminish  "\u2714"           ;; heavy checkmark
   :config
-  (progn
-    (global-flycheck-mode)))
+  (global-flycheck-mode))
 
 (use-package flycheck-pyflakes) ;; flycheck uses flake8!
 (use-package pylint)
@@ -191,6 +194,7 @@
 (use-package python
   :config
   (progn
+    (add-hook 'python-mode-hook '(lambda () (add-to-list 'company-backends 'company-jedi)))
     (add-hook 'python-mode-hook 'flycheck-mode)
     (add-hook 'python-mode-hook 'company-mode)))
 
@@ -260,40 +264,35 @@
               ("C-r" . ivy-previous-line))
   :config
   (progn
-    ;; no regexp by default
-    (setq ivy-initial-inputs-alist nil)
-    ;; configure regexp engine.
-    (setq ivy-re-builders-alist
-          ;; allow input not in order
+    (setq ivy-initial-inputs-alist nil)    ;; no regexp by default
+    (setq ivy-re-builders-alist            ;; allow input not in order
           '((t . ivy--regex-ignore-order)))))
 
-;; We can use counsel with ivy
 (use-package counsel
   :bind (("M-x" . counsel-M-x)
          ("C-x g" . counsel-git)
-         ("C-x C-f" . counsel-find-file))
+         ("C-x C-f" . counsel-find-file)
+         ("C-c C-j" . counsel-imenu))
   :bind (:map help-map
               ("f" . counsel-describe-function)
               ("v" . counsel-describe-variable)
               ("b" . counsel-descbinds)))
 
-(use-package counsel-projectile
-  :demand
-  :config
-  (counsel-projectile-mode t))
-
+(use-package counsel-projectile)
 (use-package counsel-etags)
-
 (use-package ivy-hydra)
 
 (use-package swiper
-  :init (ivy-mode 1)
   :bind (("C-S-s" . isearch-forward)
          ("C-s" . swiper)
          ("C-S-r" . isearch-backward)
          ("C-r" . swiper)))
 
 (use-package avy)
+
+;; Nice history in ~/.emacs.d/savehist
+(use-package savehist
+  :demand)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Fix yasnippets with other company backends:
@@ -374,19 +373,15 @@
 (bind-key "C-z" 'nil)
 (bind-key "C-z" 'nil ctl-x-map)
 
+(bind-key "C-c C-d" 'dired-jump)
 (bind-key "C-c r" 'revert-buffer)
 (bind-key "C-c t" 'toggle-truncate-lines)
-
-(bind-key "C-c f" 'magit-find-file-other-window)
-(bind-key "C-c g" 'magit-status)
-(bind-key "C-c l" 'magit-log-buffer-file)
 
 (bind-key "C-c m" 'compile)
 (bind-key "C-c c" 'comment-region)
 (bind-key "C-c u" 'uncomment-region)
 
 ;; Some C-x map stuff
-(bind-key "C-j" 'dired-jump ctl-x-map)
 (bind-key "<up>" 'enlarge-window ctl-x-map)
 (bind-key "<down>" 'shrink-window ctl-x-map)
 
@@ -398,11 +393,5 @@
 (put 'downcase-region 'disabled nil)
 (put 'upcase-region 'disabled nil)
 (put 'scroll-left 'disabled nil)
-
-;; Stolen from Sacha Chua's emacs setup
-;;    http://pages.sachachua.com/.emacs.d/Sacha.html
-;; Nice history
-;;  history settings are in history and history/savehist customized settings
-(require 'savehist)
 
 ;;; init.el ends here

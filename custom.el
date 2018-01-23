@@ -29,10 +29,12 @@
  '(compilation-error-regexp-alist (quote (ant bash java gnu gcc-include lcc perl)))
  '(compilation-error-regexp-systems-list (quote (gnu perl)))
  '(confirm-kill-emacs (quote yes-or-no-p))
+ '(counsel-projectile-mode t nil (counsel-projectile))
  '(custom-safe-themes
    (quote
     ("a27c00821ccfd5a78b01e4f35dc056706dd9ede09a8b90c6955ae6a390eb1c1e" default)))
  '(dabbrev-case-fold-search nil)
+ '(desktop-save-mode t)
  '(diff-switches "-bc")
  '(dired-listing-switches "-alh")
  '(ediff-split-window-function (quote split-window-vertically))
@@ -41,6 +43,7 @@
  '(elpy-modules
    (quote
     (elpy-module-company elpy-module-eldoc elpy-module-flymake elpy-module-pyvenv elpy-module-yasnippet elpy-module-django elpy-module-sane-defaults)))
+ '(elpy-rpc-python-command "C:/Python36/python.exe")
  '(eshell-history-size 1024)
  '(fill-column 78)
  '(flycheck-color-mode-line-face-to-color (quote mode-line-buffer-id))
