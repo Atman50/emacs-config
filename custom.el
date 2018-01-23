@@ -29,9 +29,6 @@
  '(compilation-error-regexp-alist (quote (ant bash java gnu gcc-include lcc perl)))
  '(compilation-error-regexp-systems-list (quote (gnu perl)))
  '(confirm-kill-emacs (quote yes-or-no-p))
- '(custom-safe-themes
-   (quote
-    ("a27c00821ccfd5a78b01e4f35dc056706dd9ede09a8b90c6955ae6a390eb1c1e" default)))
  '(dabbrev-case-fold-search nil)
  '(desktop-save-mode t)
  '(diff-switches "-bc")
@@ -44,7 +41,6 @@
     (elpy-module-company elpy-module-eldoc elpy-module-flymake elpy-module-pyvenv elpy-module-yasnippet elpy-module-django elpy-module-sane-defaults)))
  '(elpy-rpc-python-command "C:/Python36/python.exe")
  '(eshell-history-size 1024)
- '(fill-column 78)
  '(flycheck-color-mode-line-face-to-color (quote mode-line-buffer-id))
  '(flycheck-flake8-maximum-line-length 200)
  '(font-lock-maximum-size nil)
@@ -60,6 +56,7 @@
  '(ivy-use-virtual-buffers t)
  '(line-move-visual nil)
  '(line-number-display-limit-width 40000)
+ '(load-prefer-newer t)
  '(magit-completing-read-function (quote ivy-completing-read))
  '(magit-pull-arguments nil)
  '(magit-repository-directories (quote (("~/repos" . 1))))
@@ -70,14 +67,6 @@
  '(org-clock-into-drawer "CLOCKING")
  '(org-log-done (quote time))
  '(org-log-into-drawer t)
- '(org-todo-keyword-faces
-   (quote
-    (("DONE" :foreground "forest green" :weight bold)
-     ("PROG" :foreground "dark blue" :weight bold)
-     ("STBY" :foreground "DarkOrange3" :weight bold))))
- '(org-todo-keywords
-   (quote
-    ((sequence "TODO(t/!)" "WAIT(w/!)" "PROG(p/!)" "STBY(s/!)" "ASSIGNED(a/!)" "|" "DONE(d/!)" "COMPLETE(c/!)"))))
  '(package-archives
    (quote
     (("gnu" . "http://elpa.gnu.org/packages/")
@@ -98,7 +87,6 @@
  '(python-shell-interpreter-args "-i --simple-prompt")
  '(python-shell-prompt-output-regexp "Out\\[[0-9]+\\]: ")
  '(python-shell-prompt-regexp "In \\[[0-9]+\\]: ")
- '(realgud:ipdb-command-name "ipdb3")
  '(savehist-additional-variables (quote (kill-ring search-ring regexp-search-ring)))
  '(savehist-file "~/.emacs.d/savehist")
  '(savehist-mode t)

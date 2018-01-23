@@ -10,259 +10,318 @@
     4. Fix up some broken windows package encoding issues (melpa)
     5. Load up use-package
     6. Load up org mode
-    7. org-babel-load-file README.org
+    7. ~(org-babel-load-file "~/.emacs.d/README.org")~
 
   Step #2 is highlighted since it is the key to a nice and transportable initialization mechanism that separates out the custom-set-variables from the use-package loader. Unfortunately, I haven't been able to figure out (really haven't tried to hard) to break up the custom-set-variables in custom.el so that it's literate as well. For now, I'll just document the variables that I've customized and leave it up to the adopter to customize or not according to taste.
-
+** What makes this configuration nice
+   The way this is written allows this configuration to be 100% portable *without* any preable work by the user. 
+** Some caveats
+   I work under windows although this configuration is meant to work in Linux as well. I'm primarily focused on Windows so only on occassion to I make this all work with Linux. I do not use a Mac so good luck there.
 ** Using this configuration
    Perhaps the easiest way to use this configuration is to clone it directly to your .emacs.d directory. Then you can make changes easily and in source-code controlled manner.
 
-* General packages
+   On the first run of emacs, the init.el file will download all the necessary packages to consume this file. All the elpa packages will be downloaded and compiled as part of the first emacs startup (runemacs on Windows). This compilation phase generally prints out some useless warnings about unbound variables that, I think, can be safely ignored.
+* General configuration
+  Here are some general packages
+  - [[https://github.com/emacscollective/auto-compile][auto-compile]]
+    This package provides a guarantee that compiled byte code files are never outdated by mistake. You'll want to modify the variable ~load-prefer-newer~.
+    #+BEGIN_SRC emacs-lisp
+      (use-package auto-compile
+        :config
+        (progn
+          (auto-compile-on-load-mode)
+          (auto-compile-on-save-mode)))
+    #+END_SRC
+  - [[https://github.com/myrjola/diminish.el][diminish]]
+    Handy mode to make the modeline nicer. I also use to set mode to special characters (for example, see flycheck-mode)
+    #+BEGIN_SRC emacs-lisp
+      (use-package diminish)
+    #+END_SRC
+  - [[https://github.com/priyadarshan/bind-key][bind-key]]
+    Much better binding capabilities
+    #+BEGIN_SRC emacs-lisp
+      (use-package bind-key)
+    #+END_SRC
+  - savehist
+    A great builtin that allows us to have a history file. This means certain elements are saved between sessions of emacs. Set the following variables to control ~savehist~ (use customize).
+    1. ~savehist-additional-variables~ - ~(kill-ring search-ring regexp-search-ring)~
+    2. ~savehist-file~ => ~"~/.emacs.d/savehist"~
+    3. ~savehist-mode~ => t
+    #+BEGIN_SRC emacs-lisp
+      (use-package savehist :demand t)                ;; Nice history in ~/.emacs.d/savehist
+    #+END_SRC
+  - [[https://github.com/Wilfred/ag.el][ag]]
+    AKA silversearcher. Simple interface to excellent tool. I have it installed in my cygwin64 area and it seems to play well in my Windows environment.
+    #+BEGIN_SRC emacs-lisp
+      (use-package ag)
+    #+END_SRC
+  - [[http://github.com/jschaf/powershell.el][powershell]]
+    Excellent too to run powershell in Emacs
+    #+BEGIN_SRC emacs-lisp
+      (use-package powershell
+        :if mswindows-p)
+    #+END_SRC
+  - themes and modeline
+    #+BEGIN_SRC emacs-lisp
+      (load-theme 'leuven t)                          ;; Theme: works better before powerline
+      (use-package powerline
+        :demand t
+        :config
+        (powerline-default-theme))
+    #+END_SRC
+  - make aspx editing more palatable using html mode
+    #+BEGIN_SRC emacs-lisp
+      (add-to-list 'auto-mode-alist
+                   '("\\.aspx\\'" . html-mode)
+                   '("\\.aspcx\\'" . html-mode))
+    #+END_SRC
+  - General packages. All useful. ~which-key~ very helpful for finding way around. The ~desktop~ package allows for saved desktops in the emacs start directory (~desktop-path~ gets set here). Modify ~desktop-save-mode~ to t to turn on desktop saving.
 
+    Customize ~projectile-completion-system~ to ivy.
+    #+BEGIN_SRC emacs-lisp
+      (use-package realgud :demand t)                 ;; Better than gud?
+      (use-package projectile :demand t :config (projectile-mode t))
+      (use-package ibuffer-projectile)
+      (use-package xterm-color)
+      (use-package which-key :demand t :diminish "")
+      (use-package sh-script)
+      (use-package desktop
+        :config
+        ;; put desktop in start directory
+        (set-variable 'desktop-path (cons default-directory desktop-path)))
+    #+END_SRC
 
-#+BEGIN_SRC emacs-lisp
-(use-package auto-compile
-  :config (auto-compile-on-load-mode))
-(use-package diminish)
-(use-package bind-key)
-(use-package savehist :demand t)                ;; Nice history in ~/.emacs.d/savehist
-(use-package ag)                                ;; silversearcher
-(use-package powershell
-  :if mswindows-p)
+* Working with C#
+  Because I'm a C# developer and pretty much dislike a lot of the GUI issues in Visual Studio, I've spent some amount of time coming up with a good C# configuration. This works spectularly well and takes only minutes to setup.
 
-;; To use omnisharp follow directions below
-;; Load up local omnisharp (roslyn flavor) - set the load-path to where you've put
-;; the omnisharp-emacs repo: https://github.com/OmniSharp/omnisharp-emacs.git
-;; this site also contains all of the directions for getting omnisharp running.
-(defvar config/use-omnisharp nil)
-(let ((omnisharp (car (get 'omnisharp-server-executable-path 'saved-value))))
-  (unless (null omnisharp)
-    (setq config/use-omnisharp (file-exists-p omnisharp))))
-(use-package omnisharp
-  :diminish "\u221e"                            ;; infinity symbol
-  :if config/use-omnisharp
-  :bind (:map omnisharp-mode-map
-              ("C-c o" . omnisharp-start-omnisharp-server)
-              ("C-c d" . omnisharp-go-to-definition-other-window)
-              ("C-c C-j" . counsel-imenu))
-  :config
-  (setq omnisharp-debug t))
-(use-package csharp-mode
-  :config
-  (when config/use-omnisharp
-    (add-hook 'csharp-mode-hook 'company-mode)
-    (add-hook 'csharp-mode-hook 'omnisharp-mode)))
+  To use omnisharp follow these directions:
+  1. Load up local omnisharp (roslyn flavor) from [[https://github.com/OmniSharp/omnisharp-roslyn/releases][Omnisharp-Roslyn releases]]
+  2. Customize the variable ~omnisharp-server-executable-path~ to point to your omnisharp roslyn. For example "c:/omnisharp-roslyn-v1.27.2/OmniSharp.exe".
+  There are comprehensive directions at [[https://github.com/OmniSharp/omnisharp-emacs.git][omnisharp-emacs]].
 
-(load-theme 'leuven t)                          ;; Theme: works better before powerline
-(use-package powerline
-  :demand t
-  :config
-  (powerline-default-theme))
+  #+BEGIN_SRC emacs-lisp
+    (defvar config/use-omnisharp nil)
+    (let ((omnisharp (car (get 'omnisharp-server-executable-path 'saved-value))))
+      (unless (null omnisharp)
+        (setq config/use-omnisharp (file-exists-p omnisharp))))
 
-(use-package git-commit)
-(use-package magit
-  :demand t
-  :bind (("C-c f" . magit-find-file-other-window)
-         ("C-c g" . magit-status)
-         ("C-c l" . magit-log-buffer-file))
-  ;; Make the default action a branch checkout, not a branch visit when in branch mode
-  :bind (:map magit-branch-section-map
-              ([remap magit-visit-thing] . magit-branch-checkout)))
-(use-package magit-filenotify)
-(use-package magit-find-file)
-(use-package git-timemachine)
+    (use-package omnisharp
+      :diminish "\u221e"                            ;; infinity symbol
+      :if config/use-omnisharp
+      :bind (:map omnisharp-mode-map
+                  ("C-c o" . omnisharp-start-omnisharp-server)
+                  ("C-c d" . omnisharp-go-to-definition-other-window)
+                  ("C-x C-j" . counsel-imenu)))
+    (use-package csharp-mode
+      :config
+      (when config/use-omnisharp
+        (add-hook 'csharp-mode-hook 'company-mode)
+        (add-hook 'csharp-mode-hook 'omnisharp-mode)))
+  #+END_SRC
 
-(use-package org
-  :demand t
-  :pin "org")
-(use-package org-bullets
-  :demand t
-  :config (add-hook 'org-mode-hook 'org-bullets-mode))
-(use-package org-autolist)
+* [[https://github.com/magit/magit][magit]] configuration
+  The most awesome git porcelain. Most here are part of magit, ~[[https://github.com/pidu/git-timemachine][git-time-machine]]~ is not, but well worth using.
+  #+BEGIN_SRC emacs-lisp
+    (use-package git-commit)
+    (use-package magit
+      :demand t
+      :bind (("C-c f" . magit-find-file-other-window)
+             ("C-c g" . magit-status)
+             ("C-c l" . magit-log-buffer-file))
+      ;; Make the default action a branch checkout, not a branch visit when in branch mode
+      :bind (:map magit-branch-section-map
+                  ([remap magit-visit-thing] . magit-branch-checkout)))
+    (use-package magit-filenotify)
+    (use-package magit-find-file)
+    (use-package git-timemachine)
+  #+END_SRC
 
-(add-to-list 'auto-mode-alist
-             '("\\.aspx\\'" . html-mode)
-             '("\\.aspcx\\'" . html-mode))
+* org-mode configuration
+  Org mode configurations. ~org-bullets~ used to be part of org but is now outside
+  #+BEGIN_SRC emacs-lisp
+    (use-package org-bullets
+       :demand t
+       :config (add-hook 'org-mode-hook 'org-bullets-mode))
+    (use-package org-autolist
+       :demand t)
+    (use-package org-projectile)
+  #+END_SRC
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; Python configuration
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+* python configuration
+  At one point I was using anaconda but have switched back to elpy. I really like ~eply-config~ that tells you if everything is working properly. I've been using a ~virtualenv~ for my python development and couldn't be happier. Perhaps ethe only thing that bothers me is that when an object is returned, pycharm will give you list and dictionary methods while eply/company does not. Seems to be the only real issue at this point.
 
-(use-package company
-  :diminish "Co"
-  :config
-  (when config/use-omnisharp
-    (add-to-list 'company-backends 'company-omnisharp)))
-(use-package company-jedi)
-(use-package elpy
-  :demand t
-  :config
-  (progn
-    (elpy-enable)
-    (add-hook 'elpy-mode-hook
-              '(lambda ()
-                 (progn
-                   (setq-local flymake-start-syntax-check-on-newline t)
-                   (setq-local flymake-no-changes-timeout 0.5))))))
-(use-package flycheck
-  :diminish  "\u2714"           ;; heavy checkmark
-  :config
-  (global-flycheck-mode))
-(use-package flycheck-pyflakes) ;; flycheck uses flake8!
-(use-package pylint)
-(use-package python-docstring
-  :config
-  (python-docstring-install))
-(use-package python
-  :config
-  (progn
-    (add-hook 'python-mode-hook '(lambda () (add-to-list 'company-backends 'company-jedi)))
-    (add-hook 'python-mode-hook 'flycheck-mode)
-    (add-hook 'python-mode-hook 'company-mode)))
+  The variables that might be setup for python (look in [[file:custom.el][custom.el]] for them):
+  1. ~python-indent-trigger-commands~ 
+  2. ~python-shell-completion-setup-code~
+  3. ~python-shell-completion-string-code~
+  4. ~python-shell-interpreter~
+  5. ~python-shell-interpreter-args~
+  6. ~python-shell-prompt-output-regexp~
+  7. ~python-shell-prompt-regexp~
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; End of python configuration
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+  #+BEGIN_SRC emacs-lisp
+    (use-package company
+      :diminish "Co"
+      :config
+      (when config/use-omnisharp
+        (add-to-list 'company-backends 'company-omnisharp)))
+    (use-package company-jedi)
+    (use-package elpy
+      :demand t
+      :config
+      (progn
+        (elpy-enable)
+        (add-hook 'elpy-mode-hook
+                  '(lambda ()
+                     (progn
+                       (setq-local flymake-start-syntax-check-on-newline t)
+                       (setq-local flymake-no-changes-timeout 0.5))))))
+    (use-package flycheck
+      :diminish  "\u2714"           ;; heavy checkmark
+      :config
+      (global-flycheck-mode))
+    (use-package flycheck-pyflakes) ;; flycheck uses flake8!
+    (use-package pylint)
+    (use-package python-docstring
+      :config
+      (python-docstring-install))
+    (use-package python
+      :config
+      (progn
+        (add-hook 'python-mode-hook '(lambda () (add-to-list 'company-backends 'company-jedi)))
+        (add-hook 'python-mode-hook 'flycheck-mode)
+        (add-hook 'python-mode-hook 'company-mode)))
+  #+END_SRC
 
-(use-package realgud :demand t)                 ;; Better than gud?
-(use-package projectile :demand t :config (projectile-mode t))
-(use-package org-projectile)
-(use-package ibuffer-projectile)
-(use-package xterm-color)
-(use-package which-key :demand t :diminish "")
-(use-package sh-script)
-(use-package desktop
-  :config
-  ;; put desktop in start directory
-  (set-variable 'desktop-path (cons default-directory desktop-path)))
+* ivy configuration
+  Was a help user, but switched to ivy. Lots of nice features in ivy
+  #+BEGIN_SRC emacs-lisp
+    (use-package ivy
+      :demand t
+      :diminish ""
+      :bind (:map ivy-minibuffer-map
+                  ("C-w" . ivy-yank-word)           ;; make work like isearch
+                  ("C-r" . ivy-previous-line))
+      :config
+      (progn
+        (setq ivy-initial-inputs-alist nil)         ;; no regexp by default
+        (setq ivy-re-builders-alist                 ;; allow input not in order
+              '((t . ivy--regex-ignore-order)))))
+    (use-package counsel
+      :bind (("M-x" . counsel-M-x)
+             ("C-x g" . counsel-git)
+             ("C-x C-f" . counsel-find-file)
+             ("C-x C-j" . counsel-imenu))
+      :bind (:map help-map
+                  ("f" . counsel-describe-function)
+                  ("v" . counsel-describe-variable)
+                  ("b" . counsel-descbinds)))
+    (use-package counsel-projectile
+      :demand t
+      :config
+      (counsel-projectile-mode t))
+    (use-package counsel-etags)
+    (use-package ivy-hydra)
+    (use-package swiper
+      :bind (("C-S-s" . isearch-forward)
+             ("C-s" . swiper)
+             ("C-S-r" . isearch-backward)
+             ("C-r" . swiper)))
+    (use-package avy)
+  #+END_SRC
+* yasnippet configuration
+  yasnippet is a truly awesome package. Local modifications should go in "~/.emacs.d/snippets/".
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; Ivy configuration
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+  This also takes care of hooking up company completion with yasnippet expansion.
+  #+BEGIN_SRC emacs-lisp
+    (use-package warnings :demand t)
+    (use-package yasnippet
+      :diminish (yas-minor-mode . "")
+      :config
+      (progn
+        (yas-reload-all)
+        ;; fix tab in term-mode
+        (add-hook 'term-mode-hook (lambda() (yas-minor-mode -1)))
+        ;; Fix yas indent issues
+        (add-hook 'python-mode-hook '(lambda () (set (make-local-variable 'yas-indent-line) 'fixed)))
+        ;; Setup to allow for yasnippets to use code to expand
+        (add-to-list 'warning-suppress-types '(yasnippet backquote-change))))
 
-(use-package ivy
-  :demand t
-  :diminish ""
-  :bind (:map ivy-minibuffer-map
-              ("C-w" . ivy-yank-word)           ;; make work like isearch
-              ("C-r" . ivy-previous-line))
-  :config
-  (progn
-    (setq ivy-initial-inputs-alist nil)         ;; no regexp by default
-    (setq ivy-re-builders-alist                 ;; allow input not in order
-          '((t . ivy--regex-ignore-order)))))
-(use-package counsel
-  :bind (("M-x" . counsel-M-x)
-         ("C-x g" . counsel-git)
-         ("C-x C-f" . counsel-find-file)
-         ("C-c C-j" . counsel-imenu))
-  :bind (:map help-map
-              ("f" . counsel-describe-function)
-              ("v" . counsel-describe-variable)
-              ("b" . counsel-descbinds)))
-(use-package counsel-projectile
-  :demand t
-  :config
-  (counsel-projectile-mode t))
-(use-package counsel-etags)
-(use-package ivy-hydra)
-(use-package swiper
-  :bind (("C-S-s" . isearch-forward)
-         ("C-s" . swiper)
-         ("C-S-r" . isearch-backward)
-         ("C-r" . swiper)))
-(use-package avy)
+    (defvar company-mode/enable-yas t "Enable yasnippet for all backends.")
+    (defun company-mode/backend-with-yas (backend)
+      "Add in the company-yasnippet BACKEND."
+      (if (or (not company-mode/enable-yas) (and (listp backend) (member 'company-yasnippet backend)))
+          backend
+        (append (if (consp backend) backend (list backend))
+                '(:with company-yasnippet))))
+    (setq company-backends (mapcar #'company-mode/backend-with-yas company-backends))
+  #+END_SRC
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; End of Ivy configuration
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+* Additional bits-o-configuration
+** Limit the length of ~which-function~
+   ~which-function~ which is used by ~powerline~ has no maximum method/function signature. This handy advisor limits the name to 64 characters.
+   #+BEGIN_SRC emacs-lisp
+     (defvar  which-function-max-width 64 "The maximum width of the which-function string.")
+     (advice-add 'which-function :filter-return
+                 (lambda (s) (if (< (string-width s) which-function-max-width) s
+                               (concat (truncate-string-to-width s (- which-function-max-width 3)) "..."))))
+   #+END_SRC
+** ~my-ansi-term~                               
+   Allows me to name my ANSI terms. Was very useful when I used more ANSI shells (so that tabs were interpretted by the shell). Some other modes and shells make this less useful these days.
+   #+BEGIN_SRC emacs-lisp
+     (defun my-ansi-term (term-name cmd)
+       "Create an ansi term with a name - other than *ansi-term* given TERM-NAME and CMD."
+       (interactive "sName for terminal: \nsCommand to run [/bin/bash]: ")
+       (ansi-term (if (= 0 (length cmd)) "/bin/bash" cmd))
+       (rename-buffer term-name))
+   #+END_SRC
+** Understand file type by shebang
+   When a file is opened and it is determined there is no mode (fundamental-mode) this code reads the first line of the file looking for an appropriate shebang for either python or bash and sets the mode for the file.
+   #+BEGIN_SRC emacs-lisp
+     (defun my-find-file-hook ()
+       "If `fundamental-mode', look for script type so the mode gets properly set.
+     Script-type is read from #!/... at top of file."
+       (if (eq major-mode 'fundamental-mode)
+           (condition-case nil
+               (save-excursion
+                 (goto-char (point-min))
+                 (re-search-forward "^#!\s*/.*/\\(python\\|bash\\).*$")
+                 (if (string= (match-string 1) "python")
+                     (python-mode)
+                   (sh-mode)))
+             (error nil))))
+     (add-hook 'find-file-hook 'my-find-file-hook)
+   #+END_SRC
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; Fix yasnippets with other company backends:
-;;  https://emacs.stackexchange.com/questions/10431/get-company-to-show-suggestions-for-yasnippet-names
-;; Add yasnippet support for all company backends: https://github.com/syl20bnr/spacemacs/pull/179
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+** Additional configs
+   Setup ~eldoc~ mode, use y-or-n (instead of yes and no). Key bindings...
+   #+BEGIN_SRC emacs-lisp
+     (add-hook 'emacs-lisp-mode-hook 'eldoc-mode)    ;; Run elisp with eldoc-mode
+     (fset 'list-buffers 'ibuffer)                   ;; prefer ibuffer over list-buffers
+     (fset 'yes-or-no-p 'y-or-n-p)                   ;; for lazy people use y/n instead of yes/no
+     (diminish 'eldoc-mode "Doc")                    ;; Diminish eldoc-mode
 
-(use-package yasnippet
-  :diminish (yas-minor-mode . "")
-  :config (progn
-            (yas-reload-all)
-            ;; fix tab in term-mode
-            (add-hook 'term-mode-hook (lambda() (yas-minor-mode -1)))
-            ;; Fix yas indent issues
-            (add-hook 'python-mode-hook '(lambda () (set (make-local-variable 'yas-indent-line) 'fixed)))
-            ;; Setup to allow for yasnippets to use code to expand
-            (require 'warnings)
-            (add-to-list 'warning-suppress-types '(yasnippet backquote-change))))
+     ;; Some key bindings
+     (bind-key "C-x p" 'pop-to-mark-command)
+     (bind-key "C-h c" 'customize-group)
+     (bind-key "C-+" 'text-scale-increase)
+     (bind-key "C--" 'text-scale-decrease)
+     (bind-key "C-z" 'nil)                           ;; get rid of pesky "\C-z"
+     (bind-key "C-z" 'nil ctl-x-map)                 ;;    and "\C-x\C-z" annoying minimize
+     (bind-key "C-c C-d" 'dired-jump)
+     (bind-key "C-c r" 'revert-buffer)
+     (bind-key "C-c t" 'toggle-truncate-lines)
+     (bind-key "C-c c" 'comment-region)
+     (bind-key "C-c u" 'uncomment-region)
+     (bind-key "<up>" 'enlarge-window ctl-x-map)     ;; note: C-x
+     (bind-key "<down>" 'shrink-window ctl-x-map)    ;; note: C-x
 
-(defvar company-mode/enable-yas t
-  "Enable yasnippet for all backends.")
-(defun company-mode/backend-with-yas (backend)
-  "Add in the company-yasnippet BACKEND."
-  (if (or (not company-mode/enable-yas) (and (listp backend) (member 'company-yasnippet backend)))
-      backend
-    (append (if (consp backend) backend (list backend))
-            '(:with company-yasnippet))))
+     (setq-default ediff-ignore-similar-regions t)   ;; Not a variable but controls ediff
 
-(setq company-backends (mapcar #'company-mode/backend-with-yas company-backends))
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; bits-o-configuration
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-;; Limit the length of the current function via `which-function'
-(defvar  which-function-max-width 64 "The maximum width of the which-function string.")
-(advice-add 'which-function :filter-return
-            (lambda (s) (if (< (string-width s) which-function-max-width) s
-                          (concat (truncate-string-to-width s (- which-function-max-width 3)) "..."))))
-
-(defun my-ansi-term (term-name cmd)
-  "Create an ansi term with a name - other than *ansi-term* given TERM-NAME and CMD."
-  (interactive "sName for terminal: \nsCommand to run [/bin/bash]: ")
-  (ansi-term (if (= 0 (length cmd)) "/bin/bash" cmd))
-  (rename-buffer term-name))
-
-(defun my-find-file-hook ()
-  "If `fundamental-mode', look for script type so the mode gets properly set.
-Script-type is read from #!/... at top of file."
-  (if (eq major-mode 'fundamental-mode)
-      (condition-case nil
-          (save-excursion
-            (goto-char (point-min))
-            (re-search-forward "^#!\s*/.*/\\(python\\|bash\\).*$")
-            (if (string= (match-string 1) "python")
-                (python-mode)
-              (sh-mode)))
-        (error nil))))
-(add-hook 'find-file-hook 'my-find-file-hook)
-
-
-(add-hook 'emacs-lisp-mode-hook 'eldoc-mode)    ;; Run elisp with eldoc-mode
-(fset 'list-buffers 'ibuffer)                   ;; prefer ibuffer over list-buffers
-(fset 'yes-or-no-p 'y-or-n-p)                   ;; for lazy people use y/n instead of yes/no
-(diminish 'eldoc-mode "Doc")                    ;; Diminish eldoc-mode
-
-;; Some key bindings
-(bind-key "C-x p" 'pop-to-mark-command)
-(bind-key "C-h c" 'customize-group)
-(bind-key "C-+" 'text-scale-increase)
-(bind-key "C--" 'text-scale-decrease)
-(bind-key "C-z" 'nil)                           ;; get rid of pesky "\C-z"
-(bind-key "C-z" 'nil ctl-x-map)                 ;;    and "\C-x\C-z" annoying minimize
-(bind-key "C-c C-d" 'dired-jump)
-(bind-key "C-c r" 'revert-buffer)
-(bind-key "C-c t" 'toggle-truncate-lines)
-(bind-key "C-c c" 'comment-region)
-(bind-key "C-c u" 'uncomment-region)
-(bind-key "<up>" 'enlarge-window ctl-x-map)     ;; note: C-x
-(bind-key "<down>" 'shrink-window ctl-x-map)    ;; note: C-x
-
-(setq-default ediff-ignore-similar-regions t)   ;; Not a variable but controls ediff
-
-;; Turn on some stuff that's normally set off
-(put 'narrow-to-region 'disabled nil)
-(put 'downcase-region 'disabled nil)
-(put 'upcase-region 'disabled nil)
-(put 'scroll-left 'disabled nil)
-#+END_SRC
+     ;; Turn on some stuff that's normally set off
+     (put 'narrow-to-region 'disabled nil)
+     (put 'downcase-region 'disabled nil)
+     (put 'upcase-region 'disabled nil)
+     (put 'scroll-left 'disabled nil)
+  #+END_SRC
 
