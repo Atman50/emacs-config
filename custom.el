@@ -21,8 +21,8 @@
     ("\\\\*.dll" "\\\\*.png" "\\\\*.jpeg" "\\\\*.exe" "\\\\*.csproj")))
  '(auto-save-default nil)
  '(browse-url-browser-function (quote browse-url-chrome))
- '(browse-url-chrome-program "chrome")
- '(browse-url-mozilla-program "/usr/locla/bin/chrome")
+ '(browse-url-chrome-program
+   "C:/Program Files (x86)/Google/Chrome/Application/chrome.exe")
  '(c-tab-always-indent nil)
  '(case-fold-search t)
  '(column-number-mode t)
@@ -82,7 +82,7 @@
  '(package-archives
    (quote
     (("gnu" . "http://elpa.gnu.org/packages/")
-     ("melpa" . "http://melpa.org/packages/")
+     ("melpa" . "http://melpa.org/")
      ("org" . "http://orgmode.org/elpa/"))))
  '(powerline-display-hud nil)
  '(projectile-completion-system (quote ivy))
