@@ -23,73 +23,74 @@
    On the first run of emacs, the init.el file will download all the necessary packages to consume this file. All the elpa packages will be downloaded and compiled as part of the first emacs startup (runemacs on Windows). This compilation phase generally prints out some useless warnings about unbound variables that, I think, can be safely ignored.
 * General configuration
   Here are some general packages
-  - [[https://github.com/emacscollective/auto-compile][auto-compile]]
-    This package provides a guarantee that compiled byte code files are never outdated by mistake. You'll want to modify the variable ~load-prefer-newer~.
-    #+BEGIN_SRC emacs-lisp
-      (use-package auto-compile
-        :config
-        (progn
-          (auto-compile-on-load-mode)
-          (auto-compile-on-save-mode)))
-    #+END_SRC
-  - [[https://github.com/myrjola/diminish.el][diminish]]
-    Handy mode to make the modeline nicer. I also use to set mode to special characters (for example, see flycheck-mode)
-    #+BEGIN_SRC emacs-lisp
-      (use-package diminish)
-    #+END_SRC
-  - [[https://github.com/priyadarshan/bind-key][bind-key]]
-    Much better binding capabilities
-    #+BEGIN_SRC emacs-lisp
-      (use-package bind-key)
-    #+END_SRC
-  - savehist
-    A great builtin that allows us to have a history file. This means certain elements are saved between sessions of emacs. Set the following variables to control ~savehist~ (use customize).
-    1. ~savehist-additional-variables~ - ~(kill-ring search-ring regexp-search-ring)~
-    2. ~savehist-file~ => ~"~/.emacs.d/savehist"~
-    3. ~savehist-mode~ => t
-    #+BEGIN_SRC emacs-lisp
-      (use-package savehist :demand t)                ;; Nice history in ~/.emacs.d/savehist
-    #+END_SRC
-  - [[https://github.com/Wilfred/ag.el][ag]]
-    AKA silversearcher. Simple interface to excellent tool. I have it installed in my cygwin64 area and it seems to play well in my Windows environment.
-    #+BEGIN_SRC emacs-lisp
-      (use-package ag)
-    #+END_SRC
-  - [[http://github.com/jschaf/powershell.el][powershell]]
-    Excellent too to run powershell in Emacs
-    #+BEGIN_SRC emacs-lisp
-      (use-package powershell
-        :if mswindows-p)
-    #+END_SRC
-  - themes and modeline
-    #+BEGIN_SRC emacs-lisp
-      (load-theme 'leuven t)                          ;; Theme: works better before powerline
-      (use-package powerline
-        :demand t
-        :config
-        (powerline-default-theme))
-    #+END_SRC
-  - make aspx editing more palatable using html mode
-    #+BEGIN_SRC emacs-lisp
-      (add-to-list 'auto-mode-alist
-                   '("\\.aspx\\'" . html-mode)
-                   '("\\.aspcx\\'" . html-mode))
-    #+END_SRC
-  - General packages. All useful. ~which-key~ very helpful for finding way around. The ~desktop~ package allows for saved desktops in the emacs start directory (~desktop-path~ gets set here). Modify ~desktop-save-mode~ to t to turn on desktop saving.
+** [[https://github.com/emacscollective/auto-compile][auto-compile]]
+   This package provides a guarantee that compiled byte code files are never outdated by mistake. You'll want to modify the variable ~load-prefer-newer~.
+   #+BEGIN_SRC emacs-lisp
+     (use-package auto-compile
+       :config
+       (progn
+         (auto-compile-on-load-mode)
+         (auto-compile-on-save-mode)))
+   #+END_SRC
+** [[https://github.com/myrjola/diminish.el][diminish]]
+   Handy mode to make the modeline nicer. I also use to set mode to special characters (for example, see flycheck-mode)
+   #+BEGIN_SRC emacs-lisp
+     (use-package diminish)
+   #+END_SRC
+** [[https://github.com/priyadarshan/bind-key][bind-key]]
+   Much better binding capabilities
+   #+BEGIN_SRC emacs-lisp
+     (use-package bind-key)
+   #+END_SRC
+** savehist
+   A great builtin that allows us to have a history file. This means certain elements are saved between sessions of emacs. Set the following variables to control ~savehist~ (use customize).
+   1. ~savehist-additional-variables~ - ~(kill-ring search-ring regexp-search-ring)~
+   2. ~savehist-file~ => ~"~/.emacs.d/savehist"~
+   3. ~savehist-mode~ => t
+   #+BEGIN_SRC emacs-lisp
+     (use-package savehist :demand t)                ;; Nice history in ~/.emacs.d/savehist
+   #+END_SRC
+** [[https://github.com/Wilfred/ag.el][ag]]
+   AKA silversearcher. Simple interface to excellent tool. I have it installed in my cygwin64 area and it seems to play well in my Windows environment.
+   #+BEGIN_SRC emacs-lisp
+     (use-package ag)
+   #+END_SRC
+** [[http://github.com/jschaf/powershell.el][powershell]]
+   Excellent too to run powershell in Emacs
+   #+BEGIN_SRC emacs-lisp
+     (use-package powershell
+       :if mswindows-p)
+   #+END_SRC
+** themes and modeline
+   #+BEGIN_SRC emacs-lisp
+     (load-theme 'leuven t)                          ;; Theme: works better before powerline
+     (use-package powerline
+       :demand t
+       :config (powerline-default-theme))
+   #+END_SRC
+** aspx editing
+   Make aspx editing more palatable using html mode
+   #+BEGIN_SRC emacs-lisp
+     (add-to-list 'auto-mode-alist
+                  '("\\.aspx\\'" . html-mode)
+                  '("\\.aspcx\\'" . html-mode))
+   #+END_SRC
+** General packages.
+   All useful. ~which-key~ very helpful for finding way around. The ~desktop~ package allows for saved desktops in the emacs start directory (~desktop-path~ gets set here). Modify ~desktop-save-mode~ to t to turn on desktop saving.
 
-    Customize ~projectile-completion-system~ to ivy.
-    #+BEGIN_SRC emacs-lisp
-      (use-package realgud :demand t)                 ;; Better than gud?
-      (use-package projectile :demand t :config (projectile-mode t))
-      (use-package ibuffer-projectile)
-      (use-package xterm-color)
-      (use-package which-key :demand t :diminish "")
-      (use-package sh-script)
-      (use-package desktop
-        :config
-        ;; put desktop in start directory
-        (set-variable 'desktop-path (cons default-directory desktop-path)))
-    #+END_SRC
+   Customize ~projectile-completion-system~ to ivy.
+   #+BEGIN_SRC emacs-lisp
+     (use-package realgud :demand t)                 ;; Better than gud?
+     (use-package projectile :demand t :config (projectile-mode t))
+     (use-package ibuffer-projectile)
+     (use-package xterm-color)
+     (use-package which-key :demand t :diminish "")
+     (use-package sh-script)
+     (use-package desktop
+       :config
+       ;; put desktop in start directory
+       (set-variable 'desktop-path (cons default-directory desktop-path)))
+   #+END_SRC
 
 * Working with C#
   Because I'm a C# developer and pretty much dislike a lot of the GUI issues in Visual Studio, I've spent some amount of time coming up with a good C# configuration. This works spectularly well and takes only minutes to setup.
