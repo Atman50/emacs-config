@@ -247,6 +247,7 @@
         (add-hook 'python-mode-hook '(lambda () (set (make-local-variable 'yas-indent-line) 'fixed)))
         ;; Setup to allow for yasnippets to use code to expand
         (add-to-list 'warning-suppress-types '(yasnippet backquote-change))))
+    (use-package yasnippet-snippets :demand t)      ;; Don't forget the snippets
 
     (defvar company-mode/enable-yas t "Enable yasnippet for all backends.")
     (defun company-mode/backend-with-yas (backend)
