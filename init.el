@@ -4,7 +4,7 @@
 ;; Copyright (C) 2017-2018 Adam Taylor
 
 ;;; Commentary:
-;;      My emacs configuration. Here there is mostly glue code for literate initialization
+;;      My Emacs configuration. Here there is mostly glue code for literate initialization
 ;;          1. Initialize the package system
 ;;          2. Load a separate custom.el file (before any packages are actually loaded).
 ;;             This allows for variables to be overriden via custom-set-variables.
