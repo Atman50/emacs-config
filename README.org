@@ -90,6 +90,10 @@
        :config
        ;; put desktop in start directory
        (set-variable 'desktop-path (cons default-directory desktop-path)))
+     (use-package paredit
+       :demand t
+       :config
+       (add-hook 'emacs-lisp-mode-hook 'enable-paredit-mode))
    #+END_SRC
 
 * Working with C#
