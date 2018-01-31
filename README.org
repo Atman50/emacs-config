@@ -17,7 +17,7 @@
 
    1. [[(load-custom)][Load customizations]]. I split my customizations out into their own file ~custom.el~ and try as best as I can to keep all my customizations there. The reason is that they work well with the Emacs customization system so that when you look at ~M-x describe-variable~ the documentation says it was customized and not "changed outside of customization".
 
-    #+begin_src emacs-lisp :tangle no
+    #+begin_src emacs-lisp -r :tangle no
       (setq custom-file (expand-file-name "custom.el" user-emacs-directory))  (ref:load-custom)  ;; 1 
       (load custom-file t)
 
@@ -51,16 +51,9 @@
 
 *** Install org
     I use org-babel capabilities to load the configuration documented here. Make sure it's loaded and that it comes from the "org" repository (most up-to-date for org).
-    #+begin_src emacs-lisp :tangle no
-    (use-package org
-      :demand t
-      :pin "org")
-    #+end_src
 
 *** Now just babel load this file
-    #+begin_src emacs-lisp :tangle no
-    (org-babel-load-file "~/.emacs.d/README.org" t)
-    #+end_src
+
 
 * Configuration
 ** Just a little preamble
