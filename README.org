@@ -17,8 +17,8 @@
 
    1. [[(load-custom)][Load customizations]]. I split my customizations out into their own file ~custom.el~ and try as best as I can to keep all my customizations there. The reason is that they work well with the Emacs customization system so that when you look at ~M-x describe-variable~ the documentation says it was customized and not "changed outside of customization".
 
-    #+begin_src emacs-lisp -r :tangle no
-      (setq custom-file (expand-file-name "custom.el" user-emacs-directory))  (ref:load-custom)  ;; 1 
+    #+begin_src emacs-lisp -r -n :tangle no
+      (setq custom-file (expand-file-name "custom.el" user-emacs-directory))  (ref:load-custom)
       (load custom-file t)
 
       (package-initialize)
