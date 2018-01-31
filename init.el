@@ -28,11 +28,9 @@
 
 (package-initialize)
 
-;; Fixes melpa package load issues with some unicode characters it doesn't know how to
-;; deal with (incorrect or missing https://en.wikipedia.org/wiki/Byte_order_mark)
-(defvar mswindows-p (string-match "windows" (symbol-name system-type)))
-(when mswindows-p
-  (prefer-coding-system 'utf-8))
+;; This fixes the (package-refresh-contents) below which breaks on windows
+;; because of an issue with some packages in melpa.
+(prefer-coding-system 'utf-8)
 
 (package-refresh-contents)                      ;; Package paths are setup via custom.el
 (unless (package-installed-p 'use-package)      ;; Make sure use-package is installed

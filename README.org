@@ -30,12 +30,10 @@
     (package-initialize)
     #+end_src
 
-*** For windows, chose encoding preference
-    Since I work on Windows sometimes and some elpa packages are lacking the proper [[https://en.wikipedia.org/wiki/Byte_order_mark][byte order mark]] at the beginning of the file, I needed to perform the following to allow ~package-refresh-contents~ to finish without issue.
+*** Chose preferred coding-system
+    Since I work on Windows sometimes and some elpa packages are lacking the proper [[https://en.wikipedia.org/wiki/Byte_order_mark][byte order mark]] at the beginning of the file, I needed to perform the following to allow ~package-refresh-contents~ to finish without issue. It's not a bad idea to just do this ubiquitously, so I do it here.
     #+begin_src emacs-lisp :tangle no
-    (defvar mswindows-p (string-match "windows" (symbol-name system-type)))
-    (when mswindows-p
-      (prefer-coding-system 'utf-8))
+    (prefer-coding-system 'utf-8)
     #+end_src
 
 *** Get package contents
@@ -73,6 +71,11 @@
      (add-hook 'after-init-hook #'(lambda () (setq gc-cons-threshold 800000)))
    #+END_SRC
   
+   Also create a handy variable to know if we are Windows - used later on here.
+   #+begin_src emacs-lisp :tangle yes
+   (defvar mswindows-p (string-match "windows" (symbol-name system-type)))
+   #+end_src
+
 ** General packages
    Here are some general packages
 *** [[https://github.com/emacscollective/auto-compile][auto-compile]]
