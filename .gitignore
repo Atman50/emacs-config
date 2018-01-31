@@ -6,3 +6,5 @@ savehist
 recentf
 # The README.el(c) file is generated
 README.el*
+eshell
+projectile.cache

@@ -17,21 +17,16 @@
 
 ;;; Code:
 
-(package-initialize)
-
 ;; Your customizations are stored in the custom.el file
 ;;    *DO THIS FIRST SO YOU CAN CUSTOMIZE PACKAGES BEFORE LOADING THEM*
 (setq custom-file (expand-file-name "custom.el" user-emacs-directory))
-(load custom-file)
-
-;; Turn down the garbage collector during the loading of this file in case use-package
-;; has do some compiling. Set it back when done with init.
-(setq gc-cons-threshold 64000000)
-(add-hook 'after-init-hook #'(lambda () (setq gc-cons-threshold 800000)))
+(load custom-file t)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;       Setup packages
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+(package-initialize)
 
 ;; Fixes melpa package load issues with some unicode characters it doesn't know how to
 ;; deal with (incorrect or missing https://en.wikipedia.org/wiki/Byte_order_mark)
