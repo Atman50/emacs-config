@@ -4,7 +4,7 @@
 * Overview
   This is my literate and *portable* Emacs initialization "system."
 ** Quick start
-   Just git clone this repository into ~~/.emacs.d~: ~git clone https://github.com/Atman50/emacs-config.git ~/.emacs.d~
+   Just git clone this repository into ~\~/.emacs.d~: ~git clone https://github.com/Atman50/emacs-config.git ~/.emacs.d~
 
    Now just fire up Emacs and all the packages/configuration loads. It takes a bit the first time as it has to download and install the various packages, however it is much quicker on subsequent runs. This makes this configuration *highly portable*. Perhaps the only changes to make for different systems is in the ~custom.el~ file that references Windows or Linux/Unix style file/directory names. I have not found a good solution for this other than creating a handy git stash for keeping system changes that can be applied after updating (fetching and merging) from the remote git repository.
 
@@ -15,40 +15,39 @@
 
    Note that these pieces of ~init.el~ are *not* tangled (extraced) by ~org-babel-load-file~ (":tangle no" on the elisp code blocks here).
 
-*** First, load customizations
-    I split my customizations out into their own file ~custom.el~ and try as best as I can to keep all my customizations there. The reason is that they work well with the Emacs customization system so that when you look at ~M-x describe-variable~ the documentation says it was customized and not "changed outside of customization".
+   1. [[(load-custom)][Load customizations]]. I split my customizations out into their own file ~custom.el~ and try as best as I can to keep all my customizations there. The reason is that they work well with the Emacs customization system so that when you look at ~M-x describe-variable~ the documentation says it was customized and not "changed outside of customization".
 
-    So, *first things first*, load up the customizations:
     #+begin_src emacs-lisp :tangle no
-    (setq custom-file (expand-file-name "custom.el" user-emacs-directory))
-    (load custom-file t)
+      (setq custom-file (expand-file-name "custom.el" user-emacs-directory))  (ref:load-custom)  ;; 1 
+      (load custom-file t)
+
+      (package-initialize)
+
+      (prefer-coding-system 'utf-8)
+
+      (package-refresh-contents)
+      (unless (package-installed-p 'use-package)
+        (package-install 'use-package))
+      (require 'use-package)
+
+      (use-package org
+        :demand t
+        :pin "org")
+      (org-babel-load-file "~/.emacs.d/README.org" t)
     #+end_src
 
 *** Initialize package system
     Make sure the package system is up and running. Put this after customizations so that ~package-load-list~ can be customized. Make sure to activate or the following ~(require 'use-package)~ will fail.
-    #+begin_src emacs-lisp :tangle no
-    (package-initialize)
-    #+end_src
 
 *** Chose preferred coding-system
     Since I work on Windows sometimes and some elpa packages are lacking the proper [[https://en.wikipedia.org/wiki/Byte_order_mark][byte order mark]] at the beginning of the file, I needed to perform the following to allow ~package-refresh-contents~ to finish without issue. It's not a bad idea to just do this ubiquitously, so I do it here.
-    #+begin_src emacs-lisp :tangle no
-    (prefer-coding-system 'utf-8)
-    #+end_src
 
 *** Get package contents
     Now refresh the package contents using the ~package-archives~ setting from the ~custom.el~ file. I modify this to include melpa, gnu, and org repositories.
-    #+begin_src emacs-lisp :tangle no
-    (package-refresh-contents)
-    #+end_src
 
 *** Assure use-package is loaded
     We need ~use-package~ to perform the remainder of this configuration
-    #+begin_src emacs-lisp :tangle no
-    (unless (package-installed-p 'use-package)
-      (package-install 'use-package))
-    (require 'use-package)
-    #+end_src
+
 
 *** Install org
     I use org-babel capabilities to load the configuration documented here. Make sure it's loaded and that it comes from the "org" repository (most up-to-date for org).
