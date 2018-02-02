@@ -69,9 +69,9 @@
  '(org-log-into-drawer t)
  '(package-archives
    (quote
-    (("gnu" . "http://elpa.gnu.org/packages/")
-     ("melpa" . "http://melpa.org/packages/")
-     ("org" . "http://orgmode.org/elpa/"))))
+    (("gnu" . "https://elpa.gnu.org/packages/")
+     ("melpa" . "https://melpa.org/packages/")
+     ("org" . "https://orgmode.org/elpa/"))))
  '(package-selected-packages
    (quote
     (paredit yasnippet-snippets avy ivy-hydra counsel-etags counsel-projectile counsel which-key xterm-color ibuffer-projectile org-projectile projectile realgud python-docstring pylint flycheck-pyflakes elpy company-jedi company org-autolist org-bullets git-timemachine magit-find-file magit-filenotify magit git-commit powerline use-package)))
