@@ -74,7 +74,7 @@
      ("org" . "https://orgmode.org/elpa/"))))
  '(package-selected-packages
    (quote
-    (paredit yasnippet-snippets avy ivy-hydra counsel-etags counsel-projectile counsel which-key xterm-color ibuffer-projectile org-projectile projectile realgud python-docstring pylint flycheck-pyflakes elpy company-jedi company org-autolist org-bullets git-timemachine magit-find-file magit-filenotify magit git-commit powerline use-package)))
+    (htmlize paredit yasnippet-snippets avy ivy-hydra counsel-etags counsel-projectile counsel which-key xterm-color ibuffer-projectile org-projectile projectile realgud python-docstring pylint flycheck-pyflakes elpy company-jedi company org-autolist org-bullets git-timemachine magit-find-file magit-filenotify magit git-commit powerline use-package)))
  '(powerline-display-hud nil)
  '(projectile-completion-system (quote ivy))
  '(projectile-mode-line (quote (:eval (format " [%s]" (projectile-project-name)))))
