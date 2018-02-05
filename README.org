@@ -17,42 +17,42 @@
 
    Following this code block is the explanation.
 
-   #+begin_src emacs-lisp -n -r :tangle no 
-   (setq custom-file (expand-file-name "custom.el" user-emacs-directory))  ;; 1 (ref:custom)
-   (load custom-file t) (ref:custom-end)
+   #+begin_src emacs-lisp :tangle no 
+   (setq custom-file (expand-file-name "custom.el" user-emacs-directory))  ;; 1
+   (load custom-file t)
 
-   (package-initialize)                                                    ;; 2 (ref:initialize)
+   (package-initialize)                                                    ;; 2
 
-   (prefer-coding-system 'utf-8)                                           ;; 3 (ref:coding-system)
+   (prefer-coding-system 'utf-8)                                           ;; 3
 
-   (package-refresh-contents)                                              ;; 4 (ref:refresh)
+   (package-refresh-contents)                                              ;; 4
 
-   (unless (package-installed-p 'use-package)                              ;; 5 (ref:use-package)
+   (unless (package-installed-p 'use-package)                              ;; 5
      (package-install 'use-package))
    (require 'use-package) (ref:use-package-end)
 
-   (use-package org                                                        ;; 6 (ref:org)
+   (use-package org                                                        ;; 6
      :demand t
-     :pin "org") (ref:org-end)
+     :pin "org")
 
-   (org-babel-load-file "~/.emacs.d/README.org" t)                         ;; 7 (ref:babel)
+   (org-babel-load-file "~/.emacs.d/README.org" t)                         ;; 7
     #+end_src
 
-    Lines [[(custom)]] - [[(custom-end)]] provides for a separate ~custom.el~ file. Keeping the customizations separate and first allows for standard emacs customization of *most* of the package variables. When package variables setup outside of the customization file, then ~M-x describe-variable~ says it was "changed outside of customization".
+   1. Provide for a separate ~custom.el~ file. Keeping the customizations separate and first allows for standard emacs customization of *most* of the package variables. When package variables setup outside of the customization file, then ~M-x describe-variable~ says it was "changed outside of customization".
 
-    Line [[(initialize)]] initializes the package system. Put this after the customizations so that the variable ~package-load-list~ can be customized (I use [[https://gnu.org/packages][Gnu]], [[https://melpa.org/packages][Melpa]], and [[https://orgmode.org/packages][Org]] - see ~custom.el~).
+   2. Initializes the package system. Put this after the customizations so that the variable ~package-load-list~ can be customized (I use [[https://gnu.org/packages][Gnu]], [[https://melpa.org/packages][Melpa]], and [[https://orgmode.org/packages][Org]] - see ~custom.el~).
 
-    Line [[(coding-system)]] sets the preferred coding-system. Since I work on Windows sometimes and some Melpa packages are lacking the proper [[https://en.wikipedia.org/wiki/Byte_order_mark][byte order mark]] at the beginning of the file, this needs to happen before ~package-refresh-contents~ so that it finishes without issue. It's not a bad idea to just do this ubiquitously, so I do it here.
+   3. Sets the preferred coding-system. Since I work on Windows sometimes and some Melpa packages are lacking the proper [[https://en.wikipedia.org/wiki/Byte_order_mark][byte order mark]] at the beginning of the file, this needs to happen before ~package-refresh-contents~ so that it finishes without issue. It's not a bad idea to just do this ubiquitously, so I do it here.
 
-    Line [[(refresh)]] gets the package contents. This uses ~package-archives~ from the ~custom.el~ file to load up the repository contents.
+   4. Gets the package contents. This uses ~package-archives~ from the ~custom.el~ file to load up the repository contents.
 
-    Lines [[(use-package)]] - [[(use-package-end)]] assure use-package is loaded; ~use-package~ is used to perform the remainder of this configuration.
+   5. Assures use-package is loaded; ~use-package~ is used to perform the remainder of this configuration.
 
-    Lines [[(org)]] - [[(org-end)]] install org. Org-babel is used to load the configuration documented here. This code makes sure it's loaded and that it comes from the "org" repository.
+   6. Installs org. Org-babel is used to load the configuration documented here. This code makes sure it's loaded and that it comes from the "org" repository.
 
-    Line [[(babel)]] does the deed and loads this file. NB: it does not load the code above
+   7. Does the deed and loads this file. NB: it does not load the code above (:tangle no)
 
-    That's it. It really is that simple
+   That's it. It really is that simple
 
 * Configuration
 ** Just a little preamble
