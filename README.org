@@ -4,16 +4,16 @@
 * Overview
   This is my literate and *portable* Emacs initialization "system."
 ** Quick start
-   Just git clone this repository into ~<home>/.emacs.d~: ~git clone https://github.com/Atman50/emacs-config.git ~/.emacs.d~
+   First git clone this repository into ~<home>/.emacs.d~: ~git clone https://github.com/Atman50/emacs-config.git ~/.emacs.d~
 
-   Now just fire up Emacs and all the packages/configuration loads. It takes a bit the first time as it has to download and install the various packages, however it is much quicker on subsequent runs. This makes this configuration *highly portable*. Perhaps the only changes to make for different systems is in the ~custom.el~ file that references Windows or Linux/Unix style file/directory names. I have not found a good solution for this other than creating a handy git stash for keeping system changes that can be applied after updating (fetching and merging) from the remote git repository.
+   Now simply start Emacs and all the packages/configuration loads. It takes some time on the first load since all the packages referenced need to download and compile. On subsequent Emacs invocations startup time is better.
 
-   A minor warning is that Emacs load times can be somewhat slow (10 or so seconds). Startup continues to degrade as the size of the desktop file increases (the more files that need to be opened at the start of Emacs).
+   The ability to simply clone and start makes this configuration *highly portable*. One issue is that some of the customization are file system dependent. I handle this by using git to create a stash of the localized changes for ~custom.el~ and then apply it whenever I take updated configurations from the repository.
+
+   A minor warning is that Emacs load times can be somewhat slow. Startup continues to get slower as the size of the desktop file increases (the more files that need to be opened at the start of Emacs). Since I tend to stay in Emacs for quite some time, this doesn't get in my way.
 
 ** ~init.el~ explained
-   To get the literate configuration, some amount of system setup is necessary and is entirely contained in my simple ~init.el~ file. Here are the pieces explained.
-
-   Note that these pieces of ~init.el~ are *not* tangled (extraced) by ~org-babel-load-file~ (":tangle no" on the elisp code blocks here).
+   To get started with a literate configuration, I use this simple ~init.el~ file.
 
    Following this code block is the explanation.
 
