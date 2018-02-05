@@ -1,4 +1,4 @@
-a#+STARTUP: showeverything
+#+STARTUP: showeverything
 #+OPTIONS: toc:4 h:4
 #+TITLE: Adam Taylor's  Emacs Initialization
 * Overview
