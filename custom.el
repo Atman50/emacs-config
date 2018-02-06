@@ -107,7 +107,6 @@
  '(use-dialog-box t)
  '(use-package-always-defer t)
  '(use-package-always-ensure t)
- '(use-package-verbose t)
  '(vc-diff-switches (quote ("--diff-cmd" "tkdiff")))
  '(visible-bell t)
  '(which-function-mode t)

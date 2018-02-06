@@ -31,24 +31,26 @@
    Following this code block is the explanation.
 
    #+begin_src emacs-lisp -r :tangle no
-   (setq custom-file (expand-file-name "custom.el" user-emacs-directory))  ;; 1
+   (setq custom-file (expand-file-name "custom.el" user-emacs-directory))      ;; 1
    (load custom-file t)
 
-   (package-initialize)                                                    ;; 2 (ref:pkg-init)
+   (package-initialize)                                                        ;; 2 (ref:pkg-init)
 
-   (prefer-coding-system 'utf-8)                                           ;; 3
+   (prefer-coding-system 'utf-8)                                               ;; 3
 
-   (package-refresh-contents)                                              ;; 4
+   (package-refresh-contents)                                                  ;; 4
 
-   (unless (package-installed-p 'use-package)                              ;; 5
+   (unless (package-installed-p 'use-package)                                  ;; 5
      (package-install 'use-package))
    (require 'use-package) (ref:use-package-end)
 
-   (use-package org                                                        ;; 6
+   (use-package org                                                            ;; 6
      :demand t
      :pin "org")
 
-   (org-babel-load-file "~/.emacs.d/README.org" t)                         ;; 7
+   (if (file-newer-than-file-p "~/.emacs.d/README.org" "~/.emacs.d/README.el") ;; 7
+       (org-babel-load-file "~/.emacs.d/README.org" t)
+     (load "~/.emacs.d/README" ))
     #+end_src
 
    1. Provide for a separate ~custom.el~ file. Keeping the customizations separate and first allows for standard emacs customization of *most* of the package variables. When package variables setup outside of the customization file, then ~M-x describe-variable~ says it was "changed outside of customization".
@@ -63,7 +65,7 @@
 
    6. Installs org. Org-babel is used to load the configuration documented here. This code makes sure it's loaded and that it comes from the "org" repository.
 
-   7. Does the deed and loads this file. NB: it does not load the code above (:tangle no)
+   7. Does the deed and loads this file. If the file has already been "babel-ed" then just load the results, otherwise do the "babel-ing".
 
    That's it. It really is that simple.
 

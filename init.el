@@ -41,6 +41,9 @@
 (use-package org
   :demand t
   :pin "org")
-(org-babel-load-file "~/.emacs.d/README.org" t)
+
+(if (file-newer-than-file-p "~/.emacs.d/README.org" "~/.emacs.d/README.el")
+    (org-babel-load-file "~/.emacs.d/README.org" t)
+  (load "~/.emacs.d/README" ))
 
 ;;; init.el ends here
