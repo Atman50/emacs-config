@@ -97,6 +97,10 @@
  '(sentence-end-double-space nil)
  '(show-paren-mode t nil (paren))
  '(split-width-threshold nil)
+ '(sql-mode-hook
+   (quote
+    ((lambda nil
+       (setq tab-width 4 indent-tabs-mode t)))))
  '(tool-bar-mode nil)
  '(truncate-partial-width-windows t)
  '(uniquify-buffer-name-style (quote post-forward-angle-brackets) nil (uniquify))

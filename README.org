@@ -1,14 +1,17 @@
 #+STARTUP: showeverything
 #+OPTIONS: toc:4 h:4
 #+AUTHOR: Adam Taylor
-
 #+TITLE: Adam Taylor's  Emacs Initialization
 
    #+NAME: custom-vars-table
    #+BEGIN_SRC emacs-lisp :results silent :exports results :var custom-vars=() :tangle no
-     (cons '(Configured\ Variable\ Name Current\ Variable\ Value)
+     (cons '(Symbol\ Name Current\ Value Documentation)
            (cons 'hline
-                 (cl-loop for cv in custom-vars collect `(,cv ,(symbol-value cv)))))
+                 (cl-loop for cv in custom-vars collect `(,cv
+                                                          ,(symbol-value cv)
+                                                          ,(if (stringp (get cv 'variable-documentation))
+                                                               (car (split-string (get cv 'variable-documentation) "\n"))
+                                                             "")))))
    #+END_SRC
   
 * Overview
@@ -27,11 +30,11 @@
 
    Following this code block is the explanation.
 
-   #+begin_src emacs-lisp :tangle no 
+   #+begin_src emacs-lisp -r :tangle no
    (setq custom-file (expand-file-name "custom.el" user-emacs-directory))  ;; 1
    (load custom-file t)
 
-   (package-initialize)                                                    ;; 2
+   (package-initialize)                                                    ;; 2 (ref:pkg-init)
 
    (prefer-coding-system 'utf-8)                                           ;; 3
 
@@ -64,7 +67,7 @@
 
    That's it. It really is that simple.
 
-   This code depends upon the following custom variable(s):
+   The [[(pkg-init)][package-initialize]] in the above code depends upon:
 
    #+CALL: custom-vars-table(custom-vars='(package-archives))
    #+RESULTS:
