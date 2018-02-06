@@ -1,19 +1,21 @@
 #+STARTUP: showeverything
 #+OPTIONS: toc:4 h:4
+#+OPTIONS: html-style:nil
+#+HTML_HEAD: <link rel="stylesheet" type="text/css" href="README.css" />
+
 #+AUTHOR: Adam Taylor
 #+TITLE: Adam Taylor's  Emacs Initialization
 
    #+NAME: custom-vars-table
    #+BEGIN_SRC emacs-lisp :results silent :exports results :var custom-vars=() :tangle no
-     (cons '(Symbol\ Name Current\ Value Documentation)
+     (cons '(Symbol\ Name Current\ Value Default\ Value)
            (cons 'hline
                  (cl-loop for cv in custom-vars collect `(,cv
-                                                          ,(symbol-value cv)
-                                                          ,(if (stringp (get cv 'variable-documentation))
-                                                               (car (split-string (get cv 'variable-documentation) "\n"))
-                                                             "")))))
+                                                          ,(default-value cv)
+                                                          ,(eval (car (get cv 'standard-value)))))))
    #+END_SRC
   
+
 * Overview
   This is my literate and *portable* Emacs initialization "system."
 ** Quick start
