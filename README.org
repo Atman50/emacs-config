@@ -341,8 +341,9 @@
    #+BEGIN_SRC emacs-lisp :tangle yes
      (defvar  which-function-max-width 64 "The maximum width of the which-function string.")
      (advice-add 'which-function :filter-return
-                 (lambda (s) (if (< (string-width s) which-function-max-width) s
-                               (concat (truncate-string-to-width s (- which-function-max-width 3)) "..."))))
+                 (lambda (s) (when (stringp s)
+                               (if (< (string-width s) which-function-max-width) s
+                                 (concat (truncate-string-to-width s (- which-function-max-width 3)) "...")))))
    #+END_SRC
 ** ~my-ansi-term~                               
    Allows me to name my ANSI terms. Was very useful when I used more ANSI shells (so that tabs were interpretted by the shell). Some other modes and shells make this less useful these days.
