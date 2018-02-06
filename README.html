@@ -3,12 +3,12 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2018-02-05 Mon 11:18 -->
+<!-- 2018-02-05 Mon 22:05 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Adam Taylor's  Emacs Initialization</title>
 <meta name="generator" content="Org mode" />
-<meta name="author" content="adtaylor" />
+<meta name="author" content="Adam Taylor" />
 <style type="text/css">
  <!--/*--><![CDATA[/*><!--*/
   .title  { text-align: center;
@@ -234,56 +234,57 @@ for the JavaScript code in this tag.
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents">
 <ul>
-<li><a href="#org1f3237f">1. Overview</a>
+<li><a href="#org609a7e2">1. Overview</a>
 <ul>
-<li><a href="#org3f5ab0e">1.1. Quick start</a></li>
-<li><a href="#orgde49c23">1.2. <code>init.el</code> explained</a></li>
+<li><a href="#orgc92c54f">1.1. Quick start</a></li>
+<li><a href="#org79c4e13">1.2. <code>init.el</code> explained</a></li>
 </ul>
 </li>
-<li><a href="#org4d75ab4">2. Configuration</a>
+<li><a href="#orgee2ea1b">2. Configuration</a>
 <ul>
-<li><a href="#orgafb69f7">2.1. Just a little preamble</a></li>
-<li><a href="#org976c463">2.2. General packages</a>
+<li><a href="#org34d08ec">2.1. Just a little preamble</a></li>
+<li><a href="#org695b8c1">2.2. General packages</a>
 <ul>
-<li><a href="#org20ea002">2.2.1. auto-compile</a></li>
-<li><a href="#orgbe4efc2">2.2.2. diminish</a></li>
-<li><a href="#org5cea614">2.2.3. bind-key</a></li>
-<li><a href="#orgd670b71">2.2.4. savehist</a></li>
-<li><a href="#org9a76293">2.2.5. ag</a></li>
-<li><a href="#org2249213">2.2.6. powershell</a></li>
-<li><a href="#org7516e47">2.2.7. themes and modeline</a></li>
-<li><a href="#org907ab87">2.2.8. aspx editing</a></li>
-<li><a href="#org0150518">2.2.9. Other useful packages</a></li>
+<li><a href="#org2ec7712">2.2.1. auto-compile</a></li>
+<li><a href="#orgcfb83e8">2.2.2. diminish</a></li>
+<li><a href="#org0fc13e5">2.2.3. bind-key</a></li>
+<li><a href="#org1da79d3">2.2.4. savehist</a></li>
+<li><a href="#org70dc4ad">2.2.5. ag</a></li>
+<li><a href="#org0a51c51">2.2.6. powershell</a></li>
+<li><a href="#org94f37c8">2.2.7. themes and modeline</a></li>
+<li><a href="#orgae67aaa">2.2.8. aspx editing</a></li>
+<li><a href="#org334b758">2.2.9. Other useful packages</a></li>
 </ul>
 </li>
 </ul>
 </li>
-<li><a href="#org045529e">3. Working with C#</a></li>
-<li><a href="#orgf8d8ae5">4. magit configuration</a></li>
-<li><a href="#orga5a11f7">5. org-mode configuration</a></li>
-<li><a href="#org128caa0">6. python configuration</a></li>
-<li><a href="#org53970d3">7. ivy configuration</a></li>
-<li><a href="#orgbc9cc16">8. yasnippet configuration</a></li>
-<li><a href="#org598375b">9. Additional bits-o-configuration</a>
+<li><a href="#org7be8623">3. Working with C#</a></li>
+<li><a href="#org4938fe9">4. magit configuration</a></li>
+<li><a href="#orgf3d7d6f">5. org-mode configuration</a></li>
+<li><a href="#org355dfff">6. python configuration</a></li>
+<li><a href="#org367be6d">7. ivy configuration</a></li>
+<li><a href="#org356f2a7">8. yasnippet configuration</a></li>
+<li><a href="#org0823ea2">9. Additional bits-o-configuration</a>
 <ul>
-<li><a href="#orge092f55">9.1. Limit the length of <code>which-function</code></a></li>
-<li><a href="#orge822577">9.2. <code>my-ansi-term</code></a></li>
-<li><a href="#org706a40b">9.3. Understand file type by shebang</a></li>
-<li><a href="#orgab43049">9.4. Additional configs</a></li>
+<li><a href="#org0031c28">9.1. Limit the length of <code>which-function</code></a></li>
+<li><a href="#org06fe595">9.2. <code>my-ansi-term</code></a></li>
+<li><a href="#orgd7eb69f">9.3. Understand file type by shebang</a></li>
+<li><a href="#orgc497a0a">9.4. Additional configs</a></li>
 </ul>
 </li>
 </ul>
 </div>
 </div>
-<div id="outline-container-org1f3237f" class="outline-2">
-<h2 id="org1f3237f"><span class="section-number-2">1</span> Overview</h2>
+
+<div id="outline-container-org609a7e2" class="outline-2">
+<h2 id="org609a7e2"><span class="section-number-2">1</span> Overview</h2>
 <div class="outline-text-2" id="text-1">
 <p>
 This is my literate and <b>portable</b> Emacs initialization "system."
 </p>
 </div>
-<div id="outline-container-org3f5ab0e" class="outline-3">
-<h3 id="org3f5ab0e"><span class="section-number-3">1.1</span> Quick start</h3>
+<div id="outline-container-orgc92c54f" class="outline-3">
+<h3 id="orgc92c54f"><span class="section-number-3">1.1</span> Quick start</h3>
 <div class="outline-text-3" id="text-1-1">
 <p>
 First git clone this repository into <code>&lt;home&gt;/.emacs.d</code>: <code>git clone https://github.com/Atman50/emacs-config.git ~/.emacs.d</code>
@@ -303,8 +304,8 @@ A minor warning is that Emacs load times can be somewhat slow. Startup continues
 </div>
 </div>
 
-<div id="outline-container-orgde49c23" class="outline-3">
-<h3 id="orgde49c23"><span class="section-number-3">1.2</span> <code>init.el</code> explained</h3>
+<div id="outline-container-org79c4e13" class="outline-3">
+<h3 id="org79c4e13"><span class="section-number-3">1.2</span> <code>init.el</code> explained</h3>
 <div class="outline-text-3" id="text-1-2">
 <p>
 To get started with a literate configuration, I use this simple <code>init.el</code> file.
@@ -353,18 +354,44 @@ Following this code block is the explanation.
 </ol>
 
 <p>
-That's it. It really is that simple
+That's it. It really is that simple.
 </p>
+
+<p>
+This code depends upon the following custom variable(s):
+</p>
+
+<table border="2" cellspacing="0" cellpadding="6" rules="all" frame="border">
+
+
+<colgroup>
+<col  class="org-left" />
+
+<col  class="org-left" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-left">Configured Variable Name</th>
+<th scope="col" class="org-left">Current Variable Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="org-left">package-archives</td>
+<td class="org-left">((gnu . <a href="https://elpa.gnu.org/packages/">https://elpa.gnu.org/packages/</a>) (melpa . <a href="https://melpa.org/packages/">https://melpa.org/packages/</a>) (org . <a href="https://orgmode.org/elpa/">https://orgmode.org/elpa/</a>))</td>
+</tr>
+</tbody>
+</table>
 </div>
 </div>
 </div>
 
-<div id="outline-container-org4d75ab4" class="outline-2">
-<h2 id="org4d75ab4"><span class="section-number-2">2</span> Configuration</h2>
+<div id="outline-container-orgee2ea1b" class="outline-2">
+<h2 id="orgee2ea1b"><span class="section-number-2">2</span> Configuration</h2>
 <div class="outline-text-2" id="text-2">
 </div>
-<div id="outline-container-orgafb69f7" class="outline-3">
-<h3 id="orgafb69f7"><span class="section-number-3">2.1</span> Just a little preamble</h3>
+<div id="outline-container-org34d08ec" class="outline-3">
+<h3 id="org34d08ec"><span class="section-number-3">2.1</span> Just a little preamble</h3>
 <div class="outline-text-3" id="text-2-1">
 <p>
 This is a little piece of code that I picked up that might make things faster when downloading and installing all the packages. This turns down the garbage collector during the use-package loading when it has to do some compiling. Set it back when done with init.
@@ -385,15 +412,15 @@ Also create a handy variable to know if we are Windows - used later on here.
 </div>
 </div>
 
-<div id="outline-container-org976c463" class="outline-3">
-<h3 id="org976c463"><span class="section-number-3">2.2</span> General packages</h3>
+<div id="outline-container-org695b8c1" class="outline-3">
+<h3 id="org695b8c1"><span class="section-number-3">2.2</span> General packages</h3>
 <div class="outline-text-3" id="text-2-2">
 <p>
 Here are some general packages
 </p>
 </div>
-<div id="outline-container-org20ea002" class="outline-4">
-<h4 id="org20ea002"><span class="section-number-4">2.2.1</span> <a href="https://github.com/emacscollective/auto-compile">auto-compile</a></h4>
+<div id="outline-container-org2ec7712" class="outline-4">
+<h4 id="org2ec7712"><span class="section-number-4">2.2.1</span> <a href="https://github.com/emacscollective/auto-compile">auto-compile</a></h4>
 <div class="outline-text-4" id="text-2-2-1">
 <p>
 This package provides a guarantee that compiled byte code files are never outdated by mistake. You'll want to modify the variable <code>load-prefer-newer</code>.
@@ -410,8 +437,8 @@ This package provides a guarantee that compiled byte code files are never outdat
 </div>
 </div>
 </div>
-<div id="outline-container-orgbe4efc2" class="outline-4">
-<h4 id="orgbe4efc2"><span class="section-number-4">2.2.2</span> <a href="https://github.com/myrjola/diminish.el">diminish</a></h4>
+<div id="outline-container-orgcfb83e8" class="outline-4">
+<h4 id="orgcfb83e8"><span class="section-number-4">2.2.2</span> <a href="https://github.com/myrjola/diminish.el">diminish</a></h4>
 <div class="outline-text-4" id="text-2-2-2">
 <p>
 Handy mode to make the modeline nicer. I also use to set mode to special characters (for example, see flycheck-mode)
@@ -422,8 +449,8 @@ Handy mode to make the modeline nicer. I also use to set mode to special charact
 </div>
 </div>
 </div>
-<div id="outline-container-org5cea614" class="outline-4">
-<h4 id="org5cea614"><span class="section-number-4">2.2.3</span> <a href="https://github.com/priyadarshan/bind-key">bind-key</a></h4>
+<div id="outline-container-org0fc13e5" class="outline-4">
+<h4 id="org0fc13e5"><span class="section-number-4">2.2.3</span> <a href="https://github.com/priyadarshan/bind-key">bind-key</a></h4>
 <div class="outline-text-4" id="text-2-2-3">
 <p>
 Much better binding capabilities
@@ -434,25 +461,53 @@ Much better binding capabilities
 </div>
 </div>
 </div>
-<div id="outline-container-orgd670b71" class="outline-4">
-<h4 id="orgd670b71"><span class="section-number-4">2.2.4</span> savehist</h4>
+<div id="outline-container-org1da79d3" class="outline-4">
+<h4 id="org1da79d3"><span class="section-number-4">2.2.4</span> savehist</h4>
 <div class="outline-text-4" id="text-2-2-4">
 <p>
 A great builtin that allows us to have a history file. This means certain elements are saved between sessions of emacs. Set the following variables to control <code>savehist</code> (use customize).
 </p>
-<ol class="org-ol">
-<li><code>savehist-additional-variables</code> - <code>(kill-ring search-ring regexp-search-ring)</code></li>
-<li><code>savehist-file</code> =&gt; <code>"~/.emacs.d/savehist"</code></li>
-<li><code>savehist-mode</code> =&gt; t</li>
-</ol>
+
+<table border="2" cellspacing="0" cellpadding="6" rules="all" frame="border">
+
+
+<colgroup>
+<col  class="org-left" />
+
+<col  class="org-left" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-left">Configured Variable Name</th>
+<th scope="col" class="org-left">Current Variable Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="org-left">savehist-file</td>
+<td class="org-left">~/.emacs.d/savehist</td>
+</tr>
+
+<tr>
+<td class="org-left">savehist-additional-variables</td>
+<td class="org-left">(kill-ring search-ring regexp-search-ring)</td>
+</tr>
+
+<tr>
+<td class="org-left">savehist-mode</td>
+<td class="org-left">t</td>
+</tr>
+</tbody>
+</table>
+
 <div class="org-src-container">
 <pre class="src src-emacs-lisp">(<span style="color: #0000FF;">use-package</span> <span style="color: #D0372D;">savehist</span> <span style="color: #006FE0;">:demand</span> t)                <span style="color: #8D8D84;">;; </span><span style="color: #8D8D84; font-style: italic;">Nice history in ~/.emacs.d/savehist</span>
 </pre>
 </div>
 </div>
 </div>
-<div id="outline-container-org9a76293" class="outline-4">
-<h4 id="org9a76293"><span class="section-number-4">2.2.5</span> <a href="https://github.com/Wilfred/ag.el">ag</a></h4>
+<div id="outline-container-org70dc4ad" class="outline-4">
+<h4 id="org70dc4ad"><span class="section-number-4">2.2.5</span> <a href="https://github.com/Wilfred/ag.el">ag</a></h4>
 <div class="outline-text-4" id="text-2-2-5">
 <p>
 AKA silversearcher. Simple interface to excellent tool. I have it installed in my cygwin64 area and it seems to play well in my Windows environment.
@@ -467,8 +522,8 @@ NB: doesn't seem to work so well under Windows.
 </div>
 </div>
 </div>
-<div id="outline-container-org2249213" class="outline-4">
-<h4 id="org2249213"><span class="section-number-4">2.2.6</span> <a href="http://github.com/jschaf/powershell.el">powershell</a></h4>
+<div id="outline-container-org0a51c51" class="outline-4">
+<h4 id="org0a51c51"><span class="section-number-4">2.2.6</span> <a href="http://github.com/jschaf/powershell.el">powershell</a></h4>
 <div class="outline-text-4" id="text-2-2-6">
 <p>
 Excellent too to run powershell in Emacs
@@ -480,8 +535,8 @@ Excellent too to run powershell in Emacs
 </div>
 </div>
 </div>
-<div id="outline-container-org7516e47" class="outline-4">
-<h4 id="org7516e47"><span class="section-number-4">2.2.7</span> themes and modeline</h4>
+<div id="outline-container-org94f37c8" class="outline-4">
+<h4 id="org94f37c8"><span class="section-number-4">2.2.7</span> themes and modeline</h4>
 <div class="outline-text-4" id="text-2-2-7">
 <div class="org-src-container">
 <pre class="src src-emacs-lisp">(load-theme 'leuven t)                          <span style="color: #8D8D84;">;; </span><span style="color: #8D8D84; font-style: italic;">Theme: works better before powerline</span>
@@ -492,8 +547,8 @@ Excellent too to run powershell in Emacs
 </div>
 </div>
 </div>
-<div id="outline-container-org907ab87" class="outline-4">
-<h4 id="org907ab87"><span class="section-number-4">2.2.8</span> aspx editing</h4>
+<div id="outline-container-orgae67aaa" class="outline-4">
+<h4 id="orgae67aaa"><span class="section-number-4">2.2.8</span> aspx editing</h4>
 <div class="outline-text-4" id="text-2-2-8">
 <p>
 Make aspx editing more palatable using html mode
@@ -506,8 +561,8 @@ Make aspx editing more palatable using html mode
 </div>
 </div>
 </div>
-<div id="outline-container-org0150518" class="outline-4">
-<h4 id="org0150518"><span class="section-number-4">2.2.9</span> Other useful packages</h4>
+<div id="outline-container-org334b758" class="outline-4">
+<h4 id="org334b758"><span class="section-number-4">2.2.9</span> Other useful packages</h4>
 <div class="outline-text-4" id="text-2-2-9">
 <p>
 Ok, a little tired of documenting each package on it's own. These packages are just generally useful.
@@ -546,8 +601,8 @@ Make sure to customize <code>projectile-completion-system</code> to "ivy".
 </div>
 </div>
 
-<div id="outline-container-org045529e" class="outline-2">
-<h2 id="org045529e"><span class="section-number-2">3</span> Working with C#</h2>
+<div id="outline-container-org7be8623" class="outline-2">
+<h2 id="org7be8623"><span class="section-number-2">3</span> Working with C#</h2>
 <div class="outline-text-2" id="text-3">
 <p>
 Because I'm a C# developer and pretty much dislike a lot of the GUI issues in Visual Studio, I've spent some amount of time coming up with a good C# configuration. This works spectularly well and takes only minutes to setup.
@@ -587,8 +642,8 @@ There are comprehensive directions at <a href="https://github.com/OmniSharp/omni
 </div>
 </div>
 
-<div id="outline-container-orgf8d8ae5" class="outline-2">
-<h2 id="orgf8d8ae5"><span class="section-number-2">4</span> <a href="https://github.com/magit/magit">magit</a> configuration</h2>
+<div id="outline-container-org4938fe9" class="outline-2">
+<h2 id="org4938fe9"><span class="section-number-2">4</span> <a href="https://github.com/magit/magit">magit</a> configuration</h2>
 <div class="outline-text-2" id="text-4">
 <p>
 The most awesome git porcelain. Most here are part of magit, <code>[[https://github.com/pidu/git-timemachine][git-time-machine]]</code> is not, but well worth using.
@@ -611,11 +666,15 @@ The most awesome git porcelain. Most here are part of magit, <code>[[https://git
 </div>
 </div>
 
-<div id="outline-container-orga5a11f7" class="outline-2">
-<h2 id="orga5a11f7"><span class="section-number-2">5</span> org-mode configuration</h2>
+<div id="outline-container-orgf3d7d6f" class="outline-2">
+<h2 id="orgf3d7d6f"><span class="section-number-2">5</span> org-mode configuration</h2>
 <div class="outline-text-2" id="text-5">
 <p>
-Org mode configurations. <code>org-bullets</code> used to be part of org but is now outside
+Org mode configurations. <code>org-bullets</code> used to be part of org but is now outside.
+</p>
+
+<p>
+The <code>htmlize</code> package allows for <code>org-html-export-to-html</code> to operate.
 </p>
 <div class="org-src-container">
 <pre class="src src-emacs-lisp">(<span style="color: #0000FF;">use-package</span> <span style="color: #D0372D;">org-bullets</span>
@@ -624,13 +683,14 @@ Org mode configurations. <code>org-bullets</code> used to be part of org but is 
 (<span style="color: #0000FF;">use-package</span> <span style="color: #D0372D;">org-autolist</span>
    <span style="color: #006FE0;">:demand</span> t)
 (<span style="color: #0000FF;">use-package</span> <span style="color: #D0372D;">org-projectile</span>)
+(<span style="color: #0000FF;">use-package</span> <span style="color: #D0372D;">htmlize</span>)
 </pre>
 </div>
 </div>
 </div>
 
-<div id="outline-container-org128caa0" class="outline-2">
-<h2 id="org128caa0"><span class="section-number-2">6</span> python configuration</h2>
+<div id="outline-container-org355dfff" class="outline-2">
+<h2 id="org355dfff"><span class="section-number-2">6</span> python configuration</h2>
 <div class="outline-text-2" id="text-6">
 <p>
 At one point I was using anaconda but have switched back to elpy. I really like <code>eply-config</code> that tells you if everything is working properly. I've been using a <code>virtualenv</code> for my python development and couldn't be happier. Perhaps ethe only thing that bothers me is that when an object is returned, pycharm will give you list and dictionary methods while eply/company does not. Seems to be the only real issue at this point.
@@ -677,8 +737,8 @@ The variables that might be setup for python (look in <a href="custom.el">custom
 </div>
 </div>
 
-<div id="outline-container-org53970d3" class="outline-2">
-<h2 id="org53970d3"><span class="section-number-2">7</span> ivy configuration</h2>
+<div id="outline-container-org367be6d" class="outline-2">
+<h2 id="org367be6d"><span class="section-number-2">7</span> ivy configuration</h2>
 <div class="outline-text-2" id="text-7">
 <p>
 Was a help user, but switched to ivy. Lots of nice features in ivy
@@ -720,8 +780,8 @@ Was a help user, but switched to ivy. Lots of nice features in ivy
 </div>
 </div>
 </div>
-<div id="outline-container-orgbc9cc16" class="outline-2">
-<h2 id="orgbc9cc16"><span class="section-number-2">8</span> yasnippet configuration</h2>
+<div id="outline-container-org356f2a7" class="outline-2">
+<h2 id="org356f2a7"><span class="section-number-2">8</span> yasnippet configuration</h2>
 <div class="outline-text-2" id="text-8">
 <p>
 yasnippet is a truly awesome package. Local modifications should go in "~/.emacs.d/snippets/".
@@ -758,12 +818,12 @@ This also takes care of hooking up company completion with yasnippet expansion.
 </div>
 </div>
 
-<div id="outline-container-org598375b" class="outline-2">
-<h2 id="org598375b"><span class="section-number-2">9</span> Additional bits-o-configuration</h2>
+<div id="outline-container-org0823ea2" class="outline-2">
+<h2 id="org0823ea2"><span class="section-number-2">9</span> Additional bits-o-configuration</h2>
 <div class="outline-text-2" id="text-9">
 </div>
-<div id="outline-container-orge092f55" class="outline-3">
-<h3 id="orge092f55"><span class="section-number-3">9.1</span> Limit the length of <code>which-function</code></h3>
+<div id="outline-container-org0031c28" class="outline-3">
+<h3 id="org0031c28"><span class="section-number-3">9.1</span> Limit the length of <code>which-function</code></h3>
 <div class="outline-text-3" id="text-9-1">
 <p>
 <code>which-function</code> which is used by <code>powerline</code> has no maximum method/function signature. This handy advisor limits the name to 64 characters.
@@ -777,8 +837,8 @@ This also takes care of hooking up company completion with yasnippet expansion.
 </div>
 </div>
 </div>
-<div id="outline-container-orge822577" class="outline-3">
-<h3 id="orge822577"><span class="section-number-3">9.2</span> <code>my-ansi-term</code></h3>
+<div id="outline-container-org06fe595" class="outline-3">
+<h3 id="org06fe595"><span class="section-number-3">9.2</span> <code>my-ansi-term</code></h3>
 <div class="outline-text-3" id="text-9-2">
 <p>
 Allows me to name my ANSI terms. Was very useful when I used more ANSI shells (so that tabs were interpretted by the shell). Some other modes and shells make this less useful these days.
@@ -793,8 +853,8 @@ Allows me to name my ANSI terms. Was very useful when I used more ANSI shells (s
 </div>
 </div>
 </div>
-<div id="outline-container-org706a40b" class="outline-3">
-<h3 id="org706a40b"><span class="section-number-3">9.3</span> Understand file type by shebang</h3>
+<div id="outline-container-orgd7eb69f" class="outline-3">
+<h3 id="orgd7eb69f"><span class="section-number-3">9.3</span> Understand file type by shebang</h3>
 <div class="outline-text-3" id="text-9-3">
 <p>
 When a file is opened and it is determined there is no mode (fundamental-mode) this code reads the first line of the file looking for an appropriate shebang for either python or bash and sets the mode for the file.
@@ -818,8 +878,8 @@ When a file is opened and it is determined there is no mode (fundamental-mode) t
 </div>
 </div>
 
-<div id="outline-container-orgab43049" class="outline-3">
-<h3 id="orgab43049"><span class="section-number-3">9.4</span> Additional configs</h3>
+<div id="outline-container-orgc497a0a" class="outline-3">
+<h3 id="orgc497a0a"><span class="section-number-3">9.4</span> Additional configs</h3>
 <div class="outline-text-3" id="text-9-4">
 <p>
 Setup <code>eldoc</code> mode, use y-or-n (instead of yes and no). Key bindings&#x2026;
@@ -859,8 +919,8 @@ Setup <code>eldoc</code> mode, use y-or-n (instead of yes and no). Key bindings&
 </div>
 </div>
 <div id="postamble" class="status">
-<p class="author">Author: adtaylor</p>
-<p class="date">Created: 2018-02-05 Mon 11:18</p>
+<p class="author">Author: Adam Taylor</p>
+<p class="date">Created: 2018-02-05 Mon 22:05</p>
 <p class="validation"><a href="http://validator.w3.org/check?uri=referer">Validate</a></p>
 </div>
 </body>

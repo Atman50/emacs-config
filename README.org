@@ -1,6 +1,16 @@
 #+STARTUP: showeverything
 #+OPTIONS: toc:4 h:4
+#+AUTHOR: Adam Taylor
+
 #+TITLE: Adam Taylor's  Emacs Initialization
+
+   #+NAME: custom-vars-table
+   #+BEGIN_SRC emacs-lisp :results silent :exports results :var custom-vars=() :tangle no
+     (cons '(Configured\ Variable\ Name Current\ Variable\ Value)
+           (cons 'hline
+                 (cl-loop for cv in custom-vars collect `(,cv ,(symbol-value cv)))))
+   #+END_SRC
+  
 * Overview
   This is my literate and *portable* Emacs initialization "system."
 ** Quick start
@@ -52,7 +62,12 @@
 
    7. Does the deed and loads this file. NB: it does not load the code above (:tangle no)
 
-   That's it. It really is that simple
+   That's it. It really is that simple.
+
+   This code depends upon the following custom variable(s):
+
+   #+CALL: custom-vars-table(custom-vars='(package-archives))
+   #+RESULTS:
 
 * Configuration
 ** Just a little preamble
@@ -92,9 +107,11 @@
     #+END_SRC
 *** savehist
     A great builtin that allows us to have a history file. This means certain elements are saved between sessions of emacs. Set the following variables to control ~savehist~ (use customize).
-    1. ~savehist-additional-variables~ - ~(kill-ring search-ring regexp-search-ring)~
-    2. ~savehist-file~ => ~"~/.emacs.d/savehist"~
-    3. ~savehist-mode~ => t
+
+    #+NAME: custom-savehist
+    #+CALL: custom-vars-table(custom-vars='(savehist-file savehist-additional-variables savehist-mode))
+    #+RESULTS:
+
     #+BEGIN_SRC emacs-lisp :tangle yes
       (use-package savehist :demand t)                ;; Nice history in ~/.emacs.d/savehist
     #+END_SRC
@@ -196,7 +213,9 @@
   #+END_SRC
 
 * org-mode configuration
-  Org mode configurations. ~org-bullets~ used to be part of org but is now outside
+  Org mode configurations. ~org-bullets~ used to be part of org but is now outside.
+
+  The ~htmlize~ package allows for ~org-html-export-to-html~ to operate.
   #+BEGIN_SRC emacs-lisp :tangle yes
     (use-package org-bullets
        :demand t
@@ -204,6 +223,7 @@
     (use-package org-autolist
        :demand t)
     (use-package org-projectile)
+    (use-package htmlize)
   #+END_SRC
 
 * python configuration

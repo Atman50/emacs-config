@@ -65,6 +65,9 @@
  '(omnisharp-server-executable-path "c:/omnisharp-roslyn-v1.27.2/OmniSharp.exe")
  '(org-catch-invisible-edits (quote show))
  '(org-clock-into-drawer "CLOCKING")
+ '(org-html-table-default-attributes
+   (quote
+    (:border "2" :cellspacing "0" :cellpadding "6" :rules "all" :frame "border")))
  '(org-log-done (quote time))
  '(org-log-into-drawer t)
  '(package-archives
