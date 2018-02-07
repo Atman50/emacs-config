@@ -223,18 +223,18 @@
     (use-package git-timemachine)
   #+END_SRC
 
-* org-mode configuration
-  Org mode configurations. ~org-bullets~ used to be part of org but is now outside.
+* orgmode configuration
+  Orgmode configurations. ~org-bullets~ used to be part of org but is now outside.
 
   The ~htmlize~ package allows for ~org-html-export-to-html~ to operate.
+
   #+BEGIN_SRC emacs-lisp :tangle yes
     (use-package org-bullets
        :demand t
        :config (add-hook 'org-mode-hook 'org-bullets-mode))
-    (use-package org-autolist
-       :demand t)
-    (use-package org-projectile)
-    (use-package htmlize)
+    (use-package org-autolist :demand t)
+    (use-package htmlize :demand t)
+    (load-library ox-md)     ;; Turn on MD exports
   #+END_SRC
 
 * python configuration

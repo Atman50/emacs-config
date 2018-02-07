@@ -21,8 +21,6 @@
     ("\\\\*.dll" "\\\\*.png" "\\\\*.jpeg" "\\\\*.exe" "\\\\*.csproj")))
  '(auto-save-default nil)
  '(browse-url-browser-function (quote browse-url-chrome))
- '(browse-url-chrome-program
-   "C:/Program Files (x86)/Google/Chrome/Application/chrome.exe")
  '(c-tab-always-indent nil)
  '(case-fold-search t)
  '(column-number-mode t)
