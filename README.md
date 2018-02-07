@@ -1,43 +1,43 @@
 
 # Table of Contents
 
-1.  [Overview](#org229ba08)
-    1.  [Quick start](#org7150df2)
-    2.  [`init.el` explained](#orgedf5373)
-2.  [Configuration](#org7c9651c)
-    1.  [Just a little preamble](#orgec0c745)
-    2.  [General packages](#org0a48581)
-        1.  [auto-compile](#orgbf05816)
-        2.  [diminish](#org3db31ff)
-        3.  [bind-key](#orgb25cb61)
-        4.  [savehist](#org3e07a7b)
-        5.  [ag](#orgc1fa0c0)
-        6.  [powershell](#orgb0a8a35)
-        7.  [themes and modeline](#orge6ae685)
-        8.  [aspx editing](#org3d40c19)
-        9.  [Other useful packages](#orgcb9e9d4)
-3.  [Working with C#](#org1806b0b)
-4.  [magit configuration](#org9854223)
-5.  [org-mode configuration](#orgcdcc07e)
-6.  [python configuration](#org36e9e3a)
-7.  [ivy configuration](#orgc68ee94)
-8.  [yasnippet configuration](#org838aecc)
-9.  [Additional bits-o-configuration](#org9222f44)
-    1.  [Limit the length of `which-function`](#orge345aea)
-    2.  [`my-ansi-term`](#org13595f3)
-    3.  [Understand file type by shebang](#orgadc5c3d)
-    4.  [Additional configs](#org70da7b3)
+1.  [Overview](#org32f98f1)
+    1.  [Quick start](#org350e49b)
+    2.  [`init.el` explained](#org9dc9a40)
+2.  [Configuration](#org78bc015)
+    1.  [Just a little preamble](#org940e3fd)
+    2.  [General packages](#org87d177c)
+        1.  [auto-compile](#org93ea56e)
+        2.  [diminish](#orgfd52047)
+        3.  [bind-key](#org3e675aa)
+        4.  [savehist](#org05ab657)
+        5.  [ag](#orga7f2837)
+        6.  [powershell](#org0ef6eb0)
+        7.  [themes and modeline](#org773e888)
+        8.  [aspx editing](#org7c75604)
+        9.  [Other useful packages](#org4eb9ac0)
+3.  [Working with C#](#org2274147)
+4.  [magit configuration](#org3b14744)
+5.  [org-mode configuration](#org9f1dcd0)
+6.  [python configuration](#org3fa0c5c)
+7.  [ivy configuration](#org4a2edb4)
+8.  [yasnippet configuration](#org6bdc47b)
+9.  [Additional bits-o-configuration](#org2788a97)
+    1.  [Limit the length of `which-function`](#org40682d2)
+    2.  [`my-ansi-term`](#org27d5e6a)
+    3.  [Understand file type by shebang](#org5218dff)
+    4.  [Additional configs](#org4f63abd)
 
 
 
-<a id="org229ba08"></a>
+<a id="org32f98f1"></a>
 
 # Overview
 
 This is my literate and **portable** Emacs initialization "system."
 
 
-<a id="org7150df2"></a>
+<a id="org350e49b"></a>
 
 ## Quick start
 
@@ -50,7 +50,7 @@ The ability to simply clone and start makes this configuration **highly portable
 A minor warning is that Emacs load times can be somewhat slow. Startup continues to get slower as the size of the desktop file increases (the more files that need to be opened at the start of Emacs). Since I tend to stay in Emacs for quite some time, this doesn't get in my way.
 
 
-<a id="orgedf5373"></a>
+<a id="org9dc9a40"></a>
 
 ## `init.el` explained
 
@@ -119,19 +119,19 @@ The package-initialize in the above code depends upon:
 <tbody>
 <tr>
 <td class="org-left">package-archives</td>
-<td class="org-left">((gnu . <https://elpa.gnu.org/packages/>) (melpa . <https://melpa.org/packages/>) (org . <https://orgmode.org/elpa/>))</td>
-<td class="org-left">((gnu . <http://elpa.gnu.org/packages/>))</td>
+<td class="org-left">(("gnu" . "<https://elpa.gnu.org/packages/>") ("melpa" . "<https://melpa.org/packages/>") ("org" . "<https://orgmode.org/elpa/>"))</td>
+<td class="org-left">(("gnu" . "<http://elpa.gnu.org/packages/>"))</td>
 </tr>
 </tbody>
 </table>
 
 
-<a id="org7c9651c"></a>
+<a id="org78bc015"></a>
 
 # Configuration
 
 
-<a id="orgec0c745"></a>
+<a id="org940e3fd"></a>
 
 ## Just a little preamble
 
@@ -145,14 +145,14 @@ Also create a handy variable to know if we are Windows - used later on here.
     (defvar mswindows-p (string-match "windows" (symbol-name system-type)))
 
 
-<a id="org0a48581"></a>
+<a id="org87d177c"></a>
 
 ## General packages
 
 Here are some general packages
 
 
-<a id="orgbf05816"></a>
+<a id="org93ea56e"></a>
 
 ### [auto-compile](https://github.com/emacscollective/auto-compile)
 
@@ -165,7 +165,7 @@ This package provides a guarantee that compiled byte code files are never outdat
         (auto-compile-on-save-mode)))
 
 
-<a id="org3db31ff"></a>
+<a id="orgfd52047"></a>
 
 ### [diminish](https://github.com/myrjola/diminish.el)
 
@@ -174,7 +174,7 @@ Handy mode to make the modeline nicer. I also use to set mode to special charact
     (use-package diminish)
 
 
-<a id="orgb25cb61"></a>
+<a id="org3e675aa"></a>
 
 ### [bind-key](https://github.com/priyadarshan/bind-key)
 
@@ -183,7 +183,7 @@ Much better binding capabilities
     (use-package bind-key)
 
 
-<a id="org3e07a7b"></a>
+<a id="org05ab657"></a>
 
 ### savehist
 
@@ -210,8 +210,8 @@ A great builtin that allows us to have a history file. This means certain elemen
 <tbody>
 <tr>
 <td class="org-left">savehist-file</td>
-<td class="org-left">~/.emacs.d/savehist</td>
-<td class="org-left">~/.emacs.d/history</td>
+<td class="org-left">"~/.emacs.d/savehist"</td>
+<td class="org-left">"~/.emacs.d/history"</td>
 </tr>
 
 
@@ -233,7 +233,7 @@ A great builtin that allows us to have a history file. This means certain elemen
     (use-package savehist :demand t)                ;; Nice history in ~/.emacs.d/savehist
 
 
-<a id="orgc1fa0c0"></a>
+<a id="orga7f2837"></a>
 
 ### [ag](https://github.com/Wilfred/ag.el)
 
@@ -244,7 +244,7 @@ NB: doesn't seem to work so well under Windows.
     (use-package ag)
 
 
-<a id="orgb0a8a35"></a>
+<a id="org0ef6eb0"></a>
 
 ### [powershell](http://github.com/jschaf/powershell.el)
 
@@ -254,7 +254,7 @@ Excellent too to run powershell in Emacs
       :if mswindows-p)
 
 
-<a id="orge6ae685"></a>
+<a id="org773e888"></a>
 
 ### themes and modeline
 
@@ -264,7 +264,7 @@ Excellent too to run powershell in Emacs
       :config (powerline-default-theme))
 
 
-<a id="org3d40c19"></a>
+<a id="org7c75604"></a>
 
 ### aspx editing
 
@@ -275,7 +275,7 @@ Make aspx editing more palatable using html mode
                  '("\\.aspcx\\'" . html-mode))
 
 
-<a id="orgcb9e9d4"></a>
+<a id="org4eb9ac0"></a>
 
 ### Other useful packages
 
@@ -303,7 +303,7 @@ Make sure to customize `projectile-completion-system` to "ivy".
       (add-hook 'emacs-lisp-mode-hook 'enable-paredit-mode))
 
 
-<a id="org1806b0b"></a>
+<a id="org2274147"></a>
 
 # Working with C#
 
@@ -335,7 +335,7 @@ There are comprehensive directions at [omnisharp-emacs](https://github.com/OmniS
         (add-hook 'csharp-mode-hook 'omnisharp-mode)))
 
 
-<a id="org9854223"></a>
+<a id="org3b14744"></a>
 
 # [magit](https://github.com/magit/magit) configuration
 
@@ -355,7 +355,7 @@ The most awesome git porcelain. Most here are part of magit, `[[https://github.c
     (use-package git-timemachine)
 
 
-<a id="orgcdcc07e"></a>
+<a id="org9f1dcd0"></a>
 
 # org-mode configuration
 
@@ -372,7 +372,7 @@ The `htmlize` package allows for `org-html-export-to-html` to operate.
     (use-package htmlize)
 
 
-<a id="org36e9e3a"></a>
+<a id="org3fa0c5c"></a>
 
 # python configuration
 
@@ -413,7 +413,7 @@ The variables that might be setup for python (look in [custom.el](custom.el) for
         (add-hook 'python-mode-hook 'company-mode)))
 
 
-<a id="orgc68ee94"></a>
+<a id="org4a2edb4"></a>
 
 # ivy configuration
 
@@ -453,7 +453,7 @@ Was a help user, but switched to ivy. Lots of nice features in ivy
     (use-package avy)
 
 
-<a id="org838aecc"></a>
+<a id="org6bdc47b"></a>
 
 # yasnippet configuration
 
@@ -485,12 +485,12 @@ This also takes care of hooking up company completion with yasnippet expansion.
     (setq company-backends (mapcar #'company-mode/backend-with-yas company-backends))
 
 
-<a id="org9222f44"></a>
+<a id="org2788a97"></a>
 
 # Additional bits-o-configuration
 
 
-<a id="orge345aea"></a>
+<a id="org40682d2"></a>
 
 ## Limit the length of `which-function`
 
@@ -503,7 +503,7 @@ This also takes care of hooking up company completion with yasnippet expansion.
                                 (concat (truncate-string-to-width s (- which-function-max-width 3)) "...")))))
 
 
-<a id="org13595f3"></a>
+<a id="org27d5e6a"></a>
 
 ## `my-ansi-term`
 
@@ -516,7 +516,7 @@ Allows me to name my ANSI terms. Was very useful when I used more ANSI shells (s
       (rename-buffer term-name))
 
 
-<a id="orgadc5c3d"></a>
+<a id="org5218dff"></a>
 
 ## Understand file type by shebang
 
@@ -537,7 +537,7 @@ When a file is opened and it is determined there is no mode (fundamental-mode) t
     (add-hook 'find-file-hook 'my-find-file-hook)
 
 
-<a id="org70da7b3"></a>
+<a id="org4f63abd"></a>
 
 ## Additional configs
 

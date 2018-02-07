@@ -12,9 +12,10 @@
    #+BEGIN_SRC emacs-lisp :results silent :exports results :var custom-vars=() :tangle no
      (cons '(Symbol\ Name Current\ Value Default\ Value)
            (cons 'hline
-                 (cl-loop for cv in custom-vars collect `(,cv
-                                                          ,(default-value cv)
-                                                          ,(eval (car (get cv 'standard-value)))))))
+                 (cl-loop for cv in custom-vars
+                          collect `(,cv
+                                    ,(format "%S" (default-value cv))
+                                    ,(format "%S" (eval (car (get cv 'standard-value))))))))
    #+END_SRC
   
 
