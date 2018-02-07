@@ -119,8 +119,8 @@ The package-initialize in the above code depends upon:
 <tbody>
 <tr>
 <td class="org-left">package-archives</td>
-<td class="org-left">(("gnu" . "<https://elpa.gnu.org/packages/>") ("melpa" . "<https://melpa.org/packages/>") ("org" . "<https://orgmode.org/elpa/>"))</td>
-<td class="org-left">(("gnu" . "<http://elpa.gnu.org/packages/>"))</td>
+<td class="org-left">(("gnu" . "https://elpa.gnu.org/packages/") ("melpa" . "https://melpa.org/packages/") ("org" . "https://orgmode.org/elpa/"))</td>
+<td class="org-left">(("gnu" . "http://elpa.gnu.org/packages/"))</td>
 </tr>
 </tbody>
 </table>
