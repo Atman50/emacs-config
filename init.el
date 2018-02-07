@@ -43,8 +43,7 @@
   :pin "org")
 
 (defvar my-cfg (concat user-emacs-directory "config"))
-(if (file-newer-than-file-p (concat my-cfg ".org") (concat my-cfg ".el"))
-    (org-babel-tangle-file (concat my-cfg ".org"))
-  (load my-cfg))
-
+(when (file-newer-than-file-p (concat my-cfg ".org") (concat my-cfg ".el"))
+  (org-babel-tangle-file (concat my-cfg ".org")))
+(load my-cfg)
 ;;; init.el ends here

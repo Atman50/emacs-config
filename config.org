@@ -54,9 +54,9 @@
        :pin "org")
 
      (defvar my-cfg (concat user-emacs-directory "config"))                      ;; 7
-     (if (file-newer-than-file-p (concat my-cfg ".org") (concat my-cfg ".el"))
-         (org-babel-tangle-file (concat my-cfg ".org"))
-       (load my-cfg))
+     (when (file-newer-than-file-p (concat my-cfg ".org") (concat my-cfg ".el"))
+       (org-babel-tangle-file (concat my-cfg ".org")
+     (load my-cfg)
     #+end_src
 
    1. Provide for a separate ~custom.el~ file. Keeping the customizations separate and first allows for standard emacs customization of *most* of the package variables. When package variables setup outside of the customization file, then ~M-x describe-variable~ says it was "changed outside of customization".
