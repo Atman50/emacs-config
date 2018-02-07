@@ -1,8 +1,10 @@
 #+STARTUP: showeverything
 #+OPTIONS: toc:4 h:4
-#+OPTIONS: html-style:nil
-#+HTML_HEAD: <link rel="stylesheet" type="text/css" href="README.css" />
-
+#+HTML_HEAD: <style>
+#+HTML_HEAD:     table { border-collapse:collapse; margin-left: 2%; }
+#+HTML_HEAD:     th.org-left   { text-align: left; background-color: lightgray  }
+#+HTML_HEAD:     td.org-left   { text-align: left; font-family: monospace; }
+#+HTML_HEAD: </style>
 #+AUTHOR: Adam Taylor
 #+TITLE: Adam Taylor's  Emacs Initialization
 
