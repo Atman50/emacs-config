@@ -38,10 +38,16 @@
 (require 'use-package)
 
 ;; Literate emacs configuration requires org-babel-load-file
-(use-package org
-  :demand t
-  :pin "org")
+;; This is a hack to get the latest and latest orgmode - need better way of getting version
+(defvar my-org-version 20180205)
+(unless (file-exists-p (concat user-emacs-directory "elpa/org-" (int-to-string my-org-version)))
+  (let ((myorg (package-desc-create :name "org"
+                                     :version (list my-org-version)
+                                     :archive "org"
+                                     :kind 'tar)))
+    (package-install myorg)))
 
+;; Load up config
 (defvar my-cfg (concat user-emacs-directory "README"))
 (when (file-newer-than-file-p (concat my-cfg ".org") (concat my-cfg ".el"))
   (org-babel-tangle-file (concat my-cfg ".org")))

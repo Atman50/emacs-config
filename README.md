@@ -1,55 +1,45 @@
-<div id="table-of-contents">
-<h2>Table of Contents</h2>
-<div id="text-table-of-contents">
-<ul>
-<li><a href="#sec-1">1. Overview</a>
-<ul>
-<li><a href="#sec-1-1">1.1. Quick start</a></li>
-<li><a href="#sec-1-2">1.2. <code>init.el</code> explained</a></li>
-</ul>
-</li>
-<li><a href="#sec-2">2. Configuration</a>
-<ul>
-<li><a href="#sec-2-1">2.1. Just a little preamble</a></li>
-<li><a href="#sec-2-2">2.2. General packages</a>
-<ul>
-<li><a href="#sec-2-2-1">2.2.1. auto-compile</a></li>
-<li><a href="#sec-2-2-2">2.2.2. diminish</a></li>
-<li><a href="#sec-2-2-3">2.2.3. bind-key</a></li>
-<li><a href="#sec-2-2-4">2.2.4. savehist</a></li>
-<li><a href="#sec-2-2-5">2.2.5. ag</a></li>
-<li><a href="#sec-2-2-6">2.2.6. powershell</a></li>
-<li><a href="#sec-2-2-7">2.2.7. themes and modeline</a></li>
-<li><a href="#sec-2-2-8">2.2.8. aspx editing</a></li>
-<li><a href="#sec-2-2-9">2.2.9. Other useful packages</a></li>
-</ul>
-</li>
-</ul>
-</li>
-<li><a href="#sec-3">3. Working with C#</a></li>
-<li><a href="#sec-4">4. magit configuration</a></li>
-<li><a href="#sec-5">5. orgmode configuration</a></li>
-<li><a href="#sec-6">6. python configuration</a></li>
-<li><a href="#sec-7">7. ivy configuration</a></li>
-<li><a href="#sec-8">8. yasnippet configuration</a></li>
-<li><a href="#sec-9">9. Additional bits-o-configuration</a>
-<ul>
-<li><a href="#sec-9-1">9.1. Limit the length of <code>which-function</code></a></li>
-<li><a href="#sec-9-2">9.2. <code>my-ansi-term</code></a></li>
-<li><a href="#sec-9-3">9.3. Understand file type by shebang</a></li>
-<li><a href="#sec-9-4">9.4. Additional configs</a></li>
-</ul>
-</li>
-</ul>
-</div>
-</div>
+
+# Table of Contents
+
+1.  [Overview](#orgcdda6f3)
+    1.  [Quick start](#org0631c60)
+    2.  [`init.el` explained](#orgcf046a3)
+2.  [Configuration](#org9d41029)
+    1.  [Just a little preamble](#orgf51f2cb)
+    2.  [General packages](#org302b5be)
+        1.  [auto-compile](#org07a1321)
+        2.  [diminish](#org49bb2e7)
+        3.  [bind-key](#org7923d6e)
+        4.  [savehist](#orgca5ae8a)
+        5.  [ag](#org69b81cd)
+        6.  [powershell](#org7fb0e97)
+        7.  [themes and modeline](#org2829602)
+        8.  [aspx editing](#org15150ee)
+        9.  [Other useful packages](#orgb774a97)
+3.  [Working with C#](#org96289e3)
+4.  [magit configuration](#org66ab9bc)
+5.  [orgmode configuration](#org56446f2)
+6.  [python configuration](#org817bf61)
+7.  [ivy configuration](#org3348633)
+8.  [yasnippet configuration](#org6598450)
+9.  [Additional bits-o-configuration](#orge681797)
+    1.  [Limit the length of `which-function`](#orge61665b)
+    2.  [`my-ansi-term`](#org59cab17)
+    3.  [Understand file type by shebang](#org9cba526)
+    4.  [Additional configs](#org35872c7)
 
 
-# Overview<a id="sec-1" name="sec-1"></a>
+
+<a id="orgcdda6f3"></a>
+
+# Overview
 
 This is my literate and **portable** Emacs initialization "system."
 
-## Quick start<a id="sec-1-1" name="sec-1-1"></a>
+
+<a id="org0631c60"></a>
+
+## Quick start
 
 First git clone this repository into `<home>/.emacs.d`: `git clone https://github.com/Atman50/emacs-config.git ~/.emacs.d`
 
@@ -59,7 +49,10 @@ The ability to simply clone and start makes this configuration **highly portable
 
 A minor warning is that Emacs load times can be somewhat slow. Startup continues to get slower as the size of the desktop file increases (the more files that need to be opened at the start of Emacs). Since I tend to stay in Emacs for quite some time, this doesn't get in my way.
 
-## `init.el` explained<a id="sec-1-2" name="sec-1-2"></a>
+
+<a id="orgcf046a3"></a>
+
+## `init.el` explained
 
 To get started with a literate configuration, I use this simple `init.el` file.
 
@@ -78,9 +71,12 @@ Following this code block is the explanation.
       (package-install 'use-package))
     (require 'use-package)
     
-    (use-package org                                                            ;; 6
-      :demand t
-      :pin "org")
+    (defvar my-org-version 20180205)                                            ;; 6
+    (unless (file-exists-p (concat user-emacs-directory "elpa/org-" (int-to-string my-org-version)))
+      (let ((myorg (package-desc-create :name "org"
+                                         :version (list my-org-version)
+                                         :archive "org"
+                                         :kind 'tar)))
     
     (defvar my-cfg (concat user-emacs-directory "README"))                      ;; 7
     (when (file-newer-than-file-p (concat my-cfg ".org") (concat my-cfg ".el"))
@@ -97,7 +93,7 @@ Following this code block is the explanation.
 
 5.  Assures use-package is loaded; `use-package` is used to perform the remainder of this configuration.
 
-6.  Installs org. Org-babel is used to load the configuration documented here. This code makes sure it's loaded and that it comes from the "org" repository.
+6.  Installs org. This was a real cluster f\*. Seems that the built-in version of org was always installed so that we weren't getting org from the org repository. This code forces the issue, but is not finished yet (should read the org repo and use the latest version). Org-babel is used to load the configuration documented here. This code makes sure it's loaded and that it comes from the "org" repository.
 
 7.  Does the deed and loads this file. If the file has already been "babel-ed" then just load the results, otherwise do the "babel-ing".
 
@@ -109,24 +105,38 @@ The package-initialize in the above code depends upon:
 
 
 <colgroup>
-<col  class="left" />
+<col  class="org-left" />
 
-<col  class="left" />
+<col  class="org-left" />
 
-<col  class="left" />
+<col  class="org-left" />
 </colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-left">Symbol Name</th>
+<th scope="col" class="org-left">Current Value</th>
+<th scope="col" class="org-left">Default Value</th>
+</tr>
+</thead>
+
 <tbody>
 <tr>
-<td class="left">package-archives</td>
-<td class="left">(("gnu" . "https://elpa.gnu.org/packages/") ("melpa" . "https://melpa.org/packages/") ("org" . "https://orgmode.org/elpa/"))</td>
-<td class="left">(("gnu" . "http://elpa.gnu.org/packages/"))</td>
+<td class="org-left">package-archives</td>
+<td class="org-left">(("gnu" . "https://elpa.gnu.org/packages/") ("melpa" . "https://melpa.org/packages/") ("org" . "https://orgmode.org/elpa/"))</td>
+<td class="org-left">(("gnu" . "http://elpa.gnu.org/packages/"))</td>
 </tr>
 </tbody>
 </table>
 
-# Configuration<a id="sec-2" name="sec-2"></a>
 
-## Just a little preamble<a id="sec-2-1" name="sec-2-1"></a>
+<a id="org9d41029"></a>
+
+# Configuration
+
+
+<a id="orgf51f2cb"></a>
+
+## Just a little preamble
 
 This is a little piece of code that I picked up that might make things faster when downloading and installing all the packages. This turns down the garbage collector during the use-package loading when it has to do some compiling. Set it back when done with init.
 
@@ -137,11 +147,17 @@ Also create a handy variable to know if we are Windows - used later on here.
 
     (defvar mswindows-p (string-match "windows" (symbol-name system-type)))
 
-## General packages<a id="sec-2-2" name="sec-2-2"></a>
+
+<a id="org302b5be"></a>
+
+## General packages
 
 Here are some general packages
 
-### [auto-compile](https://github.com/emacscollective/auto-compile)<a id="sec-2-2-1" name="sec-2-2-1"></a>
+
+<a id="org07a1321"></a>
+
+### [auto-compile](https://github.com/emacscollective/auto-compile)
 
 This package provides a guarantee that compiled byte code files are never outdated by mistake. You'll want to modify the variable `load-prefer-newer`.
 
@@ -151,19 +167,28 @@ This package provides a guarantee that compiled byte code files are never outdat
         (auto-compile-on-load-mode)
         (auto-compile-on-save-mode)))
 
-### [diminish](https://github.com/myrjola/diminish.el)<a id="sec-2-2-2" name="sec-2-2-2"></a>
+
+<a id="org49bb2e7"></a>
+
+### [diminish](https://github.com/myrjola/diminish.el)
 
 Handy mode to make the modeline nicer. I also use to set mode to special characters (for example, see flycheck-mode)
 
     (use-package diminish)
 
-### [bind-key](https://github.com/priyadarshan/bind-key)<a id="sec-2-2-3" name="sec-2-2-3"></a>
+
+<a id="org7923d6e"></a>
+
+### [bind-key](https://github.com/priyadarshan/bind-key)
 
 Much better binding capabilities
 
     (use-package bind-key)
 
-### savehist<a id="sec-2-2-4" name="sec-2-2-4"></a>
+
+<a id="orgca5ae8a"></a>
+
+### savehist
 
 A great builtin that allows us to have a history file. This means certain elements are saved between sessions of emacs. Set the following variables to control `savehist` (use customize).
 
@@ -171,38 +196,49 @@ A great builtin that allows us to have a history file. This means certain elemen
 
 
 <colgroup>
-<col  class="left" />
+<col  class="org-left" />
 
-<col  class="left" />
+<col  class="org-left" />
 
-<col  class="left" />
+<col  class="org-left" />
 </colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-left">Symbol Name</th>
+<th scope="col" class="org-left">Current Value</th>
+<th scope="col" class="org-left">Default Value</th>
+</tr>
+</thead>
+
 <tbody>
 <tr>
-<td class="left">savehist-file</td>
-<td class="left">"~/.emacs.d/savehist"</td>
-<td class="left">"~/.emacs.d/history"</td>
+<td class="org-left">savehist-file</td>
+<td class="org-left">"~/.emacs.d/savehist"</td>
+<td class="org-left">"~/.emacs.d/history"</td>
 </tr>
 
 
 <tr>
-<td class="left">savehist-additional-variables</td>
-<td class="left">(kill-ring search-ring regexp-search-ring)</td>
-<td class="left">nil</td>
+<td class="org-left">savehist-additional-variables</td>
+<td class="org-left">(kill-ring search-ring regexp-search-ring)</td>
+<td class="org-left">nil</td>
 </tr>
 
 
 <tr>
-<td class="left">savehist-mode</td>
-<td class="left">t</td>
-<td class="left">nil</td>
+<td class="org-left">savehist-mode</td>
+<td class="org-left">t</td>
+<td class="org-left">nil</td>
 </tr>
 </tbody>
 </table>
 
     (use-package savehist :demand t)                ;; Nice history in ~/.emacs.d/savehist
 
-### [ag](https://github.com/Wilfred/ag.el)<a id="sec-2-2-5" name="sec-2-2-5"></a>
+
+<a id="org69b81cd"></a>
+
+### [ag](https://github.com/Wilfred/ag.el)
 
 AKA silversearcher. Simple interface to excellent tool. I have it installed in my cygwin64 area and it seems to play well in my Windows environment.
 
@@ -210,21 +246,30 @@ NB: doesn't seem to work so well under Windows.
 
     (use-package ag)
 
-### [powershell](http://github.com/jschaf/powershell.el)<a id="sec-2-2-6" name="sec-2-2-6"></a>
+
+<a id="org7fb0e97"></a>
+
+### [powershell](http://github.com/jschaf/powershell.el)
 
 Excellent too to run powershell in Emacs
 
     (use-package powershell
       :if mswindows-p)
 
-### themes and modeline<a id="sec-2-2-7" name="sec-2-2-7"></a>
+
+<a id="org2829602"></a>
+
+### themes and modeline
 
     (load-theme 'leuven t)                          ;; Theme: works better before powerline
     (use-package powerline
       :demand t
       :config (powerline-default-theme))
 
-### aspx editing<a id="sec-2-2-8" name="sec-2-2-8"></a>
+
+<a id="org15150ee"></a>
+
+### aspx editing
 
 Make aspx editing more palatable using html mode
 
@@ -232,7 +277,10 @@ Make aspx editing more palatable using html mode
                  '("\\.aspx\\'" . html-mode)
                  '("\\.aspcx\\'" . html-mode))
 
-### Other useful packages<a id="sec-2-2-9" name="sec-2-2-9"></a>
+
+<a id="orgb774a97"></a>
+
+### Other useful packages
 
 Ok, a little tired of documenting each package on it's own. These packages are just generally useful.
 
@@ -257,11 +305,15 @@ Make sure to customize `projectile-completion-system` to "ivy".
       :config
       (add-hook 'emacs-lisp-mode-hook 'enable-paredit-mode))
 
-# Working with C#<a id="sec-3" name="sec-3"></a>
+
+<a id="org96289e3"></a>
+
+# Working with C#
 
 Because I'm a C# developer and pretty much dislike a lot of the GUI issues in Visual Studio, I've spent some amount of time coming up with a good C# configuration. This works spectularly well and takes only minutes to setup.
 
 To use omnisharp follow these directions:
+
 1.  Load up local omnisharp (roslyn flavor) from [Omnisharp-Roslyn releases](https://github.com/OmniSharp/omnisharp-roslyn/releases)
 2.  Customize the variable `omnisharp-server-executable-path` to point to your omnisharp roslyn. For example "c:/omnisharp-roslyn-v1.27.2/OmniSharp.exe".
 
@@ -285,7 +337,10 @@ There are comprehensive directions at [omnisharp-emacs](https://github.com/OmniS
         (add-hook 'csharp-mode-hook 'company-mode)
         (add-hook 'csharp-mode-hook 'omnisharp-mode)))
 
-# [magit](https://github.com/magit/magit) configuration<a id="sec-4" name="sec-4"></a>
+
+<a id="org66ab9bc"></a>
+
+# [magit](https://github.com/magit/magit) configuration
 
 The most awesome git porcelain. Most here are part of magit, `[[https://github.com/pidu/git-timemachine][git-time-machine]]` is not, but well worth using.
 
@@ -302,7 +357,10 @@ The most awesome git porcelain. Most here are part of magit, `[[https://github.c
     (use-package magit-find-file)
     (use-package git-timemachine)
 
-# orgmode configuration<a id="sec-5" name="sec-5"></a>
+
+<a id="org56446f2"></a>
+
+# orgmode configuration
 
 Orgmode configurations. `org-bullets` used to be part of org but is now outside.
 
@@ -315,7 +373,10 @@ The `htmlize` package allows for `org-html-export-to-html` to operate.
     (use-package htmlize :demand t)
     (load-library "ox-md")      ;; Turn on MD exports
 
-# python configuration<a id="sec-6" name="sec-6"></a>
+
+<a id="org817bf61"></a>
+
+# python configuration
 
 At one point I was using anaconda but have switched back to elpy. I really like `eply-config` that tells you if everything is working properly. I've been using a `virtualenv` for my python development and couldn't be happier. Perhaps ethe only thing that bothers me is that when an object is returned, pycharm will give you list and dictionary methods while eply/company does not. Seems to be the only real issue at this point.
 
@@ -353,7 +414,10 @@ The variables that might be setup for python (look in [custom.el](custom.el) for
         (add-hook 'python-mode-hook 'flycheck-mode)
         (add-hook 'python-mode-hook 'company-mode)))
 
-# ivy configuration<a id="sec-7" name="sec-7"></a>
+
+<a id="org3348633"></a>
+
+# ivy configuration
 
 Was a help user, but switched to ivy. Lots of nice features in ivy
 
@@ -390,7 +454,10 @@ Was a help user, but switched to ivy. Lots of nice features in ivy
              ("C-r" . swiper)))
     (use-package avy)
 
-# yasnippet configuration<a id="sec-8" name="sec-8"></a>
+
+<a id="org6598450"></a>
+
+# yasnippet configuration
 
 yasnippet is a truly awesome package. Local modifications should go in "~/.emacs.d/snippets/".
 
@@ -419,9 +486,15 @@ This also takes care of hooking up company completion with yasnippet expansion.
                 '(:with company-yasnippet))))
     (setq company-backends (mapcar #'company-mode/backend-with-yas company-backends))
 
-# Additional bits-o-configuration<a id="sec-9" name="sec-9"></a>
 
-## Limit the length of `which-function`<a id="sec-9-1" name="sec-9-1"></a>
+<a id="orge681797"></a>
+
+# Additional bits-o-configuration
+
+
+<a id="orge61665b"></a>
+
+## Limit the length of `which-function`
 
 `which-function` which is used by `powerline` has no maximum method/function signature. This handy advisor limits the name to 64 characters.
 
@@ -431,7 +504,10 @@ This also takes care of hooking up company completion with yasnippet expansion.
                               (if (< (string-width s) which-function-max-width) s
                                 (concat (truncate-string-to-width s (- which-function-max-width 3)) "...")))))
 
-## `my-ansi-term`<a id="sec-9-2" name="sec-9-2"></a>
+
+<a id="org59cab17"></a>
+
+## `my-ansi-term`
 
 Allows me to name my ANSI terms. Was very useful when I used more ANSI shells (so that tabs were interpretted by the shell). Some other modes and shells make this less useful these days.
 
@@ -441,7 +517,10 @@ Allows me to name my ANSI terms. Was very useful when I used more ANSI shells (s
       (ansi-term (if (= 0 (length cmd)) "/bin/bash" cmd))
       (rename-buffer term-name))
 
-## Understand file type by shebang<a id="sec-9-3" name="sec-9-3"></a>
+
+<a id="org9cba526"></a>
+
+## Understand file type by shebang
 
 When a file is opened and it is determined there is no mode (fundamental-mode) this code reads the first line of the file looking for an appropriate shebang for either python or bash and sets the mode for the file.
 
@@ -459,7 +538,10 @@ When a file is opened and it is determined there is no mode (fundamental-mode) t
             (error nil))))
     (add-hook 'find-file-hook 'my-find-file-hook)
 
-## Additional configs<a id="sec-9-4" name="sec-9-4"></a>
+
+<a id="org35872c7"></a>
+
+## Additional configs
 
 Setup `eldoc` mode, use y-or-n (instead of yes and no). Key bindings&#x2026;
 
@@ -490,3 +572,4 @@ Setup `eldoc` mode, use y-or-n (instead of yes and no). Key bindings&#x2026;
     (put 'downcase-region 'disabled nil)
     (put 'upcase-region 'disabled nil)
     (put 'scroll-left 'disabled nil)
+

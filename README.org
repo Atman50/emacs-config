@@ -49,9 +49,12 @@
        (package-install 'use-package))
      (require 'use-package) (ref:use-package-end)
 
-     (use-package org                                                            ;; 6
-       :demand t
-       :pin "org")
+     (defvar my-org-version 20180205)                                            ;; 6
+     (unless (file-exists-p (concat user-emacs-directory "elpa/org-" (int-to-string my-org-version)))
+       (let ((myorg (package-desc-create :name "org"
+                                          :version (list my-org-version)
+                                          :archive "org"
+                                          :kind 'tar)))
 
      (defvar my-cfg (concat user-emacs-directory "README"))                      ;; 7
      (when (file-newer-than-file-p (concat my-cfg ".org") (concat my-cfg ".el"))
@@ -69,7 +72,7 @@
 
    5. Assures use-package is loaded; ~use-package~ is used to perform the remainder of this configuration.
 
-   6. Installs org. Org-babel is used to load the configuration documented here. This code makes sure it's loaded and that it comes from the "org" repository.
+   6. Installs org. This was a real cluster f*. Seems that the built-in version of org was always installed so that we weren't getting org from the org repository. This code forces the issue, but is not finished yet (should read the org repo and use the latest version). Org-babel is used to load the configuration documented here. This code makes sure it's loaded and that it comes from the "org" repository.
 
    7. Does the deed and loads this file. If the file has already been "babel-ed" then just load the results, otherwise do the "babel-ing".
 
