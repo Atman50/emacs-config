@@ -53,7 +53,7 @@
        :demand t
        :pin "org")
 
-     (defvar my-cfg (concat user-emacs-directory "config"))                      ;; 7
+     (defvar my-cfg (concat user-emacs-directory "README"))                      ;; 7
      (when (file-newer-than-file-p (concat my-cfg ".org") (concat my-cfg ".el"))
        (org-babel-tangle-file (concat my-cfg ".org")))
      (load my-cfg)
