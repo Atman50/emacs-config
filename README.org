@@ -234,7 +234,7 @@
        :config (add-hook 'org-mode-hook 'org-bullets-mode))
     (use-package org-autolist :demand t)
     (use-package htmlize :demand t)
-    (load-library ox-md)     ;; Turn on MD exports
+    (load-library "ox-md")      ;; Turn on MD exports
   #+END_SRC
 
 * python configuration

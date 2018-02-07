@@ -1,0 +1,3 @@
+#!/bin/bash
+
+sed -i 's/"<\(https*[^>]*\)>"/"\1"/g' README.md

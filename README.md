@@ -28,7 +28,7 @@
 </li>
 <li><a href="#sec-3">3. Working with C#</a></li>
 <li><a href="#sec-4">4. magit configuration</a></li>
-<li><a href="#sec-5">5. org-mode configuration</a></li>
+<li><a href="#sec-5">5. orgmode configuration</a></li>
 <li><a href="#sec-6">6. python configuration</a></li>
 <li><a href="#sec-7">7. ivy configuration</a></li>
 <li><a href="#sec-8">8. yasnippet configuration</a></li>
@@ -302,9 +302,9 @@ The most awesome git porcelain. Most here are part of magit, `[[https://github.c
     (use-package magit-find-file)
     (use-package git-timemachine)
 
-# org-mode configuration<a id="sec-5" name="sec-5"></a>
+# orgmode configuration<a id="sec-5" name="sec-5"></a>
 
-Org mode configurations. `org-bullets` used to be part of org but is now outside.
+Orgmode configurations. `org-bullets` used to be part of org but is now outside.
 
 The `htmlize` package allows for `org-html-export-to-html` to operate.
 
@@ -313,6 +313,7 @@ The `htmlize` package allows for `org-html-export-to-html` to operate.
        :config (add-hook 'org-mode-hook 'org-bullets-mode))
     (use-package org-autolist :demand t)
     (use-package htmlize :demand t)
+    (load-library "ox-md")      ;; Turn on MD exports
 
 # python configuration<a id="sec-6" name="sec-6"></a>
 
