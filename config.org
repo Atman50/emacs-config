@@ -35,26 +35,27 @@
    Following this code block is the explanation.
 
    #+begin_src emacs-lisp -r :tangle no
-   (setq custom-file (expand-file-name "custom.el" user-emacs-directory))      ;; 1
-   (load custom-file t)
+     (setq custom-file (expand-file-name "custom.el" user-emacs-directory))      ;; 1
+     (load custom-file t)
 
-   (package-initialize)                                                        ;; 2 (ref:pkg-init)
+     (package-initialize)                                                        ;; 2 (ref:pkg-init)
 
-   (prefer-coding-system 'utf-8)                                               ;; 3
+     (prefer-coding-system 'utf-8)                                               ;; 3
 
-   (package-refresh-contents)                                                  ;; 4
+     (package-refresh-contents)                                                  ;; 4
 
-   (unless (package-installed-p 'use-package)                                  ;; 5
-     (package-install 'use-package))
-   (require 'use-package) (ref:use-package-end)
+     (unless (package-installed-p 'use-package)                                  ;; 5
+       (package-install 'use-package))
+     (require 'use-package) (ref:use-package-end)
 
-   (use-package org                                                            ;; 6
-     :demand t
-     :pin "org")
+     (use-package org                                                            ;; 6
+       :demand t
+       :pin "org")
 
-   (if (file-newer-than-file-p "~/.emacs.d/README.org" "~/.emacs.d/README.el") ;; 7
-       (org-babel-load-file "~/.emacs.d/README.org" t)
-     (load "~/.emacs.d/README" ))
+     (defvar my-cfg (concat user-emacs-directory "config"))                      ;; 7
+     (if (file-newer-than-file-p (concat my-cfg ".org") (concat my-cfg ".el"))
+         (org-babel-tangle-file (concat my-cfg ".org"))
+       (load my-cfg))
     #+end_src
 
    1. Provide for a separate ~custom.el~ file. Keeping the customizations separate and first allows for standard emacs customization of *most* of the package variables. When package variables setup outside of the customization file, then ~M-x describe-variable~ says it was "changed outside of customization".

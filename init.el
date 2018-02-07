@@ -42,8 +42,9 @@
   :demand t
   :pin "org")
 
-(if (file-newer-than-file-p "~/.emacs.d/README.org" "~/.emacs.d/README.el")
-    (org-babel-load-file "~/.emacs.d/README.org" t)
-  (load "~/.emacs.d/README" ))
+(defvar my-cfg (concat user-emacs-directory "config"))
+(if (file-newer-than-file-p (concat my-cfg ".org") (concat my-cfg ".el"))
+    (org-babel-tangle-file (concat my-cfg ".org"))
+  (load my-cfg))
 
 ;;; init.el ends here

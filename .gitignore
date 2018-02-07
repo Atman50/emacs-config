@@ -5,6 +5,6 @@ elpa
 savehist
 recentf
 # The README.el(c) file is generated
-README.el*
+config.el*
 eshell
 projectile.cache
