@@ -1,3 +1,16 @@
 #!/bin/bash
+# Copyright (C) 2018 by Adam Taylor
+#
+# This script fixes up the output from the README.org export to html that has problems with
+# tables that have multi-line text (from pp-to-string output of customized variables)
+#   - Replaces ":br-goes-here:" and subsequent spaces to "<br>&nbsp;" - the number of &nbsp; matches the number of spaces 
+#
 
-sed -i -e 's/\(:br-goes-here: *\) /\1\&nbsp;/g' -e 's/:br-goes-here:/<br>/g' README.html
+old_readme_size=0
+while [ $old_readme_size -ne $(stat -c%s README.html) ]; do
+    old_readme_size=$(stat -c%s README.html)
+    sed -i -e 's/\(:br-goes-here: *\) /\1\&nbsp;/g' README.html
+done
+sed -i -e 's/:br-goes-here:/<br>/g' README.html
+
+
