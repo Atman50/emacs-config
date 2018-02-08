@@ -65,7 +65,6 @@
  '(ivy-use-virtual-buffers t)
  '(line-move-visual nil)
  '(line-number-display-limit-width 40000)
- '(load-prefer-newer t)
  '(magit-completing-read-function (quote ivy-completing-read))
  '(magit-pull-arguments nil)
  '(magit-repository-directories (quote (("~/repos" . 1))))

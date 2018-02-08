@@ -98,21 +98,6 @@
 
 ** General packages
    Here are some general packages
-*** [[https://github.com/emacscollective/auto-compile][auto-compile]]
-    This package provides a guarantee that compiled byte code files are never outdated by mistake.
-
-    #+BEGIN_SRC emacs-lisp :tangle yes
-      (use-package auto-compile
-        :config
-        (progn
-          (auto-compile-on-load-mode)
-          (auto-compile-on-save-mode)))
-    #+END_SRC
-
-    Customized variables:
-    #+NAME: auto-compile-vars
-    #+CALL: custom-vars-table(custom-vars='(load-prefer-newer))
-
 *** [[https://github.com/myrjola/diminish.el][diminish]]
     Handy mode to make the modeline nicer. I also use to set mode to special characters (for example, see flycheck-mode)
     #+BEGIN_SRC emacs-lisp :tangle yes
