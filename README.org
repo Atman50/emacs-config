@@ -22,16 +22,16 @@
 * Overview
   This is my literate and *portable* Emacs initialization "system."
 ** Quick start
-   First git clone this repository into ~<home>/.emacs.d~: ~git clone https://github.com/Atman50/emacs-config.git ~/.emacs.d~
+   First git clone this repository into =~/.emacs.d=: =git clone https://github.com/Atman50/emacs-config.git =/.emacs.d=
 
    Now simply start Emacs and all the packages/configuration loads. It takes some time on the first load since all the packages referenced need to download and compile. On subsequent Emacs invocations startup time is better.
 
-   The ability to simply clone and start makes this configuration *highly portable*. One issue is that some of the customization are file system dependent. I handle this by using git to create a stash of the localized changes for ~custom.el~ and then apply it whenever I take updated configurations from the repository.
+   The ability to simply clone and start makes this configuration *highly portable*. One issue is that some of the customization are file system dependent. I handle this by using git to create a stash of the localized changes for =custom.el= and then apply it whenever I take updated configurations from the repository.
 
    A minor warning is that Emacs load times can be somewhat slow. Startup continues to get slower as the size of the desktop file increases (the more files that need to be opened at the start of Emacs). Since I tend to stay in Emacs for quite some time, this doesn't get in my way.
 
-** ~init.el~ explained
-   To get started with a literate configuration, I use this simple ~init.el~ file.
+** =init.el= explained
+   To get started with a literate configuration, I use this simple =init.el= file.
 
    Following this code block is the explanation.
 
@@ -60,18 +60,18 @@
      (load my-cfg)
     #+end_src
 
-   1. Provide for a separate ~custom.el~ file. Keeping the customizations separate and first allows for standard emacs customization of *most* of the package variables. When package variables setup outside of the customization file, then ~M-x describe-variable~ says it was "changed outside of customization".
+   1. Provide for a separate =custom.el= file. Keeping the customizations separate and first allows for standard emacs customization of *most* of the package variables. When package variables setup outside of the customization file, then =M-x describe-variable= says it was "changed outside of customization".
 
-   2. Initializes the package system. Put this after the customizations so that the variable ~package-load-list~ can be customized (I use [[https://gnu.org/packages][Gnu]], [[https://melpa.org/packages][Melpa]], and [[https://orgmode.org/packages][Org]] - see ~custom.el~).
+   2. Initializes the package system. Put this after the customizations so that the variable =package-load-list= can be customized (I use [[https://gnu.org/packages][Gnu]], [[https://melpa.org/packages][Melpa]], and [[https://orgmode.org/packages][Org]] - see =custom.el=).
 
-   3. Sets the preferred coding-system. Since I work on Windows sometimes and some Melpa packages are lacking the proper [[https://en.wikipedia.org/wiki/Byte_order_mark][byte order mark]] at the beginning of the file, this needs to happen before ~package-refresh-contents~ so that it finishes without issue. It's not a bad idea to just do this ubiquitously, so I do it here.
+   3. Sets the preferred coding-system. Since I work on Windows sometimes and some Melpa packages are lacking the proper [[https://en.wikipedia.org/wiki/Byte_order_mark][byte order mark]] at the beginning of the file, this needs to happen before =package-refresh-contents= so that it finishes without issue. It's not a bad idea to just do this ubiquitously, so I do it here.
 
-   4. Gets the package contents. This uses ~package-archives~ from the ~custom.el~ file to load up the repository contents and is only called if use-package is not found in the ~package-archives-contents~, meaning the archives not read.
+   4. Gets the package contents. This uses =package-archives= from the =custom.el= file to load up the repository contents and is only called if use-package is not found in the =package-archives-contents=, meaning the archives not read.
 
-   5. Assures use-package is loaded; ~use-package~ is used to perform the remainder of this configuration.
+   5. Assures use-package is loaded; =use-package= is used to perform the remainder of this configuration.
 
    6. Installs org. It ends up that the built-in org-mode is rather old and use-package seems to have issues forcing the installation. This little tibit, looks in the elpa directory
- of the one from the org repository, although you can install from hand from the ~M-x list-packages~ buffer. To automate this, the code here works but might be a little fragile. For exmaple, if the version number isn't just a single number. This not only loads the org package from the org repository, it also makes sure it is up-to-date. The code could be guarded by finding any org-# directory under elpa and not installing.
+ of the one from the org repository, although you can install from hand from the =M-x list-packages= buffer. To automate this, the code here works but might be a little fragile. For exmaple, if the version number isn't just a single number. This not only loads the org package from the org repository, it also makes sure it is up-to-date. The code could be guarded by finding any org-# directory under elpa and not installing.
 
    7. Does the deed and loads this file. If the file has already been "babel-ed" then just load the results, otherwise do the "babel-ing".
 
@@ -98,8 +98,7 @@
 ** General packages
    Here are some general packages
 *** [[https://github.com/emacscollective/auto-compile][auto-compile]]
-    This package provides a guarantee that compiled byte code files are never outdated by mistake. You'll want to modify the variable ~load-prefer-newer~.
-
+    This package provides a guarantee that compiled byte code files are never outdated by mistake.
 
     #+BEGIN_SRC emacs-lisp :tangle yes
       (use-package auto-compile
@@ -108,6 +107,11 @@
           (auto-compile-on-load-mode)
           (auto-compile-on-save-mode)))
     #+END_SRC
+
+    Customized variables:
+    #+NAME: auto-compile-vars
+    #+CALL: custom-vars-table(custom-vars='(load-prefer-newer))
+
 *** [[https://github.com/myrjola/diminish.el][diminish]]
     Handy mode to make the modeline nicer. I also use to set mode to special characters (for example, see flycheck-mode)
     #+BEGIN_SRC emacs-lisp :tangle yes
@@ -119,9 +123,9 @@
       (use-package bind-key)
     #+END_SRC
 *** savehist
-    A great builtin that allows us to have a history file. This means certain elements are saved between sessions of emacs. Set the following variables to control ~savehist~ (use customize).
+    A great builtin that allows us to have a history file. This means certain elements are saved between sessions of emacs. Set the following variables to control =savehist= (use customize).
 
-    #+NAME: custom-savehist
+    #+NAME: savehist-vars
     #+CALL: custom-vars-table(custom-vars='(savehist-file savehist-additional-variables savehist-mode))
     #+RESULTS:
 
@@ -158,12 +162,9 @@
 *** Other useful packages
     Ok, a little tired of documenting each package on it's own. These packages are just generally useful.
 
-    ~which-key~ very helpful for finding way around.
+    =which-key= very helpful for finding way around.
 
-    The ~desktop~ package allows for saved desktops in the emacs start directory (~desktop-path~ gets set here). Modify ~desktop-save-mode~ to t to turn on desktop saving.
-
-    Make sure to customize ~projectile-completion-system~ to "ivy".
-    #+BEGIN_SRC emacs-lisp :tangle yes
+    #+BEGIN_SRC emacs-lisp -r :tangle yes
       (use-package realgud :demand t)
       (use-package projectile :demand t :config (projectile-mode t))
       (use-package ibuffer-projectile)
@@ -173,19 +174,26 @@
       (use-package desktop
         :config
         ;; put desktop in Emacs start directory
-        (set-variable 'desktop-path (cons default-directory desktop-path)))
+        (set-variable 'desktop-path (cons default-directory desktop-path))) (ref:desktop-path)
       (use-package paredit
         :demand t
         :config
         (add-hook 'emacs-lisp-mode-hook 'enable-paredit-mode))
     #+END_SRC
 
+    Note that the setting of [[(desktop-path)][=desktop-path=]] allows the multiple =.emacs.desktop= files, each in the directory where =emacs= was started. Although =desktop-path= is changed outside =custom.el=, I've included it here in the table below so you can see that the default is augmented with the startup directory which in this case is =~/.emacs.d=.
+
+    Customized variables of interest here:
+    #+NAME: other-pkgs-vars
+    #+CALL: custom-vars-table(custom-vars='(desktop-path desktop-save-mode))
+
+
 * Working with C#
   Because I'm a C# developer and pretty much dislike a lot of the GUI issues in Visual Studio, I've spent some amount of time coming up with a good C# configuration. This works spectularly well and takes only minutes to setup.
 
   To use omnisharp follow these directions:
   1. Load up local omnisharp (roslyn flavor) from [[https://github.com/OmniSharp/omnisharp-roslyn/releases][Omnisharp-Roslyn releases]]
-  2. Customize the variable ~omnisharp-server-executable-path~ to point to your omnisharp roslyn. For example "c:/omnisharp-roslyn-v1.27.2/OmniSharp.exe".
+  2. Customize the variable =omnisharp-server-executable-path= to point to your omnisharp roslyn. For example "c:/omnisharp-roslyn-v1.27.2/OmniSharp.exe".
   There are comprehensive directions at [[https://github.com/OmniSharp/omnisharp-emacs.git][omnisharp-emacs]].
 
   #+BEGIN_SRC emacs-lisp :tangle yes
@@ -209,7 +217,7 @@
   #+END_SRC
 
 * [[https://github.com/magit/magit][magit]] configuration
-  The most awesome git porcelain. Most here are part of magit, ~[[https://github.com/pidu/git-timemachine][git-time-machine]]~ is not, but well worth using.
+  The most awesome git porcelain. Most here are part of magit, =[[https://github.com/pidu/git-timemachine][git-time-machine]]= is not, but well worth using.
   #+BEGIN_SRC emacs-lisp :tangle yes
     (use-package git-commit)
     (use-package magit
@@ -225,10 +233,15 @@
     (use-package git-timemachine)
   #+END_SRC
 
-* org-mode configuration
-  Org-mode configurations. ~org-bullets~ used to be part of org but is now outside.
+    Customized variables:
+    #+NAME: magit-vars
+    #+CALL: custom-vars-table(custom-vars='(magit-completing-read-function magit-pull-arguments nil magit-repository-directories))
+  
 
-  The ~htmlize~ package allows for ~org-html-export-to-html~ to operate.
+* org-mode configuration
+  Org-mode configurations. =org-bullets= used to be part of org but is now outside.
+
+  The =htmlize= package allows for =org-html-export-to-html= to operate.
 
   #+BEGIN_SRC emacs-lisp :tangle yes
     (use-package org-bullets
@@ -239,10 +252,15 @@
     (load-library "ox-md")      ;; Turn on MD exports
   #+END_SRC
 
-* python configuration
-  At one point I was using anaconda but have switched back to elpy. I really like ~eply-config~ that tells you if everything is working properly. I've been using a ~virtualenv~ for my python development and couldn't be happier. Perhaps ethe only thing that bothers me is that when an object is returned, pycharm will give you list and dictionary methods while eply/company does not. Seems to be the only real issue at this point.
+    Customized variables for org-mode:
+    #+NAME: org-mode-vars
+    #+CALL: custom-vars-table(custom-vars='(org-catch-invisible-edits org-log-done org-log-into-drawer))
 
-  The variables that might be setup for python (look in [[file:custom.el][custom.el]] for them): ~python-indent-trigger-commands~, ~python-shell-completion-setup-code~, ~python-shell-completion-string-code~, ~python-shell-interpreter~, ~python-shell-interpreter-args~, ~python-shell-prompt-output-regexp~, and ~python-shell-prompt-regexp~.
+
+* python configuration
+  At one point I was using anaconda but have switched back to elpy. I really like =eply-config= that tells you if everything is working properly. I've been using a =virtualenv= for my python development and couldn't be happier. Perhaps ethe only thing that bothers me is that when an object is returned, pycharm will give you list and dictionary methods while eply/company does not. Seems to be the only real issue at this point.
+
+  The variables that might be setup for python (look in [[file:custom.el][custom.el]] for them): =python-indent-trigger-commands=, =python-shell-completion-setup-code=, =python-shell-completion-string-code=, =python-shell-interpreter=, =python-shell-interpreter-args=, =python-shell-prompt-output-regexp=, and =python-shell-prompt-regexp=.
 
   #+BEGIN_SRC emacs-lisp :tangle yes
     (use-package company
@@ -277,6 +295,12 @@
         (add-hook 'python-mode-hook 'flycheck-mode)
         (add-hook 'python-mode-hook 'company-mode)))
   #+END_SRC
+
+    Customized variables for python:
+    #+NAME: python-vars
+    #+CALL: custom-vars-table(custom-vars='(python-indent-trigger-commands python-shell-completion-setup-code python-shell-completion-string-code python-shell-interpreter python-shell-interpreter-args python-shell-prompt-output-regexp python-shell-prompt-regexp))
+    #+RESULTS: 
+
 
 * ivy configuration
   Was a help user, but switched to ivy. Lots of nice features in ivy
@@ -314,8 +338,13 @@
              ("C-r" . swiper)))
     (use-package avy)
   #+END_SRC
+
+    Customized variables:
+    #+NAME: ivy-vars
+    #+CALL: custom-vars-table(custom-vars='(ivy-count-format ivy-height ivy-mode ivy-use-virtual-buffers))
+
 * yasnippet configuration
-  yasnippet is a truly awesome package. Local modifications should go in "~/.emacs.d/snippets/".
+  yasnippet is a truly awesome package. Local modifications should go in =~/.emacs.d/snippets/=.
 
   This also takes care of hooking up company completion with yasnippet expansion.
   #+BEGIN_SRC emacs-lisp :tangle yes
@@ -343,9 +372,14 @@
     (setq company-backends (mapcar #'company-mode/backend-with-yas company-backends))
   #+END_SRC
 
+  Configured variables of interest:
+  #+NAME: yas-vars
+  #+CALL: custom-vars-table(custom-vars='(yas-global-mode))
+
+
 * Additional bits-o-configuration
-** Limit the length of ~which-function~
-   ~which-function~ which is used by ~powerline~ has no maximum method/function signature. This handy advisor limits the name to 64 characters.
+** Limit the length of =which-function=
+   =which-function= which is used by =powerline= has no maximum method/function signature. This handy advisor limits the name to 64 characters.
    #+BEGIN_SRC emacs-lisp :tangle yes
      (defvar  which-function-max-width 64 "The maximum width of the which-function string.")
      (advice-add 'which-function :filter-return
@@ -353,7 +387,7 @@
                                (if (< (string-width s) which-function-max-width) s
                                  (concat (truncate-string-to-width s (- which-function-max-width 3)) "...")))))
    #+END_SRC
-** ~my-ansi-term~                               
+** =my-ansi-term=                               
    Allows me to name my ANSI terms. Was very useful when I used more ANSI shells (so that tabs were interpretted by the shell). Some other modes and shells make this less useful these days.
    #+BEGIN_SRC emacs-lisp :tangle yes
      (defun my-ansi-term (term-name cmd)
@@ -381,7 +415,7 @@
    #+END_SRC
 
 ** Additional configs
-   Setup ~eldoc~ mode, use y-or-n (instead of yes and no). Key bindings...
+   Setup =eldoc= mode, use y-or-n (instead of yes and no). Key bindings...
    #+BEGIN_SRC emacs-lisp :tangle yes
      (add-hook 'emacs-lisp-mode-hook 'eldoc-mode)    ;; Run elisp with eldoc-mode
      (fset 'list-buffers 'ibuffer)                   ;; prefer ibuffer over list-buffers

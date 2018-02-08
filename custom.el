@@ -46,6 +46,17 @@
  '(global-font-lock-mode t nil (font-lock))
  '(gud-pdb-command-name "python -m pdb")
  '(history-delete-duplicates t)
+ '(ibuffer-formats
+   (quote
+    ((mark modified read-only " "
+           (name 36 36 :left :elide)
+           " "
+           (size 9 -1 :right)
+           " "
+           (mode 16 16 :left :elide)
+           " " filename-and-process)
+     (mark modified read-only " "
+           (name 36 -1)))))
  '(indent-tabs-mode nil)
  '(inhibit-startup-screen t)
  '(ivy-count-format "(%d/%d) ")
@@ -62,10 +73,6 @@
  '(omnisharp-auto-complete-popup-help-delay 1)
  '(omnisharp-server-executable-path "c:/omnisharp-roslyn-v1.27.2/OmniSharp.exe")
  '(org-catch-invisible-edits (quote show))
- '(org-clock-into-drawer "CLOCKING")
- '(org-html-table-default-attributes
-   (quote
-    (:border "2" :cellspacing "0" :cellpadding "6" :rules "all" :frame "border")))
  '(org-log-done (quote time))
  '(org-log-into-drawer t)
  '(package-archives
