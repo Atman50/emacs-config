@@ -1,3 +1,4 @@
 #!/bin/bash
 
-sed -i 's/"<\(https*[^>]*\)>"/"\1"/g' README.md
+sed -i -e 's/"<\(https*[^>]*\)>"/"\1"/g' -e 's/\(:br-goes-here: *\) /\1\&nbsp;/g' -e 's/:br-goes-here:/<br>/g' README.md
+

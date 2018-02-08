@@ -1,0 +1,3 @@
+#!/bin/bash
+
+sed -i -e 's/\(:br-goes-here: *\) /\1\&nbsp;/g' -e 's/:br-goes-here:/<br>/g' README.html

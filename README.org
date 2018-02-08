@@ -14,8 +14,8 @@
            (cons 'hline
                  (cl-loop for cv in custom-vars
                           collect `(,cv
-                                    ,(format "%S" (default-value cv))
-                                    ,(format "%S" (eval (car (get cv 'standard-value))))))))
+                                    ,(replace-regexp-in-string "\n" ":br-goes-here:" (pp-to-string (default-value cv)))
+                                    ,(replace-regexp-in-string "\n" ":br-goes-here:" (pp-to-string (eval (car (get cv 'standard-value)))))))))
    #+END_SRC
   
 
