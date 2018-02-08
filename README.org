@@ -36,7 +36,7 @@
 
    Following this code block is the explanation.
 
-   #+begin_src emacs-lisp -r :tangle no
+   #+BEGIN_SRC emacs-lisp -r :tangle no
      (setq custom-file (expand-file-name "custom.el" user-emacs-directory))      ;; 1
      (load custom-file t)
 
@@ -59,7 +59,7 @@
      (when (file-newer-than-file-p (concat my-cfg ".org") (concat my-cfg ".el"))
        (org-babel-tangle-file (concat my-cfg ".org")))
      (load my-cfg)
-    #+end_src
+    #+END_SRC
 
    1. Provide for a separate =custom.el= file. Keeping the customizations separate and first allows for standard emacs customization of *most* of the package variables. When package variables setup outside of the customization file, then =M-x describe-variable= says it was "changed outside of customization".
 
@@ -92,9 +92,9 @@
    #+END_SRC
   
    Also create a handy variable to know if we are Windows - used later on here.
-   #+begin_src emacs-lisp :tangle yes
-   (defvar mswindows-p (string-match "windows" (symbol-name system-type)))
-   #+end_src
+   #+BEGIN_SRC emacs-lisp :tangle yes
+     (defvar mswindows-p (string-match "windows" (symbol-name system-type)))
+   #+END_SRC
 
 ** General packages
    Here are some general packages
