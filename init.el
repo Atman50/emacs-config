@@ -27,11 +27,9 @@
 (require 'use-package)
 
 ;; Literate emacs configuration requires org for org-babel-tangle-file
-;; Make sure that we have the non-built in, and as it turns out, most recent version of org
-(defvar my-org-desc (elt (cdr (assoc 'org package-archive-contents)) 0))
-(defvar my-org-version (car (package-desc-version my-org-desc)))
-(unless (file-exists-p (concat user-emacs-directory "elpa/org-" (int-to-string my-org-version)))
-  (package-install my-org-desc))
+;; Make sure that we have a non-built in org and if not, then install it using package-install. Sadly, use-package won't work for this.
+(unless (file-expand-wildcards (concat package-user-dir "/org-[0-9]*"))
+  (package-install (elt (cdr (assoc 'org package-archive-contents)) 0)))
 (require 'org)
 
 ;; Load up config

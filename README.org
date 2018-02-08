@@ -50,10 +50,8 @@
        (package-install 'use-package))
      (require 'use-package)
 
-     (defvar my-org-desc (elt (cdr (assoc 'org package-archive-contents)) 0))    ;; 6
-     (defvar my-org-version (car (package-desc-version my-org-desc)))
-     (unless (file-exists-p (concat user-emacs-directory "elpa/org-" (int-to-string my-org-version)))
-       (package-install my-org-desc))
+     (unless (file-expand-wildcards (concat package-user-dir "/org-[0-9]*"))     ;; 6
+       (package-install (elt (cdr (assoc 'org package-archive-contents)) 0)))
      (require 'org)
 
      (defvar my-cfg (concat user-emacs-directory "README"))                      ;; 7
@@ -72,7 +70,8 @@
 
    5. Assures use-package is loaded; ~use-package~ is used to perform the remainder of this configuration.
 
-   6. Installs org. It ends up that the built-in org-mode is rather old and use-package seems to have issues forcing the installation of the one from the org repository, although you can install from hand from the ~M-x list-packages~ buffer. To automate this, the code here works but might be a little fragile. For exmaple, if the version number isn't just a single number. This not only loads the org package from the org repository, it also makes sure it is up-to-date. The code could be guarded by finding any org-# directory under elpa and not installing.
+   6. Installs org. It ends up that the built-in org-mode is rather old and use-package seems to have issues forcing the installation. This little tibit, looks in the elpa directory
+ of the one from the org repository, although you can install from hand from the ~M-x list-packages~ buffer. To automate this, the code here works but might be a little fragile. For exmaple, if the version number isn't just a single number. This not only loads the org package from the org repository, it also makes sure it is up-to-date. The code could be guarded by finding any org-# directory under elpa and not installing.
 
    7. Does the deed and loads this file. If the file has already been "babel-ed" then just load the results, otherwise do the "babel-ing".
 
