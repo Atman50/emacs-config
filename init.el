@@ -19,14 +19,16 @@
 
 ;; This fixes the (package-refresh-contents) below which breaks on windows because of an issue with some packages in melpa.
 (prefer-coding-system 'utf-8)
-(package-refresh-contents)                      ;; Package paths are setup via custom.el
+
+(unless (assoc 'use-package package-archive-contents)
+  (package-refresh-contents))
 (unless (package-installed-p 'use-package)      ;; Make sure use-package is installed
   (package-install 'use-package))
 (require 'use-package)
 
 ;; Literate emacs configuration requires org for org-babel-tangle-file
-;; This nastiness is to make sure that we have the non-built in, and as it turns out, most recent version of org
-(defvar my-org-desc (elt (cdr (assoc 'org package-alist)) 0))
+;; Make sure that we have the non-built in, and as it turns out, most recent version of org
+(defvar my-org-desc (elt (cdr (assoc 'org package-archive-contents)) 0))
 (defvar my-org-version (car (package-desc-version my-org-desc)))
 (unless (file-exists-p (concat user-emacs-directory "elpa/org-" (int-to-string my-org-version)))
   (package-install my-org-desc))

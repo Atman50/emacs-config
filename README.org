@@ -39,17 +39,18 @@
      (setq custom-file (expand-file-name "custom.el" user-emacs-directory))      ;; 1
      (load custom-file t)
 
-     (package-initialize)                                                        ;; 2 (ref:pkg-init)
+     (package-initialize)                                                        ;; 2
 
      (prefer-coding-system 'utf-8)                                               ;; 3
 
-     (package-refresh-contents)                                                  ;; 4
+     (unless (assoc 'use-package package-archive-contents)                       ;; 4
+       (package-refresh-contents))  (ref:pkg-refresh)
 
      (unless (package-installed-p 'use-package)                                  ;; 5
        (package-install 'use-package))
-     (require 'use-package) (ref:use-package-end)
+     (require 'use-package)
 
-     (defvar my-org-desc (elt (cdr (assoc 'org package-alist)) 0))               ;; 6
+     (defvar my-org-desc (elt (cdr (assoc 'org package-archive-contents)) 0))    ;; 6
      (defvar my-org-version (car (package-desc-version my-org-desc)))
      (unless (file-exists-p (concat user-emacs-directory "elpa/org-" (int-to-string my-org-version)))
        (package-install my-org-desc))
@@ -67,7 +68,7 @@
 
    3. Sets the preferred coding-system. Since I work on Windows sometimes and some Melpa packages are lacking the proper [[https://en.wikipedia.org/wiki/Byte_order_mark][byte order mark]] at the beginning of the file, this needs to happen before ~package-refresh-contents~ so that it finishes without issue. It's not a bad idea to just do this ubiquitously, so I do it here.
 
-   4. Gets the package contents. This uses ~package-archives~ from the ~custom.el~ file to load up the repository contents.
+   4. Gets the package contents. This uses ~package-archives~ from the ~custom.el~ file to load up the repository contents and is only called if use-package is not found in the ~package-archives-contents~, meaning the archives not read.
 
    5. Assures use-package is loaded; ~use-package~ is used to perform the remainder of this configuration.
 
@@ -75,9 +76,9 @@
 
    7. Does the deed and loads this file. If the file has already been "babel-ed" then just load the results, otherwise do the "babel-ing".
 
-   That's it. It really is that simple.
+   That's it. Used to be simpler, but had to account for overriding the built-in org-mode package.
 
-   The [[(pkg-init)][package-initialize]] in the above code depends upon:
+   The [[(pkg-refresh)][package-refresh-contents]] in the above code depends upon:
 
    #+CALL: custom-vars-table(custom-vars='(package-archives))
    #+RESULTS:
