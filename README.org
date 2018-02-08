@@ -49,12 +49,11 @@
        (package-install 'use-package))
      (require 'use-package) (ref:use-package-end)
 
-     (defvar my-org-version 20180205)                                            ;; 6
+     (defvar my-org-desc (elt (cdr (assoc 'org package-alist)) 0))               ;; 6
+     (defvar my-org-version (car (package-desc-version my-org-desc)))
      (unless (file-exists-p (concat user-emacs-directory "elpa/org-" (int-to-string my-org-version)))
-       (let ((myorg (package-desc-create :name "org"
-                                          :version (list my-org-version)
-                                          :archive "org"
-                                          :kind 'tar)))
+       (package-install my-org-desc))
+     (require 'org)
 
      (defvar my-cfg (concat user-emacs-directory "README"))                      ;; 7
      (when (file-newer-than-file-p (concat my-cfg ".org") (concat my-cfg ".el"))
@@ -72,7 +71,7 @@
 
    5. Assures use-package is loaded; ~use-package~ is used to perform the remainder of this configuration.
 
-   6. Installs org. This was a real cluster f*. Seems that the built-in version of org was always installed so that we weren't getting org from the org repository. This code forces the issue, but is not finished yet (should read the org repo and use the latest version). Org-babel is used to load the configuration documented here. This code makes sure it's loaded and that it comes from the "org" repository.
+   6. Installs org. It ends up that the built-in org-mode is rather old and use-package seems to have issues forcing the installation of the one from the org repository, although you can install from hand from the ~M-x list-packages~ buffer. To automate this, the code here works but might be a little fragile. For exmaple, if the version number isn't just a single number. This not only loads the org package from the org repository, it also makes sure it is up-to-date. The code could be guarded by finding any org-# directory under elpa and not installing.
 
    7. Does the deed and loads this file. If the file has already been "babel-ed" then just load the results, otherwise do the "babel-ing".
 
@@ -226,8 +225,8 @@
     (use-package git-timemachine)
   #+END_SRC
 
-* orgmode configuration
-  Orgmode configurations. ~org-bullets~ used to be part of org but is now outside.
+* org-mode configuration
+  Org-mode configurations. ~org-bullets~ used to be part of org but is now outside.
 
   The ~htmlize~ package allows for ~org-html-export-to-html~ to operate.
 
