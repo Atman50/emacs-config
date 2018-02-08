@@ -73,6 +73,12 @@
  '(omnisharp-auto-complete-popup-help-delay 1)
  '(omnisharp-server-executable-path "c:/omnisharp-roslyn-v1.27.2/OmniSharp.exe")
  '(org-catch-invisible-edits (quote show))
+ '(org-html-postamble t)
+ '(org-html-postamble-format
+   (quote
+    (("en" "<p class=\"author\">Author: %a (%e)</p>
+<p class=\"date\">Date: %T</p>
+<p class=\"creator\">%c</p>"))))
  '(org-log-done (quote time))
  '(org-log-into-drawer t)
  '(package-archives

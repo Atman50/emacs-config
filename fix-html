@@ -12,11 +12,13 @@
 old_readme_size=0
 while [ $old_readme_size -ne $(stat -c%s README.html) ]; do
     old_readme_size=$(stat -c%s README.html)
-    sed -i -e 's/\(:br-goes-here: *\) /\1\&nbsp;/g' README.html
-    sed -i 's/^\(<td.*\)<span class="underline">\(.*<\/td>\)$/\1\2/g' README.html
-    sed -i 's/^\(<td.*\)<\/span>\(.*<\/td>\)$/\1\2/g' README.html
-    sed -i 's/^\(<td.*\)<sub>\(.*<\/td>\)$/\1\2/g' README.html
-    sed -i 's/^\(<td.*\)<\sub>\(.*<\/td>\)$/\1\2/g' README.html
+    sed -i \
+        -e 's/\(:br-goes-here: *\) /\1\&nbsp;/g' \
+        -e 's/^\(<td.*\)<span class="underline">\(.*<\/td>\)$/\1\2/g' \
+        -e 's/^\(<td.*\)<\/span>\(.*<\/td>\)$/\1\2/g' \
+        -e 's/^\(<td.*\)<sub>\(.*<\/td>\)$/\1\2/g' \
+        -e 's/^\(<td.*\)<\sub>\(.*<\/td>\)$/\1\2/g' \
+        README.html
 done
 sed -i -e 's/:br-goes-here:/<br>/g'  -e 's/\\n/<br>/g' README.html
 

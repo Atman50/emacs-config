@@ -6,6 +6,7 @@
 #+HTML_HEAD:     td.org-left   { text-align: left; font-family: monospace; }
 #+HTML_HEAD: </style>
 #+AUTHOR: Adam Taylor
+#+EMAIL: mr.adtaylor@gmail.com
 #+TITLE: Adam Taylor's  Emacs Initialization
 
    #+NAME: custom-vars-table
@@ -254,7 +255,7 @@
 
     Customized variables for org-mode:
     #+NAME: org-mode-vars
-    #+CALL: custom-vars-table(custom-vars='(org-catch-invisible-edits org-log-done org-log-into-drawer))
+    #+CALL: custom-vars-table(custom-vars='(org-catch-invisible-edits org-html-postamble org-html-postamble-format org-log-done org-log-into-drawer))
 
 
 * python configuration
