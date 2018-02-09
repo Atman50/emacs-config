@@ -173,7 +173,6 @@
     #+NAME: other-pkgs-vars
     #+CALL: custom-vars-table(custom-vars='(desktop-path desktop-save-mode))
 
-
 * Working with C#
   Because I'm a C# developer and pretty much dislike a lot of the GUI issues in Visual Studio, I've spent some amount of time coming up with a good C# configuration. This works spectularly well and takes only minutes to setup.
 
@@ -223,11 +222,10 @@
     #+NAME: magit-vars
     #+CALL: custom-vars-table(custom-vars='(magit-completing-read-function magit-pull-arguments nil magit-repository-directories))
   
-
 * org-mode configuration
   Org-mode configurations. =org-bullets= used to be part of org but is now outside.
 
-  The =htmlize= package allows for =org-html-export-to-html= to operate.
+  The =htmlize= package allows the html and markdown exporters to work (underlying code).
 
   #+BEGIN_SRC emacs-lisp :tangle yes
     (use-package org-bullets
@@ -235,13 +233,26 @@
        :config (add-hook 'org-mode-hook 'org-bullets-mode))
     (use-package org-autolist :demand t)
     (use-package htmlize :demand t)
-    (load-library "ox-md")      ;; Turn on MD exports
   #+END_SRC
 
-    Customized variables for org-mode:
-    #+NAME: org-mode-vars
-    #+CALL: custom-vars-table(custom-vars='(org-catch-invisible-edits org-html-postamble org-html-postamble-format org-log-done org-log-into-drawer))
+  I export into markdown for github. I do not use the =ox-gfm= package because when I tried it, it modified the source file because of this file's use of the =#+CALL= construct (each call adds the table to the source file). So I use the built in =ox-md= exporter. However, it just indents the code blocks rather put the =```emacs-lisp= code snippet prefix and =```= postfix but rather just indents. First we load the library so it turns up in the export menu (=C-x C-e=). Then we override the output method for the code.
 
+  #+BEGIN_SRC emacs-lisp :tangle yes
+    (load-library "ox-md")
+
+    (defun org-md-example-block (example-block _contents info)
+      "My modified: Transcode EXAMPLE-BLOCK element into Markdown format.
+    CONTENTS is nil.  INFO is a plist used as a communication
+    channel."
+      (concat "```emacs-lisp\n"
+              (org-remove-indentation
+               (org-export-format-code-default example-block info))
+              "```\n"))
+  #+END_SRC
+  
+  Customized variables for org-mode:
+  #+NAME: org-mode-vars
+  #+CALL: custom-vars-table(custom-vars='(org-catch-invisible-edits org-html-postamble org-html-postamble-format org-log-done org-log-into-drawer))
 
 * python configuration
   At one point I was using anaconda but have switched back to elpy. I really like =eply-config= that tells you if everything is working properly. I've been using a =virtualenv= for my python development and couldn't be happier. Perhaps ethe only thing that bothers me is that when an object is returned, pycharm will give you list and dictionary methods while eply/company does not. Seems to be the only real issue at this point.
