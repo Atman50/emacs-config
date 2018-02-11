@@ -262,10 +262,10 @@
     This function also adds inline HTML around '_' in the text."
       (when (stringp text)
         (replace-regexp-in-string "<br>\[[:space:]\]*"
-                                  (lambda (match) (concat "@@html:<br>"
-                                                          (apply 'concat (make-list (- (length match) 4) "&nbsp;"))
-                                                          "@@"))
-                                  (replace-regexp-in-string  "_" "@@html:_@@"  text))))
+                                  (lambda (match) (concat "@@html:<br>" (apply 'concat (make-list (- (length match) 4) "&nbsp;")) "@@"))
+                                  (replace-regexp-in-string "\"\\(https?:\[^\"\]*\\)"
+                                                            "\"@@html:<a href=\"\\1\">\\1</a>@@"
+                                                            (replace-regexp-in-string  "_" "@@html:_@@"  text)))))
 
     (advice-add 'orgtbl-to-orgtbl :filter-return 'my-md-export-hack)
 

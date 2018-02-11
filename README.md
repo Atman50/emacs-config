@@ -1,42 +1,42 @@
 
 # Table of Contents
 
-1.  [Overview](#orge1c7382)
-    1.  [Quick start](#orge8fdca0)
-    2.  [`init.el` explained](#orgfd679bb)
-2.  [Configuration](#orgf2c6538)
-    1.  [Just a little preamble](#org845b18f)
-    2.  [General packages](#org7fe3192)
-        1.  [diminish](#orgfb6fe16)
-        2.  [bind-key](#org71d874e)
-        3.  [savehist](#org4b6b025)
-        4.  [ag](#org24c11bd)
-        5.  [powershell](#orgcf5ed1c)
-        6.  [themes and modeline](#orge65794e)
-        7.  [aspx editing](#org031ecb2)
-        8.  [Other useful packages](#org2142ede)
-3.  [Working with C#](#org384de63)
-4.  [magit configuration](#orgb464db0)
-5.  [org-mode configuration](#orgbdc846b)
-6.  [python configuration](#org1d3468b)
-7.  [ivy configuration](#orgad27227)
-8.  [yasnippet configuration](#org1a44856)
-9.  [Additional bits-o-configuration](#org62eee3a)
-    1.  [Limit the length of `which-function`](#org4880485)
-    2.  [`my-ansi-term`](#orgfd9f114)
-    3.  [Understand file type by shebang](#org25db95f)
-    4.  [Additional configs](#org179b7e6)
+1.  [Overview](#org1244bfa)
+    1.  [Quick start](#orge7a8e69)
+    2.  [`init.el` explained](#org42bc6f5)
+2.  [Configuration](#org6fd90ca)
+    1.  [Just a little preamble](#orge71fed6)
+    2.  [General packages](#orgf5e4c77)
+        1.  [diminish](#orgf2018d0)
+        2.  [bind-key](#orgd3ed286)
+        3.  [savehist](#org00fec3e)
+        4.  [ag](#orgbdca8f9)
+        5.  [powershell](#orgd364bae)
+        6.  [themes and modeline](#org308569d)
+        7.  [aspx editing](#org16fead0)
+        8.  [Other useful packages](#org4dc1584)
+3.  [Working with C#](#orgc1e8ca6)
+4.  [magit configuration](#org9f279be)
+5.  [org-mode configuration](#org60298a9)
+6.  [python configuration](#org434da20)
+7.  [ivy configuration](#orga999dbe)
+8.  [yasnippet configuration](#orgb9c4be3)
+9.  [Additional bits-o-configuration](#org59c1d10)
+    1.  [Limit the length of `which-function`](#org5fa708a)
+    2.  [`my-ansi-term`](#org3e50a35)
+    3.  [Understand file type by shebang](#org2eb6e9e)
+    4.  [Additional configs](#org706af46)
 
 
 
-<a id="orge1c7382"></a>
+<a id="org1244bfa"></a>
 
 # Overview
 
 This is my literate and **portable** Emacs initialization "system."
 
 
-<a id="orge8fdca0"></a>
+<a id="orge7a8e69"></a>
 
 ## Quick start
 
@@ -49,7 +49,7 @@ The ability to simply clone and start makes this configuration **highly portable
 A minor warning is that Emacs load times can be somewhat slow. Startup continues to get slower as the size of the desktop file increases (the more files that need to be opened at the start of Emacs). Since I tend to stay in Emacs for quite some time, this doesn't get in my way.
 
 
-<a id="orgfd679bb"></a>
+<a id="org42bc6f5"></a>
 
 ## `init.el` explained
 
@@ -123,19 +123,19 @@ The package-refresh-contents in the above code depends upon:
 <tbody>
 <tr>
 <td class="org-left">package-archives</td>
-<td class="org-left">(("gnu" . "<https://elpa.gnu.org/packages/>")<br>&nbsp;("melpa" . "<https://melpa.org/packages/>")<br>&nbsp;("org" . "<https://orgmode.org/elpa/>"))</td>
-<td class="org-left">(("gnu" . "<http://elpa.gnu.org/packages/>"))</td>
+<td class="org-left">(("gnu" . "<a href="https://elpa.gnu.org/packages/">https://elpa.gnu.org/packages/</a>")<br>&nbsp;("melpa" . "<a href="https://melpa.org/packages/">https://melpa.org/packages/</a>")<br>&nbsp;("org" . "<a href="https://orgmode.org/elpa/">https://orgmode.org/elpa/</a>"))</td>
+<td class="org-left">(("gnu" . "<a href="http://elpa.gnu.org/packages/">http://elpa.gnu.org/packages/</a>"))</td>
 </tr>
 </tbody>
 </table>
 
 
-<a id="orgf2c6538"></a>
+<a id="org6fd90ca"></a>
 
 # Configuration
 
 
-<a id="org845b18f"></a>
+<a id="orge71fed6"></a>
 
 ## Just a little preamble
 
@@ -153,14 +153,14 @@ Also create a handy variable to know if we are Windows - used later on here.
 ```
 
 
-<a id="org7fe3192"></a>
+<a id="orgf5e4c77"></a>
 
 ## General packages
 
 Here are some general packages
 
 
-<a id="orgfb6fe16"></a>
+<a id="orgf2018d0"></a>
 
 ### [diminish](https://github.com/myrjola/diminish.el)
 
@@ -171,7 +171,7 @@ Handy mode to make the modeline nicer. I also use to set mode to special charact
 ```
 
 
-<a id="org71d874e"></a>
+<a id="orgd3ed286"></a>
 
 ### [bind-key](https://github.com/priyadarshan/bind-key)
 
@@ -182,7 +182,7 @@ Much better binding capabilities
 ```
 
 
-<a id="org4b6b025"></a>
+<a id="org00fec3e"></a>
 
 ### savehist
 
@@ -234,7 +234,7 @@ A great builtin that allows us to have a history file. This means certain elemen
 ```
 
 
-<a id="org24c11bd"></a>
+<a id="orgbdca8f9"></a>
 
 ### [ag](https://github.com/Wilfred/ag.el)
 
@@ -247,7 +247,7 @@ NB: doesn't seem to work so well under Windows.
 ```
 
 
-<a id="orgcf5ed1c"></a>
+<a id="orgd364bae"></a>
 
 ### [powershell](http://github.com/jschaf/powershell.el)
 
@@ -259,7 +259,7 @@ Excellent too to run powershell in Emacs
 ```
 
 
-<a id="orge65794e"></a>
+<a id="org308569d"></a>
 
 ### themes and modeline
 
@@ -271,7 +271,7 @@ Excellent too to run powershell in Emacs
 ```
 
 
-<a id="org031ecb2"></a>
+<a id="org16fead0"></a>
 
 ### aspx editing
 
@@ -284,7 +284,7 @@ Make aspx editing more palatable using html mode
 ```
 
 
-<a id="org2142ede"></a>
+<a id="org4dc1584"></a>
 
 ### Other useful packages
 
@@ -348,7 +348,7 @@ Customized variables of interest here:
 </table>
 
 
-<a id="org384de63"></a>
+<a id="orgc1e8ca6"></a>
 
 # Working with C#
 
@@ -382,7 +382,7 @@ There are comprehensive directions at [omnisharp-emacs](https://github.com/OmniS
 ```
 
 
-<a id="orgb464db0"></a>
+<a id="org9f279be"></a>
 
 # [magit](https://github.com/magit/magit) configuration
 
@@ -454,7 +454,7 @@ Customized variables:
 </table>
 
 
-<a id="orgbdc846b"></a>
+<a id="org60298a9"></a>
 
 # org-mode configuration
 
@@ -496,10 +496,10 @@ For example: an in put of \"hello<br>there<br> my<br>  friend<br>\" becomes
 This function also adds inline HTML around '_' in the text."
   (when (stringp text)
     (replace-regexp-in-string "<br>\[[:space:]\]*"
-                              (lambda (match) (concat "@@html:<br>"
-                                                      (apply 'concat (make-list (- (length match) 4) "&nbsp;"))
-                                                      "@@"))
-                              (replace-regexp-in-string  "_" "@@html:_@@"  text))))
+                              (lambda (match) (concat "@@html:<br>" (apply 'concat (make-list (- (length match) 4) "&nbsp;")) "@@"))
+                              (replace-regexp-in-string "\"\\(https?:\[^\"\]*\\)"
+                                                        "\"@@html:<a href=\"\\1\">\\1</a>@@"
+                                                        (replace-regexp-in-string  "_" "@@html:_@@"  text)))))
 
 (advice-add 'orgtbl-to-orgtbl :filter-return 'my-md-export-hack)
 
@@ -563,7 +563,7 @@ Customized variables for org-mode:
 </table>
 
 
-<a id="org1d3468b"></a>
+<a id="org434da20"></a>
 
 # python configuration
 
@@ -677,7 +677,7 @@ Customized variables for python:
 </table>
 
 
-<a id="orgad27227"></a>
+<a id="orga999dbe"></a>
 
 # ivy configuration
 
@@ -769,7 +769,7 @@ Customized variables:
 </table>
 
 
-<a id="org1a44856"></a>
+<a id="orgb9c4be3"></a>
 
 # yasnippet configuration
 
@@ -832,12 +832,12 @@ Configured variables of interest:
 </table>
 
 
-<a id="org62eee3a"></a>
+<a id="org59c1d10"></a>
 
 # Additional bits-o-configuration
 
 
-<a id="org4880485"></a>
+<a id="org5fa708a"></a>
 
 ## Limit the length of `which-function`
 
@@ -852,7 +852,7 @@ Configured variables of interest:
 ```
 
 
-<a id="orgfd9f114"></a>
+<a id="org3e50a35"></a>
 
 ## `my-ansi-term`
 
@@ -867,7 +867,7 @@ Allows me to name my ANSI terms. Was very useful when I used more ANSI shells (s
 ```
 
 
-<a id="org25db95f"></a>
+<a id="org2eb6e9e"></a>
 
 ## Understand file type by shebang
 
@@ -890,7 +890,7 @@ Script-type is read from #!/... at top of file."
 ```
 
 
-<a id="org179b7e6"></a>
+<a id="org706af46"></a>
 
 ## Additional configs
 
