@@ -1,42 +1,42 @@
 
 # Table of Contents
 
-1.  [Overview](#orga9fbb1e)
-    1.  [Quick start](#org3935991)
-    2.  [`init.el` explained](#org806a088)
-2.  [Configuration](#org8b5fb36)
-    1.  [Just a little preamble](#orgac1ceb1)
-    2.  [General packages](#org7223e3b)
-        1.  [diminish](#orgeb6caa2)
-        2.  [bind-key](#org4a0a9b5)
-        3.  [savehist](#org089e828)
-        4.  [ag](#org079a4a3)
-        5.  [powershell](#org4c53046)
-        6.  [themes and modeline](#orgd828fd3)
-        7.  [aspx editing](#orgba8585d)
-        8.  [Other useful packages](#org650d03e)
-3.  [Working with C#](#org86c4b90)
-4.  [magit configuration](#org8cb3db8)
-5.  [org-mode configuration](#orgbb62feb)
-6.  [python configuration](#orgaca698d)
-7.  [ivy configuration](#orgd787560)
-8.  [yasnippet configuration](#org87ba5ec)
-9.  [Additional bits-o-configuration](#orgd9fa4e8)
-    1.  [Limit the length of `which-function`](#orgbc2c162)
-    2.  [`my-ansi-term`](#orge4a03fa)
-    3.  [Understand file type by shebang](#orgb735e8a)
-    4.  [Additional configs](#org813a84b)
+1.  [Overview](#orge1c7382)
+    1.  [Quick start](#orge8fdca0)
+    2.  [`init.el` explained](#orgfd679bb)
+2.  [Configuration](#orgf2c6538)
+    1.  [Just a little preamble](#org845b18f)
+    2.  [General packages](#org7fe3192)
+        1.  [diminish](#orgfb6fe16)
+        2.  [bind-key](#org71d874e)
+        3.  [savehist](#org4b6b025)
+        4.  [ag](#org24c11bd)
+        5.  [powershell](#orgcf5ed1c)
+        6.  [themes and modeline](#orge65794e)
+        7.  [aspx editing](#org031ecb2)
+        8.  [Other useful packages](#org2142ede)
+3.  [Working with C#](#org384de63)
+4.  [magit configuration](#orgb464db0)
+5.  [org-mode configuration](#orgbdc846b)
+6.  [python configuration](#org1d3468b)
+7.  [ivy configuration](#orgad27227)
+8.  [yasnippet configuration](#org1a44856)
+9.  [Additional bits-o-configuration](#org62eee3a)
+    1.  [Limit the length of `which-function`](#org4880485)
+    2.  [`my-ansi-term`](#orgfd9f114)
+    3.  [Understand file type by shebang](#org25db95f)
+    4.  [Additional configs](#org179b7e6)
 
 
 
-<a id="orga9fbb1e"></a>
+<a id="orge1c7382"></a>
 
 # Overview
 
 This is my literate and **portable** Emacs initialization "system."
 
 
-<a id="org3935991"></a>
+<a id="orge8fdca0"></a>
 
 ## Quick start
 
@@ -49,7 +49,7 @@ The ability to simply clone and start makes this configuration **highly portable
 A minor warning is that Emacs load times can be somewhat slow. Startup continues to get slower as the size of the desktop file increases (the more files that need to be opened at the start of Emacs). Since I tend to stay in Emacs for quite some time, this doesn't get in my way.
 
 
-<a id="org806a088"></a>
+<a id="orgfd679bb"></a>
 
 ## `init.el` explained
 
@@ -123,19 +123,19 @@ The package-refresh-contents in the above code depends upon:
 <tbody>
 <tr>
 <td class="org-left">package-archives</td>
-<td class="org-left">(("gnu" . "https://elpa.gnu.org/packages/")<br>&nbsp;("melpa" . "https://melpa.org/packages/")<br>&nbsp;("org" . "https://orgmode.org/elpa/"))<br></td>
-<td class="org-left">(("gnu" . "http://elpa.gnu.org/packages/"))<br></td>
+<td class="org-left">(("gnu" . "<https://elpa.gnu.org/packages/>")<br>&nbsp;("melpa" . "<https://melpa.org/packages/>")<br>&nbsp;("org" . "<https://orgmode.org/elpa/>"))</td>
+<td class="org-left">(("gnu" . "<http://elpa.gnu.org/packages/>"))</td>
 </tr>
 </tbody>
 </table>
 
 
-<a id="org8b5fb36"></a>
+<a id="orgf2c6538"></a>
 
 # Configuration
 
 
-<a id="orgac1ceb1"></a>
+<a id="org845b18f"></a>
 
 ## Just a little preamble
 
@@ -153,14 +153,14 @@ Also create a handy variable to know if we are Windows - used later on here.
 ```
 
 
-<a id="org7223e3b"></a>
+<a id="org7fe3192"></a>
 
 ## General packages
 
 Here are some general packages
 
 
-<a id="orgeb6caa2"></a>
+<a id="orgfb6fe16"></a>
 
 ### [diminish](https://github.com/myrjola/diminish.el)
 
@@ -171,7 +171,7 @@ Handy mode to make the modeline nicer. I also use to set mode to special charact
 ```
 
 
-<a id="org4a0a9b5"></a>
+<a id="org71d874e"></a>
 
 ### [bind-key](https://github.com/priyadarshan/bind-key)
 
@@ -182,7 +182,7 @@ Much better binding capabilities
 ```
 
 
-<a id="org089e828"></a>
+<a id="org4b6b025"></a>
 
 ### savehist
 
@@ -216,7 +216,7 @@ A great builtin that allows us to have a history file. This means certain elemen
 
 <tr>
 <td class="org-left">savehist-additional-variables</td>
-<td class="org-left">(kill-ring search-ring regexp-search-ring)<br></td>
+<td class="org-left">(kill-ring search-ring regexp-search-ring)</td>
 <td class="org-left">nil</td>
 </tr>
 
@@ -234,7 +234,7 @@ A great builtin that allows us to have a history file. This means certain elemen
 ```
 
 
-<a id="org079a4a3"></a>
+<a id="org24c11bd"></a>
 
 ### [ag](https://github.com/Wilfred/ag.el)
 
@@ -247,7 +247,7 @@ NB: doesn't seem to work so well under Windows.
 ```
 
 
-<a id="org4c53046"></a>
+<a id="orgcf5ed1c"></a>
 
 ### [powershell](http://github.com/jschaf/powershell.el)
 
@@ -259,7 +259,7 @@ Excellent too to run powershell in Emacs
 ```
 
 
-<a id="orgd828fd3"></a>
+<a id="orge65794e"></a>
 
 ### themes and modeline
 
@@ -271,7 +271,7 @@ Excellent too to run powershell in Emacs
 ```
 
 
-<a id="orgba8585d"></a>
+<a id="org031ecb2"></a>
 
 ### aspx editing
 
@@ -284,7 +284,7 @@ Make aspx editing more palatable using html mode
 ```
 
 
-<a id="org650d03e"></a>
+<a id="org2142ede"></a>
 
 ### Other useful packages
 
@@ -334,8 +334,8 @@ Customized variables of interest here:
 <tbody>
 <tr>
 <td class="org-left">desktop-path</td>
-<td class="org-left">("`/.emacs.d/" "~/.emacs.d/" "`")<br></td>
-<td class="org-left">("`/.emacs.d/" "`")<br></td>
+<td class="org-left">("`/.emacs.d/" "~/.emacs.d/" "`")</td>
+<td class="org-left">("`/.emacs.d/" "`")</td>
 </tr>
 
 
@@ -348,7 +348,7 @@ Customized variables of interest here:
 </table>
 
 
-<a id="org86c4b90"></a>
+<a id="org384de63"></a>
 
 # Working with C#
 
@@ -382,7 +382,7 @@ There are comprehensive directions at [omnisharp-emacs](https://github.com/OmniS
 ```
 
 
-<a id="org8cb3db8"></a>
+<a id="orgb464db0"></a>
 
 # [magit](https://github.com/magit/magit) configuration
 
@@ -447,14 +447,14 @@ Customized variables:
 
 <tr>
 <td class="org-left">magit-repository-directories</td>
-<td class="org-left">(("~/repos" . 1))<br></td>
+<td class="org-left">(("~/repos" . 1))</td>
 <td class="org-left">nil</td>
 </tr>
 </tbody>
 </table>
 
 
-<a id="orgbb62feb"></a>
+<a id="orgbdc846b"></a>
 
 # org-mode configuration
 
@@ -479,10 +479,30 @@ I export into markdown for github. I do not use the `ox-gfm` package because whe
   "My modified: Transcode EXAMPLE-BLOCK element into Markdown format.
 CONTENTS is nil.  INFO is a plist used as a communication
 channel."
-  (concat "```emacs-lisp<br>"
+  (concat "```emacs-lisp\n"
           (org-remove-indentation
            (org-export-format-code-default example-block info))
-          "```<br>"))
+          "```\n"))
+```
+
+To support the using of dynamic custom vars table using the library of Babel, the export text for markdown and html goes through `orgtbl-to-orgtbl` which turns the list returned in the an org-mode table. After `orgtbl-to-orgtbl`, the `htmlize` package turns it into a HTML table. The advisor changes all the spaces after a `<br>` into `&nbsp;` entities and surrounds them with inline HTML. This is necessary because `orgtbl-to-orgtbl` strips text between the `@@` used to inline HTML. The advisor also protects any underscores in the table with inline HTML.
+
+```emacs-lisp
+(defun my-md-export-hack(text)
+  "Fix up md export on writing my README.org file.
+Converts a <br> followed by zero or more spaces into inline html format.
+For example: an in put of \"hello<br>there<br> my<br>  friend<br>\" becomes
+\"hello@@html:<br>@@there@@html:<br>&nbsp;@@my@@html:<br>&nbsp;&nbsp;@@friend@@html:<br>@@\"
+This function also adds inline HTML around '_' in the text."
+  (when (stringp text)
+    (replace-regexp-in-string "<br>\[[:space:]\]*"
+                              (lambda (match) (concat "@@html:<br>"
+                                                      (apply 'concat (make-list (- (length match) 4) "&nbsp;"))
+                                                      "@@"))
+                              (replace-regexp-in-string  "_" "@@html:_@@"  text))))
+
+(advice-add 'orgtbl-to-orgtbl :filter-return 'my-md-export-hack)
+
 ```
 
 Customized variables for org-mode:
@@ -522,8 +542,8 @@ Customized variables for org-mode:
 
 <tr>
 <td class="org-left">org-html-postamble-format</td>
-<td class="org-left">(("en" "<p class=\\"author\\">Author: %a (%e)</p><br><p class=\\"date\\">Date: %T</p><br><p class=\\"creator\\">%c</p>"))<br></td>
-<td class="org-left">(("en" "<p class=\\"author\\">Author: %a (%e)</p><br><p class=\\"date\\">Date: %d</p><br><p class=\\"creator\\">%c</p><br><p class=\\"validation\\">%v</p>"))<br></td>
+<td class="org-left">(("en" "<p class=\\"author\\">Author: %a (%e)</p><br><p class=\\"date\\">Date: %T</p><br><p class=\\"creator\\">%c</p>"))</td>
+<td class="org-left">(("en" "<p class=\\"author\\">Author: %a (%e)</p><br><p class=\\"date\\">Date: %d</p><br><p class=\\"creator\\">%c</p><br><p class=\\"validation\\">%v</p>"))</td>
 </tr>
 
 
@@ -543,7 +563,7 @@ Customized variables for org-mode:
 </table>
 
 
-<a id="orgaca698d"></a>
+<a id="org1d3468b"></a>
 
 # python configuration
 
@@ -608,22 +628,22 @@ Customized variables for python:
 <tbody>
 <tr>
 <td class="org-left">python-indent-trigger-commands</td>
-<td class="org-left">(yas-expand yas/expand)<br></td>
-<td class="org-left">(indent-for-tab-command yas-expand yas/expand)<br></td>
+<td class="org-left">(yas-expand yas/expand)</td>
+<td class="org-left">(indent-for-tab-command yas-expand yas/expand)</td>
 </tr>
 
 
 <tr>
 <td class="org-left">python-shell-completion-setup-code</td>
-<td class="org-left">"from IPython.core.completerlib import modulecompletion</sub>"</td>
-<td class="org-left">"<br>def PYTHONEL</sub>get</sub>completions</sub>(text):<br>    completions = []<br>    completer = None<br><br>    try:<br>        import readline<br><br>        try:<br>            import \_builtin</sub><br>        except ImportError:<br>            # Python 3<br>            import builtins as builtin<br>        builtins = dir(builtin)<br><br>        isipython</sub> = ('IPYTHON' in builtins or<br>                      '\_IPYTHON</sub>\_active</sub>' in builtins)<br>        splits = text.split()<br>        ismodule</sub> = splits and splits[0] in ('from', 'import')<br><br>        if isipython</sub> and ismodule</sub>:<br>            from IPython.core.completerlib import modulecompletion<br></sub>            completions = modulecompletion</sub>(text.strip())<br>        elif isipython</sub> and '\_IP</sub>' in builtins:<br>            completions = \_IP.complete</sub>(text)<br>        elif isipython</sub> and 'getipython</sub>' in builtins:<br>            completions = getipython</sub>().Completer.allcompletions</sub>(text)<br>        else:<br>            # Try to reuse current completer.<br>            completer = readline.getcompleter</sub>()<br>            if not completer:<br>                # importing rlcompleter sets the completer, use it as a<br>                # last resort to avoid breaking customizations.<br>                import rlcompleter<br>                completer = readline.getcompleter</sub>()<br>            if getattr(completer, 'PYTHONEL</sub>WRAPPED</sub>', False):<br>                completer.printmode</sub> = False<br>            i = 0<br>            while True:<br>                completion = completer(text, i)<br>                if not completion:<br>                    break<br>                i += 1<br>                completions.append(completion)<br>    except:<br>        pass<br>    finally:<br>        if getattr(completer, 'PYTHONEL</sub>WRAPPED</sub>', False):<br>            completer.printmode</sub> = True<br>    return completions"</td>
+<td class="org-left">"from IPython.core.completerlib import module_completion"</td>
+<td class="org-left">"<br>def __PYTHON_EL_get_completions(text):<br>&nbsp;&nbsp;&nbsp;&nbsp;completions = []<br>&nbsp;&nbsp;&nbsp;&nbsp;completer = None<br><br>&nbsp;&nbsp;&nbsp;&nbsp;try:<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;import readline<br><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;try:<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;import __builtin__<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;except ImportError:<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;# Python 3<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;import builtins as __builtin__<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;builtins = dir(__builtin__)<br><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;is_ipython = ('__IPYTHON__' in builtins or<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'__IPYTHON__active' in builtins)<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;splits = text.split()<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;is_module = splits and splits[0] in ('from', 'import')<br><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if is_ipython and is_module:<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;from IPython.core.completerlib import module_completion<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;completions = module_completion(text.strip())<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;elif is_ipython and '__IP' in builtins:<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;completions = __IP.complete(text)<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;elif is_ipython and 'get_ipython' in builtins:<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;completions = get_ipython().Completer.all_completions(text)<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;else:<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;# Try to reuse current completer.<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;completer = readline.get_completer()<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if not completer:<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;# importing rlcompleter sets the completer, use it as a<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;# last resort to avoid breaking customizations.<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;import rlcompleter<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;completer = readline.get_completer()<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if getattr(completer, 'PYTHON_EL_WRAPPED', False):<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;completer.print_mode = False<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;i = 0<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;while True:<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;completion = completer(text, i)<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if not completion:<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;break<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;i += 1<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;completions.append(completion)<br>&nbsp;&nbsp;&nbsp;&nbsp;except:<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pass<br>&nbsp;&nbsp;&nbsp;&nbsp;finally:<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if getattr(completer, 'PYTHON_EL_WRAPPED', False):<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;completer.print_mode = True<br>&nbsp;&nbsp;&nbsp;&nbsp;return completions"</td>
 </tr>
 
 
 <tr>
 <td class="org-left">python-shell-completion-string-code</td>
-<td class="org-left">"';'.join(getipython</sub>().Completer.allcompletions</sub>('''%s'''))<br>"</td>
-<td class="org-left">"';'.join(\_PYTHON</sub>EL</sub>get</sub>completions</sub>('''%s'''))"</td>
+<td class="org-left">"';'.join(get_ipython().Completer.all_completions('''%s'''))<br>"</td>
+<td class="org-left">"';'.join(__PYTHON_EL_get_completions('''%s'''))"</td>
 </tr>
 
 
@@ -657,7 +677,7 @@ Customized variables for python:
 </table>
 
 
-<a id="orgd787560"></a>
+<a id="orgad27227"></a>
 
 # ivy configuration
 
@@ -749,7 +769,7 @@ Customized variables:
 </table>
 
 
-<a id="org87ba5ec"></a>
+<a id="org1a44856"></a>
 
 # yasnippet configuration
 
@@ -812,12 +832,12 @@ Configured variables of interest:
 </table>
 
 
-<a id="orgd9fa4e8"></a>
+<a id="org62eee3a"></a>
 
 # Additional bits-o-configuration
 
 
-<a id="orgbc2c162"></a>
+<a id="org4880485"></a>
 
 ## Limit the length of `which-function`
 
@@ -832,7 +852,7 @@ Configured variables of interest:
 ```
 
 
-<a id="orge4a03fa"></a>
+<a id="orgfd9f114"></a>
 
 ## `my-ansi-term`
 
@@ -841,13 +861,13 @@ Allows me to name my ANSI terms. Was very useful when I used more ANSI shells (s
 ```emacs-lisp
 (defun my-ansi-term (term-name cmd)
   "Create an ansi term with a name - other than *ansi-term* given TERM-NAME and CMD."
-  (interactive "sName for terminal: <br>sCommand to run [/bin/bash]: ")
+  (interactive "sName for terminal: \nsCommand to run [/bin/bash]: ")
   (ansi-term (if (= 0 (length cmd)) "/bin/bash" cmd))
   (rename-buffer term-name))
 ```
 
 
-<a id="orgb735e8a"></a>
+<a id="org25db95f"></a>
 
 ## Understand file type by shebang
 
@@ -870,7 +890,7 @@ Script-type is read from #!/... at top of file."
 ```
 
 
-<a id="org813a84b"></a>
+<a id="org179b7e6"></a>
 
 ## Additional configs
 

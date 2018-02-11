@@ -1,9 +1,9 @@
 #+STARTUP: showeverything
 #+OPTIONS: toc:4 h:4
 #+HTML_HEAD: <style>
-#+HTML_HEAD:     table { border-collapse:collapse; margin-left: 2%; }
-#+HTML_HEAD:     th.org-left   { text-align: left; background-color: lightgray  }
-#+HTML_HEAD:     td.org-left   { text-align: left; font-family: monospace; }
+#+HTML_HEAD:     table { border: 1px solid black; border-collapse:collapse; margin-left: 2%; }
+#+HTML_HEAD:     th.org-left   { border: 1px solid black; text-align: left; background-color: lightgray  }
+#+HTML_HEAD:     td.org-left   { border: 1px solid black; text-align: left; font-family: monospace; }
 #+HTML_HEAD: </style>
 #+AUTHOR: Adam Taylor
 #+EMAIL: mr.adtaylor@gmail.com
@@ -15,10 +15,10 @@
            (cons 'hline
                  (cl-loop for cv in custom-vars
                           collect `(,cv
-                                    ,(replace-regexp-in-string "\n" ":br-goes-here:" (pp-to-string (default-value cv)))
-                                    ,(replace-regexp-in-string "\n" ":br-goes-here:" (pp-to-string (eval (car (get cv 'standard-value)))))))))
+                                    ,(replace-regexp-in-string "\\(\n\\|\\\\n\\)" "<br>" (string-trim-right (pp-to-string (default-value cv))))
+                                    ,(replace-regexp-in-string "\\(\n\\|\\\\n\\)" "<br>" (string-trim-right (pp-to-string (eval (car (get cv 'standard-value))))))))))
    #+END_SRC
-  
+   
 
 * Overview
   This is my literate and *portable* Emacs initialization "system."
@@ -80,8 +80,9 @@
 
    The [[(pkg-refresh)][package-refresh-contents]] in the above code depends upon:
 
+   #+NAME: init-file-custom-vars
    #+CALL: custom-vars-table(custom-vars='(package-archives))
-   #+RESULTS:
+
 
 * Configuration
 ** Just a little preamble
@@ -111,9 +112,8 @@
 *** savehist
     A great builtin that allows us to have a history file. This means certain elements are saved between sessions of emacs. Set the following variables to control =savehist= (use customize).
 
-    #+NAME: savehist-vars
+    #+NAME: savehist-custom-vars
     #+CALL: custom-vars-table(custom-vars='(savehist-file savehist-additional-variables savehist-mode))
-    #+RESULTS:
 
     #+BEGIN_SRC emacs-lisp :tangle yes
       (use-package savehist :demand t)                ;; Nice history in ~/.emacs.d/savehist
@@ -170,7 +170,8 @@
     Note that the setting of [[(desktop-path)][=desktop-path=]] allows the multiple =.emacs.desktop= files, each in the directory where =emacs= was started. Although =desktop-path= is changed outside =custom.el=, I've included it here in the table below so you can see that the default is augmented with the startup directory which in this case is =~/.emacs.d=.
 
     Customized variables of interest here:
-    #+NAME: other-pkgs-vars
+
+    #+NAME: other-pkgs-custom-vars
     #+CALL: custom-vars-table(custom-vars='(desktop-path desktop-save-mode))
 
 * Working with C#
@@ -219,7 +220,7 @@
   #+END_SRC
 
     Customized variables:
-    #+NAME: magit-vars
+    #+NAME: magit-custom-vars
     #+CALL: custom-vars-table(custom-vars='(magit-completing-read-function magit-pull-arguments nil magit-repository-directories))
   
 * org-mode configuration
@@ -250,8 +251,28 @@
               "```\n"))
   #+END_SRC
   
+  To support the using of dynamic custom vars table using the library of Babel, the export text for markdown and html goes through =orgtbl-to-orgtbl= which turns the list returned in the an org-mode table. After =orgtbl-to-orgtbl=, the =htmlize= package turns it into a HTML table. The advisor changes all the spaces after a =<br>= into =&nbsp;= entities and surrounds them with inline HTML. This is necessary because =orgtbl-to-orgtbl= strips text between the =@@= used to inline HTML. The advisor also protects any underscores in the table with inline HTML.
+
+  #+BEGIN_SRC emacs-lisp :tangle yes
+    (defun my-md-export-hack(text)
+      "Fix up md export on writing my README.org file.
+    Converts a <br> followed by zero or more spaces into inline html format.
+    For example: an in put of \"hello<br>there<br> my<br>  friend<br>\" becomes
+    \"hello@@html:<br>@@there@@html:<br>&nbsp;@@my@@html:<br>&nbsp;&nbsp;@@friend@@html:<br>@@\"
+    This function also adds inline HTML around '_' in the text."
+      (when (stringp text)
+        (replace-regexp-in-string "<br>\[[:space:]\]*"
+                                  (lambda (match) (concat "@@html:<br>"
+                                                          (apply 'concat (make-list (- (length match) 4) "&nbsp;"))
+                                                          "@@"))
+                                  (replace-regexp-in-string  "_" "@@html:_@@"  text))))
+
+    (advice-add 'orgtbl-to-orgtbl :filter-return 'my-md-export-hack)
+
+  #+END_SRC
+
   Customized variables for org-mode:
-  #+NAME: org-mode-vars
+  #+NAME: org-mode-custom-vars
   #+CALL: custom-vars-table(custom-vars='(org-catch-invisible-edits org-html-postamble org-html-postamble-format org-log-done org-log-into-drawer))
 
 * python configuration
@@ -294,10 +315,8 @@
   #+END_SRC
 
     Customized variables for python:
-    #+NAME: python-vars
+    #+NAME: python-custom-vars
     #+CALL: custom-vars-table(custom-vars='(python-indent-trigger-commands python-shell-completion-setup-code python-shell-completion-string-code python-shell-interpreter python-shell-interpreter-args python-shell-prompt-output-regexp python-shell-prompt-regexp))
-    #+RESULTS: 
-
 
 * ivy configuration
   Was a help user, but switched to ivy. Lots of nice features in ivy
@@ -337,7 +356,7 @@
   #+END_SRC
 
     Customized variables:
-    #+NAME: ivy-vars
+    #+NAME: ivy-custom-vars
     #+CALL: custom-vars-table(custom-vars='(ivy-count-format ivy-height ivy-mode ivy-use-virtual-buffers))
 
 * yasnippet configuration
@@ -370,7 +389,7 @@
   #+END_SRC
 
   Configured variables of interest:
-  #+NAME: yas-vars
+  #+NAME: yas-custom-vars
   #+CALL: custom-vars-table(custom-vars='(yas-global-mode))
 
 
