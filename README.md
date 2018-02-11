@@ -1,42 +1,43 @@
 
 # Table of Contents
 
-1.  [Overview](#orgb3a106a)
-    1.  [Quick start](#org5e853d2)
-    2.  [`init.el` explained](#org6bd8c31)
-2.  [Configuration](#org271f174)
-    1.  [Just a little preamble](#orge516b67)
-    2.  [General packages](#org9897998)
-        1.  [diminish](#org1759342)
-        2.  [bind-key](#org90c265e)
-        3.  [savehist](#orgf800f21)
-        4.  [ag](#org6f47882)
-        5.  [powershell](#org4950fe1)
-        6.  [themes and modeline](#org394500e)
-        7.  [aspx editing](#orga560982)
-        8.  [Other useful packages](#org79bc876)
-3.  [Working with C#](#orgc364991)
-4.  [magit configuration](#org07cb61e)
-5.  [org-mode configuration](#org1c76808)
-6.  [python configuration](#orgf7fe5e7)
-7.  [ivy configuration](#org9ec16ff)
-8.  [yasnippet configuration](#orgbb3fd86)
-9.  [Additional bits-o-configuration](#org8184240)
-    1.  [Limit the length of `which-function`](#org19a619a)
-    2.  [`my-ansi-term`](#org0d170f4)
-    3.  [Understand file type by shebang](#org6d91935)
-    4.  [Additional configs](#org6af6a16)
+1.  [Overview](#org51e2657)
+    1.  [Quick start](#orgc596462)
+    2.  [`init.el` explained](#org61f2aac)
+2.  [Configuration](#org1a8e647)
+    1.  [Just a little preamble](#org37f8043)
+    2.  [General packages](#org7f89346)
+        1.  [diminish](#org0a22c3d)
+        2.  [bind-key](#orgee26dd2)
+        3.  [savehist](#orgf1497c5)
+        4.  [ag](#org9fdbc0c)
+        5.  [powershell](#org89b96b3)
+        6.  [themes and modeline](#org6991648)
+        7.  [aspx editing](#org2708fd2)
+        8.  [Other useful packages](#org4496953)
+3.  [Working with C#](#org96eb4ff)
+4.  [magit configuration](#orgd3d310b)
+5.  [org-mode configuration](#org97996f5)
+    1.  [org-mode export hacks for HTML and Markdown](#org1081353)
+6.  [python configuration](#orgcb3a366)
+7.  [ivy configuration](#org0eae6e5)
+8.  [yasnippet configuration](#org8684b70)
+9.  [Additional bits-o-configuration](#org4f3ffe4)
+    1.  [Limit the length of `which-function`](#org2f5613c)
+    2.  [`my-ansi-term`](#org3c74a8f)
+    3.  [Understand file type by shebang](#org54cc4bd)
+    4.  [Additional configs](#orgd1148e5)
 
 
 
-<a id="orgb3a106a"></a>
+<a id="org51e2657"></a>
 
 # Overview
 
 This is my literate and **portable** Emacs initialization "system."
 
 
-<a id="org5e853d2"></a>
+<a id="orgc596462"></a>
 
 ## Quick start
 
@@ -49,7 +50,7 @@ The ability to simply clone and start makes this configuration **highly portable
 A minor warning is that Emacs load times can be somewhat slow. Startup continues to get slower as the size of the desktop file increases (the more files that need to be opened at the start of Emacs). Since I tend to stay in Emacs for quite some time, this doesn't get in my way.
 
 
-<a id="org6bd8c31"></a>
+<a id="org61f2aac"></a>
 
 ## `init.el` explained
 
@@ -130,12 +131,12 @@ The package-refresh-contents in the above code depends upon:
 </table>
 
 
-<a id="org271f174"></a>
+<a id="org1a8e647"></a>
 
 # Configuration
 
 
-<a id="orge516b67"></a>
+<a id="org37f8043"></a>
 
 ## Just a little preamble
 
@@ -153,14 +154,14 @@ Also create a handy variable to know if we are Windows - used later on here.
 ```
 
 
-<a id="org9897998"></a>
+<a id="org7f89346"></a>
 
 ## General packages
 
 Here are some general packages
 
 
-<a id="org1759342"></a>
+<a id="org0a22c3d"></a>
 
 ### [diminish](https://github.com/myrjola/diminish.el)
 
@@ -171,7 +172,7 @@ Handy mode to make the modeline nicer. I also use to set mode to special charact
 ```
 
 
-<a id="org90c265e"></a>
+<a id="orgee26dd2"></a>
 
 ### [bind-key](https://github.com/priyadarshan/bind-key)
 
@@ -182,7 +183,7 @@ Much better binding capabilities
 ```
 
 
-<a id="orgf800f21"></a>
+<a id="orgf1497c5"></a>
 
 ### savehist
 
@@ -234,7 +235,7 @@ A great builtin that allows us to have a history file. This means certain elemen
 ```
 
 
-<a id="org6f47882"></a>
+<a id="org9fdbc0c"></a>
 
 ### [ag](https://github.com/Wilfred/ag.el)
 
@@ -247,7 +248,7 @@ NB: doesn't seem to work so well under Windows.
 ```
 
 
-<a id="org4950fe1"></a>
+<a id="org89b96b3"></a>
 
 ### [powershell](http://github.com/jschaf/powershell.el)
 
@@ -259,7 +260,7 @@ Excellent too to run powershell in Emacs
 ```
 
 
-<a id="org394500e"></a>
+<a id="org6991648"></a>
 
 ### themes and modeline
 
@@ -271,7 +272,7 @@ Excellent too to run powershell in Emacs
 ```
 
 
-<a id="orga560982"></a>
+<a id="org2708fd2"></a>
 
 ### aspx editing
 
@@ -284,7 +285,7 @@ Make aspx editing more palatable using html mode
 ```
 
 
-<a id="org79bc876"></a>
+<a id="org4496953"></a>
 
 ### Other useful packages
 
@@ -348,7 +349,7 @@ Customized variables of interest here:
 </table>
 
 
-<a id="orgc364991"></a>
+<a id="org96eb4ff"></a>
 
 # Working with C#
 
@@ -382,7 +383,7 @@ There are comprehensive directions at [omnisharp-emacs](https://github.com/OmniS
 ```
 
 
-<a id="org07cb61e"></a>
+<a id="orgd3d310b"></a>
 
 # [magit](https://github.com/magit/magit) configuration
 
@@ -454,7 +455,7 @@ Customized variables:
 </table>
 
 
-<a id="org1c76808"></a>
+<a id="org97996f5"></a>
 
 # org-mode configuration
 
@@ -468,48 +469,6 @@ The `htmlize` package allows the html and markdown exporters to work (underlying
    :config (add-hook 'org-mode-hook 'org-bullets-mode))
 (use-package org-autolist :demand t)
 (use-package htmlize :demand t)
-```
-
-I export into markdown for github. I do not use the `ox-gfm` package because when I tried it, it modified the source file because of this file's use of the `#+CALL` construct (each call adds the table to the source file). So I use the built in `ox-md` exporter. However, it just indents the code blocks rather put the `` ```emacs-lisp `` code snippet prefix and `` ``` `` postfix but rather just indents. First we load the library so it turns up in the export menu (`C-x C-e`). Then we override the output method for the code.
-
-```emacs-lisp
-(load-library "ox-md")
-
-(defun org-md-example-block (example-block _contents info)
-  "My modified: Transcode EXAMPLE-BLOCK element into Markdown format.
-CONTENTS is nil.  INFO is a plist used as a communication
-channel."
-  (concat "```emacs-lisp\n"
-          (org-remove-indentation
-           (org-export-format-code-default example-block info))
-          "```\n"))
-```
-
-To support the using of dynamic custom vars table using the library of Babel, the export text for markdown and html goes through `orgtbl-to-orgtbl` which turns the list returned in the an org-mode table. After `orgtbl-to-orgtbl`, the `htmlize` package turns it into a HTML table. The advisor changes all the spaces after a `<br>` into `&nbsp;` entities and surrounds them with inline HTML. This is necessary because `orgtbl-to-orgtbl` strips text between the `@@` used to inline HTML. The advisor also protects any underscores in the table with inline HTML.
-
-```emacs-lisp
-(defun my-md-export-hack(text)
-  "Fix up md export on writing my README.org file.
-        Converts a <br> followed by zero or more spaces into inline html format.
-        For example: an in put of \"hello<br>there<br> my<br>  friend<br>\" becomes
-        \"hello@@html:<br>@@there@@html:<br>&nbsp;@@my@@html:<br>&nbsp;&nbsp;@@friend@@html:<br>@@\"
-        This function also adds inline HTML around '_' in the text."
-  (when (stringp text)
-    (let ((result text)
-          (replacements '(("<br>\[[:space:]\]*" (lambda (match)
-                                                  (concat "@@html:<br>"
-                                                          (apply 'concat (make-list (- (length match) 4) "&nbsp;"))
-                                                          "@@")))
-                          ("\"\\(https?:\[^\"\]*\\)" "\"@@html:<a href=\"\\1\">\\1</a>@@")
-                          ("_" "@@html:_@@")
-                          ("<\\(p.*?\\)>" "@@html:&lt;\\1&gt;@@")
-                          ("</p>" "@@html:&lt;/p&gt;@@"))))
-      (cl-loop for rep in replacements do
-               (setq result (replace-regexp-in-string (nth 0 rep) (nth 1 rep) result)))
-      result)))
-
-(advice-add 'orgtbl-to-orgtbl :filter-return 'my-md-export-hack)
-
 ```
 
 Customized variables for org-mode:
@@ -570,7 +529,53 @@ Customized variables for org-mode:
 </table>
 
 
-<a id="orgf7fe5e7"></a>
+<a id="org1081353"></a>
+
+## org-mode export hacks for HTML and Markdown
+
+I export into markdown for github. I do not use the `ox-gfm` package because when I tried it, it modified the source file because of this file's use of the `#+CALL` construct (each call adds the table to the source file). So I use the built in `ox-md` exporter. However, it just indents the code blocks rather put the `` ```emacs-lisp `` code snippet prefix and `` ``` `` postfix but rather just indents. First we load the library so it turns up in the export menu (`C-x C-e`). Then we override the output method for the code.
+
+```emacs-lisp
+(load-library "ox-md")
+
+(defun org-md-example-block (example-block _contents info)
+  "My modified: Transcode EXAMPLE-BLOCK element into Markdown format.
+CONTENTS is nil.  INFO is a plist used as a communication
+channel."
+  (concat "```emacs-lisp\n"
+          (org-remove-indentation
+           (org-export-format-code-default example-block info))
+          "```\n"))
+```
+
+To support the using of dynamic custom vars table using the library of Babel, the export text for markdown and html goes through `orgtbl-to-orgtbl` which turns the list returned in the an org-mode table. After `orgtbl-to-orgtbl`, the `htmlize` package turns it into a HTML table. The advisor changes all the spaces after a `<br>` into `&nbsp;` entities and surrounds them with inline HTML. This is necessary because `orgtbl-to-orgtbl` strips text between the `@@` used to inline HTML. The advisor also protects any underscores in the table with inline HTML.
+
+```emacs-lisp
+(defun my-md-export-hack(text)
+  "Fix up md export on writing my README.org file.
+        Converts a <br> followed by zero or more spaces into inline html format.
+        For example: an in put of \"hello<br>there<br> my<br>  friend<br>\" becomes
+        \"hello@@html:<br>@@there@@html:<br>&nbsp;@@my@@html:<br>&nbsp;&nbsp;@@friend@@html:<br>@@\"
+        This function also adds inline HTML around '_' in the text."
+  (when (stringp text)
+    (let ((result text)
+          (replacements '(("<br>\[[:space:]\]*" (lambda (match)
+                                                  (concat "@@html:<br>"
+                                                          (apply 'concat (make-list (- (length match) 4) "&nbsp;"))
+                                                          "@@")))
+                          ("\"\\(https?:\[^\"\]*\\)" "\"@@html:<a href=\"\\1\">\\1</a>@@")
+                          ("_" "@@html:_@@")
+                          ("<\\(p.*?\\)>" "@@html:&lt;\\1&gt;@@")
+                          ("</p>" "@@html:&lt;/p&gt;@@"))))
+      (cl-loop for rep in replacements do
+               (setq result (replace-regexp-in-string (nth 0 rep) (nth 1 rep) result)))
+      result)))
+
+(advice-add 'orgtbl-to-orgtbl :filter-return 'my-md-export-hack)
+```
+
+
+<a id="orgcb3a366"></a>
 
 # python configuration
 
@@ -684,7 +689,7 @@ Customized variables for python:
 </table>
 
 
-<a id="org9ec16ff"></a>
+<a id="org0eae6e5"></a>
 
 # ivy configuration
 
@@ -776,7 +781,7 @@ Customized variables:
 </table>
 
 
-<a id="orgbb3fd86"></a>
+<a id="org8684b70"></a>
 
 # yasnippet configuration
 
@@ -839,12 +844,12 @@ Configured variables of interest:
 </table>
 
 
-<a id="org8184240"></a>
+<a id="org4f3ffe4"></a>
 
 # Additional bits-o-configuration
 
 
-<a id="org19a619a"></a>
+<a id="org2f5613c"></a>
 
 ## Limit the length of `which-function`
 
@@ -859,7 +864,7 @@ Configured variables of interest:
 ```
 
 
-<a id="org0d170f4"></a>
+<a id="org3c74a8f"></a>
 
 ## `my-ansi-term`
 
@@ -874,7 +879,7 @@ Allows me to name my ANSI terms. Was very useful when I used more ANSI shells (s
 ```
 
 
-<a id="org6d91935"></a>
+<a id="org54cc4bd"></a>
 
 ## Understand file type by shebang
 
@@ -897,7 +902,7 @@ Script-type is read from #!/... at top of file."
 ```
 
 
-<a id="org6af6a16"></a>
+<a id="orgd1148e5"></a>
 
 ## Additional configs
 

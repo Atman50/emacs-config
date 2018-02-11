@@ -236,51 +236,52 @@
     (use-package htmlize :demand t)
   #+END_SRC
 
-  I export into markdown for github. I do not use the =ox-gfm= package because when I tried it, it modified the source file because of this file's use of the =#+CALL= construct (each call adds the table to the source file). So I use the built in =ox-md= exporter. However, it just indents the code blocks rather put the =```emacs-lisp= code snippet prefix and =```= postfix but rather just indents. First we load the library so it turns up in the export menu (=C-x C-e=). Then we override the output method for the code.
-
-  #+BEGIN_SRC emacs-lisp :tangle yes
-    (load-library "ox-md")
-
-    (defun org-md-example-block (example-block _contents info)
-      "My modified: Transcode EXAMPLE-BLOCK element into Markdown format.
-    CONTENTS is nil.  INFO is a plist used as a communication
-    channel."
-      (concat "```emacs-lisp\n"
-              (org-remove-indentation
-               (org-export-format-code-default example-block info))
-              "```\n"))
-  #+END_SRC
-  
-  To support the using of dynamic custom vars table using the library of Babel, the export text for markdown and html goes through =orgtbl-to-orgtbl= which turns the list returned in the an org-mode table. After =orgtbl-to-orgtbl=, the =htmlize= package turns it into a HTML table. The advisor changes all the spaces after a =<br>= into =&nbsp;= entities and surrounds them with inline HTML. This is necessary because =orgtbl-to-orgtbl= strips text between the =@@= used to inline HTML. The advisor also protects any underscores in the table with inline HTML.
-
-  #+BEGIN_SRC emacs-lisp :tangle yes
-    (defun my-md-export-hack(text)
-      "Fix up md export on writing my README.org file.
-            Converts a <br> followed by zero or more spaces into inline html format.
-            For example: an in put of \"hello<br>there<br> my<br>  friend<br>\" becomes
-            \"hello@@html:<br>@@there@@html:<br>&nbsp;@@my@@html:<br>&nbsp;&nbsp;@@friend@@html:<br>@@\"
-            This function also adds inline HTML around '_' in the text."
-      (when (stringp text)
-        (let ((result text)
-              (replacements '(("<br>\[[:space:]\]*" (lambda (match)
-                                                      (concat "@@html:<br>"
-                                                              (apply 'concat (make-list (- (length match) 4) "&nbsp;"))
-                                                              "@@")))
-                              ("\"\\(https?:\[^\"\]*\\)" "\"@@html:<a href=\"\\1\">\\1</a>@@")
-                              ("_" "@@html:_@@")
-                              ("<\\(p.*?\\)>" "@@html:&lt;\\1&gt;@@")
-                              ("</p>" "@@html:&lt;/p&gt;@@"))))
-          (cl-loop for rep in replacements do
-                   (setq result (replace-regexp-in-string (nth 0 rep) (nth 1 rep) result)))
-          result)))
-
-    (advice-add 'orgtbl-to-orgtbl :filter-return 'my-md-export-hack)
-
-  #+END_SRC
-
   Customized variables for org-mode:
   #+NAME: org-mode-custom-vars
   #+CALL: custom-vars-table(custom-vars='(org-catch-invisible-edits org-html-postamble org-html-postamble-format org-log-done org-log-into-drawer))
+
+** org-mode export hacks for HTML and Markdown
+   I export into markdown for github. I do not use the =ox-gfm= package because when I tried it, it modified the source file because of this file's use of the =#+CALL= construct (each call adds the table to the source file). So I use the built in =ox-md= exporter. However, it just indents the code blocks rather put the =```emacs-lisp= code snippet prefix and =```= postfix but rather just indents. First we load the library so it turns up in the export menu (=C-x C-e=). Then we override the output method for the code.
+
+   #+BEGIN_SRC emacs-lisp :tangle yes
+     (load-library "ox-md")
+
+     (defun org-md-example-block (example-block _contents info)
+       "My modified: Transcode EXAMPLE-BLOCK element into Markdown format.
+     CONTENTS is nil.  INFO is a plist used as a communication
+     channel."
+       (concat "```emacs-lisp\n"
+               (org-remove-indentation
+                (org-export-format-code-default example-block info))
+               "```\n"))
+   #+END_SRC
+  
+   To support the using of dynamic custom vars table using the library of Babel, the export text for markdown and html goes through =orgtbl-to-orgtbl= which turns the list returned in the an org-mode table. After =orgtbl-to-orgtbl=, the =htmlize= package turns it into a HTML table. The advisor changes all the spaces after a =<br>= into =&nbsp;= entities and surrounds them with inline HTML. This is necessary because =orgtbl-to-orgtbl= strips text between the =@@= used to inline HTML. The advisor also protects any underscores in the table with inline HTML.
+
+   #+BEGIN_SRC emacs-lisp :tangle yes
+     (defun my-md-export-hack(text)
+       "Fix up md export on writing my README.org file.
+             Converts a <br> followed by zero or more spaces into inline html format.
+             For example: an in put of \"hello<br>there<br> my<br>  friend<br>\" becomes
+             \"hello@@html:<br>@@there@@html:<br>&nbsp;@@my@@html:<br>&nbsp;&nbsp;@@friend@@html:<br>@@\"
+             This function also adds inline HTML around '_' in the text."
+       (when (stringp text)
+         (let ((result text)
+               (replacements '(("<br>\[[:space:]\]*" (lambda (match)
+                                                       (concat "@@html:<br>"
+                                                               (apply 'concat (make-list (- (length match) 4) "&nbsp;"))
+                                                               "@@")))
+                               ("\"\\(https?:\[^\"\]*\\)" "\"@@html:<a href=\"\\1\">\\1</a>@@")
+                               ("_" "@@html:_@@")
+                               ("<\\(p.*?\\)>" "@@html:&lt;\\1&gt;@@")
+                               ("</p>" "@@html:&lt;/p&gt;@@"))))
+           (cl-loop for rep in replacements do
+                    (setq result (replace-regexp-in-string (nth 0 rep) (nth 1 rep) result)))
+           result)))
+
+     (advice-add 'orgtbl-to-orgtbl :filter-return 'my-md-export-hack)
+   #+END_SRC
+
 
 * python configuration
   At one point I was using anaconda but have switched back to elpy. I really like =eply-config= that tells you if everything is working properly. I've been using a =virtualenv= for my python development and couldn't be happier. Perhaps ethe only thing that bothers me is that when an object is returned, pycharm will give you list and dictionary methods while eply/company does not. Seems to be the only real issue at this point.
