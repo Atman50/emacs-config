@@ -256,16 +256,23 @@
   #+BEGIN_SRC emacs-lisp :tangle yes
     (defun my-md-export-hack(text)
       "Fix up md export on writing my README.org file.
-    Converts a <br> followed by zero or more spaces into inline html format.
-    For example: an in put of \"hello<br>there<br> my<br>  friend<br>\" becomes
-    \"hello@@html:<br>@@there@@html:<br>&nbsp;@@my@@html:<br>&nbsp;&nbsp;@@friend@@html:<br>@@\"
-    This function also adds inline HTML around '_' in the text."
+            Converts a <br> followed by zero or more spaces into inline html format.
+            For example: an in put of \"hello<br>there<br> my<br>  friend<br>\" becomes
+            \"hello@@html:<br>@@there@@html:<br>&nbsp;@@my@@html:<br>&nbsp;&nbsp;@@friend@@html:<br>@@\"
+            This function also adds inline HTML around '_' in the text."
       (when (stringp text)
-        (replace-regexp-in-string "<br>\[[:space:]\]*"
-                                  (lambda (match) (concat "@@html:<br>" (apply 'concat (make-list (- (length match) 4) "&nbsp;")) "@@"))
-                                  (replace-regexp-in-string "\"\\(https?:\[^\"\]*\\)"
-                                                            "\"@@html:<a href=\"\\1\">\\1</a>@@"
-                                                            (replace-regexp-in-string  "_" "@@html:_@@"  text)))))
+        (let ((result text)
+              (replacements '(("<br>\[[:space:]\]*" (lambda (match)
+                                                      (concat "@@html:<br>"
+                                                              (apply 'concat (make-list (- (length match) 4) "&nbsp;"))
+                                                              "@@")))
+                              ("\"\\(https?:\[^\"\]*\\)" "\"@@html:<a href=\"\\1\">\\1</a>@@")
+                              ("_" "@@html:_@@")
+                              ("<\\(p.*?\\)>" "@@html:&lt;\\1&gt;@@")
+                              ("</p>" "@@html:&lt;/p&gt;@@"))))
+          (cl-loop for rep in replacements do
+                   (setq result (replace-regexp-in-string (nth 0 rep) (nth 1 rep) result)))
+          result)))
 
     (advice-add 'orgtbl-to-orgtbl :filter-return 'my-md-export-hack)
 

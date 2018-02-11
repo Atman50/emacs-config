@@ -1,42 +1,42 @@
 
 # Table of Contents
 
-1.  [Overview](#org1244bfa)
-    1.  [Quick start](#orge7a8e69)
-    2.  [`init.el` explained](#org42bc6f5)
-2.  [Configuration](#org6fd90ca)
-    1.  [Just a little preamble](#orge71fed6)
-    2.  [General packages](#orgf5e4c77)
-        1.  [diminish](#orgf2018d0)
-        2.  [bind-key](#orgd3ed286)
-        3.  [savehist](#org00fec3e)
-        4.  [ag](#orgbdca8f9)
-        5.  [powershell](#orgd364bae)
-        6.  [themes and modeline](#org308569d)
-        7.  [aspx editing](#org16fead0)
-        8.  [Other useful packages](#org4dc1584)
-3.  [Working with C#](#orgc1e8ca6)
-4.  [magit configuration](#org9f279be)
-5.  [org-mode configuration](#org60298a9)
-6.  [python configuration](#org434da20)
-7.  [ivy configuration](#orga999dbe)
-8.  [yasnippet configuration](#orgb9c4be3)
-9.  [Additional bits-o-configuration](#org59c1d10)
-    1.  [Limit the length of `which-function`](#org5fa708a)
-    2.  [`my-ansi-term`](#org3e50a35)
-    3.  [Understand file type by shebang](#org2eb6e9e)
-    4.  [Additional configs](#org706af46)
+1.  [Overview](#orgb3a106a)
+    1.  [Quick start](#org5e853d2)
+    2.  [`init.el` explained](#org6bd8c31)
+2.  [Configuration](#org271f174)
+    1.  [Just a little preamble](#orge516b67)
+    2.  [General packages](#org9897998)
+        1.  [diminish](#org1759342)
+        2.  [bind-key](#org90c265e)
+        3.  [savehist](#orgf800f21)
+        4.  [ag](#org6f47882)
+        5.  [powershell](#org4950fe1)
+        6.  [themes and modeline](#org394500e)
+        7.  [aspx editing](#orga560982)
+        8.  [Other useful packages](#org79bc876)
+3.  [Working with C#](#orgc364991)
+4.  [magit configuration](#org07cb61e)
+5.  [org-mode configuration](#org1c76808)
+6.  [python configuration](#orgf7fe5e7)
+7.  [ivy configuration](#org9ec16ff)
+8.  [yasnippet configuration](#orgbb3fd86)
+9.  [Additional bits-o-configuration](#org8184240)
+    1.  [Limit the length of `which-function`](#org19a619a)
+    2.  [`my-ansi-term`](#org0d170f4)
+    3.  [Understand file type by shebang](#org6d91935)
+    4.  [Additional configs](#org6af6a16)
 
 
 
-<a id="org1244bfa"></a>
+<a id="orgb3a106a"></a>
 
 # Overview
 
 This is my literate and **portable** Emacs initialization "system."
 
 
-<a id="orge7a8e69"></a>
+<a id="org5e853d2"></a>
 
 ## Quick start
 
@@ -49,7 +49,7 @@ The ability to simply clone and start makes this configuration **highly portable
 A minor warning is that Emacs load times can be somewhat slow. Startup continues to get slower as the size of the desktop file increases (the more files that need to be opened at the start of Emacs). Since I tend to stay in Emacs for quite some time, this doesn't get in my way.
 
 
-<a id="org42bc6f5"></a>
+<a id="org6bd8c31"></a>
 
 ## `init.el` explained
 
@@ -130,12 +130,12 @@ The package-refresh-contents in the above code depends upon:
 </table>
 
 
-<a id="org6fd90ca"></a>
+<a id="org271f174"></a>
 
 # Configuration
 
 
-<a id="orge71fed6"></a>
+<a id="orge516b67"></a>
 
 ## Just a little preamble
 
@@ -153,14 +153,14 @@ Also create a handy variable to know if we are Windows - used later on here.
 ```
 
 
-<a id="orgf5e4c77"></a>
+<a id="org9897998"></a>
 
 ## General packages
 
 Here are some general packages
 
 
-<a id="orgf2018d0"></a>
+<a id="org1759342"></a>
 
 ### [diminish](https://github.com/myrjola/diminish.el)
 
@@ -171,7 +171,7 @@ Handy mode to make the modeline nicer. I also use to set mode to special charact
 ```
 
 
-<a id="orgd3ed286"></a>
+<a id="org90c265e"></a>
 
 ### [bind-key](https://github.com/priyadarshan/bind-key)
 
@@ -182,7 +182,7 @@ Much better binding capabilities
 ```
 
 
-<a id="org00fec3e"></a>
+<a id="orgf800f21"></a>
 
 ### savehist
 
@@ -234,7 +234,7 @@ A great builtin that allows us to have a history file. This means certain elemen
 ```
 
 
-<a id="orgbdca8f9"></a>
+<a id="org6f47882"></a>
 
 ### [ag](https://github.com/Wilfred/ag.el)
 
@@ -247,7 +247,7 @@ NB: doesn't seem to work so well under Windows.
 ```
 
 
-<a id="orgd364bae"></a>
+<a id="org4950fe1"></a>
 
 ### [powershell](http://github.com/jschaf/powershell.el)
 
@@ -259,7 +259,7 @@ Excellent too to run powershell in Emacs
 ```
 
 
-<a id="org308569d"></a>
+<a id="org394500e"></a>
 
 ### themes and modeline
 
@@ -271,7 +271,7 @@ Excellent too to run powershell in Emacs
 ```
 
 
-<a id="org16fead0"></a>
+<a id="orga560982"></a>
 
 ### aspx editing
 
@@ -284,7 +284,7 @@ Make aspx editing more palatable using html mode
 ```
 
 
-<a id="org4dc1584"></a>
+<a id="org79bc876"></a>
 
 ### Other useful packages
 
@@ -348,7 +348,7 @@ Customized variables of interest here:
 </table>
 
 
-<a id="orgc1e8ca6"></a>
+<a id="orgc364991"></a>
 
 # Working with C#
 
@@ -382,7 +382,7 @@ There are comprehensive directions at [omnisharp-emacs](https://github.com/OmniS
 ```
 
 
-<a id="org9f279be"></a>
+<a id="org07cb61e"></a>
 
 # [magit](https://github.com/magit/magit) configuration
 
@@ -454,7 +454,7 @@ Customized variables:
 </table>
 
 
-<a id="org60298a9"></a>
+<a id="org1c76808"></a>
 
 # org-mode configuration
 
@@ -490,16 +490,23 @@ To support the using of dynamic custom vars table using the library of Babel, th
 ```emacs-lisp
 (defun my-md-export-hack(text)
   "Fix up md export on writing my README.org file.
-Converts a <br> followed by zero or more spaces into inline html format.
-For example: an in put of \"hello<br>there<br> my<br>  friend<br>\" becomes
-\"hello@@html:<br>@@there@@html:<br>&nbsp;@@my@@html:<br>&nbsp;&nbsp;@@friend@@html:<br>@@\"
-This function also adds inline HTML around '_' in the text."
+        Converts a <br> followed by zero or more spaces into inline html format.
+        For example: an in put of \"hello<br>there<br> my<br>  friend<br>\" becomes
+        \"hello@@html:<br>@@there@@html:<br>&nbsp;@@my@@html:<br>&nbsp;&nbsp;@@friend@@html:<br>@@\"
+        This function also adds inline HTML around '_' in the text."
   (when (stringp text)
-    (replace-regexp-in-string "<br>\[[:space:]\]*"
-                              (lambda (match) (concat "@@html:<br>" (apply 'concat (make-list (- (length match) 4) "&nbsp;")) "@@"))
-                              (replace-regexp-in-string "\"\\(https?:\[^\"\]*\\)"
-                                                        "\"@@html:<a href=\"\\1\">\\1</a>@@"
-                                                        (replace-regexp-in-string  "_" "@@html:_@@"  text)))))
+    (let ((result text)
+          (replacements '(("<br>\[[:space:]\]*" (lambda (match)
+                                                  (concat "@@html:<br>"
+                                                          (apply 'concat (make-list (- (length match) 4) "&nbsp;"))
+                                                          "@@")))
+                          ("\"\\(https?:\[^\"\]*\\)" "\"@@html:<a href=\"\\1\">\\1</a>@@")
+                          ("_" "@@html:_@@")
+                          ("<\\(p.*?\\)>" "@@html:&lt;\\1&gt;@@")
+                          ("</p>" "@@html:&lt;/p&gt;@@"))))
+      (cl-loop for rep in replacements do
+               (setq result (replace-regexp-in-string (nth 0 rep) (nth 1 rep) result)))
+      result)))
 
 (advice-add 'orgtbl-to-orgtbl :filter-return 'my-md-export-hack)
 
@@ -542,8 +549,8 @@ Customized variables for org-mode:
 
 <tr>
 <td class="org-left">org-html-postamble-format</td>
-<td class="org-left">(("en" "<p class=\\"author\\">Author: %a (%e)</p><br><p class=\\"date\\">Date: %T</p><br><p class=\\"creator\\">%c</p>"))</td>
-<td class="org-left">(("en" "<p class=\\"author\\">Author: %a (%e)</p><br><p class=\\"date\\">Date: %d</p><br><p class=\\"creator\\">%c</p><br><p class=\\"validation\\">%v</p>"))</td>
+<td class="org-left">(("en" "&lt;p class=\"author\"&gt;Author: %a (%e)&lt;/p&gt;<br>&lt;p class=\"date\"&gt;Date: %T&lt;/p&gt;<br>&lt;p class=\"creator\"&gt;%c&lt;/p&gt;"))</td>
+<td class="org-left">(("en" "&lt;p class=\"author\"&gt;Author: %a (%e)&lt;/p&gt;<br>&lt;p class=\"date\"&gt;Date: %d&lt;/p&gt;<br>&lt;p class=\"creator\"&gt;%c&lt;/p&gt;<br>&lt;p class=\"validation\"&gt;%v&lt;/p&gt;"))</td>
 </tr>
 
 
@@ -563,7 +570,7 @@ Customized variables for org-mode:
 </table>
 
 
-<a id="org434da20"></a>
+<a id="orgf7fe5e7"></a>
 
 # python configuration
 
@@ -677,7 +684,7 @@ Customized variables for python:
 </table>
 
 
-<a id="orga999dbe"></a>
+<a id="org9ec16ff"></a>
 
 # ivy configuration
 
@@ -769,7 +776,7 @@ Customized variables:
 </table>
 
 
-<a id="orgb9c4be3"></a>
+<a id="orgbb3fd86"></a>
 
 # yasnippet configuration
 
@@ -832,12 +839,12 @@ Configured variables of interest:
 </table>
 
 
-<a id="org59c1d10"></a>
+<a id="org8184240"></a>
 
 # Additional bits-o-configuration
 
 
-<a id="org5fa708a"></a>
+<a id="org19a619a"></a>
 
 ## Limit the length of `which-function`
 
@@ -852,7 +859,7 @@ Configured variables of interest:
 ```
 
 
-<a id="org3e50a35"></a>
+<a id="org0d170f4"></a>
 
 ## `my-ansi-term`
 
@@ -867,7 +874,7 @@ Allows me to name my ANSI terms. Was very useful when I used more ANSI shells (s
 ```
 
 
-<a id="org2eb6e9e"></a>
+<a id="org6d91935"></a>
 
 ## Understand file type by shebang
 
@@ -890,7 +897,7 @@ Script-type is read from #!/... at top of file."
 ```
 
 
-<a id="org706af46"></a>
+<a id="org6af6a16"></a>
 
 ## Additional configs
 
