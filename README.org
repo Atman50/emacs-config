@@ -11,11 +11,11 @@
 
    #+NAME: custom-vars-table
    #+BEGIN_SRC emacs-lisp :results silent :exports results :var custom-vars=() :tangle no
-     (cons '(Symbol\ Name Value)
-           (cons 'hline
-                 (cl-loop for cv in custom-vars
-                          collect `(,cv
-                                    ,(replace-regexp-in-string "\\(\n\\|\\\\n\\)" "<br>" (string-trim-right (pp-to-string (default-value cv))))))))
+     `((Symbol\ Name Value)
+       hline
+       ,@(cl-loop for cv in custom-vars
+                  collect `(,cv
+                            ,(replace-regexp-in-string "\n" "<br>" (string-trim-right (pp-to-string (default-value cv)))))))
    #+END_SRC
    
 
