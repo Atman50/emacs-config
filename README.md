@@ -1,62 +1,66 @@
 
 # Table of Contents
 
-1.  [Overview](#org51e2657)
-    1.  [Quick start](#orgc596462)
-    2.  [`init.el` explained](#org61f2aac)
-2.  [Configuration](#org1a8e647)
-    1.  [Just a little preamble](#org37f8043)
-    2.  [General packages](#org7f89346)
-        1.  [diminish](#org0a22c3d)
-        2.  [bind-key](#orgee26dd2)
-        3.  [savehist](#orgf1497c5)
-        4.  [ag](#org9fdbc0c)
-        5.  [powershell](#org89b96b3)
-        6.  [themes and modeline](#org6991648)
-        7.  [aspx editing](#org2708fd2)
-        8.  [Other useful packages](#org4496953)
-3.  [Working with C#](#org96eb4ff)
-4.  [magit configuration](#orgd3d310b)
-5.  [org-mode configuration](#org97996f5)
-    1.  [org-mode export hacks for HTML and Markdown](#org1081353)
-6.  [python configuration](#orgcb3a366)
-7.  [ivy configuration](#org0eae6e5)
-8.  [yasnippet configuration](#org8684b70)
-9.  [Additional bits-o-configuration](#org4f3ffe4)
-    1.  [Limit the length of `which-function`](#org2f5613c)
-    2.  [`my-ansi-term`](#org3c74a8f)
-    3.  [Understand file type by shebang](#org54cc4bd)
-    4.  [Additional configs](#orgd1148e5)
+1.  [Overview](#orgca4ac8e)
+    1.  [Quick start](#org487709b)
+    2.  [`init.el` explained](#orgfb61bc2)
+2.  [Configuration](#orgc11d6ec)
+    1.  [Just a little preamble](#org657dc3f)
+    2.  [General packages](#org5f2c6a6)
+        1.  [diminish](#org5befb99)
+        2.  [bind-key](#org0604e7c)
+        3.  [savehist](#org4b3197f)
+        4.  [ag](#org2664d21)
+        5.  [powershell](#org93a2db4)
+        6.  [themes and modeline](#org6302f66)
+        7.  [aspx editing](#org996dfbb)
+        8.  [Other useful packages](#org21fa2eb)
+3.  [Working with C#](#org7f34599)
+4.  [magit/git configuration](#orgf67daf3)
+5.  [org-mode configuration](#org89af3b2)
+    1.  [org-mode export hacks for HTML and Markdown](#org1862e9f)
+6.  [python configuration](#orgfed27c9)
+7.  [ivy configuration](#org2464f8e)
+8.  [yasnippet configuration](#orge4a8d8d)
+9.  [Additional bits-o-configuration](#orgd489cea)
+    1.  [Limit the length of `which-function`](#org9d74ad7)
+    2.  [`my-ansi-term`](#org2f75dcf)
+    3.  [Understand file type by shebang](#orgbe69242)
+    4.  [Additional configs](#orgc7a9dee)
 
 
 
-<a id="org51e2657"></a>
+<a id="orgca4ac8e"></a>
 
 # Overview
 
-This is my literate and **portable** Emacs initialization "system."
+This is my literate and <font color=red size=+2><b><u>portable</u></b></font> Emacs initialization.
 
 
-<a id="orgc596462"></a>
+<a id="org487709b"></a>
 
 ## Quick start
 
-First git clone this repository into `~/.emacs.d`: `git clone https://github.com/Atman50/emacs-config.git =/.emacs.d`
+Simply
 
-Now simply start Emacs and all the packages/configuration loads. It takes some time on the first load since all the packages referenced need to download and compile. On subsequent Emacs invocations startup time is better.
+1.  git clone this repository into `~/.emacs.d`: `git clone https://github.com/Atman50/emacs-config.git =/.emacs.d`
 
-The ability to simply clone and start makes this configuration **highly portable**. One issue is that some of the customization are file system dependent. I handle this by using git to create a stash of the localized changes for `custom.el` and then apply it whenever I take updated configurations from the repository.
+2.  start Emacs
 
-A minor warning is that Emacs load times can be somewhat slow. Startup continues to get slower as the size of the desktop file increases (the more files that need to be opened at the start of Emacs). Since I tend to stay in Emacs for quite some time, this doesn't get in my way.
+That's it.
+
+Starting Emacs for the first time on a new machine loads all the packages/configuration loads. It takes some time on this first
+load since all the packages referenced need to download and compile. On subsequent Emacs invocations startup time is much better.
+The ability to simply clone and start is what makes this configuration **highly portable**. Note that some of the Emacs
+customizations (see `custom.el`) are system (file system) dependent. I handle this by using git to create a stash of the
+localized changes for `custom.el` and then apply it whenever I take updated configurations from the repository.
 
 
-<a id="org61f2aac"></a>
+<a id="orgfb61bc2"></a>
 
 ## `init.el` explained
 
-To get started with a literate configuration, I use this simple `init.el` file.
-
-Following this code block is the explanation.
+To get started with a literate configuration, I use this simple the following `init.el` file.
 
 ```emacs-lisp
 (setq custom-file (expand-file-name "custom.el" user-emacs-directory))      ;; 1
@@ -83,21 +87,29 @@ Following this code block is the explanation.
 (load my-cfg)
 ```
 
-1.  Provide for a separate `custom.el` file. Keeping the customizations separate and first allows for standard emacs customization of **most** of the package variables. When package variables setup outside of the customization file, then `M-x describe-variable` says it was "changed outside of customization".
+1.  Provide for a separate `custom.el` file. Keeping the customizations separate and first allows for standard emacs customization
+    of **most** of the package variables. When package variables setup outside of the customization file, then `M-x
+          describe-variable` says it was "changed outside of customization".
 
-2.  Initializes the package system. Put this after the customizations so that the variable `package-load-list` can be customized (I use [Gnu](https://gnu.org/packages), [Melpa](https://melpa.org/packages), and [Org](https://orgmode.org/packages) - see `custom.el`).
+2.  Initializes the package system. Put this after the customizations so that the variable `package-load-list` can be customized
+    (I use [Gnu](https://gnu.org/packages), [Melpa](https://melpa.org/packages), and [Org](https://orgmode.org/packages) - see `custom.el`).
 
-3.  Sets the preferred coding-system. Since I work on Windows sometimes and some Melpa packages are lacking the proper [byte order mark](https://en.wikipedia.org/wiki/Byte_order_mark) at the beginning of the file, this needs to happen before `package-refresh-contents` so that it finishes without issue. It's not a bad idea to just do this ubiquitously, so I do it here.
+3.  Sets the preferred coding-system. Since I work on Windows sometimes and some Melpa packages are lacking the proper [byte order
+    mark](https://en.wikipedia.org/wiki/Byte_order_mark) at the beginning of the file, this needs to happen before `package-refresh-contents` so that it finishes without issue.
+    It's not a bad idea to just do this ubiquitously, so I do it here.
 
-4.  Gets the package contents. This uses `package-archives` from the `custom.el` file to load up the repository contents and is only called if use-package is not found in the `package-archives-contents`, meaning the archives not read.
+4.  Gets the package contents. This uses `package-archives` from the `custom.el` file to load up the repository contents and is
+    only called if use-package is not found in the `package-archives-contents`, meaning the archives not read.
 
 5.  Assures use-package is loaded; `use-package` is used to perform the remainder of this configuration.
 
-6.  Installs org. It ends up that the built-in org-mode is rather old and use-package seems to have issues forcing the installation. This little tibit, looks in the elpa directory
+6.  Installs org. It ends up that the built-in org-mode is rather old and use-package seems to have issues forcing the
+    installation. This little tidbit, looks in the ELPA directory of the one from the org repository, although you can install from
+    hand from the `M-x list-packages` buffer. To automate this, the code here works but might be a little fragile. For example, if
+    the version number isn't just a single number. This not only loads the org package from the org repository, it also makes sure
+    it is up-to-date. The code could be guarded by finding any org-# directory under elpa and not installing.
 
-of the one from the org repository, although you can install from hand from the `M-x list-packages` buffer. To automate this, the code here works but might be a little fragile. For exmaple, if the version number isn't just a single number. This not only loads the org package from the org repository, it also makes sure it is up-to-date. The code could be guarded by finding any org-# directory under elpa and not installing.
-
-1.  Does the deed and loads this file. If the file has already been "babel-ed" then just load the results, otherwise do the "babel-ing".
+7.  Does the deed and loads this file. If the file has already been "babel-ed" then just load the results, otherwise do the "babel-ing".
 
 That's it. Used to be simpler, but had to account for overriding the built-in org-mode package.
 
@@ -110,14 +122,11 @@ The package-refresh-contents in the above code depends upon:
 <col  class="org-left" />
 
 <col  class="org-left" />
-
-<col  class="org-left" />
 </colgroup>
 <thead>
 <tr>
 <th scope="col" class="org-left">Symbol Name</th>
-<th scope="col" class="org-left">Current Value</th>
-<th scope="col" class="org-left">Default Value</th>
+<th scope="col" class="org-left">Value</th>
 </tr>
 </thead>
 
@@ -125,22 +134,23 @@ The package-refresh-contents in the above code depends upon:
 <tr>
 <td class="org-left">package-archives</td>
 <td class="org-left">(("gnu" . "<a href="https://elpa.gnu.org/packages/">https://elpa.gnu.org/packages/</a>")<br>&nbsp;("melpa" . "<a href="https://melpa.org/packages/">https://melpa.org/packages/</a>")<br>&nbsp;("org" . "<a href="https://orgmode.org/elpa/">https://orgmode.org/elpa/</a>"))</td>
-<td class="org-left">(("gnu" . "<a href="http://elpa.gnu.org/packages/">http://elpa.gnu.org/packages/</a>"))</td>
 </tr>
 </tbody>
 </table>
 
 
-<a id="org1a8e647"></a>
+<a id="orgc11d6ec"></a>
 
 # Configuration
 
 
-<a id="org37f8043"></a>
+<a id="org657dc3f"></a>
 
 ## Just a little preamble
 
-This is a little piece of code that I picked up that might make things faster when downloading and installing all the packages. This turns down the garbage collector during the use-package loading when it has to do some compiling. Set it back when done with init.
+This is a little piece of code that I picked up that might make things faster when downloading and installing all the packages.
+This turns down the garbage collector during the use-package loading when it has to do some compiling. Set it back when done with
+init.
 
 ```emacs-lisp
 (setq gc-cons-threshold 64000000)
@@ -154,14 +164,14 @@ Also create a handy variable to know if we are Windows - used later on here.
 ```
 
 
-<a id="org7f89346"></a>
+<a id="org5f2c6a6"></a>
 
 ## General packages
 
 Here are some general packages
 
 
-<a id="org0a22c3d"></a>
+<a id="org5befb99"></a>
 
 ### [diminish](https://github.com/myrjola/diminish.el)
 
@@ -172,7 +182,7 @@ Handy mode to make the modeline nicer. I also use to set mode to special charact
 ```
 
 
-<a id="orgee26dd2"></a>
+<a id="org0604e7c"></a>
 
 ### [bind-key](https://github.com/priyadarshan/bind-key)
 
@@ -183,11 +193,12 @@ Much better binding capabilities
 ```
 
 
-<a id="orgf1497c5"></a>
+<a id="org4b3197f"></a>
 
 ### savehist
 
-A great builtin that allows us to have a history file. This means certain elements are saved between sessions of emacs. Set the following variables to control `savehist` (use customize).
+A great built-in that allows us to have a history file. This means certain elements are saved between sessions of Emacs. Set the
+following variables to control `savehist` (use customize).
 
 <table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
 
@@ -196,14 +207,11 @@ A great builtin that allows us to have a history file. This means certain elemen
 <col  class="org-left" />
 
 <col  class="org-left" />
-
-<col  class="org-left" />
 </colgroup>
 <thead>
 <tr>
 <th scope="col" class="org-left">Symbol Name</th>
-<th scope="col" class="org-left">Current Value</th>
-<th scope="col" class="org-left">Default Value</th>
+<th scope="col" class="org-left">Value</th>
 </tr>
 </thead>
 
@@ -211,21 +219,18 @@ A great builtin that allows us to have a history file. This means certain elemen
 <tr>
 <td class="org-left">savehist-file</td>
 <td class="org-left">"~/.emacs.d/savehist"</td>
-<td class="org-left">"~/.emacs.d/history"</td>
 </tr>
 
 
 <tr>
 <td class="org-left">savehist-additional-variables</td>
 <td class="org-left">(kill-ring search-ring regexp-search-ring)</td>
-<td class="org-left">nil</td>
 </tr>
 
 
 <tr>
 <td class="org-left">savehist-mode</td>
 <td class="org-left">t</td>
-<td class="org-left">nil</td>
 </tr>
 </tbody>
 </table>
@@ -235,11 +240,12 @@ A great builtin that allows us to have a history file. This means certain elemen
 ```
 
 
-<a id="org9fdbc0c"></a>
+<a id="org2664d21"></a>
 
 ### [ag](https://github.com/Wilfred/ag.el)
 
-AKA silversearcher. Simple interface to excellent tool. I have it installed in my cygwin64 area and it seems to play well in my Windows environment.
+AKA silversearcher. Simple interface to excellent tool. I have it installed in my cygwin64 area and it seems to play well in my
+Windows environment.
 
 NB: doesn't seem to work so well under Windows.
 
@@ -248,7 +254,7 @@ NB: doesn't seem to work so well under Windows.
 ```
 
 
-<a id="org89b96b3"></a>
+<a id="org93a2db4"></a>
 
 ### [powershell](http://github.com/jschaf/powershell.el)
 
@@ -260,7 +266,7 @@ Excellent too to run powershell in Emacs
 ```
 
 
-<a id="org6991648"></a>
+<a id="org6302f66"></a>
 
 ### themes and modeline
 
@@ -272,7 +278,7 @@ Excellent too to run powershell in Emacs
 ```
 
 
-<a id="org2708fd2"></a>
+<a id="org996dfbb"></a>
 
 ### aspx editing
 
@@ -285,11 +291,11 @@ Make aspx editing more palatable using html mode
 ```
 
 
-<a id="org4496953"></a>
+<a id="org21fa2eb"></a>
 
 ### Other useful packages
 
-Ok, a little tired of documenting each package on it's own. These packages are just generally useful.
+OK, a little tired of documenting each package on it's own. These packages are just generally useful.
 
 `which-key` very helpful for finding way around.
 
@@ -310,7 +316,9 @@ Ok, a little tired of documenting each package on it's own. These packages are j
   (add-hook 'emacs-lisp-mode-hook 'enable-paredit-mode))
 ```
 
-Note that the setting of `desktop-path` allows the multiple `.emacs.desktop` files, each in the directory where `emacs` was started. Although `desktop-path` is changed outside `custom.el`, I've included it here in the table below so you can see that the default is augmented with the startup directory which in this case is `~/.emacs.d`.
+Note that the setting of `desktop-path` allows the multiple `.emacs.desktop` files, each in the directory where `emacs` was
+started. Although `desktop-path` is changed outside `custom.el`, I've included it here in the table below so you can see that
+the default is augmented with the start-up directory which in this case is `~/.emacs.d`.
 
 Customized variables of interest here:
 
@@ -321,14 +329,11 @@ Customized variables of interest here:
 <col  class="org-left" />
 
 <col  class="org-left" />
-
-<col  class="org-left" />
 </colgroup>
 <thead>
 <tr>
 <th scope="col" class="org-left">Symbol Name</th>
-<th scope="col" class="org-left">Current Value</th>
-<th scope="col" class="org-left">Default Value</th>
+<th scope="col" class="org-left">Value</th>
 </tr>
 </thead>
 
@@ -336,29 +341,29 @@ Customized variables of interest here:
 <tr>
 <td class="org-left">desktop-path</td>
 <td class="org-left">("`/.emacs.d/" "~/.emacs.d/" "`")</td>
-<td class="org-left">("`/.emacs.d/" "`")</td>
 </tr>
 
 
 <tr>
 <td class="org-left">desktop-save-mode</td>
 <td class="org-left">t</td>
-<td class="org-left">nil</td>
 </tr>
 </tbody>
 </table>
 
 
-<a id="org96eb4ff"></a>
+<a id="org7f34599"></a>
 
 # Working with C#
 
-Because I'm a C# developer and pretty much dislike a lot of the GUI issues in Visual Studio, I've spent some amount of time coming up with a good C# configuration. This works spectularly well and takes only minutes to setup.
+Because I'm a C# developer and pretty much dislike a lot of the GUI issues in Visual Studio, I've spent some amount of time coming
+up with a good C# configuration. This works spectularly well and takes only minutes to setup.
 
-To use omnisharp follow these directions:
+To use Omnisharp follow these directions:
 
-1.  Load up local omnisharp (roslyn flavor) from [Omnisharp-Roslyn releases](https://github.com/OmniSharp/omnisharp-roslyn/releases)
-2.  Customize the variable `omnisharp-server-executable-path` to point to your omnisharp roslyn. For example "c:/omnisharp-roslyn-v1.27.2/OmniSharp.exe".
+1.  Load up local Omnisharp (Roslyn flavor) from [Omnisharp-Roslyn releases](https://github.com/OmniSharp/omnisharp-roslyn/releases)
+2.  Customize the variable `omnisharp-server-executable-path` to point to your Omnisharp Roslyn. For example
+    "c:/omnisharp-roslyn-v1.27.2/OmniSharp.exe".
 
 There are comprehensive directions at [omnisharp-emacs](https://github.com/OmniSharp/omnisharp-emacs.git).
 
@@ -383,9 +388,9 @@ There are comprehensive directions at [omnisharp-emacs](https://github.com/OmniS
 ```
 
 
-<a id="orgd3d310b"></a>
+<a id="orgf67daf3"></a>
 
-# [magit](https://github.com/magit/magit) configuration
+# [magit](https://github.com/magit/magit)/git configuration
 
 The most awesome git porcelain. Most here are part of magit, `[[https://github.com/pidu/git-timemachine][git-time-machine]]` is not, but well worth using.
 
@@ -413,34 +418,34 @@ Customized variables:
 <col  class="org-left" />
 
 <col  class="org-left" />
-
-<col  class="org-left" />
 </colgroup>
 <thead>
 <tr>
 <th scope="col" class="org-left">Symbol Name</th>
-<th scope="col" class="org-left">Current Value</th>
-<th scope="col" class="org-left">Default Value</th>
+<th scope="col" class="org-left">Value</th>
 </tr>
 </thead>
 
 <tbody>
 <tr>
+<td class="org-left">git-commit-fill-column</td>
+<td class="org-left">78</td>
+</tr>
+
+
+<tr>
 <td class="org-left">magit-completing-read-function</td>
 <td class="org-left">ivy-completing-read</td>
-<td class="org-left">magit-builtin-completing-read</td>
 </tr>
 
 
 <tr>
 <td class="org-left">magit-pull-arguments</td>
 <td class="org-left">nil</td>
-<td class="org-left">nil</td>
 </tr>
 
 
 <tr>
-<td class="org-left">nil</td>
 <td class="org-left">nil</td>
 <td class="org-left">nil</td>
 </tr>
@@ -449,24 +454,26 @@ Customized variables:
 <tr>
 <td class="org-left">magit-repository-directories</td>
 <td class="org-left">(("~/repos" . 1))</td>
-<td class="org-left">nil</td>
 </tr>
 </tbody>
 </table>
 
 
-<a id="org97996f5"></a>
+<a id="org89af3b2"></a>
 
 # org-mode configuration
 
 Org-mode configurations. `org-bullets` used to be part of org but is now outside.
 
-The `htmlize` package allows the html and markdown exporters to work (underlying code).
+The `htmlize` package allows the HTML and Markdown exporters to work (underlying code).
 
 ```emacs-lisp
 (use-package org-bullets
    :demand t
-   :config (add-hook 'org-mode-hook 'org-bullets-mode))
+   :config (add-hook 'org-mode-hook (lambda () 
+                                      (toggle-truncate-lines -1)
+                                      (auto-fill-mode 1)
+                                      (org-bullets-mode))))
 (use-package org-autolist :demand t)
 (use-package htmlize :demand t)
 ```
@@ -480,14 +487,11 @@ Customized variables for org-mode:
 <col  class="org-left" />
 
 <col  class="org-left" />
-
-<col  class="org-left" />
 </colgroup>
 <thead>
 <tr>
 <th scope="col" class="org-left">Symbol Name</th>
-<th scope="col" class="org-left">Current Value</th>
-<th scope="col" class="org-left">Default Value</th>
+<th scope="col" class="org-left">Value</th>
 </tr>
 </thead>
 
@@ -495,45 +499,44 @@ Customized variables for org-mode:
 <tr>
 <td class="org-left">org-catch-invisible-edits</td>
 <td class="org-left">show</td>
-<td class="org-left">nil</td>
 </tr>
 
 
 <tr>
 <td class="org-left">org-html-postamble</td>
 <td class="org-left">t</td>
-<td class="org-left">auto</td>
 </tr>
 
 
 <tr>
 <td class="org-left">org-html-postamble-format</td>
 <td class="org-left">(("en" "&lt;p class=\"author\"&gt;Author: %a (%e)&lt;/p&gt;<br>&lt;p class=\"date\"&gt;Date: %T&lt;/p&gt;<br>&lt;p class=\"creator\"&gt;%c&lt;/p&gt;"))</td>
-<td class="org-left">(("en" "&lt;p class=\"author\"&gt;Author: %a (%e)&lt;/p&gt;<br>&lt;p class=\"date\"&gt;Date: %d&lt;/p&gt;<br>&lt;p class=\"creator\"&gt;%c&lt;/p&gt;<br>&lt;p class=\"validation\"&gt;%v&lt;/p&gt;"))</td>
 </tr>
 
 
 <tr>
 <td class="org-left">org-log-done</td>
 <td class="org-left">time</td>
-<td class="org-left">nil</td>
 </tr>
 
 
 <tr>
 <td class="org-left">org-log-into-drawer</td>
 <td class="org-left">t</td>
-<td class="org-left">nil</td>
 </tr>
 </tbody>
 </table>
 
 
-<a id="org1081353"></a>
+<a id="org1862e9f"></a>
 
 ## org-mode export hacks for HTML and Markdown
 
-I export into markdown for github. I do not use the `ox-gfm` package because when I tried it, it modified the source file because of this file's use of the `#+CALL` construct (each call adds the table to the source file). So I use the built in `ox-md` exporter. However, it just indents the code blocks rather put the `` ```emacs-lisp `` code snippet prefix and `` ``` `` postfix but rather just indents. First we load the library so it turns up in the export menu (`C-x C-e`). Then we override the output method for the code.
+I export into markdown for github. I do not use the `ox-gfm` package because when I tried it, it modified the source file because
+of this file's use of the `#+CALL` construct (each call adds the table to the source file). So I use the built in `ox-md`
+exporter. However, it just indents the code blocks rather put the `` ```emacs-lisp `` code snippet prefix and `` ``` `` postfix but
+rather just indents. First we load the library so it turns up in the export menu (`C-x C-e`). Then we override the output method
+for the code.
 
 ```emacs-lisp
 (load-library "ox-md")
@@ -548,7 +551,11 @@ channel."
           "```\n"))
 ```
 
-To support the using of dynamic custom vars table using the library of Babel, the export text for markdown and html goes through `orgtbl-to-orgtbl` which turns the list returned in the an org-mode table. After `orgtbl-to-orgtbl`, the `htmlize` package turns it into a HTML table. The advisor changes all the spaces after a `<br>` into `&nbsp;` entities and surrounds them with inline HTML. This is necessary because `orgtbl-to-orgtbl` strips text between the `@@` used to inline HTML. The advisor also protects any underscores in the table with inline HTML.
+To support the using of dynamic custom vars table using the library of Babel, the export text for markdown and html goes through
+`orgtbl-to-orgtbl` which turns the list returned in the an org-mode table. After `orgtbl-to-orgtbl`, the `htmlize` package turns
+it into a HTML table. The advisor changes all the spaces after a `<br>` into `&nbsp;` entities and surrounds them with inline
+HTML. This is necessary because `orgtbl-to-orgtbl` strips text between the `@@` used to inline HTML. The advisor also protects
+any underscores in the table with inline HTML.
 
 ```emacs-lisp
 (defun my-md-export-hack(text)
@@ -575,13 +582,14 @@ To support the using of dynamic custom vars table using the library of Babel, th
 ```
 
 
-<a id="orgcb3a366"></a>
+<a id="orgfed27c9"></a>
 
 # python configuration
 
-At one point I was using anaconda but have switched back to elpy. I really like `eply-config` that tells you if everything is working properly. I've been using a `virtualenv` for my python development and couldn't be happier. Perhaps ethe only thing that bothers me is that when an object is returned, pycharm will give you list and dictionary methods while eply/company does not. Seems to be the only real issue at this point.
-
-The variables that might be setup for python (look in [custom.el](custom.el) for them): `python-indent-trigger-commands`, `python-shell-completion-setup-code`, `python-shell-completion-string-code`, `python-shell-interpreter`, `python-shell-interpreter-args`, `python-shell-prompt-output-regexp`, and `python-shell-prompt-regexp`.
+At one point I was using anaconda but have switched back to elpy. I really like `eply-config` that tells you if everything is
+working properly. I've been using a `virtualenv` for my python development and couldn't be happier. Perhaps ethe only thing that
+bothers me is that when an object is returned, PyCharm will give you list and dictionary methods while `eply=/=company` does not.
+Seems to be the only real issue at this point.
 
 ```emacs-lisp
 (use-package company
@@ -626,14 +634,11 @@ Customized variables for python:
 <col  class="org-left" />
 
 <col  class="org-left" />
-
-<col  class="org-left" />
 </colgroup>
 <thead>
 <tr>
 <th scope="col" class="org-left">Symbol Name</th>
-<th scope="col" class="org-left">Current Value</th>
-<th scope="col" class="org-left">Default Value</th>
+<th scope="col" class="org-left">Value</th>
 </tr>
 </thead>
 
@@ -641,55 +646,48 @@ Customized variables for python:
 <tr>
 <td class="org-left">python-indent-trigger-commands</td>
 <td class="org-left">(yas-expand yas/expand)</td>
-<td class="org-left">(indent-for-tab-command yas-expand yas/expand)</td>
 </tr>
 
 
 <tr>
 <td class="org-left">python-shell-completion-setup-code</td>
 <td class="org-left">"from IPython.core.completerlib import module_completion"</td>
-<td class="org-left">"<br>def __PYTHON_EL_get_completions(text):<br>&nbsp;&nbsp;&nbsp;&nbsp;completions = []<br>&nbsp;&nbsp;&nbsp;&nbsp;completer = None<br><br>&nbsp;&nbsp;&nbsp;&nbsp;try:<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;import readline<br><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;try:<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;import __builtin__<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;except ImportError:<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;# Python 3<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;import builtins as __builtin__<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;builtins = dir(__builtin__)<br><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;is_ipython = ('__IPYTHON__' in builtins or<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'__IPYTHON__active' in builtins)<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;splits = text.split()<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;is_module = splits and splits[0] in ('from', 'import')<br><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if is_ipython and is_module:<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;from IPython.core.completerlib import module_completion<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;completions = module_completion(text.strip())<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;elif is_ipython and '__IP' in builtins:<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;completions = __IP.complete(text)<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;elif is_ipython and 'get_ipython' in builtins:<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;completions = get_ipython().Completer.all_completions(text)<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;else:<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;# Try to reuse current completer.<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;completer = readline.get_completer()<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if not completer:<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;# importing rlcompleter sets the completer, use it as a<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;# last resort to avoid breaking customizations.<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;import rlcompleter<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;completer = readline.get_completer()<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if getattr(completer, 'PYTHON_EL_WRAPPED', False):<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;completer.print_mode = False<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;i = 0<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;while True:<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;completion = completer(text, i)<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if not completion:<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;break<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;i += 1<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;completions.append(completion)<br>&nbsp;&nbsp;&nbsp;&nbsp;except:<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pass<br>&nbsp;&nbsp;&nbsp;&nbsp;finally:<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if getattr(completer, 'PYTHON_EL_WRAPPED', False):<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;completer.print_mode = True<br>&nbsp;&nbsp;&nbsp;&nbsp;return completions"</td>
 </tr>
 
 
 <tr>
 <td class="org-left">python-shell-completion-string-code</td>
 <td class="org-left">"';'.join(get_ipython().Completer.all_completions('''%s'''))<br>"</td>
-<td class="org-left">"';'.join(__PYTHON_EL_get_completions('''%s'''))"</td>
 </tr>
 
 
 <tr>
 <td class="org-left">python-shell-interpreter</td>
 <td class="org-left">"ipython"</td>
-<td class="org-left">"python"</td>
 </tr>
 
 
 <tr>
 <td class="org-left">python-shell-interpreter-args</td>
 <td class="org-left">"-i &#x2013;simple-prompt"</td>
-<td class="org-left">"-i"</td>
 </tr>
 
 
 <tr>
 <td class="org-left">python-shell-prompt-output-regexp</td>
 <td class="org-left">"Out\\\[[0-9]+\\]: "</td>
-<td class="org-left">""</td>
 </tr>
 
 
 <tr>
 <td class="org-left">python-shell-prompt-regexp</td>
 <td class="org-left">"In \\\[[0-9]+\\]: "</td>
-<td class="org-left">">>> "</td>
 </tr>
 </tbody>
 </table>
 
 
-<a id="org0eae6e5"></a>
+<a id="org2464f8e"></a>
 
 # ivy configuration
 
@@ -739,14 +737,11 @@ Customized variables:
 <col  class="org-left" />
 
 <col  class="org-left" />
-
-<col  class="org-left" />
 </colgroup>
 <thead>
 <tr>
 <th scope="col" class="org-left">Symbol Name</th>
-<th scope="col" class="org-left">Current Value</th>
-<th scope="col" class="org-left">Default Value</th>
+<th scope="col" class="org-left">Value</th>
 </tr>
 </thead>
 
@@ -754,40 +749,36 @@ Customized variables:
 <tr>
 <td class="org-left">ivy-count-format</td>
 <td class="org-left">"(%d/%d) "</td>
-<td class="org-left">"%-4d "</td>
 </tr>
 
 
 <tr>
 <td class="org-left">ivy-height</td>
 <td class="org-left">16</td>
-<td class="org-left">10</td>
 </tr>
 
 
 <tr>
 <td class="org-left">ivy-mode</td>
 <td class="org-left">t</td>
-<td class="org-left">nil</td>
 </tr>
 
 
 <tr>
 <td class="org-left">ivy-use-virtual-buffers</td>
 <td class="org-left">t</td>
-<td class="org-left">nil</td>
 </tr>
 </tbody>
 </table>
 
 
-<a id="org8684b70"></a>
+<a id="orge4a8d8d"></a>
 
 # yasnippet configuration
 
-yasnippet is a truly awesome package. Local modifications should go in `~/.emacs.d/snippets/`.
+`yasnippet` is a truly awesome package. Local modifications should go in `~/.emacs.d/snippets/`.
 
-This also takes care of hooking up company completion with yasnippet expansion.
+This also takes care of hooking up company completion with `yasnippet` expansion.
 
 ```emacs-lisp
 (use-package warnings :demand t)
@@ -823,14 +814,11 @@ Configured variables of interest:
 <col  class="org-left" />
 
 <col  class="org-left" />
-
-<col  class="org-left" />
 </colgroup>
 <thead>
 <tr>
 <th scope="col" class="org-left">Symbol Name</th>
-<th scope="col" class="org-left">Current Value</th>
-<th scope="col" class="org-left">Default Value</th>
+<th scope="col" class="org-left">Value</th>
 </tr>
 </thead>
 
@@ -838,22 +826,22 @@ Configured variables of interest:
 <tr>
 <td class="org-left">yas-global-mode</td>
 <td class="org-left">t</td>
-<td class="org-left">nil</td>
 </tr>
 </tbody>
 </table>
 
 
-<a id="org4f3ffe4"></a>
+<a id="orgd489cea"></a>
 
 # Additional bits-o-configuration
 
 
-<a id="org2f5613c"></a>
+<a id="org9d74ad7"></a>
 
 ## Limit the length of `which-function`
 
-`which-function` which is used by `powerline` has no maximum method/function signature. This handy advisor limits the name to 64 characters.
+`which-function` which is used by `powerline` has no maximum method/function signature. This handy advisor limits the name to 64
+characters.
 
 ```emacs-lisp
 (defvar  which-function-max-width 64 "The maximum width of the which-function string.")
@@ -864,11 +852,12 @@ Configured variables of interest:
 ```
 
 
-<a id="org3c74a8f"></a>
+<a id="org2f75dcf"></a>
 
 ## `my-ansi-term`
 
-Allows me to name my ANSI terms. Was very useful when I used more ANSI shells (so that tabs were interpretted by the shell). Some other modes and shells make this less useful these days.
+Allows me to name my ANSI terms. Was very useful when I used more ANSI shells (so that tabs were interpreted by the shell). Some
+other modes and shells make this less useful these days.
 
 ```emacs-lisp
 (defun my-ansi-term (term-name cmd)
@@ -879,34 +868,35 @@ Allows me to name my ANSI terms. Was very useful when I used more ANSI shells (s
 ```
 
 
-<a id="org54cc4bd"></a>
+<a id="orgbe69242"></a>
 
 ## Understand file type by shebang
 
-When a file is opened and it is determined there is no mode (fundamental-mode) this code reads the first line of the file looking for an appropriate shebang for either python or bash and sets the mode for the file.
+When a file is opened and it is determined there is no mode (fundamental-mode) this code reads the first line of the file looking
+for an appropriate shebang for either python or bash and sets the mode for the file.
 
 ```emacs-lisp
 (defun my-find-file-hook ()
   "If `fundamental-mode', look for script type so the mode gets properly set.
 Script-type is read from #!/... at top of file."
   (if (eq major-mode 'fundamental-mode)
-      (condition-case nil
+      (ignore-errors
           (save-excursion
             (goto-char (point-min))
             (re-search-forward "^#!\s*/.*/\\(python\\|bash\\).*$")
             (if (string= (match-string 1) "python")
                 (python-mode)
-              (sh-mode)))
-        (error nil))))
+              (sh-mode))))))
+
 (add-hook 'find-file-hook 'my-find-file-hook)
 ```
 
 
-<a id="orgd1148e5"></a>
+<a id="orgc7a9dee"></a>
 
 ## Additional configs
 
-Setup `eldoc` mode, use y-or-n (instead of yes and no). Key bindings&#x2026;
+Setup `eldoc` mode, use `y-or-n-p` instead of `yes-or-no-p`. Key bindings&#x2026;
 
 ```emacs-lisp
 (add-hook 'emacs-lisp-mode-hook 'eldoc-mode)    ;; Run elisp with eldoc-mode
@@ -931,7 +921,7 @@ Setup `eldoc` mode, use y-or-n (instead of yes and no). Key bindings&#x2026;
 
 (setq-default ediff-ignore-similar-regions t)   ;; Not a variable but controls ediff
 
-;; Turn on some stuff that's normally set off
+;; Enable some stuff that's normally disabled
 (put 'narrow-to-region 'disabled nil)
 (put 'downcase-region 'disabled nil)
 (put 'upcase-region 'disabled nil)
