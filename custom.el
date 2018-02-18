@@ -37,7 +37,6 @@
  '(elpy-modules
    (quote
     (elpy-module-company elpy-module-eldoc elpy-module-flymake elpy-module-pyvenv elpy-module-yasnippet elpy-module-django elpy-module-sane-defaults)))
- '(elpy-rpc-python-command "C:/Python36/python.exe")
  '(eshell-history-size 1024)
  '(fill-column 132)
  '(flycheck-color-mode-line-face-to-color (quote mode-line-buffer-id))
