@@ -326,22 +326,16 @@
       :config
       (when config/use-omnisharp
         (add-to-list 'company-backends 'company-omnisharp)))
-    (use-package company-jedi)
+    (use-package company-jedi
+      :demand t)
     (use-package elpy
       :demand t
       :config
-      (progn
-        (elpy-enable)
-        (add-hook 'elpy-mode-hook
-                  '(lambda ()
-                     (progn
-                       (setq-local flymake-start-syntax-check-on-newline t)
-                       (setq-local flymake-no-changes-timeout 0.5))))))
+      (elpy-enable))
     (use-package flycheck
       :diminish  "\u2714"           ;; heavy checkmark
       :config
       (global-flycheck-mode))
-    (use-package flycheck-pyflakes) ;; flycheck uses flake8!
     (use-package pylint)
     (use-package python-docstring
       :config
@@ -356,7 +350,7 @@
 
     Customized variables for python:
     #+NAME: python-custom-vars
-    #+CALL: custom-vars-table(custom-vars='(python-indent-trigger-commands python-shell-completion-setup-code python-shell-completion-string-code python-shell-interpreter python-shell-interpreter-args python-shell-prompt-output-regexp python-shell-prompt-regexp))
+    #+CALL: custom-vars-table(custom-vars='(elpy-modules flycheck-python-pyflakes-executable python-indent-trigger-commands python-shell-completion-setup-code python-shell-completion-string-code python-shell-interpreter python-shell-interpreter-args python-shell-prompt-output-regexp python-shell-prompt-regexp))
 
 * ivy configuration
   Was a help user, but switched to ivy. Lots of nice features in ivy

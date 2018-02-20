@@ -36,11 +36,12 @@
  '(electric-pair-mode t)
  '(elpy-modules
    (quote
-    (elpy-module-company elpy-module-eldoc elpy-module-flymake elpy-module-pyvenv elpy-module-yasnippet elpy-module-django elpy-module-sane-defaults)))
+    (elpy-module-company elpy-module-eldoc elpy-module-pyvenv elpy-module-yasnippet elpy-module-sane-defaults)))
  '(eshell-history-size 1024)
  '(fill-column 132)
  '(flycheck-color-mode-line-face-to-color (quote mode-line-buffer-id))
  '(flycheck-flake8-maximum-line-length 200)
+ '(flycheck-python-pyflakes-executable "flake8")
  '(font-lock-maximum-size nil)
  '(git-commit-fill-column 78)
  '(git-commit-style-convention-checks (quote (non-empty-second-line overlong-summary-line)))
