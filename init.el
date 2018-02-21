@@ -22,13 +22,14 @@
 
 (unless (assoc 'use-package package-archive-contents)
   (package-refresh-contents))
+
 (unless (package-installed-p 'use-package)      ;; Make sure use-package is installed
   (package-install 'use-package))
 (require 'use-package)
 
 ;; Literate emacs configuration requires org for org-babel-tangle-file
 ;; Make sure that we have a non-built in org and if not, then install it using package-install. Sadly, use-package won't work for this.
-(unless (file-expand-wildcards (concat package-user-dir "/org-[0-9]*"))
+(unless (file-expand-wildcards (concat package-user-dir "/org-[0-9][0-9]*"))
   (package-install (elt (cdr (assoc 'org package-archive-contents)) 0)))
 (require 'org)
 

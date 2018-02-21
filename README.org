@@ -11,16 +11,17 @@
 
    #+NAME: custom-vars-table
    #+BEGIN_SRC emacs-lisp :results silent :exports results :var custom-vars=() :tangle no
+     ;; This "function" creates a list that is converted to a table by the exporter
      `((Symbol\ Name Value)
        hline
        ,@(cl-loop for cv in custom-vars
                   collect `(,cv
                             ,(replace-regexp-in-string "\n" "<br>" (string-trim-right (pp-to-string (default-value cv)))))))
    #+END_SRC
-   
+
 
 * Overview
-  This is my literate and @@html:<font color=red size=+2><b><u>@@portable@@html:</u></b></font>@@ Emacs initialization.
+  This is my literate and @@html:<font color=red size=+3><b><u>@@portable@@html:</u></b></font>@@ Emacs initialization.
 ** Quick start
    Simply
 
@@ -33,70 +34,109 @@
    Starting Emacs for the first time on a new machine loads all the packages/configuration loads. It takes some time on this first
    load since all the packages referenced need to download and compile. On subsequent Emacs invocations startup time is much better.
    The ability to simply clone and start is what makes this configuration *highly portable*. Note that some of the Emacs
-   customizations (see =custom.el=) are system (file system) dependent. I handle this by using git to create a stash of the
+   customization (see =custom.el=) are system (file system) dependent. I handle this by using git to create a stash of the
    localized changes for =custom.el= and then apply it whenever I take updated configurations from the repository.
 
-** =init.el= explained
-   To get started with a literate configuration, I use this simple the following =init.el= file.
+** Why a literate configuration
+   Well mostly I wanted to learn how to do it, but also I was having issues with managing my initialization/configuration. FWIW
+   this is the approach that I came up with. A simple 7 part =init.el= file with customization saved to its own file (that's read
+   first).
 
-   #+BEGIN_SRC emacs-lisp -r :tangle no
-     (setq custom-file (expand-file-name "custom.el" user-emacs-directory))      ;; 1
-     (load custom-file t)
+   What I've gotten out of all this work is a truly portable, documented configuration that works well for me. Please feel free to
+   take whatever portion(s) you wish from this and make it your very own.
 
-     (package-initialize)                                                        ;; 2
+   I have tried to make this configuration 100% portable meaning that on a new system (Linux or Windows at this point) with Emacs on
+   it, I simple git clone this repository to =~/.emacs.d/~ and then fire up Emacs. Works every time for me.
 
-     (prefer-coding-system 'utf-8)                                               ;; 3
+** =init.el= in a few small sections
+   To get started with a literate configuration, I use this simple =init.el= file. Here is the entire [[https://github.com/Atman50/emacs-config/blob/master/init.el][=init.el=]] file.
 
-     (unless (assoc 'use-package package-archive-contents)                       ;; 4
-       (package-refresh-contents))  (ref:pkg-refresh)
+   Here are the pieces of the =init.el= file explained.
 
-     (unless (package-installed-p 'use-package)                                  ;; 5
-       (package-install 'use-package))
-     (require 'use-package)
+*** Load the custom file
+    An Emacs user recently said "I don't use the Emacs customization" facility. I think that's just crazy. One of the nicest things
+    about Emacs is the extensive and quite useful customization engine. You can customize variables and faces with ease and make the
+    settings work for you.
 
-     (unless (file-expand-wildcards (concat package-user-dir "/org-[0-9]*"))     ;; 6
-       (package-install (elt (cdr (assoc 'org package-archive-contents)) 0)))
-     (require 'org)
+    Loading this file first, even before package stuff, is important to get things working. In a subsequent section of this
+    =init.el= the =package-refresh-contents= uses the variable =package-archives= for importing archive information (and eventually
+    packages). 
+    #+BEGIN_SRC emacs-lisp -r :tangle no
+      (setq custom-file (expand-file-name "custom.el" user-emacs-directory))
+      (load custom-file t)
+    #+END_SRC
+    I've pointed the customization at my own file =custom.el= and loaded it here. Customization will now be written to this file
+    from the Emacs customization system.
 
-     (defvar my-cfg (concat user-emacs-directory "README"))                      ;; 7
-     (when (file-newer-than-file-p (concat my-cfg ".org") (concat my-cfg ".el"))
-       (org-babel-tangle-file (concat my-cfg ".org")))
-     (load my-cfg)
+*** Initialize the package
+    #+BEGIN_SRC emacs-lisp -r :tangle no
+      (package-initialize)
+    #+END_SRC
+    Says it all; Initializes the package system.
+
+*** Random setting
+    #+BEGIN_SRC emacs-lisp -r :tangle no
+      (prefer-coding-system 'utf-8)
+    #+END_SRC
+    This was necessary because some packages in ELPA had Unicode characters in them that my Windows system didn't like. Not a bad
+    idea to set this somewhere and I needed it before the =package-refresh-contents= below.
+
+*** Refresh the package archives
+    But only if necessary. If we don't see the =use-package= package in the package manager, then we'll assume that this is probably
+    a new load and we need to go fetch (for the first time) the archive content directories.
+    #+BEGIN_SRC emacs-lisp -r :tangle no
+      (unless (assoc 'use-package package-archive-contents)
+        (package-refresh-contents))
+    #+END_SRC
+    If you wished to get fresh contents everytime Emacs starts, just get rid of the first line unless statement.
+
+    The =package-refresh-contents= uses the following:
+
+    #+NAME: init-file-custom-vars
+    #+CALL: custom-vars-table(custom-vars='(package-archives))
+    
+*** Load up =use-package=
+    This configuration relies heavily upon John Wiegley's most excellent =use-package= package. Although no longer used in the
+    initialization file itself (because of issues loading =org-mode= - see below), this is here to power the rest of this literate
+    configuration.
+    #+BEGIN_SRC emacs-lisp -r :tangle no
+      (unless (package-installed-p 'use-package)
+        (package-install 'use-package))
+      (require 'use-package)
     #+END_SRC
 
-   1. Provide for a separate =custom.el= file. Keeping the customizations separate and first allows for standard emacs customization
-      of *most* of the package variables. When package variables setup outside of the customization file, then =M-x
-      describe-variable= says it was "changed outside of customization".
+*** Make sure we have a recent =org= package
+    I could not make =use-package= ignore the built-in =org= package in favor of the =org= package from the org repository. Many
+    people suggested use the =:ensure=  and =:demand= keywords to control =use-package=, but to no avail. There's a nice discussion
+    of [[https://github.com/jwiegley/use-package/issues/319]].
 
-   2. Initializes the package system. Put this after the customizations so that the variable =package-load-list= can be customized
-      (I use [[https://gnu.org/packages][Gnu]], [[https://melpa.org/packages][Melpa]], and [[https://orgmode.org/packages][Org]] - see =custom.el=).
+    Here's my code that guarantees that an =org= gets loaded from a repository ignoring the built in version. This first line checks
+    to see if =org= is already loaded by interrogating the packages directory for an installed =org= package. Granted, this is a
+    little "hacky" as it depends on the =org= package's version being numeric (at least the first two characters being numbers).
+    The second line actually installs the package using the package definition in =package-archive-contents=. The contents are
+    assured above by =package-refresh-contents=, which should only fire the first time this initialization is run on a new
+    =~/.emacs.d= directory. The require at the end loads up =org= so the final piece of the configuration works.
 
-   3. Sets the preferred coding-system. Since I work on Windows sometimes and some Melpa packages are lacking the proper [[https://en.wikipedia.org/wiki/Byte_order_mark][byte order
-      mark]] at the beginning of the file, this needs to happen before =package-refresh-contents= so that it finishes without issue.
-      It's not a bad idea to just do this ubiquitously, so I do it here.
+    #+BEGIN_SRC emacs-lisp -r :tangle no
+      (unless (file-expand-wildcards (concat package-user-dir "/org-[0-9][0-9]*"))
+        (package-install (elt (cdr (assoc 'org package-archive-contents)) 0)))
+      (require 'org)
+    #+END_SRC
 
-   4. Gets the package contents. This uses =package-archives= from the =custom.el= file to load up the repository contents and is
-      only called if use-package is not found in the =package-archives-contents=, meaning the archives not read.
-
-   5. Assures use-package is loaded; =use-package= is used to perform the remainder of this configuration.
-
-   6. Installs org. It ends up that the built-in org-mode is rather old and use-package seems to have issues forcing the
-      installation. This little tidbit, looks in the ELPA directory of the one from the org repository, although you can install from
-      hand from the =M-x list-packages= buffer. To automate this, the code here works but might be a little fragile. For example, if
-      the version number isn't just a single number. This not only loads the org package from the org repository, it also makes sure
-      it is up-to-date. The code could be guarded by finding any org-# directory under elpa and not installing.
-
-   7. Does the deed and loads this file. If the file has already been "babel-ed" then just load the results, otherwise do the "babel-ing".
-
-   That's it. Used to be simpler, but had to account for overriding the built-in org-mode package.
-
-   The [[(pkg-refresh)][package-refresh-contents]] in the above code depends upon:
-
-   #+NAME: init-file-custom-vars
-   #+CALL: custom-vars-table(custom-vars='(package-archives))
-
+*** Finally, load up this file
+    Simply use this file (I default it to =README=) and Babel tangle the configuration (=README.org=) into a file that gets loaded
+    (=README.el=). The remainder of the initialization follows in this file.
+    #+BEGIN_SRC emacs-lisp -r :tangle no
+      (defvar my-cfg (concat user-emacs-directory "README"))
+      (when (file-newer-than-file-p (concat my-cfg ".org") (concat my-cfg ".el"))
+        (org-babel-tangle-file (concat my-cfg ".org")))
+      (load my-cfg)
+    #+END_SRC
 
 * Configuration
+  Here are my configuration bits. All of the following code snippets are tangled from this file into an =.el= file that gets loaded
+  from the initialization file. Feel free to take as little or as much as you like from here.
+
 ** Just a little preamble
    This is a little piece of code that I picked up that might make things faster when downloading and installing all the packages.
    This turns down the garbage collector during the use-package loading when it has to do some compiling. Set it back when done with
@@ -114,7 +154,7 @@
 ** General packages
    Here are some general packages
 *** [[https://github.com/myrjola/diminish.el][diminish]]
-    Handy mode to make the modeline nicer. I also use to set mode to special characters (for example, see flycheck-mode)
+    Handy mode to make the modeline nicer. I also use to set mode to special characters (for example, see =flycheck-mode=)
     #+BEGIN_SRC emacs-lisp :tangle yes
       (use-package diminish)
     #+END_SRC
@@ -134,7 +174,7 @@
       (use-package savehist :demand t)                ;; Nice history in ~/.emacs.d/savehist
     #+END_SRC
 *** [[https://github.com/Wilfred/ag.el][ag]]
-    AKA silversearcher. Simple interface to excellent tool. I have it installed in my cygwin64 area and it seems to play well in my
+    AKA =silversearcher=. Simple interface to excellent tool. I have it installed in my =cygwin64= area and it seems to play well in my
     Windows environment.
 
     NB: doesn't seem to work so well under Windows.
@@ -155,7 +195,7 @@
         :config (powerline-default-theme))
     #+END_SRC
 *** aspx editing
-    Make aspx editing more palatable using html mode
+    Make aspx editing more palatable using =html-mode=.
     #+BEGIN_SRC emacs-lisp :tangle yes
       (add-to-list 'auto-mode-alist
                    '("\\.aspx\\'" . html-mode)
@@ -193,8 +233,8 @@
     #+CALL: custom-vars-table(custom-vars='(desktop-path desktop-save-mode))
 
 * Working with C#
-  Because I'm a C# developer and pretty much dislike a lot of the GUI issues in Visual Studio, I've spent some amount of time coming
-  up with a good C# configuration. This works spectularly well and takes only minutes to setup.
+  I'm a C# developer and pretty much dislike big edits using Visual Studio. I've spent some amount of time coming
+  up with a good C# configuration. This works spectacularly well and takes only minutes to setup.
 
   To use Omnisharp follow these directions:
   1. Load up local Omnisharp (Roslyn flavor) from [[https://github.com/OmniSharp/omnisharp-roslyn/releases][Omnisharp-Roslyn releases]]
@@ -222,8 +262,8 @@
         (add-hook 'csharp-mode-hook 'omnisharp-mode)))
   #+END_SRC
 
-* [[https://github.com/magit/magit][magit]]/git configuration
-  The most awesome git porcelain. Most here are part of magit, =[[https://github.com/pidu/git-timemachine][git-time-machine]]= is not, but well worth using.
+* [[https://github.com/magit/magit][=magit=]]/git configuration
+  The *most awesome* git porcelain. Most here are part of magit, =[[https://github.com/pidu/git-timemachine][git-time-machine]]= is not, but well worth using.
   #+BEGIN_SRC emacs-lisp :tangle yes
     (use-package git-commit)
     (use-package magit
@@ -243,7 +283,7 @@
     #+NAME: magit-custom-vars
     #+CALL: custom-vars-table(custom-vars='(git-commit-fill-column magit-completing-read-function magit-pull-arguments nil magit-repository-directories))
   
-* org-mode configuration
+* =org-mode= Configuration
   Org-mode configurations. =org-bullets= used to be part of org but is now outside.
 
   The =htmlize= package allows the HTML and Markdown exporters to work (underlying code).
@@ -263,7 +303,7 @@
   #+NAME: org-mode-custom-vars
   #+CALL: custom-vars-table(custom-vars='(org-catch-invisible-edits org-html-postamble org-html-postamble-format org-log-done org-log-into-drawer))
 
-** org-mode export hacks for HTML and Markdown
+** =org-mode= export hacks for HTML and Markdown
    I export into markdown for github. I do not use the =ox-gfm= package because when I tried it, it modified the source file because
    of this file's use of the =#+CALL= construct (each call adds the table to the source file). So I use the built in =ox-md=
    exporter. However, it just indents the code blocks rather put the =```emacs-lisp= code snippet prefix and =```= postfix but
@@ -283,10 +323,10 @@
                "```\n"))
    #+END_SRC
   
-   To support the using of dynamic custom vars table using the library of Babel, the export text for markdown and html goes through
+   To support the using of dynamic custom vars table using the library of Babel, the export text for Markdown and HTML goes through
    =orgtbl-to-orgtbl= which turns the list returned in the an org-mode table. After =orgtbl-to-orgtbl=, the =htmlize= package turns
-   it into a HTML table. The advisor changes all the spaces after a =<br>= into =&nbsp;= entities and surrounds them with inline
-   HTML. This is necessary because =orgtbl-to-orgtbl= strips text between the =@@= used to inline HTML. The advisor also protects
+   it into a HTML table. The adviser changes all the spaces after a =<br>= into =&nbsp;= entities and surrounds them with inline
+   HTML. This is necessary because =orgtbl-to-orgtbl= strips text between the =@@= used to inline HTML. The adviser also protects
    any underscores in the table with inline HTML.
 
    #+BEGIN_SRC emacs-lisp :tangle yes
@@ -316,7 +356,7 @@
 
 * python configuration
   At one point I was using anaconda but have switched back to elpy. I really like =eply-config= that tells you if everything is
-  working properly. I've been using a =virtualenv= for my python development and couldn't be happier. Perhaps ethe only thing that
+  working properly. I've been using a =virtualenv= for my python development and couldn't be happier. Perhaps the only thing that
   bothers me is that when an object is returned, PyCharm will give you list and dictionary methods while =eply=/=company= does not.
   Seems to be the only real issue at this point.
 
@@ -348,12 +388,12 @@
         (add-hook 'python-mode-hook 'company-mode)))
   #+END_SRC
 
-    Customized variables for python:
+    Customized variables used in this python configuration:
     #+NAME: python-custom-vars
-    #+CALL: custom-vars-table(custom-vars='(elpy-modules flycheck-python-pyflakes-executable python-indent-trigger-commands python-shell-completion-setup-code python-shell-completion-string-code python-shell-interpreter python-shell-interpreter-args python-shell-prompt-output-regexp python-shell-prompt-regexp))
+    #+CALL: custom-vars-table(custom-vars='(elpy-modules python-indent-trigger-commands python-shell-completion-setup-code python-shell-completion-string-code python-shell-interpreter python-shell-interpreter-args python-shell-prompt-output-regexp python-shell-prompt-regexp))
 
-* ivy configuration
-  Was a help user, but switched to ivy. Lots of nice features in ivy
+* =ivy= Configuration
+  Was a =helm= user, but switched to =ivy=. Lots of nice features in =ivy=
   #+BEGIN_SRC emacs-lisp :tangle yes
     (use-package ivy
       :demand t
@@ -364,8 +404,10 @@
       :config
       (progn
         (setq ivy-initial-inputs-alist nil)         ;; no regexp by default
-        (setq ivy-re-builders-alist                 ;; allow input not in order
-              '((t . ivy--regex-ignore-order)))))
+        ;;(setq ivy-re-builders-alist                 ;; allow input not in order
+        ;;      '((t . ivy--regex-ignore-order)))))
+        ))
+
     (use-package counsel
       :bind (("M-x" . counsel-M-x)
              ("C-x g" . counsel-git)
@@ -393,10 +435,10 @@
     #+NAME: ivy-custom-vars
     #+CALL: custom-vars-table(custom-vars='(ivy-count-format ivy-height ivy-mode ivy-use-virtual-buffers))
 
-* yasnippet configuration
+* =yasnippet= Configuration
   =yasnippet= is a truly awesome package. Local modifications should go in =~/.emacs.d/snippets/=.
 
-  This also takes care of hooking up company completion with =yasnippet= expansion.
+  This also takes care of hooking up =company= completion with =yasnippet= expansion.
   #+BEGIN_SRC emacs-lisp :tangle yes
     (use-package warnings :demand t)
     (use-package yasnippet
@@ -410,7 +452,7 @@
         (add-hook 'python-mode-hook '(lambda () (set (make-local-variable 'yas-indent-line) 'fixed)))
         ;; Setup to allow for yasnippets to use code to expand
         (add-to-list 'warning-suppress-types '(yasnippet backquote-change))))
-    (use-package yasnippet-snippets :demand t)      ;; Don't forget the snippets
+    (use-package yasnippet-snippets :demand t)
 
     (defvar company-mode/enable-yas t "Enable yasnippet for all backends.")
     (defun company-mode/backend-with-yas (backend)
@@ -429,7 +471,7 @@
 
 * Additional bits-o-configuration
 ** Limit the length of =which-function=
-   =which-function= which is used by =powerline= has no maximum method/function signature. This handy advisor limits the name to 64
+   =which-function= which is used by =powerline= has no maximum method/function signature. This handy adviser limits the name to 64
    characters.
    #+BEGIN_SRC emacs-lisp :tangle yes
      (defvar  which-function-max-width 64 "The maximum width of the which-function string.")
@@ -467,7 +509,7 @@
      (add-hook 'find-file-hook 'my-find-file-hook)
    #+END_SRC
 
-** Additional configs
+** Additional Configuration
    Setup =eldoc= mode, use =y-or-n-p= instead of =yes-or-no-p=. Key bindings...
    #+BEGIN_SRC emacs-lisp :tangle yes
      (add-hook 'emacs-lisp-mode-hook 'eldoc-mode)    ;; Run elisp with eldoc-mode
