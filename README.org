@@ -404,9 +404,8 @@
       :config
       (progn
         (setq ivy-initial-inputs-alist nil)         ;; no regexp by default
-        ;;(setq ivy-re-builders-alist                 ;; allow input not in order
-        ;;      '((t . ivy--regex-ignore-order)))))
-        ))
+        (setq ivy-re-builders-alist                 ;; allow input not in order
+              '((t . ivy--regex-ignore-order)))))
 
     (use-package counsel
       :bind (("M-x" . counsel-M-x)
