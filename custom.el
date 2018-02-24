@@ -62,7 +62,7 @@
  '(indent-tabs-mode nil)
  '(inhibit-startup-screen t)
  '(ivy-count-format "(%d/%d) ")
- '(ivy-height 16)
+ '(ivy-height 32 nil nil "Might want to set the back down to 16 when not using ivy-posframe")
  '(ivy-mode t)
  '(ivy-use-virtual-buffers t)
  '(line-move-visual nil)
@@ -128,6 +128,7 @@
  ;; If there is more than one, they won't work right.
  '(default ((t (:slant normal :weight normal :height 98 :width normal :foundry "outline" :family "DejaVu Sans Mono"))))
  '(Info-quoted ((t (:foreground "red3"))))
+ '(ivy-posframe ((t (:inherit default :background "#dcdccc" :foreground "#333333"))))
  '(powerline-active1 ((t (:inherit mode-line :background "dark red" :foreground "gainsboro"))))
  '(powerline-active2 ((t (:inherit mode-line :background "dark green" :foreground "white"))))
  '(powerline-inactive1 ((t (:inherit mode-line-inactive :background "dark gray"))))

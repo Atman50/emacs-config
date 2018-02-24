@@ -1,51 +1,51 @@
 
 # Table of Contents
 
-1.  [Overview](#org36e093e)
-    1.  [Quick start](#orga1611f7)
-    2.  [Why a literate configuration](#org9332a04)
-    3.  [`init.el` in a few small sections](#org089040e)
-        1.  [Load the custom file](#orgff7d3c1)
-        2.  [Initialize the package](#orgcbee6e8)
-        3.  [Random setting](#org8b770e0)
-        4.  [Refresh the package archives](#org1af0012)
-        5.  [Load up `use-package`](#orgd8b02c8)
-        6.  [Make sure we have a recent `org` package](#orge8d3d6c)
-        7.  [Finally, load up this file](#org7703100)
-2.  [Configuration](#orgee0cf31)
-    1.  [Just a little preamble](#orga96ad19)
-    2.  [General packages](#org06d472d)
-        1.  [diminish](#orgb796a7a)
-        2.  [bind-key](#orgafd08cb)
-        3.  [savehist](#org1f77645)
-        4.  [ag](#org8e16094)
-        5.  [powershell](#orgcfce585)
-        6.  [themes and modeline](#orge5e582f)
-        7.  [aspx editing](#org8c09341)
-        8.  [Other useful packages](#orge518842)
-3.  [Working with C#](#org2531ca3)
-4.  [`magit`/git configuration](#org60db305)
-5.  [`org-mode` Configuration](#org492fba5)
-    1.  [`org-mode` export hacks for HTML and Markdown](#orgaffb58c)
-6.  [python configuration](#org0f93b29)
-7.  [`ivy` Configuration](#orgbaa52e4)
-8.  [`yasnippet` Configuration](#org452d6f7)
-9.  [Additional bits-o-configuration](#orgc3c6dc0)
-    1.  [Limit the length of `which-function`](#org4eef8a4)
-    2.  [`my-ansi-term`](#orgc6e4dd1)
-    3.  [Understand file type by shebang](#orgf3e2a99)
-    4.  [Additional Configuration](#orgc9269b0)
+1.  [Overview](#org5188a9e)
+    1.  [Quick start](#org9d5c496)
+    2.  [Why a literate configuration](#org431af22)
+    3.  [`init.el` in a few small sections](#orge1ead9b)
+        1.  [Load the custom file](#org37d8e75)
+        2.  [Initialize the package](#orgd74f696)
+        3.  [Random setting](#org518d096)
+        4.  [Refresh the package archives](#org3fe445c)
+        5.  [Load up `use-package`](#org3a5c804)
+        6.  [Make sure we have a recent `org` package](#org09e15ee)
+        7.  [Finally, load up this file](#orgf72eb96)
+2.  [Configuration](#org0f7361b)
+    1.  [Just a little preamble](#org2e61a4f)
+    2.  [General packages](#org12c328f)
+        1.  [diminish](#org49edc88)
+        2.  [bind-key](#orgd7cc4b1)
+        3.  [savehist](#org27ecc5b)
+        4.  [ag](#org8fd9947)
+        5.  [powershell](#org4d00325)
+        6.  [themes and modeline](#orgdebae0e)
+        7.  [aspx editing](#org3f1f367)
+        8.  [Other useful packages](#orgaa843af)
+3.  [Working with C#](#org0d9e7fa)
+4.  [`magit`/git configuration](#org26c7da7)
+5.  [`org-mode` Configuration](#orge7cb2f9)
+    1.  [`org-mode` export hacks for HTML and Markdown](#org1694e26)
+6.  [python configuration](#orgc488fb2)
+7.  [`ivy` Configuration](#org2b73119)
+8.  [`yasnippet` Configuration](#org10fe7de)
+9.  [Additional bits-o-configuration](#org9d432d8)
+    1.  [Limit the length of `which-function`](#org1556283)
+    2.  [`my-ansi-term`](#org3c9c631)
+    3.  [Understand file type by shebang](#orgfe3f62c)
+    4.  [Additional Configuration](#org5df2b61)
 
 
 
-<a id="org36e093e"></a>
+<a id="org5188a9e"></a>
 
 # Overview
 
 This is my literate and <font color=red size=+3><b><u>portable</u></b></font> Emacs initialization.
 
 
-<a id="orga1611f7"></a>
+<a id="org9d5c496"></a>
 
 ## Quick start
 
@@ -64,7 +64,7 @@ customization (see `custom.el`) are system (file system) dependent. I handle thi
 localized changes for `custom.el` and then apply it whenever I take updated configurations from the repository.
 
 
-<a id="org9332a04"></a>
+<a id="org431af22"></a>
 
 ## Why a literate configuration
 
@@ -79,7 +79,7 @@ I have tried to make this configuration 100% portable meaning that on a new syst
 it, I simple git clone this repository to =~/.emacs.d/~ and then fire up Emacs. Works every time for me.
 
 
-<a id="org089040e"></a>
+<a id="orge1ead9b"></a>
 
 ## `init.el` in a few small sections
 
@@ -88,7 +88,7 @@ To get started with a literate configuration, I use this simple `init.el` file. 
 Here are the pieces of the `init.el` file explained.
 
 
-<a id="orgff7d3c1"></a>
+<a id="org37d8e75"></a>
 
 ### Load the custom file
 
@@ -109,7 +109,7 @@ I've pointed the customization at my own file `custom.el` and loaded it here. Cu
 from the Emacs customization system.
 
 
-<a id="orgcbee6e8"></a>
+<a id="orgd74f696"></a>
 
 ### Initialize the package
 
@@ -120,7 +120,7 @@ from the Emacs customization system.
 Says it all; Initializes the package system.
 
 
-<a id="org8b770e0"></a>
+<a id="org518d096"></a>
 
 ### Random setting
 
@@ -132,7 +132,7 @@ This was necessary because some packages in ELPA had Unicode characters in them 
 idea to set this somewhere and I needed it before the `package-refresh-contents` below.
 
 
-<a id="org1af0012"></a>
+<a id="org3fe445c"></a>
 
 ### Refresh the package archives
 
@@ -172,7 +172,7 @@ The `package-refresh-contents` uses the following:
 </table>
 
 
-<a id="orgd8b02c8"></a>
+<a id="org3a5c804"></a>
 
 ### Load up `use-package`
 
@@ -187,7 +187,7 @@ configuration.
 ```
 
 
-<a id="orge8d3d6c"></a>
+<a id="org09e15ee"></a>
 
 ### Make sure we have a recent `org` package
 
@@ -209,7 +209,7 @@ assured above by `package-refresh-contents`, which should only fire the first ti
 ```
 
 
-<a id="org7703100"></a>
+<a id="orgf72eb96"></a>
 
 ### Finally, load up this file
 
@@ -224,7 +224,7 @@ Simply use this file (I default it to `README`) and Babel tangle the configurati
 ```
 
 
-<a id="orgee0cf31"></a>
+<a id="org0f7361b"></a>
 
 # Configuration
 
@@ -232,7 +232,7 @@ Here are my configuration bits. All of the following code snippets are tangled f
 from the initialization file. Feel free to take as little or as much as you like from here.
 
 
-<a id="orga96ad19"></a>
+<a id="org2e61a4f"></a>
 
 ## Just a little preamble
 
@@ -252,14 +252,14 @@ Also create a handy variable to know if we are Windows - used later on here.
 ```
 
 
-<a id="org06d472d"></a>
+<a id="org12c328f"></a>
 
 ## General packages
 
 Here are some general packages
 
 
-<a id="orgb796a7a"></a>
+<a id="org49edc88"></a>
 
 ### [diminish](https://github.com/myrjola/diminish.el)
 
@@ -270,7 +270,7 @@ Handy mode to make the modeline nicer. I also use to set mode to special charact
 ```
 
 
-<a id="orgafd08cb"></a>
+<a id="orgd7cc4b1"></a>
 
 ### [bind-key](https://github.com/priyadarshan/bind-key)
 
@@ -281,7 +281,7 @@ Much better binding capabilities
 ```
 
 
-<a id="org1f77645"></a>
+<a id="org27ecc5b"></a>
 
 ### savehist
 
@@ -328,7 +328,7 @@ following variables to control `savehist` (use customize).
 ```
 
 
-<a id="org8e16094"></a>
+<a id="org8fd9947"></a>
 
 ### [ag](https://github.com/Wilfred/ag.el)
 
@@ -342,7 +342,7 @@ NB: doesn't seem to work so well under Windows.
 ```
 
 
-<a id="orgcfce585"></a>
+<a id="org4d00325"></a>
 
 ### [powershell](http://github.com/jschaf/powershell.el)
 
@@ -354,7 +354,7 @@ Excellent too to run powershell in Emacs
 ```
 
 
-<a id="orge5e582f"></a>
+<a id="orgdebae0e"></a>
 
 ### themes and modeline
 
@@ -366,7 +366,7 @@ Excellent too to run powershell in Emacs
 ```
 
 
-<a id="org8c09341"></a>
+<a id="org3f1f367"></a>
 
 ### aspx editing
 
@@ -379,7 +379,7 @@ Make aspx editing more palatable using `html-mode`.
 ```
 
 
-<a id="orge518842"></a>
+<a id="orgaa843af"></a>
 
 ### Other useful packages
 
@@ -440,7 +440,7 @@ Customized variables of interest here:
 </table>
 
 
-<a id="org2531ca3"></a>
+<a id="org0d9e7fa"></a>
 
 # Working with C#
 
@@ -476,7 +476,7 @@ There are comprehensive directions at [omnisharp-emacs](https://github.com/OmniS
 ```
 
 
-<a id="org60db305"></a>
+<a id="org26c7da7"></a>
 
 # [`magit`](https://github.com/magit/magit)/git configuration
 
@@ -547,7 +547,7 @@ Customized variables:
 </table>
 
 
-<a id="org492fba5"></a>
+<a id="orge7cb2f9"></a>
 
 # `org-mode` Configuration
 
@@ -616,7 +616,7 @@ Customized variables for org-mode:
 </table>
 
 
-<a id="orgaffb58c"></a>
+<a id="org1694e26"></a>
 
 ## `org-mode` export hacks for HTML and Markdown
 
@@ -670,7 +670,7 @@ any underscores in the table with inline HTML.
 ```
 
 
-<a id="org0f93b29"></a>
+<a id="orgc488fb2"></a>
 
 # python configuration
 
@@ -775,7 +775,7 @@ Customized variables used in this python configuration:
 </table>
 
 
-<a id="orgbaa52e4"></a>
+<a id="org2b73119"></a>
 
 # `ivy` Configuration
 
@@ -791,9 +791,8 @@ Was a `helm` user, but switched to `ivy`. Lots of nice features in `ivy`
   :config
   (progn
     (setq ivy-initial-inputs-alist nil)         ;; no regexp by default
-    ;;(setq ivy-re-builders-alist                 ;; allow input not in order
-    ;;      '((t . ivy--regex-ignore-order)))))
-    ))
+    (setq ivy-re-builders-alist                 ;; allow input not in order
+          '((t . ivy--regex-ignore-order)))))
 
 (use-package counsel
   :bind (("M-x" . counsel-M-x)
@@ -816,6 +815,11 @@ Was a `helm` user, but switched to `ivy`. Lots of nice features in `ivy`
          ("C-S-r" . isearch-backward)
          ("C-r" . swiper)))
 (use-package avy)
+
+(use-package ivy-posframe
+  :demand t
+  :if (>= emacs-major-version 26)
+  :config (setq ivy-display-function #'ivy-posframe-display))
 ```
 
 Customized variables:
@@ -844,7 +848,7 @@ Customized variables:
 
 <tr>
 <td class="org-left">ivy-height</td>
-<td class="org-left">16</td>
+<td class="org-left">32</td>
 </tr>
 
 
@@ -862,7 +866,7 @@ Customized variables:
 </table>
 
 
-<a id="org452d6f7"></a>
+<a id="org10fe7de"></a>
 
 # `yasnippet` Configuration
 
@@ -921,12 +925,12 @@ Configured variables of interest:
 </table>
 
 
-<a id="orgc3c6dc0"></a>
+<a id="org9d432d8"></a>
 
 # Additional bits-o-configuration
 
 
-<a id="org4eef8a4"></a>
+<a id="org1556283"></a>
 
 ## Limit the length of `which-function`
 
@@ -942,7 +946,7 @@ characters.
 ```
 
 
-<a id="orgc6e4dd1"></a>
+<a id="org3c9c631"></a>
 
 ## `my-ansi-term`
 
@@ -958,7 +962,7 @@ other modes and shells make this less useful these days.
 ```
 
 
-<a id="orgf3e2a99"></a>
+<a id="orgfe3f62c"></a>
 
 ## Understand file type by shebang
 
@@ -982,7 +986,7 @@ Script-type is read from #!/... at top of file."
 ```
 
 
-<a id="orgc9269b0"></a>
+<a id="org5df2b61"></a>
 
 ## Additional Configuration
 

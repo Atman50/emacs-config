@@ -428,6 +428,11 @@
              ("C-S-r" . isearch-backward)
              ("C-r" . swiper)))
     (use-package avy)
+
+    (use-package ivy-posframe
+      :demand t
+      :if (>= emacs-major-version 26)
+      :config (setq ivy-display-function #'ivy-posframe-display))
   #+END_SRC
 
     Customized variables:
