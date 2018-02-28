@@ -37,11 +37,12 @@
  '(elpy-modules
    (quote
     (elpy-module-company elpy-module-eldoc elpy-module-pyvenv elpy-module-yasnippet elpy-module-sane-defaults)))
+ '(elpy-project-root-finder-functions
+   (quote
+    (elpy-project-find-projectile-root elpy-project-find-python-root elpy-project-find-git-root)))
  '(eshell-history-size 1024)
  '(fill-column 132)
  '(flycheck-color-mode-line-face-to-color (quote mode-line-buffer-id))
- '(flycheck-flake8-maximum-line-length 200)
- '(flycheck-python-pyflakes-executable "flake8")
  '(font-lock-maximum-size nil)
  '(git-commit-fill-column 78)
  '(git-commit-style-convention-checks (quote (non-empty-second-line overlong-summary-line)))
@@ -90,6 +91,7 @@
  '(powerline-display-hud nil)
  '(projectile-completion-system (quote ivy))
  '(projectile-mode-line (quote (:eval (format " [%s]" (projectile-project-name)))))
+ '(python-flymake-command (quote ("flake8" "-")))
  '(python-indent-trigger-commands (quote (yas-expand yas/expand)))
  '(python-shell-completion-setup-code "from IPython.core.completerlib import module_completion")
  '(python-shell-completion-string-code

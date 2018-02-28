@@ -28,7 +28,7 @@
    1. git clone this repository into =~/.emacs.d=: =git clone https://github.com/Atman50/emacs-config.git =/.emacs.d=
 
    2. start Emacs
-   
+
    That's it.
 
    Starting Emacs for the first time on a new machine loads all the packages/configuration loads. It takes some time on this first
@@ -60,7 +60,7 @@
 
     Loading this file first, even before package stuff, is important to get things working. In a subsequent section of this
     =init.el= the =package-refresh-contents= uses the variable =package-archives= for importing archive information (and eventually
-    packages). 
+    packages).
     #+BEGIN_SRC emacs-lisp -r :tangle no
       (setq custom-file (expand-file-name "custom.el" user-emacs-directory))
       (load custom-file t)
@@ -94,7 +94,7 @@
 
     #+NAME: init-file-custom-vars
     #+CALL: custom-vars-table(custom-vars='(package-archives))
-    
+
 *** Load up =use-package=
     This configuration relies heavily upon John Wiegley's most excellent =use-package= package. Although no longer used in the
     initialization file itself (because of issues loading =org-mode= - see below), this is here to power the rest of this literate
@@ -145,7 +145,7 @@
      (setq gc-cons-threshold 64000000)
      (add-hook 'after-init-hook #'(lambda () (setq gc-cons-threshold 800000)))
    #+END_SRC
-  
+
    Also create a handy variable to know if we are Windows - used later on here.
    #+BEGIN_SRC emacs-lisp :tangle yes
      (defvar mswindows-p (string-match "windows" (symbol-name system-type)))
@@ -154,7 +154,8 @@
 ** General packages
    Here are some general packages
 *** [[https://github.com/myrjola/diminish.el][diminish]]
-    Handy mode to make the modeline nicer. I also use to set mode to special characters (for example, see =flycheck-mode=)
+    Handy mode to make the modeline more succinct by allowing a /diminished/ mode line string. Sometimes the fact that mode is there
+    is fine and it doesn't need to be on the mode line (diminish it to "").
     #+BEGIN_SRC emacs-lisp :tangle yes
       (use-package diminish)
     #+END_SRC
@@ -164,42 +165,20 @@
       (use-package bind-key)
     #+END_SRC
 *** savehist
-    A great built-in that allows us to have a history file. This means certain elements are saved between sessions of Emacs. Set the
-    following variables to control =savehist= (use customize).
-
-    #+NAME: savehist-custom-vars
-    #+CALL: custom-vars-table(custom-vars='(savehist-file savehist-additional-variables savehist-mode))
-
+    A great built-in that allows us to have a history file. This means certain elements are saved between sessions of Emacs.
     #+BEGIN_SRC emacs-lisp :tangle yes
       (use-package savehist :demand t)                ;; Nice history in ~/.emacs.d/savehist
     #+END_SRC
-*** [[https://github.com/Wilfred/ag.el][ag]]
-    AKA =silversearcher=. Simple interface to excellent tool. I have it installed in my =cygwin64= area and it seems to play well in my
-    Windows environment.
+    Set the following variables to control =savehist= (use customize).
+    #+NAME: savehist-custom-vars
+    #+CALL: custom-vars-table(custom-vars='(savehist-file savehist-additional-variables savehist-mode))
 
-    NB: doesn't seem to work so well under Windows.
-    #+BEGIN_SRC emacs-lisp :tangle yes
-      (use-package ag)
-    #+END_SRC
-*** [[http://github.com/jschaf/powershell.el][powershell]]
-    Excellent too to run powershell in Emacs
-    #+BEGIN_SRC emacs-lisp :tangle yes
-      (use-package powershell
-        :if mswindows-p)
-    #+END_SRC
-*** themes and modeline
+*** Themes and mode line
     #+BEGIN_SRC emacs-lisp :tangle yes
       (load-theme 'leuven t)                          ;; Theme: works better before powerline
       (use-package powerline
         :demand t
         :config (powerline-default-theme))
-    #+END_SRC
-*** aspx editing
-    Make aspx editing more palatable using =html-mode=.
-    #+BEGIN_SRC emacs-lisp :tangle yes
-      (add-to-list 'auto-mode-alist
-                   '("\\.aspx\\'" . html-mode)
-                   '("\\.aspcx\\'" . html-mode))
     #+END_SRC
 *** Other useful packages
     OK, a little tired of documenting each package on it's own. These packages are just generally useful.
@@ -207,20 +186,29 @@
     =which-key= very helpful for finding way around.
 
     #+BEGIN_SRC emacs-lisp -r :tangle yes
-      (use-package realgud :demand t)
-      (use-package projectile :demand t :config (projectile-mode t))
+      (use-package realgud            ;; A "better" gud
+        :demand t)
+      (use-package projectile
+        :demand t
+        :config
+        (projectile-mode t))
       (use-package ibuffer-projectile)
       (use-package xterm-color)
       (use-package which-key :demand t :diminish "")
       (use-package sh-script)
       (use-package desktop
         :config
-        ;; put desktop in Emacs start directory
         (set-variable 'desktop-path (cons default-directory desktop-path))) (ref:desktop-path)
       (use-package paredit
         :demand t
         :config
         (add-hook 'emacs-lisp-mode-hook 'enable-paredit-mode))
+      (add-to-list 'auto-mode-alist
+                   '("\\.aspx\\'" . html-mode)
+                   '("\\.aspcx\\'" . html-mode))
+      (use-package powershell
+        :if mswindows-p)
+      (use-package ag)
     #+END_SRC
 
     Note that the setting of [[(desktop-path)][=desktop-path=]] allows the multiple =.emacs.desktop= files, each in the directory where =emacs= was
@@ -282,21 +270,23 @@
     Customized variables:
     #+NAME: magit-custom-vars
     #+CALL: custom-vars-table(custom-vars='(git-commit-fill-column magit-completing-read-function magit-pull-arguments nil magit-repository-directories))
-  
+
 * =org-mode= Configuration
-  Org-mode configurations. =org-bullets= used to be part of org but is now outside.
+  Org-mode configurations. =org-bullets= used to be part of org but is now outside. Always throw =org-mode= buffers into
+  =flyspell-mode=.
 
   The =htmlize= package allows the HTML and Markdown exporters to work (underlying code).
 
   #+BEGIN_SRC emacs-lisp :tangle yes
     (use-package org-bullets
        :demand t
-       :config (add-hook 'org-mode-hook (lambda () 
+       :config (add-hook 'org-mode-hook (lambda ()
                                           (toggle-truncate-lines -1)
                                           (auto-fill-mode 1)
                                           (org-bullets-mode))))
     (use-package org-autolist :demand t)
     (use-package htmlize :demand t)
+    (add-hook 'org-mode-hook 'flyspell-mode)
   #+END_SRC
 
   Customized variables for org-mode:
@@ -322,7 +312,7 @@
                 (org-export-format-code-default example-block info))
                "```\n"))
    #+END_SRC
-  
+
    To support the using of dynamic custom vars table using the library of Babel, the export text for Markdown and HTML goes through
    =orgtbl-to-orgtbl= which turns the list returned in the an org-mode table. After =orgtbl-to-orgtbl=, the =htmlize= package turns
    it into a HTML table. The adviser changes all the spaces after a =<br>= into =&nbsp;= entities and surrounds them with inline
@@ -372,10 +362,6 @@
       :demand t
       :config
       (elpy-enable))
-    (use-package flycheck
-      :diminish  "\u2714"           ;; heavy checkmark
-      :config
-      (global-flycheck-mode))
     (use-package pylint)
     (use-package python-docstring
       :config
@@ -384,7 +370,7 @@
       :config
       (progn
         (add-hook 'python-mode-hook '(lambda () (add-to-list 'company-backends 'company-jedi)))
-        (add-hook 'python-mode-hook 'flycheck-mode)
+        (add-hook 'python-mode-hook 'flymake-mode)
         (add-hook 'python-mode-hook 'company-mode)))
   #+END_SRC
 
@@ -484,7 +470,7 @@
                                (if (< (string-width s) which-function-max-width) s
                                  (concat (truncate-string-to-width s (- which-function-max-width 3)) "...")))))
    #+END_SRC
-** =my-ansi-term=                               
+** =my-ansi-term=
    Allows me to name my ANSI terms. Was very useful when I used more ANSI shells (so that tabs were interpreted by the shell). Some
    other modes and shells make this less useful these days.
    #+BEGIN_SRC emacs-lisp :tangle yes
@@ -544,4 +530,3 @@
      (put 'upcase-region 'disabled nil)
      (put 'scroll-left 'disabled nil)
   #+END_SRC
-
