@@ -153,6 +153,14 @@
 
 ** General packages
    Here are some general packages
+*** Speed up line movement
+    I ran into this little tidbit while reading Sacha Chua's posts from Emacs. It is described [[https://emacs.stackexchange.com/questions/28736/emacs-pointcursor-movement-lag/28746][here]], but to summarize the
+    =next-line= defun triggers =line-move-partial= which leads to excessive processing. By setting the variable here, the speed of
+    using =next-line= gets very cut down.
+    #+BEGIN_SRC emacs-lisp :tangle yes
+      (setq auto-window-vscroll nil)
+    #+END_SRC
+
 *** [[https://github.com/myrjola/diminish.el][diminish]]
     Handy mode to make the modeline more succinct by allowing a /diminished/ mode line string. Sometimes the fact that mode is there
     is fine and it doesn't need to be on the mode line (diminish it to "").
