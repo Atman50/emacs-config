@@ -210,7 +210,7 @@
       (use-package paredit
         :demand t
         :config
-        (add-hook 'emacs-lisp-mode-hook 'enable-paredit-mode))
+        (add-hook 'emacs-lisp-mode-hook #'enable-paredit-mode))
       (add-to-list 'auto-mode-alist
                    '("\\.aspx\\'" . html-mode)
                    '("\\.aspcx\\'" . html-mode))
@@ -254,8 +254,8 @@
     (use-package csharp-mode
       :config
       (when config/use-omnisharp
-        (add-hook 'csharp-mode-hook 'company-mode)
-        (add-hook 'csharp-mode-hook 'omnisharp-mode)))
+        (add-hook 'csharp-mode-hook #'company-mode)
+        (add-hook 'csharp-mode-hook #'omnisharp-mode)))
   #+END_SRC
 
 * [[https://github.com/magit/magit][=magit=]]/git configuration
@@ -294,7 +294,7 @@
                                           (org-bullets-mode))))
     (use-package org-autolist :demand t)
     (use-package htmlize :demand t)
-    (add-hook 'org-mode-hook 'flyspell-mode)
+    (add-hook 'org-mode-hook #'flyspell-mode)
   #+END_SRC
 
   Customized variables for org-mode:
@@ -348,7 +348,7 @@
                     (setq result (replace-regexp-in-string (nth 0 rep) (nth 1 rep) result)))
            result)))
 
-     (advice-add 'orgtbl-to-orgtbl :filter-return 'my-md-export-hack)
+     (advice-add #'orgtbl-to-orgtbl :filter-return #'my-md-export-hack)
    #+END_SRC
 
 
@@ -363,7 +363,7 @@
       :diminish "Co"
       :config
       (when config/use-omnisharp
-        (add-to-list 'company-backends 'company-omnisharp)))
+        (add-to-list 'company-backends #'company-omnisharp)))
     (use-package company-jedi
       :demand t)
     (use-package elpy
@@ -377,9 +377,9 @@
     (use-package python
       :config
       (progn
-        (add-hook 'python-mode-hook '(lambda () (add-to-list 'company-backends 'company-jedi)))
-        (add-hook 'python-mode-hook 'flymake-mode)
-        (add-hook 'python-mode-hook 'company-mode)))
+        (add-hook 'python-mode-hook (lambda () (add-to-list 'company-backends #'company-jedi)))
+        (add-hook 'python-mode-hook #'flymake-mode)
+        (add-hook 'python-mode-hook #'company-mode)))
   #+END_SRC
 
     Customized variables used in this python configuration:
@@ -447,7 +447,7 @@
         ;; fix tab in term-mode
         (add-hook 'term-mode-hook (lambda() (yas-minor-mode -1)))
         ;; Fix yas indent issues
-        (add-hook 'python-mode-hook '(lambda () (set (make-local-variable 'yas-indent-line) 'fixed)))
+        (add-hook 'python-mode-hook (lambda () (set (make-local-variable 'yas-indent-line) 'fixed)))
         ;; Setup to allow for yasnippets to use code to expand
         (add-to-list 'warning-suppress-types '(yasnippet backquote-change))))
     (use-package yasnippet-snippets :demand t)
@@ -473,7 +473,7 @@
    characters.
    #+BEGIN_SRC emacs-lisp :tangle yes
      (defvar  which-function-max-width 64 "The maximum width of the which-function string.")
-     (advice-add 'which-function :filter-return
+     (advice-add #'which-function :filter-return
                  (lambda (s) (when (stringp s)
                                (if (< (string-width s) which-function-max-width) s
                                  (concat (truncate-string-to-width s (- which-function-max-width 3)) "...")))))
@@ -510,25 +510,25 @@
 ** Additional Configuration
    Setup =eldoc= mode, use =y-or-n-p= instead of =yes-or-no-p=. Key bindings...
    #+BEGIN_SRC emacs-lisp :tangle yes
-     (add-hook 'emacs-lisp-mode-hook 'eldoc-mode)    ;; Run elisp with eldoc-mode
-     (fset 'list-buffers 'ibuffer)                   ;; prefer ibuffer over list-buffers
-     (fset 'yes-or-no-p 'y-or-n-p)                   ;; for lazy people use y/n instead of yes/no
+     (add-hook 'emacs-lisp-mode-hook #'eldoc-mode)   ;; Run elisp with eldoc-mode
+     (fset #'list-buffers #'ibuffer)                 ;; prefer ibuffer over list-buffers
+     (fset #'yes-or-no-p #'y-or-n-p)                 ;; for lazy people use y/n instead of yes/no
      (diminish 'eldoc-mode "Doc")                    ;; Diminish eldoc-mode
 
      ;; Some key bindings
-     (bind-key "C-x p" 'pop-to-mark-command)
-     (bind-key "C-h c" 'customize-group)
-     (bind-key "C-+" 'text-scale-increase)
-     (bind-key "C--" 'text-scale-decrease)
+     (bind-key "C-x p" #'pop-to-mark-command)
+     (bind-key "C-h c" #'customize-group)
+     (bind-key "C-+" #'text-scale-increase)
+     (bind-key "C--" #'text-scale-decrease)
      (bind-key "C-z" 'nil)                           ;; get rid of pesky "\C-z"
      (bind-key "C-z" 'nil ctl-x-map)                 ;;    and "\C-x\C-z" annoying minimize
-     (bind-key "C-c C-d" 'dired-jump)
-     (bind-key "C-c r" 'revert-buffer)
-     (bind-key "C-c t" 'toggle-truncate-lines)
-     (bind-key "C-c c" 'comment-region)
-     (bind-key "C-c u" 'uncomment-region)
-     (bind-key "<up>" 'enlarge-window ctl-x-map)     ;; note: C-x
-     (bind-key "<down>" 'shrink-window ctl-x-map)    ;; note: C-x
+     (bind-key "C-c C-d" #'dired-jump)
+     (bind-key "C-c r" #'revert-buffer)
+     (bind-key "C-c t" #'toggle-truncate-lines)
+     (bind-key "C-c c" #'comment-region)
+     (bind-key "C-c u" #'uncomment-region)
+     (bind-key "<up>" #'enlarge-window ctl-x-map)     ;; note: C-x
+     (bind-key "<down>" #'shrink-window ctl-x-map)    ;; note: C-x
 
      (setq-default ediff-ignore-similar-regions t)   ;; Not a variable but controls ediff
 
