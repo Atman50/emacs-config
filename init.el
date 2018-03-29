@@ -14,23 +14,20 @@
 (setq custom-file (expand-file-name "custom.el" user-emacs-directory))
 (load custom-file t)
 
-;; Setup package system
-(package-initialize)
-
 ;; This fixes the (package-refresh-contents) below which breaks on windows because of an issue with some packages in melpa.
 (prefer-coding-system 'utf-8)
 
-(unless (assoc 'use-package package-archive-contents)
-  (package-refresh-contents))
-
-(unless (package-installed-p 'use-package)      ;; Make sure use-package is installed
-  (package-install 'use-package))
+;; Had to change the following logic so that it worked under both 26.0.91 and 27.0.50 (there is some difference to the initialization
+;; process that got in the way of my old logic). First time in should package-install both org mode and use-package. Then only on
+;; 26.0.91 package-initialize is called (27.0.50 calls package-initialize for you? - something to do with an early initialize capability...)
+(unless (boundp 'package-user-dir)
+  (unless (boundp 'package-archive-contents)
+    (package-initialize))
+  (unless (assoc 'use-package package-archive-contents)
+    (package-refresh-contents)
+    (package-install (elt (cdr (assoc 'org package-archive-contents)) 0))
+    (package-install (elt (cdr (assoc 'use-package package-archive-contents)) 0))))
 (require 'use-package)
-
-;; Literate emacs configuration requires org for org-babel-tangle-file
-;; Make sure that we have a non-built in org and if not, then install it using package-install. Sadly, use-package won't work for this.
-(unless (file-expand-wildcards (concat package-user-dir "/org-[0-9][0-9]*"))
-  (package-install (elt (cdr (assoc 'org package-archive-contents)) 0)))
 (require 'org)
 
 ;; Load up config

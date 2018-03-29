@@ -1,49 +1,46 @@
 
 # Table of Contents
 
-1.  [Overview](#orgbdb337b)
-    1.  [Quick start](#org025b961)
-    2.  [Why a literate configuration](#org73b4159)
-    3.  [`init.el` in a few small sections](#orgc25cd02)
-        1.  [Load the custom file](#org46102b0)
-        2.  [Initialize the package](#orgfd03aa5)
-        3.  [Random setting](#orgc7c07ae)
-        4.  [Refresh the package archives](#org5a5ea3a)
-        5.  [Load up `use-package`](#orge45a65f)
-        6.  [Make sure we have a recent `org` package](#orgdf44e36)
-        7.  [Finally, load up this file](#org77684d6)
-2.  [Configuration](#org69a038d)
-    1.  [Just a little preamble](#org6c15bf7)
-    2.  [General packages](#org5220605)
-        1.  [Speed up line movement](#org74ed122)
-        2.  [diminish](#org31462e9)
-        3.  [bind-key](#orga00ffb9)
-        4.  [savehist](#org60ea0d3)
-        5.  [Themes and mode line](#orgd47427f)
-        6.  [Other useful packages](#orgaaba875)
-3.  [Working with C#](#org1cc55b7)
-4.  [`magit`/git configuration](#orgf6727e6)
-5.  [`org-mode` Configuration](#org104d3bc)
-    1.  [`org-mode` export hacks for HTML and Markdown](#orge1bef68)
-6.  [python configuration](#orgdb42196)
-7.  [`ivy` Configuration](#org2faae4e)
-8.  [`yasnippet` Configuration](#orgc1b1c48)
-9.  [Additional bits-o-configuration](#org0203a5a)
-    1.  [Limit the length of `which-function`](#org1b9dd23)
-    2.  [`my-ansi-term`](#org360fda0)
-    3.  [Understand file type by shebang](#org143240d)
-    4.  [Additional Configuration](#orga636365)
+1.  [Overview](#orgf97d787)
+    1.  [Quick start](#org3e87d2f)
+    2.  [Why a literate configuration](#org73e707c)
+    3.  [`init.el` in a few small sections](#orge04e1a4)
+        1.  [Load the custom file](#org036cab7)
+        2.  [Random setting](#orgddba58f)
+        3.  [Initialize the package](#orgcb1807d)
+        4.  [Finally load up this file](#orgfdbc850)
+2.  [Configuration](#org13da139)
+    1.  [Just a little preamble](#orge8a8d4a)
+    2.  [General packages](#org525f181)
+        1.  [Speed up line movement](#org8486ea5)
+        2.  [diminish](#org3c4f7be)
+        3.  [bind-key](#orgfee0fad)
+        4.  [savehist](#org4a8a044)
+        5.  [Themes and mode line](#org1ec6457)
+        6.  [Other useful packages](#org20e778e)
+3.  [Working with C#](#orgcbd4ddb)
+4.  [`magit`/git configuration](#org0af1b2b)
+5.  [`org-mode` Configuration](#org9296fa3)
+    1.  [`org-mode` export hacks for HTML and Markdown](#orgfe84d46)
+6.  [python configuration](#orgf87e8f1)
+7.  [`ivy` Configuration](#orgefa3eff)
+8.  [`yasnippet` Configuration](#org8322173)
+9.  [Additional bits-o-configuration](#orgf95eca6)
+    1.  [Limit the length of `which-function`](#org44b7023)
+    2.  [`my-ansi-term`](#org1b3cd71)
+    3.  [Understand file type by shebang](#org97e4338)
+    4.  [Additional Configuration](#org036ef01)
 
 
 
-<a id="orgbdb337b"></a>
+<a id="orgf97d787"></a>
 
 # Overview
 
 This is my literate and <font color=red size=+3><b><u>portable</u></b></font> Emacs initialization.
 
 
-<a id="org025b961"></a>
+<a id="org3e87d2f"></a>
 
 ## Quick start
 
@@ -62,7 +59,7 @@ customization (see `custom.el`) are system (file system) dependent. I handle thi
 localized changes for `custom.el` and then apply it whenever I take updated configurations from the repository.
 
 
-<a id="org73b4159"></a>
+<a id="org73e707c"></a>
 
 ## Why a literate configuration
 
@@ -77,16 +74,17 @@ I have tried to make this configuration 100% portable meaning that on a new syst
 it, I simple git clone this repository to =~/.emacs.d/~ and then fire up Emacs. Works every time for me.
 
 
-<a id="orgc25cd02"></a>
+<a id="orge04e1a4"></a>
 
 ## `init.el` in a few small sections
 
-To get started with a literate configuration, I use this simple `init.el` file. Here is the entire [`init.el`](https://github.com/Atman50/emacs-config/blob/master/init.el) file.
+To get started with a literate configuration, I use this simple `init.el` file. Currently the `init.el` file used here contains
+only 16 lines of actual code.
 
 Here are the pieces of the `init.el` file explained.
 
 
-<a id="org46102b0"></a>
+<a id="org036cab7"></a>
 
 ### Load the custom file
 
@@ -99,52 +97,14 @@ Loading this file first, even before package stuff, is important to get things w
 packages).
 
 ```emacs-lisp
-(setq custom-file (expand-file-name "custom.el" user-emacs-directory))
-(load custom-file t)
+1  (setq custom-file (expand-file-name "custom.el" user-emacs-directory))
+2  (load custom-file t)
 ```
 
 I've pointed the customization at my own file `custom.el` and loaded it here. Customization will now be written to this file
 from the Emacs customization system.
 
-
-<a id="orgfd03aa5"></a>
-
-### Initialize the package
-
-```emacs-lisp
-(package-initialize)
-```
-
-Says it all; Initializes the package system.
-
-
-<a id="orgc7c07ae"></a>
-
-### Random setting
-
-```emacs-lisp
-(prefer-coding-system 'utf-8)
-```
-
-This was necessary because some packages in ELPA had Unicode characters in them that my Windows system didn't like. Not a bad
-idea to set this somewhere and I needed it before the `package-refresh-contents` below.
-
-
-<a id="org5a5ea3a"></a>
-
-### Refresh the package archives
-
-But only if necessary. If we don't see the `use-package` package in the package manager, then we'll assume that this is probably
-a new load and we need to go fetch (for the first time) the archive content directories.
-
-```emacs-lisp
-(unless (assoc 'use-package package-archive-contents)
-  (package-refresh-contents))
-```
-
-If you wished to get fresh contents everytime Emacs starts, just get rid of the first line unless statement.
-
-The `package-refresh-contents` uses the following:
+The most important custom variable at this point in the configuration is `package-archives` which should now be set as follows:
 
 <table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
 
@@ -170,59 +130,71 @@ The `package-refresh-contents` uses the following:
 </table>
 
 
-<a id="orge45a65f"></a>
+<a id="orgddba58f"></a>
 
-### Load up `use-package`
-
-This configuration relies heavily upon John Wiegley's most excellent `use-package` package. Although no longer used in the
-initialization file itself (because of issues loading `org-mode` - see below), this is here to power the rest of this literate
-configuration.
+### Random setting
 
 ```emacs-lisp
-(unless (package-installed-p 'use-package)
-  (package-install 'use-package))
-(require 'use-package)
+3  (prefer-coding-system 'utf-8)
 ```
 
+This was necessary because some packages in ELPA had Unicode characters in them that my Windows system didn't like. Not a bad
+idea to set this somewhere and I needed it before the `package-refresh-contents` below.
 
-<a id="orgdf44e36"></a>
 
-### Make sure we have a recent `org` package
+<a id="orgcb1807d"></a>
 
-I could not make `use-package` ignore the built-in `org` package in favor of the `org` package from the org repository. Many
-people suggested use the `:ensure`  and `:demand` keywords to control `use-package`, but to no avail. There's a nice discussion
-of <https://github.com/jwiegley/use-package/issues/319>.
+### Initialize the package
 
-Here's my code that guarantees that an `org` gets loaded from a repository ignoring the built in version. This first line checks
-to see if `org` is already loaded by interrogating the packages directory for an installed `org` package. Granted, this is a
-little "hacky" as it depends on the `org` package's version being numeric (at least the first two characters being numbers).
-The second line actually installs the package using the package definition in `package-archive-contents`. The contents are
-assured above by `package-refresh-contents`, which should only fire the first time this initialization is run on a new
-`~/.emacs.d` directory. The require at the end loads up `org` so the final piece of the configuration works.
+This code is meant to insure that both `org` mode (the non-built most recent `org` version available in the org repository) and
+`use-package` are installed. We need the `org` package to tangle (babel) this file itself and the rest of the configuration
+heavily relies on the most excellent `use-package` extension.
+
+The call to `package-refresh-contents` heavily depends on the value of `package-archives` to be correct. In the `init.el` file,
+the custom file is loaded before this code so it is set via normal Emacs customization.
+
+I had to change the following logic so that it worked under both 26.0.91 and 27.0.50 (there is some difference to the
+initialization process that got in the way of my old logic). First time in should package-install both org mode and use-package. 
+Then only on 26.0.91 package-initialize is called (27.0.50 calls package-initialize for you? - something to do with an early
+initialize capability&#x2026;).
 
 ```emacs-lisp
-(unless (file-expand-wildcards (concat package-user-dir "/org-[0-9][0-9]*"))
-  (package-install (elt (cdr (assoc 'org package-archive-contents)) 0)))
-(require 'org)
+ 4  (unless (boundp 'package-user-dir)
+ 5    (unless (boundp 'package-archive-contents)
+ 6      (package-initialize))
+ 7    (unless (assoc 'use-package package-archive-contents)
+ 8      (package-refresh-contents)
+ 9      (package-install (elt (cdr (assoc 'org package-archive-contents)) 0))
+10      (package-install (elt (cdr (assoc 'use-package package-archive-contents)) 0))))
+11  (require 'use-package)
+12  (require 'org)
 ```
 
+This code makes it so the actual package contents of the repositories is **not** refreshed every time Emacs loads, mainly for
+speed of startup purposes. You can always refresh the list by using `M-x list-packages`. This is recommended on occasion as the
+extension packages used should be updated.
 
-<a id="org77684d6"></a>
+NOTE: I could not make `use-package` ignore the built-in `org` package in favor of the `org` package from the org repository.
+Many people suggested use the `:ensure`  and `:demand` keywords to control `use-package`, but to no avail. There's a nice
+discussion of <https://github.com/jwiegley/use-package/issues/319>.
 
-### Finally, load up this file
+
+<a id="orgfdbc850"></a>
+
+### Finally load up this file
 
 Simply use this file (I default it to `README`) and Babel tangle the configuration (`README.org`) into a file that gets loaded
 (`README.el`). The remainder of the initialization follows in this file.
 
 ```emacs-lisp
-(defvar my-cfg (concat user-emacs-directory "README"))
-(when (file-newer-than-file-p (concat my-cfg ".org") (concat my-cfg ".el"))
-  (org-babel-tangle-file (concat my-cfg ".org")))
-(load my-cfg)
+13  (defvar my-cfg (concat user-emacs-directory "README"))
+14  (when (file-newer-than-file-p (concat my-cfg ".org") (concat my-cfg ".el"))
+15    (org-babel-tangle-file (concat my-cfg ".org")))
+16  (load my-cfg)
 ```
 
 
-<a id="org69a038d"></a>
+<a id="org13da139"></a>
 
 # Configuration
 
@@ -230,7 +202,7 @@ Here are my configuration bits. All of the following code snippets are tangled f
 from the initialization file. Feel free to take as little or as much as you like from here.
 
 
-<a id="org6c15bf7"></a>
+<a id="orge8a8d4a"></a>
 
 ## Just a little preamble
 
@@ -250,14 +222,14 @@ Also create a handy variable to know if we are Windows - used later on here.
 ```
 
 
-<a id="org5220605"></a>
+<a id="org525f181"></a>
 
 ## General packages
 
 Here are some general packages
 
 
-<a id="org74ed122"></a>
+<a id="org8486ea5"></a>
 
 ### Speed up line movement
 
@@ -270,7 +242,7 @@ using `next-line` gets very cut down.
 ```
 
 
-<a id="org31462e9"></a>
+<a id="org3c4f7be"></a>
 
 ### [diminish](https://github.com/myrjola/diminish.el)
 
@@ -282,7 +254,7 @@ is fine and it doesn't need to be on the mode line (diminish it to "").
 ```
 
 
-<a id="orga00ffb9"></a>
+<a id="orgfee0fad"></a>
 
 ### [bind-key](https://github.com/priyadarshan/bind-key)
 
@@ -293,7 +265,7 @@ Much better binding capabilities
 ```
 
 
-<a id="org60ea0d3"></a>
+<a id="org4a8a044"></a>
 
 ### savehist
 
@@ -341,7 +313,7 @@ Set the following variables to control `savehist` (use customize).
 </table>
 
 
-<a id="orgd47427f"></a>
+<a id="org1ec6457"></a>
 
 ### Themes and mode line
 
@@ -353,7 +325,7 @@ Set the following variables to control `savehist` (use customize).
 ```
 
 
-<a id="orgaaba875"></a>
+<a id="org20e778e"></a>
 
 ### Other useful packages
 
@@ -411,19 +383,19 @@ Customized variables of interest here:
 <tbody>
 <tr>
 <td class="org-left">desktop-path</td>
-<td class="org-left">("`/repos/devtools/" "~/.emacs.d/" "`")</td>
+<td class="org-left">("`/.emacs.d/" "~/.emacs.d/" "`")</td>
 </tr>
 
 
 <tr>
 <td class="org-left">desktop-save-mode</td>
-<td class="org-left">t</td>
+<td class="org-left">nil</td>
 </tr>
 </tbody>
 </table>
 
 
-<a id="org1cc55b7"></a>
+<a id="orgcbd4ddb"></a>
 
 # Working with C#
 
@@ -459,7 +431,7 @@ There are comprehensive directions at [omnisharp-emacs](https://github.com/OmniS
 ```
 
 
-<a id="orgf6727e6"></a>
+<a id="org0af1b2b"></a>
 
 # [`magit`](https://github.com/magit/magit)/git configuration
 
@@ -530,7 +502,7 @@ Customized variables:
 </table>
 
 
-<a id="org104d3bc"></a>
+<a id="org9296fa3"></a>
 
 # `org-mode` Configuration
 
@@ -601,7 +573,7 @@ Customized variables for org-mode:
 </table>
 
 
-<a id="orge1bef68"></a>
+<a id="orgfe84d46"></a>
 
 ## `org-mode` export hacks for HTML and Markdown
 
@@ -655,7 +627,7 @@ any underscores in the table with inline HTML.
 ```
 
 
-<a id="orgdb42196"></a>
+<a id="orgf87e8f1"></a>
 
 # python configuration
 
@@ -756,7 +728,7 @@ Customized variables used in this python configuration:
 </table>
 
 
-<a id="org2faae4e"></a>
+<a id="orgefa3eff"></a>
 
 # `ivy` Configuration
 
@@ -847,7 +819,7 @@ Customized variables:
 </table>
 
 
-<a id="orgc1b1c48"></a>
+<a id="org8322173"></a>
 
 # `yasnippet` Configuration
 
@@ -906,12 +878,12 @@ Configured variables of interest:
 </table>
 
 
-<a id="org0203a5a"></a>
+<a id="orgf95eca6"></a>
 
 # Additional bits-o-configuration
 
 
-<a id="org1b9dd23"></a>
+<a id="org44b7023"></a>
 
 ## Limit the length of `which-function`
 
@@ -927,7 +899,7 @@ characters.
 ```
 
 
-<a id="org360fda0"></a>
+<a id="org1b3cd71"></a>
 
 ## `my-ansi-term`
 
@@ -943,7 +915,7 @@ other modes and shells make this less useful these days.
 ```
 
 
-<a id="org143240d"></a>
+<a id="org97e4338"></a>
 
 ## Understand file type by shebang
 
@@ -967,7 +939,7 @@ Script-type is read from #!/... at top of file."
 ```
 
 
-<a id="orga636365"></a>
+<a id="org036ef01"></a>
 
 ## Additional Configuration
 

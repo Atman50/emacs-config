@@ -49,7 +49,8 @@
    it, I simple git clone this repository to =~/.emacs.d/~ and then fire up Emacs. Works every time for me.
 
 ** =init.el= in a few small sections
-   To get started with a literate configuration, I use this simple =init.el= file. Here is the entire [[https://github.com/Atman50/emacs-config/blob/master/init.el][=init.el=]] file.
+   To get started with a literate configuration, I use this simple =init.el= file. Currently the =init.el= file used here contains
+   only 16 lines of actual code.
 
    Here are the pieces of the =init.el= file explained.
 
@@ -61,72 +62,60 @@
     Loading this file first, even before package stuff, is important to get things working. In a subsequent section of this
     =init.el= the =package-refresh-contents= uses the variable =package-archives= for importing archive information (and eventually
     packages).
-    #+BEGIN_SRC emacs-lisp -r :tangle no
+    #+BEGIN_SRC emacs-lisp -n 1 :tangle no
       (setq custom-file (expand-file-name "custom.el" user-emacs-directory))
       (load custom-file t)
     #+END_SRC
     I've pointed the customization at my own file =custom.el= and loaded it here. Customization will now be written to this file
     from the Emacs customization system.
 
-*** Initialize the package
-    #+BEGIN_SRC emacs-lisp -r :tangle no
-      (package-initialize)
-    #+END_SRC
-    Says it all; Initializes the package system.
+    The most important custom variable at this point in the configuration is =package-archives= which should now be set as follows:
+
+    #+NAME: init-file-custom-vars
+    #+CALL: custom-vars-table(custom-vars='(package-archives))
 
 *** Random setting
-    #+BEGIN_SRC emacs-lisp -r :tangle no
+    #+BEGIN_SRC emacs-lisp -n 3 :tangle no
       (prefer-coding-system 'utf-8)
     #+END_SRC
     This was necessary because some packages in ELPA had Unicode characters in them that my Windows system didn't like. Not a bad
     idea to set this somewhere and I needed it before the =package-refresh-contents= below.
 
-*** Refresh the package archives
-    But only if necessary. If we don't see the =use-package= package in the package manager, then we'll assume that this is probably
-    a new load and we need to go fetch (for the first time) the archive content directories.
-    #+BEGIN_SRC emacs-lisp -r :tangle no
-      (unless (assoc 'use-package package-archive-contents)
-        (package-refresh-contents))
-    #+END_SRC
-    If you wished to get fresh contents everytime Emacs starts, just get rid of the first line unless statement.
+*** Initialize the package
+    This code is meant to insure that both =org= mode (the non-built most recent =org= version available in the org repository) and
+    =use-package= are installed. We need the =org= package to tangle (babel) this file itself and the rest of the configuration
+    heavily relies on the most excellent =use-package= extension.
 
-    The =package-refresh-contents= uses the following:
+    The call to =package-refresh-contents= heavily depends on the value of =package-archives= to be correct. In the =init.el= file,
+    the custom file is loaded before this code so it is set via normal Emacs customization.
 
-    #+NAME: init-file-custom-vars
-    #+CALL: custom-vars-table(custom-vars='(package-archives))
-
-*** Load up =use-package=
-    This configuration relies heavily upon John Wiegley's most excellent =use-package= package. Although no longer used in the
-    initialization file itself (because of issues loading =org-mode= - see below), this is here to power the rest of this literate
-    configuration.
-    #+BEGIN_SRC emacs-lisp -r :tangle no
-      (unless (package-installed-p 'use-package)
-        (package-install 'use-package))
+    I had to change the following logic so that it worked under both 26.0.91 and 27.0.50 (there is some difference to the
+    initialization process that got in the way of my old logic). First time in should package-install both org mode and use-package. 
+    Then only on 26.0.91 package-initialize is called (27.0.50 calls package-initialize for you? - something to do with an early
+    initialize capability...).
+    #+BEGIN_SRC emacs-lisp -n 4 :tangle no
+      (unless (boundp 'package-user-dir)
+        (unless (boundp 'package-archive-contents)
+          (package-initialize))
+        (unless (assoc 'use-package package-archive-contents)
+          (package-refresh-contents)
+          (package-install (elt (cdr (assoc 'org package-archive-contents)) 0))
+          (package-install (elt (cdr (assoc 'use-package package-archive-contents)) 0))))
       (require 'use-package)
-    #+END_SRC
-
-*** Make sure we have a recent =org= package
-    I could not make =use-package= ignore the built-in =org= package in favor of the =org= package from the org repository. Many
-    people suggested use the =:ensure=  and =:demand= keywords to control =use-package=, but to no avail. There's a nice discussion
-    of [[https://github.com/jwiegley/use-package/issues/319]].
-
-    Here's my code that guarantees that an =org= gets loaded from a repository ignoring the built in version. This first line checks
-    to see if =org= is already loaded by interrogating the packages directory for an installed =org= package. Granted, this is a
-    little "hacky" as it depends on the =org= package's version being numeric (at least the first two characters being numbers).
-    The second line actually installs the package using the package definition in =package-archive-contents=. The contents are
-    assured above by =package-refresh-contents=, which should only fire the first time this initialization is run on a new
-    =~/.emacs.d= directory. The require at the end loads up =org= so the final piece of the configuration works.
-
-    #+BEGIN_SRC emacs-lisp -r :tangle no
-      (unless (file-expand-wildcards (concat package-user-dir "/org-[0-9][0-9]*"))
-        (package-install (elt (cdr (assoc 'org package-archive-contents)) 0)))
       (require 'org)
     #+END_SRC
+    This code makes it so the actual package contents of the repositories is *not* refreshed every time Emacs loads, mainly for
+    speed of startup purposes. You can always refresh the list by using =M-x list-packages=. This is recommended on occasion as the
+    extension packages used should be updated.
 
-*** Finally, load up this file
+    NOTE: I could not make =use-package= ignore the built-in =org= package in favor of the =org= package from the org repository.
+    Many people suggested use the =:ensure=  and =:demand= keywords to control =use-package=, but to no avail. There's a nice
+    discussion of [[https://github.com/jwiegley/use-package/issues/319]].
+
+*** Finally load up this file
     Simply use this file (I default it to =README=) and Babel tangle the configuration (=README.org=) into a file that gets loaded
     (=README.el=). The remainder of the initialization follows in this file.
-    #+BEGIN_SRC emacs-lisp -r :tangle no
+    #+BEGIN_SRC emacs-lisp -n 13 :tangle no
       (defvar my-cfg (concat user-emacs-directory "README"))
       (when (file-newer-than-file-p (concat my-cfg ".org") (concat my-cfg ".el"))
         (org-babel-tangle-file (concat my-cfg ".org")))
