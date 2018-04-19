@@ -17,41 +17,37 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(ag-ignore-list
-   (quote
-    ("\\\\*.dll" "\\\\*.png" "\\\\*.jpeg" "\\\\*.exe" "\\\\*.csproj")))
+   '("\\\\*.dll" "\\\\*.png" "\\\\*.jpeg" "\\\\*.exe" "\\\\*.csproj"))
  '(auto-save-default nil)
- '(browse-url-browser-function (quote browse-url-chrome))
+ '(browse-url-browser-function 'browse-url-chrome)
  '(c-tab-always-indent nil)
  '(case-fold-search t)
  '(column-number-mode t)
- '(compilation-error-regexp-alist (quote (ant bash java gnu gcc-include lcc perl)))
- '(compilation-error-regexp-systems-list (quote (gnu perl)))
- '(confirm-kill-emacs (quote yes-or-no-p))
+ '(compilation-error-regexp-alist '(ant bash java gnu gcc-include lcc perl))
+ '(compilation-error-regexp-systems-list '(gnu perl))
+ '(confirm-kill-emacs 'yes-or-no-p)
+ '(counsel-mode t)
  '(dabbrev-case-fold-search nil)
  '(desktop-save-mode t)
  '(diff-switches "-bc")
  '(dired-listing-switches "-alh")
- '(ediff-split-window-function (quote split-window-vertically))
- '(ediff-window-setup-function (quote ediff-setup-windows-plain))
+ '(ediff-split-window-function 'split-window-vertically)
+ '(ediff-window-setup-function 'ediff-setup-windows-plain)
  '(electric-pair-mode t)
  '(elpy-modules
-   (quote
-    (elpy-module-company elpy-module-eldoc elpy-module-pyvenv elpy-module-yasnippet elpy-module-sane-defaults)))
+   '(elpy-module-company elpy-module-eldoc elpy-module-pyvenv elpy-module-yasnippet elpy-module-sane-defaults))
  '(elpy-project-root-finder-functions
-   (quote
-    (elpy-project-find-projectile-root elpy-project-find-python-root elpy-project-find-git-root)))
+   '(elpy-project-find-projectile-root elpy-project-find-python-root elpy-project-find-git-root))
  '(eshell-history-size 1024)
  '(fill-column 132)
- '(flycheck-color-mode-line-face-to-color (quote mode-line-buffer-id))
+ '(flycheck-color-mode-line-face-to-color 'mode-line-buffer-id)
  '(font-lock-maximum-size nil)
  '(git-commit-fill-column 78)
- '(git-commit-style-convention-checks (quote (non-empty-second-line overlong-summary-line)))
+ '(git-commit-style-convention-checks '(non-empty-second-line overlong-summary-line))
  '(global-font-lock-mode t nil (font-lock))
- '(gud-pdb-command-name "python -m pdb")
  '(history-delete-duplicates t)
  '(ibuffer-formats
-   (quote
-    ((mark modified read-only " "
+   '((mark modified read-only " "
            (name 36 36 :left :elide)
            " "
            (size 9 -1 :right)
@@ -59,7 +55,7 @@
            (mode 16 16 :left :elide)
            " " filename-and-process)
      (mark modified read-only " "
-           (name 36 -1)))))
+           (name 36 -1))))
  '(indent-tabs-mode nil)
  '(inhibit-startup-screen t)
  '(ivy-count-format "(%d/%d) ")
@@ -68,57 +64,46 @@
  '(ivy-use-virtual-buffers t)
  '(line-move-visual nil)
  '(line-number-display-limit-width 40000)
- '(magit-completing-read-function (quote ivy-completing-read))
+ '(magit-completing-read-function 'ivy-completing-read)
  '(magit-pull-arguments nil)
- '(magit-repository-directories (quote (("~/repos" . 1))))
+ '(magit-repository-directories '(("~/repos" . 1)))
  '(make-backup-files nil)
  '(omnisharp-auto-complete-popup-help-delay 1)
  '(omnisharp-server-executable-path "c:/omnisharp-roslyn-v1.27.2/OmniSharp.exe")
- '(org-catch-invisible-edits (quote show))
+ '(org-catch-invisible-edits 'show)
  '(org-html-postamble t)
  '(org-html-postamble-format
-   (quote
-    (("en" "<p class=\"author\">Author: %a (%e)</p>
-<p class=\"date\">Date: %T</p>
-<p class=\"creator\">%c</p>"))))
- '(org-log-done (quote time))
+   '(("en" "<p class=\"author\">Author: %a (%e)</p>\n<p class=\"date\">Date: %T</p>\n<p class=\"creator\">%c</p>")))
+ '(org-log-done 'time)
  '(org-log-into-drawer t)
  '(package-archives
-   (quote
-    (("gnu" . "https://elpa.gnu.org/packages/")
+   '(("gnu" . "https://elpa.gnu.org/packages/")
      ("melpa" . "https://melpa.org/packages/")
-     ("org" . "https://orgmode.org/elpa/"))))
+     ("org" . "https://orgmode.org/elpa/")))
  '(powerline-display-hud nil)
- '(projectile-completion-system (quote ivy))
- '(projectile-mode-line (quote (:eval (format " [%s]" (projectile-project-name)))))
- '(python-flymake-command (quote ("flake8" "-")))
- '(python-indent-trigger-commands (quote (yas-expand yas/expand)))
- '(python-shell-completion-setup-code "from IPython.core.completerlib import module_completion")
- '(python-shell-completion-string-code
-   "';'.join(get_ipython().Completer.all_completions('''%s'''))
-")
+ '(projectile-completion-system 'ivy)
+ '(projectile-mode-line '(:eval (format " [%s]" (projectile-project-name))))
+ '(python-flymake-command '("flake8" "-"))
+ '(python-indent-trigger-commands '(yas-expand))
  '(python-shell-interpreter "ipython")
  '(python-shell-interpreter-args "-i --simple-prompt")
  '(python-shell-prompt-output-regexp "Out\\[[0-9]+\\]: ")
  '(python-shell-prompt-regexp "In \\[[0-9]+\\]: ")
- '(savehist-additional-variables (quote (kill-ring search-ring regexp-search-ring)))
+ '(savehist-additional-variables '(kill-ring search-ring regexp-search-ring))
  '(savehist-file "~/.emacs.d/savehist")
  '(savehist-mode t)
- '(scroll-bar-mode (quote none))
+ '(scroll-bar-mode 'none)
  '(sentence-end-double-space nil)
  '(show-paren-mode t nil (paren))
  '(split-width-threshold nil)
- '(sql-mode-hook
-   (quote
-    ((lambda nil
-       (setq tab-width 4 indent-tabs-mode t)))))
+ '(sql-mode-hook '((lambda nil (setq tab-width 4 indent-tabs-mode t))))
  '(tool-bar-mode nil)
  '(truncate-partial-width-windows t)
- '(uniquify-buffer-name-style (quote post-forward-angle-brackets) nil (uniquify))
+ '(uniquify-buffer-name-style 'post-forward-angle-brackets nil (uniquify))
  '(use-dialog-box t)
  '(use-package-always-defer t)
  '(use-package-always-ensure t)
- '(vc-diff-switches (quote ("--diff-cmd" "tkdiff")))
+ '(vc-diff-switches '("--diff-cmd" "tkdiff"))
  '(visible-bell t)
  '(which-function-mode t)
  '(which-key-mode t)

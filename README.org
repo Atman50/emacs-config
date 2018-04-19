@@ -196,16 +196,15 @@
       (use-package desktop
         :config
         (set-variable 'desktop-path (cons default-directory desktop-path))) (ref:desktop-path)
-      (use-package paredit
+      (use-package lispy
         :demand t
         :config
-        (add-hook 'emacs-lisp-mode-hook #'enable-paredit-mode))
-      (add-to-list 'auto-mode-alist
-                   '("\\.aspx\\'" . html-mode)
-                   '("\\.aspcx\\'" . html-mode))
+        (add-hook 'emacs-lisp-mode-hook (lambda () (lispy-mode 1)))
+        (add-hook 'minibuffer-setup-hook (lambda () (when (eq this-command 'eval-expression) (lispy-mode 1)))))
+      (use-package ag)
+
       (use-package powershell
         :if mswindows-p)
-      (use-package ag)
     #+END_SRC
 
     Note that the setting of [[(desktop-path)][=desktop-path=]] allows the multiple =.emacs.desktop= files, each in the directory where =emacs= was
@@ -366,6 +365,7 @@
     (use-package python
       :config
       (progn
+        (add-hook 'inferior-python-mode-hook (lambda () (setq tab-width 4)))
         (add-hook 'python-mode-hook (lambda () (add-to-list 'company-backends #'company-jedi)))
         (add-hook 'python-mode-hook #'flymake-mode)
         (add-hook 'python-mode-hook #'company-mode)))
@@ -373,7 +373,7 @@
 
     Customized variables used in this python configuration:
     #+NAME: python-custom-vars
-    #+CALL: custom-vars-table(custom-vars='(elpy-modules python-indent-trigger-commands python-shell-completion-setup-code python-shell-completion-string-code python-shell-interpreter python-shell-interpreter-args python-shell-prompt-output-regexp python-shell-prompt-regexp))
+    #+CALL: custom-vars-table(custom-vars='(elpy-modules python-shell-interpreter python-shell-interpreter-args python-shell-prompt-output-regexp python-shell-prompt-regexp))
 
 * =ivy= Configuration
   Was a =helm= user, but switched to =ivy=. Lots of nice features in =ivy=
@@ -391,14 +391,7 @@
               '((t . ivy--regex-ignore-order)))))
 
     (use-package counsel
-      :bind (("M-x" . counsel-M-x)
-             ("C-x g" . counsel-git)
-             ("C-x C-f" . counsel-find-file)
-             ("C-x C-j" . counsel-imenu))
-      :bind (:map help-map
-                  ("f" . counsel-describe-function)
-                  ("v" . counsel-describe-variable)
-                  ("b" . counsel-descbinds)))
+      :bind (("C-c j" . counsel-imenu)))
     (use-package counsel-projectile
       :demand t
       :config
@@ -406,9 +399,9 @@
     (use-package counsel-etags)
     (use-package ivy-hydra)
     (use-package swiper
-      :bind (("C-S-s" . isearch-forward)
-             ("C-s" . swiper)
-             ("C-S-r" . isearch-backward)
+      :bind (("C-S-s" . isearch-forward)            ;; Keep isearch-forward on Shift-Ctrl-s
+             ("C-s" . swiper)                       ;; Use swiper for search and reverse search
+             ("C-S-r" . isearch-backward)           ;; Keep isearch-backward on Shift-Ctrl-r
              ("C-r" . swiper)))
     (use-package avy)
 
