@@ -1,0 +1,66 @@
+#+STARTUP: showall
+#+OPTIONS: num:nil
+#+TITLE: Key Bindings and Magit Emacs Talk
+#+AUTHOR: [[mailto:mr.adtaylor@gmail.com][Adam Taylor]]
+#+EMAIL: mr.adtaylor@gmail.com
+#+DATE: <2018-05-15 Tue 11:16>
+* Overview of talk
+  - Caveat emptor - my take on things
+  - *Not* a tutorial on git
+  - Interactive - make it what you want
+  - "Emacs helps those who help themselves ..."
+* Key-bindings
+  - ~which-key~
+    - To use: ~(use-package which-key :demand t :diminish "")~
+    - Best way to see key assignments - fun to explore
+  - ~bind-key~
+    - To use: ~(use-package bind-key)~ and then ~(bind-key ...)~
+    - Easier than ~define-key~ or ~global-set-key~
+  - Prefix ~C-c~ supposed to be for user customization
+    - Not really true. Example ~C-c p ...~ is for projectile
+    - Mostly left alone - use ~which-key~ to see used pieces
+* Key-bindings help
+  - Good help in =info=
+    - =Emacs -> Key Index= : all the known keys (?)
+    - =Emacs -> Key Bindings= : everything you want to know
+  - ~C-h b~ : ~describe-bindings~ - all bindings
+  - ~C-h m~ : ~describe-mode~ - for mode-specific bindings
+  - Not using chords: https://www.emacswiki.org/emacs/KeyChord
+    - No need to over complicate things
+
+* Keymaps
+  - The global keymap: ~global-map~
+    - Impossible to read
+  - Prefix keymaps: ~ctl-x-map~, ~mode-specific-map~ (ctl-c), ...
+  - Read the info pages
+  - Use #' (function quote) for target of bind if not lambda
+
+* Easiest way to bind
+  - ~:bind~ in ~use-package~
+  #+BEGIN_SRC emacs-lisp
+     (use-package swiper
+        :bind (("C-S-s" . isearch-forward)  ;; Keep isearch-forward on Shift-Ctrl-s
+               ("C-s" . swiper)             ;; Use swiper for search and reverse search
+               ("C-S-r" . isearch-backward) ;; Keep isearch-backward on Shift-Ctrl-r
+               ("C-r" . swiper)))
+   #+END_SRC
+  - or ~bind-key~
+   #+BEGIN_SRC emacs-lisp
+     (bind-key "C-c r" #'revert-buffer)
+     (bind-key "C-c c" #'comment-region)
+     (bind-key "C-c u" #'uncomment-region)
+   #+END_SRC
+  - Try to be mnemonic
+* Magit
+  - This is not a git tutorial
+  - *Info* =Magit= (top level), also at https://magit.vc/manual/
+  - Like everything in Emacs, it is what you use
+    - pushing, fetching, committing, cherry-picking, ediffing, stashing
+    - Maybe not everything is easier - I don't know
+      For instance, I map ~git sur~ to ~git submodule update --recursive~, which
+      is easier for me to type then learning to navigate the menus.
+
+* Magit demo
+  Maybe the best way to show the power is to a complex operation that I did
+  recently to show one way in which I use the mode. There are many more things
+  to explore as the need arises in your git life

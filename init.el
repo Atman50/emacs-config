@@ -25,7 +25,7 @@
     (package-initialize))
   (unless (assoc 'use-package package-archive-contents)
     (package-refresh-contents)
-    (package-install (elt (cdr (assoc 'org package-archive-contents)) 0))
+    (package-install (elt (cdr (assoc 'org-plus-contrib package-archive-contents)) 0))
     (package-install (elt (cdr (assoc 'use-package package-archive-contents)) 0))))
 (require 'use-package)
 (require 'org)

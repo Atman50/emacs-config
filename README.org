@@ -99,7 +99,7 @@
           (package-initialize))
         (unless (assoc 'use-package package-archive-contents)
           (package-refresh-contents)
-          (package-install (elt (cdr (assoc 'org package-archive-contents)) 0))
+          (package-install (elt (cdr (assoc 'org-plus-contrib package-archive-contents)) 0))
           (package-install (elt (cdr (assoc 'use-package package-archive-contents)) 0))))
       (require 'use-package)
       (require 'org)
@@ -132,7 +132,7 @@
    init.
    #+BEGIN_SRC emacs-lisp :tangle yes
      (setq gc-cons-threshold 64000000)
-     (add-hook 'after-init-hook #'(lambda () (setq gc-cons-threshold 800000)))
+     (add-hook 'after-init-hook (lambda () (setq gc-cons-threshold 800000)))
    #+END_SRC
 
    Also create a handy variable to know if we are Windows - used later on here.
@@ -177,6 +177,12 @@
         :demand t
         :config (powerline-default-theme))
     #+END_SRC
+*** For demonstrations
+    These packages are useful when doing presentations.
+    #+BEGIN_SRC emacs-lisp :tangle yes
+      (use-package command-log-mode :demand t)
+    #+END_SRC
+
 *** Other useful packages
     OK, a little tired of documenting each package on it's own. These packages are just generally useful.
 
@@ -227,10 +233,7 @@
   There are comprehensive directions at [[https://github.com/OmniSharp/omnisharp-emacs.git][omnisharp-emacs]].
 
   #+BEGIN_SRC emacs-lisp :tangle yes
-    (defvar config/use-omnisharp nil)
-    (let ((omnisharp (car (get 'omnisharp-server-executable-path 'saved-value))))
-      (unless (null omnisharp)
-        (setq config/use-omnisharp (file-exists-p omnisharp))))
+    (defvar config/use-omnisharp t)
 
     (use-package omnisharp
       :diminish "\u221e"                            ;; infinity symbol
@@ -241,6 +244,7 @@
                   ("C-x C-j" . counsel-imenu)))
     (use-package csharp-mode
       :config
+      (add-hook 'csharp-mode-hook (lambda() (setq tab-width 4)))
       (when config/use-omnisharp
         (add-hook 'csharp-mode-hook #'company-mode)
         (add-hook 'csharp-mode-hook #'omnisharp-mode)))
