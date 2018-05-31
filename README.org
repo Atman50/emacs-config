@@ -405,7 +405,6 @@
         (setq ivy-initial-inputs-alist nil)         ;; no regexp by default
         (setq ivy-re-builders-alist                 ;; allow input not in order
               '((t . ivy--regex-ignore-order)))))
-
     (use-package counsel
       :bind (("C-c j" . counsel-imenu)))
     (use-package counsel-projectile
@@ -419,8 +418,8 @@
              ("C-s" . swiper)                       ;; Use swiper for search and reverse search
              ("C-S-r" . isearch-backward)           ;; Keep isearch-backward on Shift-Ctrl-r
              ("C-r" . swiper)))
-    (use-package avy)
-
+    (use-package avy
+      :bind (("C-:" . avy-goto-char)))
     (use-package ivy-posframe
       :demand t
       :if (>= emacs-major-version 26)

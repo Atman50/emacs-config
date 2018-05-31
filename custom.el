@@ -72,11 +72,12 @@
  '(magit-submodule-arguments '("--recursive"))
  '(make-backup-files nil)
  '(omnisharp-auto-complete-popup-help-delay 1)
- '(omnisharp-server-executable-path "c:/omnisharp-roslyn-v1.27.2/OmniSharp.exe")
  '(org-catch-invisible-edits 'show)
  '(org-html-postamble t)
  '(org-html-postamble-format
-   '(("en" "<p class=\"author\">Author: %a (%e)</p>\n<p class=\"date\">Date: %T</p>\n<p class=\"creator\">%c</p>")))
+   '(("en" "<p class=\"author\">Author: %a (%e)</p>
+<p class=\"date\">Date: %T</p>
+<p class=\"creator\">%c</p>")))
  '(org-log-done 'time)
  '(org-log-into-drawer t)
  '(org-s5-ui-url "file:///C:/S5-v12a2/ui")
