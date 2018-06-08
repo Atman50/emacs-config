@@ -172,16 +172,48 @@
     #+CALL: custom-vars-table(custom-vars='(savehist-file savehist-additional-variables savehist-mode))
 
 *** Themes and mode line
+    Recently switched from =powerline= to =moody=. The =moody= interface gives a nice tabbed mode line.
     #+BEGIN_SRC emacs-lisp :tangle yes
-      (load-theme 'leuven t)                          ;; Theme: works better before powerline
-      (use-package powerline
+      (use-package leuven-theme
         :demand t
-        :config (powerline-default-theme))
+        :config
+        (load-theme 'leuven t)
+        (let ((line (face-attribute 'mode-line :underline)))
+          (set-face-attribute 'mode-line nil
+                              :overline line
+                              :box nil)
+          (set-face-attribute 'mode-line-inactive nil
+                              :overline line
+                              :underline line
+                              :box nil
+                              :foreground "#c2c2c2"
+                              :background "#fafad2")
+          (set-face-attribute 'mode-line-buffer-id nil
+                              :foreground "#335EA8"
+                              :overline line)
+          (set-face-attribute 'mode-line-highlight nil
+                              :foreground "DarkOrange2")
+          (set-face-attribute 'mode-line-emphasis nil
+                              :foreground "#335EA8")))
+
+      (use-package moody
+        :demand t
+        :config
+        (setq x-underline-at-descent-line t)
+        (moody-replace-mode-line-buffer-identification)
+        (moody-replace-vc-mode))
     #+END_SRC
 *** For demonstrations
     These packages are useful when doing presentations.
     #+BEGIN_SRC emacs-lisp :tangle yes
       (use-package command-log-mode :demand t)
+    #+END_SRC
+
+*** Trying =codesearch=
+    =Codesearch= is Google tool written in Go. You'll need to [[https://golang.org/doc/install][install Go]] on your system. The install =codesearch= by issuing the
+    command =go get github.com/google/codesearch/cmd/...=.
+    #+BEGIN_SRC emacs-lisp :tangle yes
+      (use-package codesearch :demand t)
     #+END_SRC
 
 *** Other useful packages
@@ -412,6 +444,7 @@
       :config
       (counsel-projectile-mode t))
     (use-package counsel-etags)
+    (use-package counsel-codesearch)
     (use-package ivy-hydra)
     (use-package swiper
       :bind (("C-S-s" . isearch-forward)            ;; Keep isearch-forward on Shift-Ctrl-s
