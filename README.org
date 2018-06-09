@@ -181,13 +181,14 @@
         (let ((line (face-attribute 'mode-line :underline)))
           (set-face-attribute 'mode-line nil
                               :overline line
-                              :box nil)
+                              :box nil
+                              :foreground "dark turquoise")
           (set-face-attribute 'mode-line-inactive nil
                               :overline line
                               :underline line
                               :box nil
-                              :foreground "#c2c2c2"
-                              :background "#fafad2")
+                              :foreground "#335EA8"
+                              :background "#c2c2c2")
           (set-face-attribute 'mode-line-buffer-id nil
                               :foreground "#335EA8"
                               :overline line)
