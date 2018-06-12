@@ -106,7 +106,6 @@
  '(truncate-partial-width-windows t)
  '(uniquify-buffer-name-style 'post-forward-angle-brackets nil (uniquify))
  '(use-dialog-box t)
- '(use-package-always-defer t)
  '(use-package-always-ensure t)
  '(vc-diff-switches '("--diff-cmd" "tkdiff"))
  '(visible-bell t)

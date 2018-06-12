@@ -1,48 +1,49 @@
 
 # Table of Contents
 
-1.  [Overview](#org636b406)
-    1.  [Quick start](#org2bc2218)
-    2.  [Why a literate configuration](#org8685fe8)
-    3.  [`init.el` in a few small sections](#org81f737b)
-        1.  [Load the custom file](#org79f9ad9)
-        2.  [Random setting](#org7c681b9)
-        3.  [Initialize the package](#org6f29ff8)
-        4.  [Finally load up this file](#org40068d5)
-2.  [Configuration](#orgeac5002)
-    1.  [Just a little preamble](#orgc0ab576)
-    2.  [General packages](#org799d936)
-        1.  [Speed up line movement](#org6815f77)
-        2.  [diminish](#org054beac)
-        3.  [bind-key](#org05a2e29)
-        4.  [savehist](#orga3ceca9)
-        5.  [Themes and mode line](#org228aff2)
-        6.  [For demonstrations](#org28e4535)
-        7.  [Trying `codesearch`](#org0c5b0c7)
-        8.  [Other useful packages](#org5750ff5)
-3.  [Working with C#](#orgcf742dd)
-4.  [`magit`/git configuration](#org7c5f1d6)
-5.  [`org-mode` Configuration](#org7ee061b)
-    1.  [`org-mode` export hacks for HTML and Markdown](#org3b56c18)
-6.  [python configuration](#org2be1773)
-7.  [`ivy` Configuration](#orgad11283)
-8.  [`yasnippet` Configuration](#orgfbe4144)
-9.  [Additional bits-o-configuration](#orgdf7c624)
-    1.  [Limit the length of `which-function`](#org2a5c83a)
-    2.  [`my-ansi-term`](#org690ba95)
-    3.  [Understand file type by shebang](#org900b239)
-    4.  [Additional Configuration](#org824a52d)
+1.  [Overview](#orge69ef09)
+    1.  [Quick start](#orgaab2d3e)
+    2.  [Why a literate configuration](#org2ebbf67)
+    3.  [`init.el` in a few small sections](#orgacdcd8a)
+        1.  [Load the custom file](#org190cc17)
+        2.  [Random setting](#org3e1d711)
+        3.  [Initialize the package](#org565a26a)
+        4.  [Finally load up this file](#org1377420)
+2.  [Configuration](#orgfdb6d3a)
+    1.  [Just a little preamble](#org29c6a90)
+    2.  [General packages](#org1f76c1a)
+        1.  [Speed up line movement](#org6f8bcf7)
+        2.  [diminish](#org07b1a80)
+        3.  [bind-key](#org19157aa)
+        4.  [savehist](#org8511f03)
+        5.  [Themes and mode line](#orga6545e7)
+        6.  [For demonstrations](#org5179e82)
+        7.  [Trying `codesearch`](#orgcda374d)
+        8.  [Other useful packages](#org108b40f)
+3.  [company](#orgf9cfd1c)
+4.  [`ivy` Configuration](#orge616ea4)
+5.  [`yasnippet` Configuration](#org9626d70)
+6.  [Working with C#](#org7d6dcee)
+7.  [`magit`/git configuration](#org6fb936d)
+8.  [`org-mode` Configuration](#orgf39c050)
+    1.  [`org-mode` export hacks for HTML and Markdown](#org97e2274)
+9.  [python configuration](#org611fca6)
+10. [Additional bits-o-configuration](#org7b797f1)
+    1.  [Limit the length of `which-function`](#org2fee06b)
+    2.  [`my-ansi-term`](#org434c7ea)
+    3.  [Understand file type by shebang](#orgcfbb8a4)
+    4.  [Additional Configuration](#orga54ed43)
 
 
 
-<a id="org636b406"></a>
+<a id="orge69ef09"></a>
 
 # Overview
 
 This is my literate and <font color=red size=+3><b><u>portable</u></b></font> Emacs initialization.
 
 
-<a id="org2bc2218"></a>
+<a id="orgaab2d3e"></a>
 
 ## Quick start
 
@@ -61,7 +62,7 @@ customization (see `custom.el`) are system (file system) dependent. I handle thi
 localized changes for `custom.el` and then apply it whenever I take updated configurations from the repository.
 
 
-<a id="org8685fe8"></a>
+<a id="org2ebbf67"></a>
 
 ## Why a literate configuration
 
@@ -76,7 +77,7 @@ I have tried to make this configuration 100% portable meaning that on a new syst
 it, I simple git clone this repository to =~/.emacs.d/~ and then fire up Emacs. Works every time for me.
 
 
-<a id="org81f737b"></a>
+<a id="orgacdcd8a"></a>
 
 ## `init.el` in a few small sections
 
@@ -87,7 +88,7 @@ Here are the pieces of the `init.el` file explained. The line numbers are the li
 repository.
 
 
-<a id="org79f9ad9"></a>
+<a id="org190cc17"></a>
 
 ### Load the custom file
 
@@ -133,7 +134,7 @@ The most important custom variable at this point in the configuration is `packag
 </table>
 
 
-<a id="org7c681b9"></a>
+<a id="org3e1d711"></a>
 
 ### Random setting
 
@@ -145,7 +146,7 @@ This was necessary because some packages in ELPA had Unicode characters in them 
 idea to set this somewhere and I needed it before the `package-refresh-contents` below.
 
 
-<a id="org6f29ff8"></a>
+<a id="org565a26a"></a>
 
 ### Initialize the package
 
@@ -182,7 +183,7 @@ Many people suggested use the `:ensure`  and `:demand` keywords to control `use-
 discussion of <https://github.com/jwiegley/use-package/issues/319>.
 
 
-<a id="org40068d5"></a>
+<a id="org1377420"></a>
 
 ### Finally load up this file
 
@@ -197,7 +198,7 @@ Simply use this file (I default it to `README`) and Babel tangle the configurati
 ```
 
 
-<a id="orgeac5002"></a>
+<a id="orgfdb6d3a"></a>
 
 # Configuration
 
@@ -205,7 +206,7 @@ Here are my configuration bits. All of the following code snippets are tangled f
 from the initialization file. Feel free to take as little or as much as you like from here.
 
 
-<a id="orgc0ab576"></a>
+<a id="org29c6a90"></a>
 
 ## Just a little preamble
 
@@ -225,14 +226,14 @@ Also create a handy variable to know if we are Windows - used later on here.
 ```
 
 
-<a id="org799d936"></a>
+<a id="org1f76c1a"></a>
 
 ## General packages
 
-Here are some general packages
+Here are some general packages I use
 
 
-<a id="org6815f77"></a>
+<a id="org6f8bcf7"></a>
 
 ### Speed up line movement
 
@@ -245,7 +246,7 @@ using `next-line` gets very cut down.
 ```
 
 
-<a id="org054beac"></a>
+<a id="org07b1a80"></a>
 
 ### [diminish](https://github.com/myrjola/diminish.el)
 
@@ -257,7 +258,7 @@ is fine and it doesn't need to be on the mode line (diminish it to "").
 ```
 
 
-<a id="org05a2e29"></a>
+<a id="org19157aa"></a>
 
 ### [bind-key](https://github.com/priyadarshan/bind-key)
 
@@ -268,14 +269,15 @@ Much better binding capabilities
 ```
 
 
-<a id="orga3ceca9"></a>
+<a id="org8511f03"></a>
 
 ### savehist
 
-A great built-in that allows us to have a history file. This means certain elements are saved between sessions of Emacs.
+A great built-in that allows us to have a history file. This means certain elements are saved between sessions of Emacs. This
+history file is kept in `~/.emacs.d/savehist`.
 
 ```emacs-lisp
-(use-package savehist :demand t)                ;; Nice history in ~/.emacs.d/savehist
+(use-package savehist)
 ```
 
 Set the following variables to control `savehist` (use customize).
@@ -316,7 +318,7 @@ Set the following variables to control `savehist` (use customize).
 </table>
 
 
-<a id="org228aff2"></a>
+<a id="orga6545e7"></a>
 
 ### Themes and mode line
 
@@ -324,7 +326,6 @@ Recently switched from `powerline` to `moody`. The `moody` interface gives a nic
 
 ```emacs-lisp
 (use-package leuven-theme
-  :demand t
   :config
   (load-theme 'leuven t)
   (let ((line (face-attribute 'mode-line :underline)))
@@ -344,10 +345,11 @@ Recently switched from `powerline` to `moody`. The `moody` interface gives a nic
     (set-face-attribute 'mode-line-highlight nil
                         :foreground "DarkOrange2")
     (set-face-attribute 'mode-line-emphasis nil
-                        :foreground "#335EA8")))
+                        :foreground "#335EA8")
+    (set-face-attribute 'which-func nil
+                        :foreground "ivory2")))
 
 (use-package moody
-  :demand t
   :config
   (setq x-underline-at-descent-line t)
   (moody-replace-mode-line-buffer-identification)
@@ -355,18 +357,18 @@ Recently switched from `powerline` to `moody`. The `moody` interface gives a nic
 ```
 
 
-<a id="org28e4535"></a>
+<a id="org5179e82"></a>
 
 ### For demonstrations
 
 These packages are useful when doing presentations.
 
 ```emacs-lisp
-(use-package command-log-mode :demand t)
+(use-package command-log-mode :defer t)
 ```
 
 
-<a id="org0c5b0c7"></a>
+<a id="orgcda374d"></a>
 
 ### Trying `codesearch`
 
@@ -374,11 +376,11 @@ These packages are useful when doing presentations.
 command `go get github.com/google/codesearch/cmd/...`.
 
 ```emacs-lisp
-(use-package codesearch :demand t)
+(use-package codesearch :defer t)
 ```
 
 
-<a id="org5750ff5"></a>
+<a id="org108b40f"></a>
 
 ### Other useful packages
 
@@ -387,25 +389,21 @@ OK, a little tired of documenting each package on it's own. These packages are j
 `which-key` very helpful for finding way around.
 
 ```emacs-lisp
-(use-package realgud            ;; A "better" gud
-  :demand t)
+(use-package realgud)           ;; A "better" gud
 (use-package projectile
-  :demand t
   :config
   (projectile-mode t))
-(use-package ibuffer-projectile)
-(use-package xterm-color)
-(use-package which-key :demand t :diminish "")
-(use-package sh-script)
+(use-package ibuffer-projectile :defer t)
+(use-package xterm-color :defer t)
+(use-package which-key :diminish "")
+(use-package sh-script :defer t)
 (use-package desktop
   :config
   (set-variable 'desktop-path (cons default-directory desktop-path)))
 (use-package lispy
-  :demand t
   :config
   (add-hook 'emacs-lisp-mode-hook (lambda () (lispy-mode 1)))
   (add-hook 'minibuffer-setup-hook (lambda () (when (eq this-command 'eval-expression) (lispy-mode 1)))))
-(use-package ag)
 
 (use-package powershell
   :if mswindows-p)
@@ -447,7 +445,158 @@ Customized variables of interest here:
 </table>
 
 
-<a id="orgcf742dd"></a>
+<a id="orgf9cfd1c"></a>
+
+# company
+
+Use the excellent `company` modular in-buffer text completion framework. In particular this is used for `elpy` (python) mode and
+`omnisharp` (C#) mode, although it is used elsewhere.
+
+```emacs-lisp
+(use-package company
+  :diminish "Co")
+```
+
+
+<a id="orge616ea4"></a>
+
+# `ivy` Configuration
+
+Was a `helm` user, but switched to `ivy`. Lots of nice features in `ivy`
+
+```emacs-lisp
+(use-package ivy
+  :diminish ""
+  :bind (:map ivy-minibuffer-map
+              ("C-w" . ivy-yank-word)           ;; make work like isearch
+              ("C-r" . ivy-previous-line))
+  :config
+  (setq ivy-initial-inputs-alist nil)           ;; no regexp by default
+  (setq ivy-re-builders-alist                   ;; allow input not in order
+        '((t . ivy--regex-ignore-order))))
+(use-package counsel
+  :bind (("C-c j" . counsel-imenu)))
+(use-package counsel-projectile
+  :config
+  (counsel-projectile-mode t))
+(use-package counsel-codesearch)
+(use-package ivy-hydra)
+(use-package swiper
+  :bind (("C-S-s" . isearch-forward)            ;; Keep isearch-forward on Shift-Ctrl-s
+         ("C-s" . swiper)                       ;; Use swiper for search and reverse search
+         ("C-S-r" . isearch-backward)           ;; Keep isearch-backward on Shift-Ctrl-r
+         ("C-r" . swiper)))
+(use-package avy
+  :bind (("C-:" . avy-goto-char)))
+(use-package ivy-posframe
+  :if (>= emacs-major-version 26)
+  :config (setq ivy-display-function #'ivy-posframe-display))
+```
+
+Customized variables:
+
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-left" />
+
+<col  class="org-left" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-left">Symbol Name</th>
+<th scope="col" class="org-left">Value</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td class="org-left">ivy-count-format</td>
+<td class="org-left">"(%d/%d) "</td>
+</tr>
+
+
+<tr>
+<td class="org-left">ivy-height</td>
+<td class="org-left">10</td>
+</tr>
+
+
+<tr>
+<td class="org-left">ivy-mode</td>
+<td class="org-left">t</td>
+</tr>
+
+
+<tr>
+<td class="org-left">ivy-use-virtual-buffers</td>
+<td class="org-left">t</td>
+</tr>
+</tbody>
+</table>
+
+
+<a id="org9626d70"></a>
+
+# `yasnippet` Configuration
+
+`yasnippet` is a truly awesome package. Local modifications should go in `~/.emacs.d/snippets/`.
+
+Just love `yasnippet` package.
+
+```emacs-lisp
+(use-package warnings)
+(use-package yasnippet
+  :diminish (yas-minor-mode . "")
+  :config
+  (yas-reload-all)
+  ;; fix tab in term-mode
+  (add-hook 'term-mode-hook (lambda() (yas-minor-mode -1)))
+  ;; Fix yas indent issues
+  (add-hook 'python-mode-hook (lambda () (set (make-local-variable 'yas-indent-line) 'fixed)))
+  ;; Setup to allow for yasnippets to use code to expand
+  (add-to-list 'warning-suppress-types '(yasnippet backquote-change)))
+(use-package yasnippet-snippets)
+```
+
+The following code allows the `yasnippet` and `company` to work together. Got this from a fix posted on [github](https://gist.github.com/sebastiencs/a16ea58b2d23e2ea52f62fcce70f4073) which was pointed
+to by the [company mode Wiki page](https://www.emacswiki.org/emacs/CompanyMode#toc11).
+
+```emacs-lisp
+(advice-add 'company-complete-common :before (lambda () (setq my-company-point (point))))
+(advice-add 'company-complete-common :after (lambda ()
+                                              (when (equal my-company-point (point))
+                                                (yas-expand))))
+```
+
+Customizations of interest:
+
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-left" />
+
+<col  class="org-left" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-left">Symbol Name</th>
+<th scope="col" class="org-left">Value</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td class="org-left">yas-global-mode</td>
+<td class="org-left">nil</td>
+</tr>
+</tbody>
+</table>
+
+
+<a id="org7d6dcee"></a>
 
 # Working with C#
 
@@ -466,22 +615,24 @@ There are comprehensive directions at [omnisharp-emacs](https://github.com/OmniS
 (defvar config/use-omnisharp t)
 
 (use-package omnisharp
-  :diminish "\u221e"                            ;; infinity symbol
+  :diminish "\u221e" ;; infinity symbol
   :if config/use-omnisharp
   :bind (:map omnisharp-mode-map
               ("C-c o" . omnisharp-start-omnisharp-server)
               ("C-c d" . omnisharp-go-to-definition-other-window)
-              ("C-x C-j" . counsel-imenu)))
+              ("C-x C-j" . counsel-imenu))
+  :config
+  (add-to-list 'company-backends #'company-omnisharp))
 (use-package csharp-mode
   :config
   (add-hook 'csharp-mode-hook (lambda() (setq tab-width 4)))
   (when config/use-omnisharp
-    (add-hook 'csharp-mode-hook #'company-mode)
-    (add-hook 'csharp-mode-hook #'omnisharp-mode)))
+    (add-hook 'csharp-mode-hook #'omnisharp-mode)
+    (add-hook 'csharp-mode-hook #'company-mode)))
 ```
 
 
-<a id="org7c5f1d6"></a>
+<a id="org6fb936d"></a>
 
 # [`magit`](https://github.com/magit/magit)/git configuration
 
@@ -490,7 +641,6 @@ The **most awesome** git porcelain. Most here are part of magit, `[[https://gith
 ```emacs-lisp
 (use-package git-commit)
 (use-package magit
-  :demand t
   :bind (("C-c f" . magit-find-file-other-window)
          ("C-c g" . magit-status)
          ("C-c l" . magit-log-buffer-file))
@@ -552,7 +702,7 @@ Customized variables:
 </table>
 
 
-<a id="org7ee061b"></a>
+<a id="orgf39c050"></a>
 
 # `org-mode` Configuration
 
@@ -563,13 +713,12 @@ The `htmlize` package allows the HTML and Markdown exporters to work (underlying
 
 ```emacs-lisp
 (use-package org-bullets
-   :demand t
    :config (add-hook 'org-mode-hook (lambda ()
                                       (toggle-truncate-lines -1)
                                       (auto-fill-mode 1)
                                       (org-bullets-mode))))
-(use-package org-autolist :demand t)
-(use-package htmlize :demand t)
+(use-package org-autolist)
+(use-package htmlize)
 (add-hook 'org-mode-hook #'flyspell-mode)
 ```
 
@@ -623,7 +772,7 @@ Customized variables for org-mode:
 </table>
 
 
-<a id="org3b56c18"></a>
+<a id="org97e2274"></a>
 
 ## `org-mode` export hacks for HTML and Markdown
 
@@ -677,7 +826,7 @@ any underscores in the table with inline HTML.
 ```
 
 
-<a id="org2be1773"></a>
+<a id="org611fca6"></a>
 
 # python configuration
 
@@ -694,15 +843,8 @@ output to the `*Flymake Log*` buffer:
 The `remove-hook` relieves this issue. NB: this may be for Emacs version 27.0.50 only.
 
 ```emacs-lisp
-(use-package company
-  :diminish "Co"
-  :config
-  (when config/use-omnisharp
-    (add-to-list 'company-backends #'company-omnisharp)))
-(use-package company-jedi
-  :demand t)
+(use-package company-jedi)
 (use-package elpy
-  :demand t
   :bind (:map elpy-mode-map
               ("C-c ." . elpy-goto-definition))
   :config
@@ -772,155 +914,12 @@ Customized variables used in this python configuration:
 </table>
 
 
-<a id="orgad11283"></a>
-
-# `ivy` Configuration
-
-Was a `helm` user, but switched to `ivy`. Lots of nice features in `ivy`
-
-```emacs-lisp
-(use-package ivy
-  :demand t
-  :diminish ""
-  :bind (:map ivy-minibuffer-map
-              ("C-w" . ivy-yank-word)           ;; make work like isearch
-              ("C-r" . ivy-previous-line))
-  :config
-  (progn
-    (setq ivy-initial-inputs-alist nil)         ;; no regexp by default
-    (setq ivy-re-builders-alist                 ;; allow input not in order
-          '((t . ivy--regex-ignore-order)))))
-(use-package counsel
-  :bind (("C-c j" . counsel-imenu)))
-(use-package counsel-projectile
-  :demand t
-  :config
-  (counsel-projectile-mode t))
-(use-package counsel-etags)
-(use-package counsel-codesearch)
-(use-package ivy-hydra)
-(use-package swiper
-  :bind (("C-S-s" . isearch-forward)            ;; Keep isearch-forward on Shift-Ctrl-s
-         ("C-s" . swiper)                       ;; Use swiper for search and reverse search
-         ("C-S-r" . isearch-backward)           ;; Keep isearch-backward on Shift-Ctrl-r
-         ("C-r" . swiper)))
-(use-package avy
-  :bind (("C-:" . avy-goto-char)))
-(use-package ivy-posframe
-  :demand t
-  :if (>= emacs-major-version 26)
-  :config (setq ivy-display-function #'ivy-posframe-display))
-```
-
-Customized variables:
-
-<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
-
-
-<colgroup>
-<col  class="org-left" />
-
-<col  class="org-left" />
-</colgroup>
-<thead>
-<tr>
-<th scope="col" class="org-left">Symbol Name</th>
-<th scope="col" class="org-left">Value</th>
-</tr>
-</thead>
-
-<tbody>
-<tr>
-<td class="org-left">ivy-count-format</td>
-<td class="org-left">"(%d/%d) "</td>
-</tr>
-
-
-<tr>
-<td class="org-left">ivy-height</td>
-<td class="org-left">10</td>
-</tr>
-
-
-<tr>
-<td class="org-left">ivy-mode</td>
-<td class="org-left">t</td>
-</tr>
-
-
-<tr>
-<td class="org-left">ivy-use-virtual-buffers</td>
-<td class="org-left">t</td>
-</tr>
-</tbody>
-</table>
-
-
-<a id="orgfbe4144"></a>
-
-# `yasnippet` Configuration
-
-`yasnippet` is a truly awesome package. Local modifications should go in `~/.emacs.d/snippets/`.
-
-This also takes care of hooking up `company` completion with `yasnippet` expansion.
-
-```emacs-lisp
-(use-package warnings :demand t)
-(use-package yasnippet
-  :diminish (yas-minor-mode . "")
-  :config
-  (progn
-    (yas-reload-all)
-    ;; fix tab in term-mode
-    (add-hook 'term-mode-hook (lambda() (yas-minor-mode -1)))
-    ;; Fix yas indent issues
-    (add-hook 'python-mode-hook (lambda () (set (make-local-variable 'yas-indent-line) 'fixed)))
-    ;; Setup to allow for yasnippets to use code to expand
-    (add-to-list 'warning-suppress-types '(yasnippet backquote-change))))
-(use-package yasnippet-snippets :demand t)
-
-(defvar company-mode/enable-yas t "Enable yasnippet for all backends.")
-(defun company-mode/backend-with-yas (backend)
-  "Add in the company-yasnippet BACKEND."
-  (if (or (not company-mode/enable-yas) (and (listp backend) (member 'company-yasnippet backend)))
-      backend
-    (append (if (consp backend) backend (list backend))
-            '(:with company-yasnippet))))
-(setq company-backends (mapcar #'company-mode/backend-with-yas company-backends))
-```
-
-Configured variables of interest:
-
-<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
-
-
-<colgroup>
-<col  class="org-left" />
-
-<col  class="org-left" />
-</colgroup>
-<thead>
-<tr>
-<th scope="col" class="org-left">Symbol Name</th>
-<th scope="col" class="org-left">Value</th>
-</tr>
-</thead>
-
-<tbody>
-<tr>
-<td class="org-left">yas-global-mode</td>
-<td class="org-left">t</td>
-</tr>
-</tbody>
-</table>
-
-
-<a id="orgdf7c624"></a>
+<a id="org7b797f1"></a>
 
 # Additional bits-o-configuration
 
 
-<a id="org2a5c83a"></a>
+<a id="org2fee06b"></a>
 
 ## Limit the length of `which-function`
 
@@ -936,7 +935,7 @@ characters.
 ```
 
 
-<a id="org690ba95"></a>
+<a id="org434c7ea"></a>
 
 ## `my-ansi-term`
 
@@ -952,7 +951,7 @@ other modes and shells make this less useful these days.
 ```
 
 
-<a id="org900b239"></a>
+<a id="orgcfbb8a4"></a>
 
 ## Understand file type by shebang
 
@@ -976,7 +975,7 @@ Script-type is read from #!/... at top of file."
 ```
 
 
-<a id="org824a52d"></a>
+<a id="orga54ed43"></a>
 
 ## Additional Configuration
 

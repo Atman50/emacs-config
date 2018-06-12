@@ -142,7 +142,7 @@
    #+END_SRC
 
 ** General packages
-   Here are some general packages
+   Here are some general packages I use
 *** Speed up line movement
     I ran into this little tidbit while reading Sacha Chua's posts from Emacs. It is described [[https://emacs.stackexchange.com/questions/28736/emacs-pointcursor-movement-lag/28746][here]], but to summarize the
     =next-line= defun triggers =line-move-partial= which leads to excessive processing. By setting the variable here, the speed of
@@ -163,9 +163,10 @@
       (use-package bind-key)
     #+END_SRC
 *** savehist
-    A great built-in that allows us to have a history file. This means certain elements are saved between sessions of Emacs.
+    A great built-in that allows us to have a history file. This means certain elements are saved between sessions of Emacs. This
+    history file is kept in =~/.emacs.d/savehist=.
     #+BEGIN_SRC emacs-lisp :tangle yes
-      (use-package savehist :demand t)                ;; Nice history in ~/.emacs.d/savehist
+      (use-package savehist)
     #+END_SRC
     Set the following variables to control =savehist= (use customize).
     #+NAME: savehist-custom-vars
@@ -175,7 +176,6 @@
     Recently switched from =powerline= to =moody=. The =moody= interface gives a nice tabbed mode line.
     #+BEGIN_SRC emacs-lisp :tangle yes
       (use-package leuven-theme
-        :demand t
         :config
         (load-theme 'leuven t)
         (let ((line (face-attribute 'mode-line :underline)))
@@ -195,10 +195,11 @@
           (set-face-attribute 'mode-line-highlight nil
                               :foreground "DarkOrange2")
           (set-face-attribute 'mode-line-emphasis nil
-                              :foreground "#335EA8")))
+                              :foreground "#335EA8")
+          (set-face-attribute 'which-func nil
+                              :foreground "ivory2")))
 
       (use-package moody
-        :demand t
         :config
         (setq x-underline-at-descent-line t)
         (moody-replace-mode-line-buffer-identification)
@@ -207,14 +208,14 @@
 *** For demonstrations
     These packages are useful when doing presentations.
     #+BEGIN_SRC emacs-lisp :tangle yes
-      (use-package command-log-mode :demand t)
+      (use-package command-log-mode :defer t)
     #+END_SRC
 
 *** Trying =codesearch=
     =Codesearch= is Google tool written in Go. You'll need to [[https://golang.org/doc/install][install Go]] on your system. The install =codesearch= by issuing the
     command =go get github.com/google/codesearch/cmd/...=.
     #+BEGIN_SRC emacs-lisp :tangle yes
-      (use-package codesearch :demand t)
+      (use-package codesearch :defer t)
     #+END_SRC
 
 *** Other useful packages
@@ -223,25 +224,21 @@
     =which-key= very helpful for finding way around.
 
     #+BEGIN_SRC emacs-lisp -r :tangle yes
-      (use-package realgud            ;; A "better" gud
-        :demand t)
+      (use-package realgud)           ;; A "better" gud
       (use-package projectile
-        :demand t
         :config
         (projectile-mode t))
-      (use-package ibuffer-projectile)
-      (use-package xterm-color)
-      (use-package which-key :demand t :diminish "")
-      (use-package sh-script)
+      (use-package ibuffer-projectile :defer t)
+      (use-package xterm-color :defer t)
+      (use-package which-key :diminish "")
+      (use-package sh-script :defer t)
       (use-package desktop
         :config
         (set-variable 'desktop-path (cons default-directory desktop-path))) (ref:desktop-path)
       (use-package lispy
-        :demand t
         :config
         (add-hook 'emacs-lisp-mode-hook (lambda () (lispy-mode 1)))
         (add-hook 'minibuffer-setup-hook (lambda () (when (eq this-command 'eval-expression) (lispy-mode 1)))))
-      (use-package ag)
 
       (use-package powershell
         :if mswindows-p)
@@ -255,6 +252,79 @@
 
     #+NAME: other-pkgs-custom-vars
     #+CALL: custom-vars-table(custom-vars='(desktop-path desktop-save-mode))
+* company
+  Use the excellent =company= modular in-buffer text completion framework. In particular this is used for =elpy= (python) mode and
+  =omnisharp= (C#) mode, although it is used elsewhere.
+  #+BEGIN_SRC emacs-lisp :tangle yes
+    (use-package company
+      :diminish "Co")
+  #+END_SRC
+* =ivy= Configuration
+  Was a =helm= user, but switched to =ivy=. Lots of nice features in =ivy=
+  #+BEGIN_SRC emacs-lisp :tangle yes
+    (use-package ivy
+      :diminish ""
+      :bind (:map ivy-minibuffer-map
+                  ("C-w" . ivy-yank-word)           ;; make work like isearch
+                  ("C-r" . ivy-previous-line))
+      :config
+      (setq ivy-initial-inputs-alist nil)           ;; no regexp by default
+      (setq ivy-re-builders-alist                   ;; allow input not in order
+            '((t . ivy--regex-ignore-order))))
+    (use-package counsel
+      :bind (("C-c j" . counsel-imenu)))
+    (use-package counsel-projectile
+      :config
+      (counsel-projectile-mode t))
+    (use-package counsel-codesearch)
+    (use-package ivy-hydra)
+    (use-package swiper
+      :bind (("C-S-s" . isearch-forward)            ;; Keep isearch-forward on Shift-Ctrl-s
+             ("C-s" . swiper)                       ;; Use swiper for search and reverse search
+             ("C-S-r" . isearch-backward)           ;; Keep isearch-backward on Shift-Ctrl-r
+             ("C-r" . swiper)))
+    (use-package avy
+      :bind (("C-:" . avy-goto-char)))
+    (use-package ivy-posframe
+      :if (>= emacs-major-version 26)
+      :config (setq ivy-display-function #'ivy-posframe-display))
+  #+END_SRC
+
+    Customized variables:
+    #+NAME: ivy-custom-vars
+    #+CALL: custom-vars-table(custom-vars='(ivy-count-format ivy-height ivy-mode ivy-use-virtual-buffers))
+
+* =yasnippet= Configuration
+  =yasnippet= is a truly awesome package. Local modifications should go in =~/.emacs.d/snippets/=.
+
+  Just love =yasnippet= package.
+  #+BEGIN_SRC emacs-lisp :tangle yes
+    (use-package warnings)
+    (use-package yasnippet
+      :diminish (yas-minor-mode . "")
+      :config
+      (yas-reload-all)
+      ;; fix tab in term-mode
+      (add-hook 'term-mode-hook (lambda() (yas-minor-mode -1)))
+      ;; Fix yas indent issues
+      (add-hook 'python-mode-hook (lambda () (set (make-local-variable 'yas-indent-line) 'fixed)))
+      ;; Setup to allow for yasnippets to use code to expand
+      (add-to-list 'warning-suppress-types '(yasnippet backquote-change)))
+    (use-package yasnippet-snippets)
+  #+END_SRC
+  The following code allows the =yasnippet= and =company= to work together. Got this from a fix posted on [[https://gist.github.com/sebastiencs/a16ea58b2d23e2ea52f62fcce70f4073][github]] which was pointed
+  to by the [[https://www.emacswiki.org/emacs/CompanyMode#toc11][company mode Wiki page]].
+  #+BEGIN_SRC emacs-lisp :tangle yes
+    (advice-add 'company-complete-common :before (lambda () (setq my-company-point (point))))
+    (advice-add 'company-complete-common :after (lambda ()
+                                                  (when (equal my-company-point (point))
+                                                    (yas-expand))))
+  #+END_SRC
+
+  Customizations of interest:
+  #+NAME: yas-custom-vars
+  #+CALL: custom-vars-table(custom-vars='(yas-global-mode))
+
 
 * Working with C#
   I'm a C# developer and pretty much dislike big edits using Visual Studio. I've spent some amount of time coming
@@ -270,18 +340,20 @@
     (defvar config/use-omnisharp t)
 
     (use-package omnisharp
-      :diminish "\u221e"                            ;; infinity symbol
+      :diminish "\u221e" ;; infinity symbol
       :if config/use-omnisharp
       :bind (:map omnisharp-mode-map
                   ("C-c o" . omnisharp-start-omnisharp-server)
                   ("C-c d" . omnisharp-go-to-definition-other-window)
-                  ("C-x C-j" . counsel-imenu)))
+                  ("C-x C-j" . counsel-imenu))
+      :config
+      (add-to-list 'company-backends #'company-omnisharp))
     (use-package csharp-mode
       :config
       (add-hook 'csharp-mode-hook (lambda() (setq tab-width 4)))
       (when config/use-omnisharp
-        (add-hook 'csharp-mode-hook #'company-mode)
-        (add-hook 'csharp-mode-hook #'omnisharp-mode)))
+        (add-hook 'csharp-mode-hook #'omnisharp-mode)
+        (add-hook 'csharp-mode-hook #'company-mode)))
   #+END_SRC
 
 * [[https://github.com/magit/magit][=magit=]]/git configuration
@@ -289,7 +361,6 @@
   #+BEGIN_SRC emacs-lisp :tangle yes
     (use-package git-commit)
     (use-package magit
-      :demand t
       :bind (("C-c f" . magit-find-file-other-window)
              ("C-c g" . magit-status)
              ("C-c l" . magit-log-buffer-file))
@@ -313,13 +384,12 @@
 
   #+BEGIN_SRC emacs-lisp :tangle yes
     (use-package org-bullets
-       :demand t
        :config (add-hook 'org-mode-hook (lambda ()
                                           (toggle-truncate-lines -1)
                                           (auto-fill-mode 1)
                                           (org-bullets-mode))))
-    (use-package org-autolist :demand t)
-    (use-package htmlize :demand t)
+    (use-package org-autolist)
+    (use-package htmlize)
     (add-hook 'org-mode-hook #'flyspell-mode)
   #+END_SRC
 
@@ -376,8 +446,6 @@
 
      (advice-add #'orgtbl-to-orgtbl :filter-return #'my-md-export-hack)
    #+END_SRC
-
-
 * python configuration
   At one point I was using anaconda but have switched back to elpy. I really like =eply-config= that tells you if everything is
   working properly. I've been using a =virtualenv= for my python development and couldn't be happier. Perhaps the only thing that
@@ -392,15 +460,8 @@
   The =remove-hook= relieves this issue. NB: this may be for Emacs version 27.0.50 only.
 
   #+BEGIN_SRC emacs-lisp :tangle yes
-    (use-package company
-      :diminish "Co"
-      :config
-      (when config/use-omnisharp
-        (add-to-list 'company-backends #'company-omnisharp)))
-    (use-package company-jedi
-      :demand t)
+    (use-package company-jedi)
     (use-package elpy
-      :demand t
       :bind (:map elpy-mode-map
                   ("C-c ." . elpy-goto-definition))
       :config
@@ -423,80 +484,6 @@
     Customized variables used in this python configuration:
     #+NAME: python-custom-vars
     #+CALL: custom-vars-table(custom-vars='(elpy-modules python-shell-interpreter python-shell-interpreter-args python-shell-prompt-output-regexp python-shell-prompt-regexp))
-
-* =ivy= Configuration
-  Was a =helm= user, but switched to =ivy=. Lots of nice features in =ivy=
-  #+BEGIN_SRC emacs-lisp :tangle yes
-    (use-package ivy
-      :demand t
-      :diminish ""
-      :bind (:map ivy-minibuffer-map
-                  ("C-w" . ivy-yank-word)           ;; make work like isearch
-                  ("C-r" . ivy-previous-line))
-      :config
-      (progn
-        (setq ivy-initial-inputs-alist nil)         ;; no regexp by default
-        (setq ivy-re-builders-alist                 ;; allow input not in order
-              '((t . ivy--regex-ignore-order)))))
-    (use-package counsel
-      :bind (("C-c j" . counsel-imenu)))
-    (use-package counsel-projectile
-      :demand t
-      :config
-      (counsel-projectile-mode t))
-    (use-package counsel-etags)
-    (use-package counsel-codesearch)
-    (use-package ivy-hydra)
-    (use-package swiper
-      :bind (("C-S-s" . isearch-forward)            ;; Keep isearch-forward on Shift-Ctrl-s
-             ("C-s" . swiper)                       ;; Use swiper for search and reverse search
-             ("C-S-r" . isearch-backward)           ;; Keep isearch-backward on Shift-Ctrl-r
-             ("C-r" . swiper)))
-    (use-package avy
-      :bind (("C-:" . avy-goto-char)))
-    (use-package ivy-posframe
-      :demand t
-      :if (>= emacs-major-version 26)
-      :config (setq ivy-display-function #'ivy-posframe-display))
-  #+END_SRC
-
-    Customized variables:
-    #+NAME: ivy-custom-vars
-    #+CALL: custom-vars-table(custom-vars='(ivy-count-format ivy-height ivy-mode ivy-use-virtual-buffers))
-
-* =yasnippet= Configuration
-  =yasnippet= is a truly awesome package. Local modifications should go in =~/.emacs.d/snippets/=.
-
-  This also takes care of hooking up =company= completion with =yasnippet= expansion.
-  #+BEGIN_SRC emacs-lisp :tangle yes
-    (use-package warnings :demand t)
-    (use-package yasnippet
-      :diminish (yas-minor-mode . "")
-      :config
-      (progn
-        (yas-reload-all)
-        ;; fix tab in term-mode
-        (add-hook 'term-mode-hook (lambda() (yas-minor-mode -1)))
-        ;; Fix yas indent issues
-        (add-hook 'python-mode-hook (lambda () (set (make-local-variable 'yas-indent-line) 'fixed)))
-        ;; Setup to allow for yasnippets to use code to expand
-        (add-to-list 'warning-suppress-types '(yasnippet backquote-change))))
-    (use-package yasnippet-snippets :demand t)
-
-    (defvar company-mode/enable-yas t "Enable yasnippet for all backends.")
-    (defun company-mode/backend-with-yas (backend)
-      "Add in the company-yasnippet BACKEND."
-      (if (or (not company-mode/enable-yas) (and (listp backend) (member 'company-yasnippet backend)))
-          backend
-        (append (if (consp backend) backend (list backend))
-                '(:with company-yasnippet))))
-    (setq company-backends (mapcar #'company-mode/backend-with-yas company-backends))
-  #+END_SRC
-
-  Configured variables of interest:
-  #+NAME: yas-custom-vars
-  #+CALL: custom-vars-table(custom-vars='(yas-global-mode))
-
 
 * Additional bits-o-configuration
 ** Limit the length of =which-function=
