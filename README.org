@@ -252,7 +252,7 @@
 
     #+NAME: other-pkgs-custom-vars
     #+CALL: custom-vars-table(custom-vars='(desktop-path desktop-save-mode))
-* company
+* =company= Configuration
   Use the excellent =company= modular in-buffer text completion framework. In particular this is used for =elpy= (python) mode and
   =omnisharp= (C#) mode, although it is used elsewhere.
   #+BEGIN_SRC emacs-lisp :tangle yes
@@ -293,7 +293,13 @@
     Customized variables:
     #+NAME: ivy-custom-vars
     #+CALL: custom-vars-table(custom-vars='(ivy-count-format ivy-height ivy-mode ivy-use-virtual-buffers))
-
+* =prescient= Configuration
+  =prescient= provides "simple but effective sorting and filtering for Emacs."
+  #+BEGIN_SRC emacs-lisp :tangle yes
+    (use-package prescient)
+    (use-package ivy-prescient)
+    (use-package company-prescient)
+  #+END_SRC
 * =yasnippet= Configuration
   =yasnippet= is a truly awesome package. Local modifications should go in =~/.emacs.d/snippets/=.
 
@@ -330,11 +336,7 @@
   I'm a C# developer and pretty much dislike big edits using Visual Studio. I've spent some amount of time coming
   up with a good C# configuration. This works spectacularly well and takes only minutes to setup.
 
-  To use Omnisharp follow these directions:
-  1. Load up local Omnisharp (Roslyn flavor) from [[https://github.com/OmniSharp/omnisharp-roslyn/releases][Omnisharp-Roslyn releases]]
-  2. Customize the variable =omnisharp-server-executable-path= to point to your Omnisharp Roslyn. For example
-     "c:/omnisharp-roslyn-v1.27.2/OmniSharp.exe".
-  There are comprehensive directions at [[https://github.com/OmniSharp/omnisharp-emacs.git][omnisharp-emacs]].
+  There are comprehensive directions at [[https://github.com/OmniSharp/omnisharp-emacs.git][omnisharp-emacs]] for using omnisharp.
 
   #+BEGIN_SRC emacs-lisp :tangle yes
     (defvar config/use-omnisharp t)

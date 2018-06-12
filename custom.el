@@ -100,6 +100,7 @@
  '(scroll-bar-mode 'none)
  '(sentence-end-double-space nil)
  '(show-paren-mode t nil (paren))
+ '(show-paren-style 'expression)
  '(split-width-threshold nil)
  '(sql-mode-hook '((lambda nil (setq tab-width 4 indent-tabs-mode t))))
  '(tool-bar-mode nil)
