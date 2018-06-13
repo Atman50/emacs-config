@@ -162,7 +162,7 @@
     #+BEGIN_SRC emacs-lisp :tangle yes
       (use-package bind-key)
     #+END_SRC
-*** savehist
+*** [[https://www.emacswiki.org/emacs/SaveHist][savehist]]
     A great built-in that allows us to have a history file. This means certain elements are saved between sessions of Emacs. This
     history file is kept in =~/.emacs.d/savehist=.
     #+BEGIN_SRC emacs-lisp :tangle yes
@@ -173,7 +173,9 @@
     #+CALL: custom-vars-table(custom-vars='(savehist-file savehist-additional-variables savehist-mode))
 
 *** Themes and mode line
-    Recently switched from =powerline= to =moody=. The =moody= interface gives a nice tabbed mode line.
+    Recently switched from =powerline= to =moody=. The =moody= interface gives a nice tabbed mode line. I considered making my own
+    version of the =leuven= template to avoid all this =set-face-attribute= stuff below, but this is much more compact than mucking
+    around with the themes. Perhaps someday.
     #+BEGIN_SRC emacs-lisp :tangle yes
       (use-package leuven-theme
         :config
@@ -198,7 +200,6 @@
                               :foreground "gold")
           (set-face-attribute 'which-func nil
                               :foreground "light goldenrod")))
-
       (use-package moody
         :config
         (setq x-underline-at-descent-line t)
@@ -211,18 +212,22 @@
       (use-package command-log-mode :defer t)
     #+END_SRC
 
-*** Trying =codesearch=
-    =Codesearch= is Google tool written in Go. You'll need to [[https://golang.org/doc/install][install Go]] on your system. The install =codesearch= by issuing the
-    command =go get github.com/google/codesearch/cmd/...=.
+*** Trying [[https://github.com/abingham/emacs-codesearch][codesearch]]
+    =Codesearch= is Google tool written in Go. You'll need to [[https://golang.org/doc/install][install Go]] on your system. Install =codesearch= by issuing the command
+    =go get github.com/google/codesearch/cmd/...=.
     #+BEGIN_SRC emacs-lisp :tangle yes
       (use-package codesearch :defer t)
     #+END_SRC
 
+*** [[https://github.com/justbur/emacs-which-key][which-key]]
+    Perhaps one of the most useful extensions, this little gem will provide a list in the mini-buffer of the relevant keystrokes and
+    the functions to which they are bound (or a prefix). Many times I've found unknown features by simply looking at the various
+    options. This is, IMO, a great way to learn Emacs key-bindings.
+    #+BEGIN_SRC emacs-lisp :tangle yes
+      (use-package which-key :diminish "")
+    #+END_SRC
 *** Other useful packages
     OK, a little tired of documenting each package on it's own. These packages are just generally useful.
-
-    =which-key= very helpful for finding way around.
-
     #+BEGIN_SRC emacs-lisp -r :tangle yes
       (use-package realgud)           ;; A "better" gud
       (use-package projectile
@@ -230,7 +235,6 @@
         (projectile-mode t))
       (use-package ibuffer-projectile :defer t)
       (use-package xterm-color :defer t)
-      (use-package which-key :diminish "")
       (use-package sh-script :defer t)
       (use-package desktop
         :config
@@ -243,7 +247,6 @@
       (use-package powershell
         :if mswindows-p)
     #+END_SRC
-
     Note that the setting of [[(desktop-path)][=desktop-path=]] allows the multiple =.emacs.desktop= files, each in the directory where =emacs= was
     started. Although =desktop-path= is changed outside =custom.el=, I've included it here in the table below so you can see that
     the default is augmented with the start-up directory which in this case is =~/.emacs.d=.
@@ -252,15 +255,15 @@
 
     #+NAME: other-pkgs-custom-vars
     #+CALL: custom-vars-table(custom-vars='(desktop-path desktop-save-mode))
-* =company= Configuration
-  Use the excellent =company= modular in-buffer text completion framework. In particular this is used for =elpy= (python) mode and
-  =omnisharp= (C#) mode, although it is used elsewhere.
+* [[http://company-mode.github.io/][company-mode]] Configuration
+  Use the excellent =[[http://company-mode.github.io/][company-mode]]= modular in-buffer text completion framework. In particular this is used for =[[https://github.com/jorgenschaefer/elpy][elpy]]= (python) mode and
+  =[[https://github.com/OmniSharp/omnisharp-emacs][omnisharp]]= (C#) mode, although it is used elsewhere.
   #+BEGIN_SRC emacs-lisp :tangle yes
     (use-package company
       :diminish "Co")
   #+END_SRC
-* =ivy= Configuration
-  Was a =helm= user, but switched to =ivy=. Lots of nice features in =ivy=
+* =[[https://github.com/abo-abo/swiper][ivy/swiper]]= Configuration
+  I used to be a =helm= user, but switched to =ivy=. Lots of nice features in =ivy= and very easy to configure comparatively.
   #+BEGIN_SRC emacs-lisp :tangle yes
     (use-package ivy
       :diminish ""
@@ -293,17 +296,18 @@
     Customized variables:
     #+NAME: ivy-custom-vars
     #+CALL: custom-vars-table(custom-vars='(ivy-count-format ivy-height ivy-mode ivy-use-virtual-buffers))
-* =prescient= Configuration
-  =prescient= provides "simple but effective sorting and filtering for Emacs."
+* =[[https://github.com/raxod502/prescient.el][prescient]]= Configuration
+  =[[https://github.com/raxod502/prescient.el][prescient]]= provides "simple but effective sorting and filtering for Emacs."
   #+BEGIN_SRC emacs-lisp :tangle yes
     (use-package prescient)
     (use-package ivy-prescient)
     (use-package company-prescient)
   #+END_SRC
-* =yasnippet= Configuration
-  =yasnippet= is a truly awesome package. Local modifications should go in =~/.emacs.d/snippets/=.
+* =[[https://www.emacswiki.org/emacs/Yasnippet][yasnippet]]= Configuration
+  =[[https://www.emacswiki.org/emacs/Yasnippet][yasnippet]]= is a truly awesome package. Local modifications should go in =~/.emacs.d/snippets/=.
 
-  Just love =yasnippet= package.
+  Just love the =[[https://www.emacswiki.org/emacs/Yasnippet][yasnippet]]= package. I only wish there were more templates out there. Creating new ones and placing them the
+  appropriate (mode-named) subdirectory of =~/.emacs.d/snippets/=.
   #+BEGIN_SRC emacs-lisp :tangle yes
     (use-package warnings)
     (use-package yasnippet
@@ -326,12 +330,9 @@
                                                   (when (equal my-company-point (point))
                                                     (yas-expand))))
   #+END_SRC
-
   Customizations of interest:
   #+NAME: yas-custom-vars
   #+CALL: custom-vars-table(custom-vars='(yas-global-mode))
-
-
 * Working with C#
   I'm a C# developer and pretty much dislike big edits using Visual Studio. I've spent some amount of time coming
   up with a good C# configuration. This works spectacularly well and takes only minutes to setup.
@@ -485,7 +486,7 @@
 
     Customized variables used in this python configuration:
     #+NAME: python-custom-vars
-    #+CALL: custom-vars-table(custom-vars='(elpy-modules python-shell-interpreter python-shell-interpreter-args python-shell-prompt-output-regexp python-shell-prompt-regexp))
+    #+CALL: custom-vars-table(custom-vars='(python-shell-interpreter python-shell-interpreter-args python-shell-prompt-output-regexp python-shell-prompt-regexp))
 
 * Additional bits-o-configuration
 ** Limit the length of =which-function=
