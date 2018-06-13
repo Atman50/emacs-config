@@ -256,13 +256,13 @@
     #+NAME: other-pkgs-custom-vars
     #+CALL: custom-vars-table(custom-vars='(desktop-path desktop-save-mode))
 * [[http://company-mode.github.io/][company-mode]] Configuration
-  Use the excellent =[[http://company-mode.github.io/][company-mode]]= modular in-buffer text completion framework. In particular this is used for =[[https://github.com/jorgenschaefer/elpy][elpy]]= (python) mode and
-  =[[https://github.com/OmniSharp/omnisharp-emacs][omnisharp]]= (C#) mode, although it is used elsewhere.
+  Use the excellent [[http://company-mode.github.io/][company-mode]] modular in-buffer text completion framework. In particular this is used for [[https://github.com/jorgenschaefer/elpy][elpy]] (python) mode and
+  [[https://github.com/OmniSharp/omnisharp-emacs][omnisharp]] (C#) mode, although it is used elsewhere.
   #+BEGIN_SRC emacs-lisp :tangle yes
     (use-package company
       :diminish "Co")
   #+END_SRC
-* =[[https://github.com/abo-abo/swiper][ivy/swiper]]= Configuration
+* [[https://github.com/abo-abo/swiper][ivy/swiper]] Configuration
   I used to be a =helm= user, but switched to =ivy=. Lots of nice features in =ivy= and very easy to configure comparatively.
   #+BEGIN_SRC emacs-lisp :tangle yes
     (use-package ivy
@@ -296,17 +296,17 @@
     Customized variables:
     #+NAME: ivy-custom-vars
     #+CALL: custom-vars-table(custom-vars='(ivy-count-format ivy-height ivy-mode ivy-use-virtual-buffers))
-* =[[https://github.com/raxod502/prescient.el][prescient]]= Configuration
-  =[[https://github.com/raxod502/prescient.el][prescient]]= provides "simple but effective sorting and filtering for Emacs."
+* [[https://github.com/raxod502/prescient.el][prescient]] Configuration
+  [[https://github.com/raxod502/prescient.el][prescient]] provides "simple but effective sorting and filtering for Emacs."
   #+BEGIN_SRC emacs-lisp :tangle yes
     (use-package prescient)
     (use-package ivy-prescient)
     (use-package company-prescient)
   #+END_SRC
-* =[[https://www.emacswiki.org/emacs/Yasnippet][yasnippet]]= Configuration
-  =[[https://www.emacswiki.org/emacs/Yasnippet][yasnippet]]= is a truly awesome package. Local modifications should go in =~/.emacs.d/snippets/=.
+* [[https://www.emacswiki.org/emacs/Yasnippet][yasnippet]] Configuration
+  [[https://www.emacswiki.org/emacs/Yasnippet][yasnippet]] is a truly awesome package. Local modifications should go in =~/.emacs.d/snippets/=.
 
-  Just love the =[[https://www.emacswiki.org/emacs/Yasnippet][yasnippet]]= package. I only wish there were more templates out there. Creating new ones and placing them the
+  Just love the [[https://www.emacswiki.org/emacs/Yasnippet][yasnippet]] package. I only wish there were more templates out there. Creating new ones and placing them the
   appropriate (mode-named) subdirectory of =~/.emacs.d/snippets/=.
   #+BEGIN_SRC emacs-lisp :tangle yes
     (use-package warnings)
