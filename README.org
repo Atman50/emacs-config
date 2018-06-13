@@ -182,22 +182,22 @@
           (set-face-attribute 'mode-line nil
                               :overline line
                               :box nil
-                              :foreground "dark turquoise")
+                              :foreground "deep sky blue")
           (set-face-attribute 'mode-line-inactive nil
                               :overline line
                               :underline line
                               :box nil
                               :foreground "#335EA8"
-                              :background "#c2c2c2")
+                              :background "gray64")
           (set-face-attribute 'mode-line-buffer-id nil
-                              :foreground "#335EA8"
+                              :foreground "firebrick3"
                               :overline line)
           (set-face-attribute 'mode-line-highlight nil
-                              :foreground "DarkOrange2")
+                              :foreground "gold")
           (set-face-attribute 'mode-line-emphasis nil
-                              :foreground "#335EA8")
+                              :foreground "gold")
           (set-face-attribute 'which-func nil
-                              :foreground "ivory2")))
+                              :foreground "light goldenrod")))
 
       (use-package moody
         :config

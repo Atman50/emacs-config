@@ -71,7 +71,6 @@
  '(magit-repository-directories '(("~/repos" . 1)))
  '(magit-submodule-arguments '("--recursive"))
  '(make-backup-files nil)
- '(omnisharp-auto-complete-popup-help-delay 1)
  '(org-catch-invisible-edits 'show)
  '(org-html-postamble t)
  '(org-html-postamble-format
