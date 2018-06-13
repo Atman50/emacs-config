@@ -8,3 +8,4 @@ eshell
 projectile.cache
 # The README.el(c) file is generated
 README.el*
+.emacs.desktop*
