@@ -151,18 +151,18 @@
       (setq auto-window-vscroll nil)
     #+END_SRC
 
-*** [[https://github.com/myrjola/diminish.el][diminish]]
+*** [[https://github.com/myrjola/diminish.el][=diminish=]]
     Handy mode to make the modeline more succinct by allowing a /diminished/ mode line string. Sometimes the fact that mode is there
     is fine and it doesn't need to be on the mode line (diminish it to "").
     #+BEGIN_SRC emacs-lisp :tangle yes
       (use-package diminish)
     #+END_SRC
-*** [[https://github.com/priyadarshan/bind-key][bind-key]]
+*** [[https://github.com/priyadarshan/bind-key][=bind-key=]]
     Much better binding capabilities
     #+BEGIN_SRC emacs-lisp :tangle yes
       (use-package bind-key)
     #+END_SRC
-*** [[https://www.emacswiki.org/emacs/SaveHist][savehist]]
+*** [[https://www.emacswiki.org/emacs/SaveHist][=savehist=]]
     A great built-in that allows us to have a history file. This means certain elements are saved between sessions of Emacs. This
     history file is kept in =~/.emacs.d/savehist=.
     #+BEGIN_SRC emacs-lisp :tangle yes
@@ -212,14 +212,14 @@
       (use-package command-log-mode :defer t)
     #+END_SRC
 
-*** Trying [[https://github.com/abingham/emacs-codesearch][codesearch]]
-    =Codesearch= is Google tool written in Go. You'll need to [[https://golang.org/doc/install][install Go]] on your system. Install =codesearch= by issuing the command
+*** Trying [[https://github.com/abingham/emacs-codesearch][=codesearch=]]
+    =Codesearch= is Google tool written in Go. You'll need to [[https://golang.org/doc/install][install Go]] on your system. Install [[https://github.com/abingham/emacs-codesearch][=codesearch=]] by issuing the command
     =go get github.com/google/codesearch/cmd/...=.
     #+BEGIN_SRC emacs-lisp :tangle yes
       (use-package codesearch :defer t)
     #+END_SRC
 
-*** [[https://github.com/justbur/emacs-which-key][which-key]]
+*** [[https://github.com/justbur/emacs-which-key][=which-key=]]
     Perhaps one of the most useful extensions, this little gem will provide a list in the mini-buffer of the relevant keystrokes and
     the functions to which they are bound (or a prefix). Many times I've found unknown features by simply looking at the various
     options. This is, IMO, a great way to learn Emacs key-bindings.
@@ -255,14 +255,14 @@
 
     #+NAME: other-pkgs-custom-vars
     #+CALL: custom-vars-table(custom-vars='(desktop-path desktop-save-mode))
-* [[http://company-mode.github.io/][company-mode]] Configuration
-  Use the excellent [[http://company-mode.github.io/][company-mode]] modular in-buffer text completion framework. In particular this is used for [[https://github.com/jorgenschaefer/elpy][elpy]] (python) mode and
-  [[https://github.com/OmniSharp/omnisharp-emacs][omnisharp]] (C#) mode, although it is used elsewhere.
+* [[http://company-mode.github.io/][=company-mode=]] Configuration
+  Use the excellent [[http://company-mode.github.io/][=company-mode=]] modular in-buffer text completion framework. In particular this is used for [[https://github.com/jorgenschaefer/elpy][=elpy=]] (python) mode and
+  [[https://github.com/OmniSharp/omnisharp-emacs][=omnisharp=]] (C#) mode, although it is used elsewhere.
   #+BEGIN_SRC emacs-lisp :tangle yes
     (use-package company
       :diminish "Co")
   #+END_SRC
-* [[https://github.com/abo-abo/swiper][ivy/swiper]] Configuration
+* [[https://github.com/abo-abo/swiper][=ivy/swiper=]] Configuration
   I used to be a =helm= user, but switched to =ivy=. Lots of nice features in =ivy= and very easy to configure comparatively.
   #+BEGIN_SRC emacs-lisp :tangle yes
     (use-package ivy
@@ -296,17 +296,17 @@
     Customized variables:
     #+NAME: ivy-custom-vars
     #+CALL: custom-vars-table(custom-vars='(ivy-count-format ivy-height ivy-mode ivy-use-virtual-buffers))
-* [[https://github.com/raxod502/prescient.el][prescient]] Configuration
-  [[https://github.com/raxod502/prescient.el][prescient]] provides "simple but effective sorting and filtering for Emacs."
+* [[https://github.com/raxod502/prescient.el][=prescient=]] Configuration
+  [[https://github.com/raxod502/prescient.el][=prescient=]] provides "simple but effective sorting and filtering for Emacs."
   #+BEGIN_SRC emacs-lisp :tangle yes
     (use-package prescient)
     (use-package ivy-prescient)
     (use-package company-prescient)
   #+END_SRC
-* [[https://www.emacswiki.org/emacs/Yasnippet][yasnippet]] Configuration
-  [[https://www.emacswiki.org/emacs/Yasnippet][yasnippet]] is a truly awesome package. Local modifications should go in =~/.emacs.d/snippets/=.
+* [[https://www.emacswiki.org/emacs/Yasnippet][=yasnippet=]] Configuration
+  [[https://www.emacswiki.org/emacs/Yasnippet][=yasnippet=]] is a truly awesome package. Local modifications should go in =~/.emacs.d/snippets/=.
 
-  Just love the [[https://www.emacswiki.org/emacs/Yasnippet][yasnippet]] package. I only wish there were more templates out there. Creating new ones and placing them the
+  Just love the [[https://www.emacswiki.org/emacs/Yasnippet][=yasnippet=]] package. I only wish there were more templates out there. Creating new ones and placing them the
   appropriate (mode-named) subdirectory of =~/.emacs.d/snippets/=.
   #+BEGIN_SRC emacs-lisp :tangle yes
     (use-package warnings)
@@ -337,7 +337,7 @@
   I'm a C# developer and pretty much dislike big edits using Visual Studio. I've spent some amount of time coming
   up with a good C# configuration. This works spectacularly well and takes only minutes to setup.
 
-  There are comprehensive directions at [[https://github.com/OmniSharp/omnisharp-emacs.git][omnisharp-emacs]] for using omnisharp.
+  There are comprehensive directions at [[https://github.com/OmniSharp/omnisharp-emacs.git][=omnisharp-emacs=]] for using omnisharp.
 
   #+BEGIN_SRC emacs-lisp :tangle yes
     (defvar config/use-omnisharp t)
@@ -360,7 +360,7 @@
   #+END_SRC
 
 * [[https://github.com/magit/magit][=magit=]]/git configuration
-  The *most awesome* git porcelain. Most here are part of magit, =[[https://github.com/pidu/git-timemachine][git-time-machine]]= is not, but well worth using.
+  The *most awesome* git porcelain. Most here are part of magit, [[https://github.com/pidu/git-timemachine][=git-time-machine=]] is not, but well worth using.
   #+BEGIN_SRC emacs-lisp :tangle yes
     (use-package git-commit)
     (use-package magit
@@ -379,9 +379,9 @@
     #+NAME: magit-custom-vars
     #+CALL: custom-vars-table(custom-vars='(git-commit-fill-column magit-completing-read-function magit-pull-arguments nil magit-repository-directories))
 
-* =org-mode= Configuration
-  Org-mode configurations. =org-bullets= used to be part of org but is now outside. Always throw =org-mode= buffers into
-  =flyspell-mode=.
+* [[https://orgmode.org/][=org-mode=]] Configuration
+  Org-mode configurations. [[https://github.com/emacsorphanage/org-bullets][=org-bullets=]] used to be part of org but is now outside. Always throw [[https://orgmode.org/][=org-mode=]] buffers into
+  [[https://www.emacswiki.org/emacs/FlySpell][=flyspell-mode=]].
 
   The =htmlize= package allows the HTML and Markdown exporters to work (underlying code).
 
