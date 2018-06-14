@@ -7,7 +7,7 @@
 #+HTML_HEAD: </style>
 #+AUTHOR: Adam Taylor
 #+EMAIL: mr.adtaylor@gmail.com
-#+TITLE: Adam's Portable and Literate Emacs Initialization
+#+TITLE: A _Portable_ and _Literate_ Emacs Initialization
 
    #+NAME: custom-vars-table
    #+BEGIN_SRC emacs-lisp :results silent :exports results :var custom-vars=() :tangle no
@@ -83,7 +83,7 @@
     idea to set this somewhere and I needed it before the =package-refresh-contents= below.
 
 *** Initialize the package
-    This code is meant to insure that both =org= mode (the non-built most recent =org= version available in the org repository) and
+    This code is meant to insure that both [[https://orgmode.org/][=org-mode=]] (the non-built most recent =org= version available in the org repository) and
     =use-package= are installed. We need the =org= package to tangle (babel) this file itself and the rest of the configuration
     heavily relies on the most excellent =use-package= extension.
 
@@ -400,7 +400,7 @@
   #+NAME: org-mode-custom-vars
   #+CALL: custom-vars-table(custom-vars='(org-catch-invisible-edits org-html-postamble org-html-postamble-format org-log-done org-log-into-drawer))
 
-** =org-mode= export hacks for HTML and Markdown
+** [[https://orgmode.org/][=org-mode=]] export hacks for HTML and Markdown
    I export into markdown for github. I do not use the =ox-gfm= package because when I tried it, it modified the source file because
    of this file's use of the =#+CALL= construct (each call adds the table to the source file). So I use the built in =ox-md=
    exporter. However, it just indents the code blocks rather put the =```emacs-lisp= code snippet prefix and =```= postfix but
@@ -489,9 +489,9 @@
     #+CALL: custom-vars-table(custom-vars='(python-shell-interpreter python-shell-interpreter-args python-shell-prompt-output-regexp python-shell-prompt-regexp))
 
 * Additional bits-o-configuration
-** Limit the length of =which-function=
-   =which-function= which is used by =powerline= has no maximum method/function signature. This handy adviser limits the name to 64
-   characters.
+** Limit the length of [[https://www.gnu.org/software/emacs/manual/html_node/emacs/Which-Function.html][=which-function=]]
+   [[https://www.gnu.org/software/emacs/manual/html_node/emacs/Which-Function.html][=which-function=]] which is used on the mode-line has no maximum method/function signature. This handy adviser limits the name to
+   64 characters.
    #+BEGIN_SRC emacs-lisp :tangle yes
      (defvar  which-function-max-width 64 "The maximum width of the which-function string.")
      (advice-add #'which-function :filter-return
@@ -532,9 +532,10 @@
    Setup =eldoc= mode, use =y-or-n-p= instead of =yes-or-no-p=. Key bindings...
    #+BEGIN_SRC emacs-lisp :tangle yes
      (add-hook 'emacs-lisp-mode-hook #'eldoc-mode)   ;; Run elisp with eldoc-mode
+     (diminish 'eldoc-mode "Doc")                    ;; Diminish eldoc-mode
+
      (fset #'list-buffers #'ibuffer)                 ;; prefer ibuffer over list-buffers
      (fset #'yes-or-no-p #'y-or-n-p)                 ;; for lazy people use y/n instead of yes/no
-     (diminish 'eldoc-mode "Doc")                    ;; Diminish eldoc-mode
 
      ;; Some key bindings
      (bind-key "C-x p" #'pop-to-mark-command)
