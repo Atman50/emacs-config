@@ -353,8 +353,9 @@
       :type 'boolean)
 
     (use-package omnisharp
-      :diminish "\u221e" ;; infinity symbol
       :if my/use-omnisharp
+      :diminish " \u221e" ;; infinity symbol
+      :demand t
       :bind (:map omnisharp-mode-map
                   ("C-c o" . omnisharp-start-omnisharp-server)
                   ("C-c d" . omnisharp-go-to-definition-other-window)
@@ -483,35 +484,35 @@
   #+BEGIN_SRC emacs-lisp :tangle yes
     (use-package elpy
       :if my/use-elpy
+      :demand t
       :bind (:map elpy-mode-map
                   ("C-c ." . elpy-goto-definition))
       :config
-      (elpy-enable))
-    (use-package company-jedi
-      :config
-      (push 'company-jedi company-backends))
+      (elpy-enable)
+      (use-package company-jedi
+        :config
+        (push 'company-jedi company-backends)))
    #+END_SRC
 *** [[https://github.com/emacs-lsp/lsp-mode][=lsp-mode=]] IDE
     This is a newer mode based on the [[https://langserver.org/][Language Server Protocol]]. Used along with this is the [[https://github.com/emacs-lsp/lsp-ui][=lsp-ui=]] goodies.
   #+BEGIN_SRC emacs-lisp :tangle yes
     (use-package lsp-mode
       :if (not my/use-elpy)
+      :demand t
       :config
       (add-hook 'lsp-after-open-hook #'lsp-enable-imenu)  
       (lsp-define-stdio-client lsp-python "python" #'projectile-project-root '("pyls"))
-
       (use-package lsp-ui
         :config
         (setq lsp-ui-sideline-ignore-duplicate t)
         (add-hook 'lsp-mode-hook 'lsp-ui-mode))
-
       (use-package company-lsp
         :config
         (push 'company-lsp company-backends))
-
       (add-hook 'lsp-after-initialize-hook (lambda ()
                                              (let ((lsp-cfg `(:pyls (:configurationSources ("flake8")))))
                                                (lsp--set-configuration lsp-cfg)))))
+
    #+END_SRC
 ** Python IDE-agnostic configuration
    The =remove-hook= call in the =:config= section of the =flymake= package install is there because of the persistent, and annoying,
