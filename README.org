@@ -126,7 +126,12 @@
         (org-babel-tangle-file (concat my/cfg-file ".org")))
       (load my/cfg-file)
     #+END_SRC
+*** Customizing the configuration
+    I've started to use the =defcustom= function to describe those "variables that impact initialization" and are all placed into
+    the ='my-configuration= group. Each of the configuration variables can be accessed using =M-x customize-group my-configuration=.
+    This allows me to select features to turn on or off selectively and make them sticky if so desired.
 
+    Another reason to load the customization file first.
 * Configuration
   Here are my configuration bits. All of the following code snippets are tangled from this file into an =.el= file that gets loaded
   from the initialization file. Feel free to take as little or as much as you like from here.
@@ -476,17 +481,14 @@
 *** [[https://github.com/jorgenschaefer/elpy][=elpy=]] IDE
     The tried and true [[https://github.com/jorgenschaefer/elpy][=elpy=]] Python IDE.
   #+BEGIN_SRC emacs-lisp :tangle yes
-    (message "ADAM: before use-package elpy")
     (use-package elpy
       :if my/use-elpy
       :bind (:map elpy-mode-map
                   ("C-c ." . elpy-goto-definition))
       :config
-      (message "ADAM: configuring elpy")
       (elpy-enable))
     (use-package company-jedi
       :config
-      (message "ADAM: Configuring company-jedi")
       (push 'company-jedi company-backends))
    #+END_SRC
 *** [[https://github.com/emacs-lsp/lsp-mode][=lsp-mode=]] IDE
@@ -495,7 +497,6 @@
     (use-package lsp-mode
       :if (not my/use-elpy)
       :config
-      (message "ADAM: configuring lsp-mode")
       (add-hook 'lsp-after-open-hook #'lsp-enable-imenu)  
       (lsp-define-stdio-client lsp-python "python" #'projectile-project-root '("pyls"))
 
