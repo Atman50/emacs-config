@@ -1,5 +1,6 @@
 #+STARTUP: showeverything
 #+OPTIONS: toc:4 h:4
+#+OPTIONS: ^:nil
 #+HTML_HEAD: <style>
 #+HTML_HEAD:     table { border: 1px solid black; border-collapse:collapse; margin-left: 2%; }
 #+HTML_HEAD:     th.org-left   { border: 1px solid black; text-align: left; background-color: lightgray  }
@@ -83,9 +84,9 @@
     idea to set this somewhere and I needed it before the =package-refresh-contents= below.
 
 *** Initialize the package
-    This code is meant to insure that both [[https://orgmode.org/][=org-mode=]] (the non-built most recent =org= version available in the org repository) and
-    =use-package= are installed. We need the =org= package to tangle (babel) this file itself and the rest of the configuration
-    heavily relies on the most excellent =use-package= extension.
+    This code is meant to insure that both [[https://orgmode.org/][=org-mode=]] (the non-built most recent  [[https://orgmode.org/][=org-mode=]]  version available in the org repository) and
+    [[https://github.com/jwiegley/use-package][=use-package=]] are installed. We need the  [[https://orgmode.org/][=org-mode=]]  package to tangle (babel) this file itself and the rest of the configuration
+    heavily relies on the most excellent [[https://github.com/jwiegley/use-package][=use-package=]] extension.
 
     The call to =package-refresh-contents= heavily depends on the value of =package-archives= to be correct. In the =init.el= file,
     the custom file is loaded before this code so it is set via normal Emacs customization.
@@ -109,8 +110,8 @@
     speed of startup purposes. You can always refresh the list by using =M-x list-packages=. This is recommended on occasion as the
     extension packages used should be updated.
 
-    NOTE: I could not make =use-package= ignore the built-in =org= package in favor of the =org= package from the org repository.
-    Many people suggested use the =:ensure=  and =:demand= keywords to control =use-package=, but to no avail. There's a nice
+    NOTE: I could not make [[https://github.com/jwiegley/use-package][=use-package=]] ignore the built-in [[https://orgmode.org/][=org-mode=]] package in favor of the [[https://orgmode.org/][=org-mode=]] package from the org repository.
+    Many people suggested use the =:ensure=  and =:demand= keywords to control [[https://github.com/jwiegley/use-package][=use-package=]], but to no avail. There's a nice
     discussion of [[https://github.com/jwiegley/use-package/issues/319]].
 
 *** Finally load up this file
@@ -380,17 +381,18 @@
     #+CALL: custom-vars-table(custom-vars='(git-commit-fill-column magit-completing-read-function magit-pull-arguments nil magit-repository-directories))
 
 * [[https://orgmode.org/][=org-mode=]] Configuration
-  Org-mode configurations. [[https://github.com/emacsorphanage/org-bullets][=org-bullets=]] used to be part of org but is now outside. Always throw [[https://orgmode.org/][=org-mode=]] buffers into
-  [[https://www.emacswiki.org/emacs/FlySpell][=flyspell-mode=]].
+  I use [[https://github.com/emacsorphanage/org-bullets][=org-bullets=]] which used to be part of the =org-plus-contrib= package but seems to no longer be included . Always throw
+  [[https://orgmode.org/][=org-mode=]] buffers into [[https://www.emacswiki.org/emacs/FlySpell][=flyspell-mode=]] for live spell checking.
 
   The =htmlize= package allows the HTML and Markdown exporters to work (underlying code).
 
   #+BEGIN_SRC emacs-lisp :tangle yes
     (use-package org-bullets
-       :config (add-hook 'org-mode-hook (lambda ()
-                                          (toggle-truncate-lines -1)
-                                          (auto-fill-mode 1)
-                                          (org-bullets-mode))))
+      :config
+      (add-hook 'org-mode-hook (lambda ()
+                                 (toggle-truncate-lines -1)
+                                 (auto-fill-mode 1)
+                                 (org-bullets-mode))))
     (use-package org-autolist)
     (use-package htmlize)
     (add-hook 'org-mode-hook #'flyspell-mode)
