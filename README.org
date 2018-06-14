@@ -118,16 +118,18 @@
     Simply use this file (I default it to =README=) and Babel tangle the configuration (=README.org=) into a file that gets loaded
     (=README.el=). The remainder of the initialization follows in this file.
     #+BEGIN_SRC emacs-lisp -n 34 :tangle no
-      (defvar my-cfg (concat user-emacs-directory "README"))
-      (when (file-newer-than-file-p (concat my-cfg ".org") (concat my-cfg ".el"))
-        (org-babel-tangle-file (concat my-cfg ".org")))
-      (load my-cfg)
+      (defcustom my/cfg-file (concat user-emacs-directory "README")
+        "The base name for the .org file to use for Emacs initialization."
+        :group 'my-configuration
+        :type 'string)
+      (when (file-newer-than-file-p (concat my/cfg-file ".org") (concat my/cfg-file ".el"))
+        (org-babel-tangle-file (concat my/cfg-file ".org")))
+      (load my/cfg-file)
     #+END_SRC
 
 * Configuration
   Here are my configuration bits. All of the following code snippets are tangled from this file into an =.el= file that gets loaded
   from the initialization file. Feel free to take as little or as much as you like from here.
-
 ** Just a little preamble
    This is a little piece of code that I picked up that might make things faster when downloading and installing all the packages.
    This turns down the garbage collector during the use-package loading when it has to do some compiling. Set it back when done with
@@ -136,8 +138,8 @@
      (setq gc-cons-threshold 64000000)
      (add-hook 'after-init-hook (lambda () (setq gc-cons-threshold 800000)))
    #+END_SRC
-
-   Also create a handy variable to know if we are Windows - used later on here.
+   Also create a handy way to know if we are Windows - used later on here only once, but may be used elsewhere now that it's
+   defined.
    #+BEGIN_SRC emacs-lisp :tangle yes
      (defvar mswindows-p (string-match "windows" (symbol-name system-type)))
    #+END_SRC
@@ -151,7 +153,6 @@
     #+BEGIN_SRC emacs-lisp :tangle yes
       (setq auto-window-vscroll nil)
     #+END_SRC
-
 *** [[https://github.com/myrjola/diminish.el][=diminish=]]
     Handy mode to make the modeline more succinct by allowing a /diminished/ mode line string. Sometimes the fact that mode is there
     is fine and it doesn't need to be on the mode line (diminish it to "").
@@ -341,11 +342,14 @@
   There are comprehensive directions at [[https://github.com/OmniSharp/omnisharp-emacs.git][=omnisharp-emacs=]] for using omnisharp.
 
   #+BEGIN_SRC emacs-lisp :tangle yes
-    (defvar config/use-omnisharp t)
+    (defcustom my/use-omnisharp t
+      "Control whether or not to load omnisharp"
+      :group 'my-configuration
+      :type 'boolean)
 
     (use-package omnisharp
       :diminish "\u221e" ;; infinity symbol
-      :if config/use-omnisharp
+      :if my/use-omnisharp
       :bind (:map omnisharp-mode-map
                   ("C-c o" . omnisharp-start-omnisharp-server)
                   ("C-c d" . omnisharp-go-to-definition-other-window)
@@ -355,7 +359,7 @@
     (use-package csharp-mode
       :config
       (add-hook 'csharp-mode-hook (lambda() (setq tab-width 4)))
-      (when config/use-omnisharp
+      (when my/use-omnisharp
         (add-hook 'csharp-mode-hook #'omnisharp-mode)
         (add-hook 'csharp-mode-hook #'company-mode)))
   #+END_SRC
@@ -457,49 +461,98 @@
   bothers me is that when an object is returned, PyCharm will give you list and dictionary methods while =eply=/=company= does not.
   Seems to be the only real issue at this point.
 
-  The =remove-hook= call in the =:config= section of the =flymake= package install is there because of the persistent, and annoying,
-  output to the =*Flymake Log*= buffer:
-  #+BEGIN_QUOTE
-      Warning [flymake create_and_activate_device.py]: Disabling backend flymake-proc-legacy-flymake because (error Can’t find a suitable init function)
-  #+END_QUOTE
-  The =remove-hook= relieves this issue. NB: this may be for Emacs version 27.0.50 only.
-
+** The tale of two IDEs
+   I've decided to take the [[https://langserver.org/][Language Server Protocol]] out for a spin. Unfortunately it might be a while before I decide to switch
+   since there are some things I find a little annoying, like initial startup speed of loading a large Python file into Emacs,
+   presumably because =lsp-mode= is initializing. Either way, the Python IDE is selected using the.
+   #+BEGIN_SRC emacs-lisp :tangle yes
+     (defcustom my/use-elpy t
+       "Setting to t uses elpy as the Python IDE. Set to nil to use lsp."
+       :group 'my-configuration
+       :type '(choice
+               (const :tag "lsp" nil)
+               (const :tag "elpy" t)))
+   #+END_SRC
+*** [[https://github.com/jorgenschaefer/elpy][=elpy=]] IDE
+    The tried and true [[https://github.com/jorgenschaefer/elpy][=elpy=]] Python IDE.
   #+BEGIN_SRC emacs-lisp :tangle yes
-    (use-package company-jedi)
+    (message "ADAM: before use-package elpy")
     (use-package elpy
+      :if my/use-elpy
       :bind (:map elpy-mode-map
                   ("C-c ." . elpy-goto-definition))
       :config
+      (message "ADAM: configuring elpy")
       (elpy-enable))
-    (use-package pylint)
-    (use-package python-docstring
+    (use-package company-jedi
       :config
-      (python-docstring-install))
-    (use-package flymake
+      (message "ADAM: Configuring company-jedi")
+      (push 'company-jedi company-backends))
+   #+END_SRC
+*** [[https://github.com/emacs-lsp/lsp-mode][=lsp-mode=]] IDE
+    This is a newer mode based on the [[https://langserver.org/][Language Server Protocol]]. Used along with this is the [[https://github.com/emacs-lsp/lsp-ui][=lsp-ui=]] goodies.
+  #+BEGIN_SRC emacs-lisp :tangle yes
+    (use-package lsp-mode
+      :if (not my/use-elpy)
       :config
-      (remove-hook 'flymake-diagnostic-functions 'flymake-proc-legacy-flymake))
-    (use-package python
-      :config
-      (add-hook 'inferior-python-mode-hook (lambda () (setq tab-width 4)))
-      (add-hook 'python-mode-hook (lambda () (add-to-list 'company-backends #'company-jedi)))
-      (add-hook 'python-mode-hook #'flymake-mode)
-      (add-hook 'python-mode-hook #'company-mode))
-  #+END_SRC
+      (message "ADAM: configuring lsp-mode")
+      (add-hook 'lsp-after-open-hook #'lsp-enable-imenu)  
+      (lsp-define-stdio-client lsp-python "python" #'projectile-project-root '("pyls"))
 
-    Customized variables used in this python configuration:
-    #+NAME: python-custom-vars
-    #+CALL: custom-vars-table(custom-vars='(python-shell-interpreter python-shell-interpreter-args python-shell-prompt-output-regexp python-shell-prompt-regexp))
+      (use-package lsp-ui
+        :config
+        (setq lsp-ui-sideline-ignore-duplicate t)
+        (add-hook 'lsp-mode-hook 'lsp-ui-mode))
+
+      (use-package company-lsp
+        :config
+        (push 'company-lsp company-backends))
+
+      (add-hook 'lsp-after-initialize-hook (lambda ()
+                                             (let ((lsp-cfg `(:pyls (:configurationSources ("flake8")))))
+                                               (lsp--set-configuration lsp-cfg)))))
+   #+END_SRC
+** Python IDE-agnostic configuration
+   The =remove-hook= call in the =:config= section of the =flymake= package install is there because of the persistent, and annoying,
+   output to the =*Flymake Log*= buffer:
+   #+BEGIN_QUOTE
+   Warning [flymake create_and_activate_device.py]: Disabling backend flymake-proc-legacy-flymake because (error Can’t find a suitable init function)
+   #+END_QUOTE
+   The =remove-hook= relieves this issue. NB: this may be for Emacs version 27.0.50 only.
+   #+BEGIN_SRC emacs-lisp :tangle yes
+     (use-package pylint)
+     (use-package python-docstring
+       :config
+       (python-docstring-install))
+     (use-package flymake
+       :config
+       (remove-hook 'flymake-diagnostic-functions 'flymake-proc-legacy-flymake))
+     (use-package python
+       :config
+       (add-hook 'inferior-python-mode-hook (lambda () (setq tab-width 4)))
+       (add-hook 'python-mode-hook (lambda ()
+                                     (if (not my/use-elpy) (lsp-python-enable))
+                                     (flymake-mode)
+                                     (company-mode))))
+   #+END_SRC
+   Customized variables used in this python configuration:
+   #+NAME: python-custom-vars
+   #+CALL: custom-vars-table(custom-vars='(python-shell-interpreter python-shell-interpreter-args python-shell-prompt-output-regexp python-shell-prompt-regexp))
 
 * Additional bits-o-configuration
 ** Limit the length of [[https://www.gnu.org/software/emacs/manual/html_node/emacs/Which-Function.html][=which-function=]]
    [[https://www.gnu.org/software/emacs/manual/html_node/emacs/Which-Function.html][=which-function=]] which is used on the mode-line has no maximum method/function signature. This handy adviser limits the name to
    64 characters.
    #+BEGIN_SRC emacs-lisp :tangle yes
-     (defvar  which-function-max-width 64 "The maximum width of the which-function string.")
+     (defcustom  my/which-function-max-width 64
+       "The maximum width of the which-function string."
+       :group 'my-configuration
+       :type 'integer)
+
      (advice-add #'which-function :filter-return
                  (lambda (s) (when (stringp s)
-                               (if (< (string-width s) which-function-max-width) s
-                                 (concat (truncate-string-to-width s (- which-function-max-width 3)) "...")))))
+                               (if (< (string-width s) my/which-function-max-width) s
+                                 (concat (truncate-string-to-width s (- my/which-function-max-width 3)) "...")))))
    #+END_SRC
 ** =my-ansi-term=
    Allows me to name my ANSI terms. Was very useful when I used more ANSI shells (so that tabs were interpreted by the shell). Some

@@ -31,8 +31,11 @@
 (require 'org)
 
 ;; Load up config
-(defvar my-cfg (concat user-emacs-directory "README"))
-(when (file-newer-than-file-p (concat my-cfg ".org") (concat my-cfg ".el"))
-  (org-babel-tangle-file (concat my-cfg ".org")))
-(load my-cfg)
+(defcustom my/cfg-file (concat user-emacs-directory "README")
+  "The base name for the .org file to use for Emacs initialization."
+  :group 'my-configuration
+  :type 'string)
+(when (file-newer-than-file-p (concat my/cfg-file ".org") (concat my/cfg-file ".el"))
+  (org-babel-tangle-file (concat my/cfg-file ".org")))
+(load my/cfg-file)
 ;;; init.el ends here
