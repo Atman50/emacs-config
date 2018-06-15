@@ -294,7 +294,7 @@
              ("C-S-r" . isearch-backward)           ;; Keep isearch-backward on Shift-Ctrl-r
              ("C-r" . swiper)))
     (use-package avy
-      :bind (("C-:" . avy-goto-char)))
+      :bind (("C-:" . avy-goto-char))) 
     (use-package ivy-posframe
       :if (>= emacs-major-version 26)
       :config (setq ivy-display-function #'ivy-posframe-display))
@@ -422,7 +422,7 @@
    #+BEGIN_SRC emacs-lisp :tangle yes
      (load-library "ox-md")
 
-     (defun org-md-example-block (example-block _contents info)
+     (cl-defun org-md-example-block (example-block _contents info)
        "My modified: Transcode EXAMPLE-BLOCK element into Markdown format.
      CONTENTS is nil.  INFO is a plist used as a communication
      channel."
@@ -439,7 +439,7 @@
    any underscores in the table with inline HTML.
 
    #+BEGIN_SRC emacs-lisp :tangle yes
-     (defun my-md-export-hack(text)
+     (cl-defun my-md-export-hack(text)
        "Fix up md export on writing my README.org file.
              Converts a <br> followed by zero or more spaces into inline html format.
              For example: an in put of \"hello<br>there<br> my<br>  friend<br>\" becomes
@@ -471,6 +471,10 @@
    I've decided to take the [[https://langserver.org/][Language Server Protocol]] out for a spin. Unfortunately it might be a while before I decide to switch
    since there are some things I find a little annoying, like initial startup speed of loading a large Python file into Emacs,
    presumably because =lsp-mode= is initializing. Either way, the Python IDE is selected using the.
+
+   To switch between the two IDEs might take a bit of futzing - I've had to go remove =elpy= entries from =~/.emacs.d/custom.el= to
+   switch to the =lsp-mode=.
+
    #+BEGIN_SRC emacs-lisp :tangle yes
      (defcustom my/use-elpy t
        "Setting to t uses elpy as the Python IDE. Set to nil to use lsp."
@@ -504,7 +508,7 @@
       (lsp-define-stdio-client lsp-python "python" #'projectile-project-root '("pyls"))
       (use-package lsp-ui
         :config
-        (setq lsp-ui-sideline-ignore-duplicate t)
+        (require 'lsp-imenu)
         (add-hook 'lsp-mode-hook 'lsp-ui-mode))
       (use-package company-lsp
         :config
@@ -514,6 +518,8 @@
                                                (lsp--set-configuration lsp-cfg)))))
 
    #+END_SRC
+   #+NAME: lsp-custom-vars
+   #+CALL: custom-vars-table(custom-vars='(lsp-ui-doc-border lsp-ui-sideline-ignore-duplicate))
 ** Python IDE-agnostic configuration
    The =remove-hook= call in the =:config= section of the =flymake= package install is there because of the persistent, and annoying,
    output to the =*Flymake Log*= buffer:
@@ -530,10 +536,13 @@
        :config
        (remove-hook 'flymake-diagnostic-functions 'flymake-proc-legacy-flymake))
      (use-package python
+       :bind (:map python-mode-map
+                   ("C-c C-n" . flymake-goto-next-error)
+                   ("C-c C-p" . flymake-goto-prev-error))
        :config
        (add-hook 'inferior-python-mode-hook (lambda () (setq tab-width 4)))
        (add-hook 'python-mode-hook (lambda ()
-                                     (if (not my/use-elpy) (lsp-python-enable))
+                                     (unless my/use-elpy (lsp-python-enable))
                                      (flymake-mode)
                                      (company-mode))))
    #+END_SRC
@@ -560,7 +569,7 @@
    Allows me to name my ANSI terms. Was very useful when I used more ANSI shells (so that tabs were interpreted by the shell). Some
    other modes and shells make this less useful these days.
    #+BEGIN_SRC emacs-lisp :tangle yes
-     (defun my-ansi-term (term-name cmd)
+     (cl-defun my-ansi-term (term-name cmd)
        "Create an ansi term with a name - other than *ansi-term* given TERM-NAME and CMD."
        (interactive "sName for terminal: \nsCommand to run [/bin/bash]: ")
        (ansi-term (if (= 0 (length cmd)) "/bin/bash" cmd))
@@ -570,7 +579,7 @@
    When a file is opened and it is determined there is no mode (fundamental-mode) this code reads the first line of the file looking
    for an appropriate shebang for either python or bash and sets the mode for the file.
    #+BEGIN_SRC emacs-lisp :tangle yes
-     (defun my-find-file-hook ()
+     (cl-defun my-find-file-hook ()
        "If `fundamental-mode', look for script type so the mode gets properly set.
      Script-type is read from #!/... at top of file."
        (if (eq major-mode 'fundamental-mode)

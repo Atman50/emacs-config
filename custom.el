@@ -37,10 +37,6 @@
  '(ediff-split-window-function 'split-window-vertically)
  '(ediff-window-setup-function 'ediff-setup-windows-plain)
  '(electric-pair-mode t)
- '(elpy-modules
-   '(elpy-module-company elpy-module-eldoc elpy-module-pyvenv elpy-module-yasnippet elpy-module-sane-defaults))
- '(elpy-project-root-finder-functions
-   '(elpy-project-find-projectile-root elpy-project-find-python-root elpy-project-find-git-root))
  '(eshell-history-size 1024)
  '(fill-column 132)
  '(flycheck-color-mode-line-face-to-color 'mode-line-buffer-id)
@@ -66,11 +62,14 @@
  '(ivy-use-virtual-buffers t)
  '(line-move-visual nil)
  '(line-number-display-limit-width 40000)
+ '(lsp-ui-doc-border "black")
+ '(lsp-ui-sideline-ignore-duplicate t)
  '(magit-completing-read-function 'ivy-completing-read)
  '(magit-pull-arguments nil)
  '(magit-repository-directories '(("~/repos" . 1)))
  '(magit-submodule-arguments '("--recursive"))
  '(make-backup-files nil)
+ '(my/use-elpy nil)
  '(org-catch-invisible-edits 'show)
  '(org-html-postamble t)
  '(org-html-postamble-format
@@ -119,7 +118,11 @@
  ;; If there is more than one, they won't work right.
  '(default ((t (:slant normal :weight normal :height 98 :width normal :foundry "outline" :family "DejaVu Sans Mono"))))
  '(Info-quoted ((t (:foreground "red3"))))
- '(ivy-posframe ((t (:inherit default :background "#dcdccc" :foreground "#333333"))))
+ '(ivy-posframe ((t (:inherit default :background "LightSkyBlue1" :foreground "#333333"))))
+ '(ivy-subdir ((t (:inherit dired-directory :background "LightSkyBlue1"))))
+ '(lsp-ui-sideline-current-symbol ((t (:foreground "royal blue" :box (:line-width -1 :color "royal blue") :weight ultra-bold :height 0.99))))
+ '(lsp-ui-sideline-global ((t (:background "blanched almond"))))
+ '(lsp-ui-sideline-symbol ((t (:foreground "sea green" :box (:line-width -1 :color "sea green") :weight ultra-bold :height 0.99))))
  '(region ((t (:background "sky blue" :distant-foreground "gtk_selection_fg_color")))))
 
 ;;; custom.el ends here
