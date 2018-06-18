@@ -59,6 +59,7 @@
  '(inhibit-startup-screen t)
  '(ivy-count-format "(%d/%d) ")
  '(ivy-mode t)
+ '(ivy-use-selectable-prompt t)
  '(ivy-use-virtual-buffers t)
  '(line-move-visual nil)
  '(line-number-display-limit-width 40000)

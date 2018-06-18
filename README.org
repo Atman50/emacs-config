@@ -299,10 +299,13 @@
       :if (>= emacs-major-version 26)
       :config (setq ivy-display-function #'ivy-posframe-display))
   #+END_SRC
+  I ran into a nice article that fixes a [[http://mbork.pl/2018-06-16_ivy-use-selectable-prompt][problem that I often have with Ivy]]: using a name that is not in the list of candidates (for
+  example when trying to write to a buffer to a new file name). To fix this, setting =ivy-use-selectable-prompt= to =t= makes going
+  back before the first candidate to a "verbatim" prompt.
 
-    Customized variables:
-    #+NAME: ivy-custom-vars
-    #+CALL: custom-vars-table(custom-vars='(ivy-count-format ivy-height ivy-mode ivy-use-virtual-buffers))
+  Customized variables:
+  #+NAME: ivy-custom-vars
+  #+CALL: custom-vars-table(custom-vars='(ivy-count-format ivy-height ivy-mode ivy-use-selectable-prompt ivy-use-virtual-buffers))
 * [[https://github.com/raxod502/prescient.el][=prescient=]] Configuration
   [[https://github.com/raxod502/prescient.el][=prescient=]] provides "simple but effective sorting and filtering for Emacs."
   #+BEGIN_SRC emacs-lisp :tangle yes
