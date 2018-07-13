@@ -169,6 +169,19 @@
     #+BEGIN_SRC emacs-lisp :tangle yes
       (use-package bind-key)
     #+END_SRC
+*** [[https://github.com/Wilfred/helpful][=helpful=]]
+    [[https://github.com/Wilfred/helpful][Helpful]] provides contextual help and other features. Here are two blogs that provide good information: [[http://www.wilfred.me.uk/blog/2017/08/30/helpful-adding-contextual-help-to-emacs/][initial Helpful blog]] and
+    [[http://www.wilfred.me.uk/blog/2018/06/22/helpful-one-year-on/][Helpful, one year in]]. More in-depth help along with lots of other information like references, edebug capabilities, ...
+    #+BEGIN_SRC emacs-lisp :tangle yes
+      (use-package helpful
+        :bind (("C-c h a" . helpful-at-point)
+               ("C-c h c" . helpful-command)
+               ("C-c h C" . helpful-callable)
+               ("C-c h f" . helpful-function)
+               ("C-c h k" . helpful-key)
+               ("C-c h m" . helpful-macro)
+               ("C-c h v" . helpful-variable)))
+    #+END_SRC
 *** [[https://www.emacswiki.org/emacs/SaveHist][=savehist=]]
     A great built-in that allows us to have a history file. This means certain elements are saved between sessions of Emacs. This
     history file is kept in =~/.emacs.d/savehist=.
@@ -409,11 +422,16 @@
     (use-package org-autolist)
     (use-package htmlize)
     (add-hook 'org-mode-hook #'flyspell-mode)
+    (use-package ox-reveal)
+    (require 'ox-reveal)
   #+END_SRC
+  I've started using =ox-reveal= for generating presentations from =org-mode=. Here's a [[https://opensource.com/article/18/2/how-create-slides-emacs-org-mode-and-revealjs][good article]] on getting started. I've set
+  the =org-reveal-root= to point to [[http://cdn.jsdelivr.net/reveal.js/3.0.0/]] so that you do not need to install it on your system.
+  If you want to use your own customized theme, see the instructions at [[https://github.com/hakimel/reveal.js/]].
 
   Customized variables for org-mode:
   #+NAME: org-mode-custom-vars
-  #+CALL: custom-vars-table(custom-vars='(org-catch-invisible-edits org-html-postamble org-html-postamble-format org-log-done org-log-into-drawer))
+  #+CALL: custom-vars-table(custom-vars='(org-catch-invisible-edits org-html-postamble org-html-postamble-format org-log-done org-log-into-drawer org-reveal-root org-reveal-title-slide))
 
 ** [[https://orgmode.org/][=org-mode=]] export hacks for HTML and Markdown
    I export into markdown for github. I do not use the =ox-gfm= package because when I tried it, it modified the source file because
@@ -464,6 +482,12 @@
 
      (advice-add #'orgtbl-to-orgtbl :filter-return #'my-md-export-hack)
    #+END_SRC
+** Use of babel
+   To do literate programming you need to include the languages to "tangle". Here I've added more than just the standard
+   =emacs-lisp= value. Added Python, [[http://plantuml.com/][PlantUML]], and shell.
+   #+NAME: org-babel-custom-vars
+   #+CALL: custom-vars-table(custom-vars='(org-babel-load-languages)))
+
 * python configuration
   At one point I was using anaconda but have switched back to elpy. I really like =eply-config= that tells you if everything is
   working properly. I've been using a =virtualenv= for my python development and couldn't be happier. Perhaps the only thing that

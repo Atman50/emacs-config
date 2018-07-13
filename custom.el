@@ -20,6 +20,8 @@
    '("\\\\*.dll" "\\\\*.png" "\\\\*.jpeg" "\\\\*.exe" "\\\\*.csproj"))
  '(auto-save-default nil)
  '(browse-url-browser-function 'browse-url-chrome)
+ '(browse-url-chrome-program
+   "C:\\Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe")
  '(c-tab-always-indent nil)
  '(case-fold-search t)
  '(column-number-mode t)
@@ -71,6 +73,7 @@
  '(magit-submodule-arguments '("--recursive"))
  '(make-backup-files nil)
  '(my/use-elpy nil)
+ '(org-babel-load-languages '((shell . t) (plantuml . t) (python . t) (emacs-lisp . t)))
  '(org-catch-invisible-edits 'show)
  '(org-html-postamble t)
  '(org-html-postamble-format
@@ -79,7 +82,8 @@
 <p class=\"creator\">%c</p>")))
  '(org-log-done 'time)
  '(org-log-into-drawer t)
- '(org-s5-ui-url "file:///C:/S5-v12a2/ui")
+ '(org-reveal-root "http://cdn.jsdelivr.net/reveal.js/3.0.0/")
+ '(org-reveal-title-slide nil)
  '(package-archives
    '(("gnu" . "https://elpa.gnu.org/packages/")
      ("melpa" . "https://melpa.org/packages/")
