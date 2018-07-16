@@ -91,6 +91,7 @@
  '(powerline-display-hud nil)
  '(projectile-completion-system 'ivy)
  '(projectile-mode-line '(:eval (format " [%s]" (projectile-project-name))))
+ '(python-check-command "c:/Python36/Scripts/flake8.exe")
  '(python-flymake-command '("flake8" "-"))
  '(python-indent-trigger-commands '(yas-expand))
  '(python-shell-interpreter "ipython")
