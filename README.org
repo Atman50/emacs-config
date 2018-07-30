@@ -34,24 +34,23 @@
 
    Starting Emacs for the first time on a new machine loads all the packages/configuration loads. It takes some time on this first
    load since all the packages referenced need to download and compile. On subsequent Emacs invocations startup time is much better.
-   The ability to simply clone and start is what makes this configuration *highly portable*. Note that some of the Emacs
-   customization (see =custom.el=) are system (file system) dependent. I handle this by using git to create a stash of the
-   localized changes for =custom.el= and then apply it whenever I take updated configurations from the repository.
+   The ability to simply clone and start is what makes this configuration *portable*. Note that some of the Emacs customization (see
+   =custom.el=) are system (file system) dependent. I handle this by using git to create a stash of the localized changes for
+   =custom.el= and then apply it whenever I take updated configurations from the repository.
 
 ** Why a literate configuration
    Well mostly I wanted to learn how to do it, but also I was having issues with managing my initialization/configuration. FWIW
-   this is the approach that I came up with. A simple 7 part =init.el= file with customization saved to its own file (that's read
-   first).
+   this is the approach that I came up with. My  =init.el= file is simple and relies on the fact that customizations are saved to
+   its own file and that these customizations are read in before the packages are loaded.
 
-   What I've gotten out of all this work is a truly portable, documented configuration that works well for me. Please feel free to
-   take whatever portion(s) you wish from this and make it your very own.
+   What I've gotten out of all this work is a portable and documented configuration that works well for me. Please feel free to
+   take whatever portion(s) you wish from this and make it your own.
 
-   I have tried to make this configuration 100% portable meaning that on a new system (Linux or Windows at this point) with Emacs on
-   it, I simple git clone this repository to =~/.emacs.d/~ and then fire up Emacs. Works every time for me.
+   I have tried to make this configuration 100% portable meaning that on a new system (Linux or Windows at this point) with Emacs
+   installed. I simple git clone this repository to =~/.emacs.d= and then fire up Emacs. Should work every time. 
 
 ** =init.el= in a few small sections
-   To get started with a literate configuration, I use this simple =init.el= file. Currently the =init.el= file used here contains
-   only 16 lines of actual code.
+   To get started with a literate configuration, I use a simple =init.el= file documented here.
 
    Here are the pieces of the =init.el= file explained. The line numbers are the line numbers from the =init.el= file from this
    repository.
@@ -64,14 +63,22 @@
     Loading this file first, even before package stuff, is important to get things working. In a subsequent section of this
     =init.el= the =package-refresh-contents= uses the variable =package-archives= for importing archive information (and eventually
     packages).
+
+    Loading the customized variables before the package (using =use-package= of course) means that you can now use the customization
+    facility in Emacs to modify the variables. I see lots of configurations with the =:config= section of a =use-package= invocation
+    performing variable setting. The problem with this is that if you want to change it using Emacs, the loading of the
+    customizations first causes your new customizations getting overwritten on the next start of Emacs. The moral of the story is
+    to try and make the =use-package= configuration as non-custom-variable-changing as possible.
+
+    I've pointed the customization at my own file =custom.el= and loaded it here. Customization will now be written to this file
+    from the Emacs customization system.
     #+BEGIN_SRC emacs-lisp -n 14 :tangle no
       (setq custom-file (expand-file-name "custom.el" user-emacs-directory))
       (load custom-file t)
     #+END_SRC
-    I've pointed the customization at my own file =custom.el= and loaded it here. Customization will now be written to this file
-    from the Emacs customization system.
 
-    The most important custom variable at this point in the configuration is =package-archives= which should now be set as follows:
+    The most important custom variable at this point in the configuration is =package-archives=, which is used by the loading of the
+    various extension packages used by this configuration.
 
     #+NAME: init-file-custom-vars
     #+CALL: custom-vars-table(custom-vars='(package-archives))
@@ -84,17 +91,18 @@
     idea to set this somewhere and I needed it before the =package-refresh-contents= below.
 
 *** Initialize the package
-    This code is meant to insure that both [[https://orgmode.org/][=org-mode=]] (the non-built most recent  [[https://orgmode.org/][=org-mode=]]  version available in the org repository) and
-    [[https://github.com/jwiegley/use-package][=use-package=]] are installed. We need the  [[https://orgmode.org/][=org-mode=]]  package to tangle (babel) this file itself and the rest of the configuration
-    heavily relies on the most excellent [[https://github.com/jwiegley/use-package][=use-package=]] extension.
+    This code is meant to ensure that both [[https://orgmode.org/][=org-mode=]] (the non-built-in most recent [[https://orgmode.org/][=org-mode=]] version available in the org
+    repository) and [[https://github.com/jwiegley/use-package][=use-package=]] are installed. The built-in =org-mode= (in 27.0.50) is out-of-date and did not contain babel
+    capabilities (although it may now). We need the [[https://orgmode.org/][=org-mode=]] package to tangle (babel) this file itself and the rest of the
+    configuration heavily relies on the most excellent [[https://github.com/jwiegley/use-package][=use-package=]] extension.
 
-    The call to =package-refresh-contents= heavily depends on the value of =package-archives= to be correct. In the =init.el= file,
-    the custom file is loaded before this code so it is set via normal Emacs customization.
+    The call to =package-refresh-contents= heavily depends on the value of =package-archives= (see above)to be correct. In the
+    =init.el= file, the custom file is loaded before this code so it is set via normal Emacs customization.
 
     I had to change the following logic so that it worked under both 26.0.91 and 27.0.50 (there is some difference to the
-    initialization process that got in the way of my old logic). First time in should package-install both org mode and use-package. 
-    Then only on 26.0.91 package-initialize is called (27.0.50 calls package-initialize for you? - something to do with an early
-    initialize capability...).
+    initialization process that got in the way of my old logic). The first time this code is run it should =package-install= both
+    =org-mode= and =use-package=. This code calls =package-initialize= if it has not been detected to be initialized: Both variables
+    =package-user-dir= and =package-archive-contents= have not been bound.
     #+BEGIN_SRC emacs-lisp -n 23 :tangle no
       (unless (boundp 'package-user-dir)
         (unless (boundp 'package-archive-contents)
