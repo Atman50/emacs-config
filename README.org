@@ -578,8 +578,8 @@
        (remove-hook 'flymake-diagnostic-functions 'flymake-proc-legacy-flymake))
      (use-package python
        :bind (:map python-mode-map
-                   ("C-c C-n" . flymake-goto-next-error)
-                   ("C-c C-p" . flymake-goto-prev-error))
+                   ("C-c n" . flymake-goto-next-error)
+                   ("C-c p" . flymake-goto-prev-error))
        :config
        (add-hook 'inferior-python-mode-hook (lambda () (setq tab-width 4)))
        (add-hook 'python-mode-hook (lambda ()
