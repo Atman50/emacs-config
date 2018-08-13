@@ -309,6 +309,8 @@
             '((t . ivy--regex-ignore-order))))
     (use-package counsel
       :bind (("C-c j" . counsel-imenu)))
+    ;; Work-around from https://github.com/syl20bnr/spacemacs/issues/11152
+    (setq projectile-keymap-prefix (kbd "C-c C-p"))
     (use-package counsel-projectile
       :config
       (counsel-projectile-mode t))
