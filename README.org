@@ -561,8 +561,6 @@
                                                (lsp--set-configuration lsp-cfg)))))
 
    #+END_SRC
-   #+NAME: lsp-custom-vars
-   #+CALL: custom-vars-table(custom-vars='(lsp-ui-doc-border lsp-ui-sideline-ignore-duplicate))
 ** Python IDE-agnostic configuration
    The =remove-hook= call in the =:config= section of the =flymake= package install is there because of the persistent, and annoying,
    output to the =*Flymake Log*= buffer:
