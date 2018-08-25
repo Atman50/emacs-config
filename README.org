@@ -283,17 +283,18 @@
 
     #+NAME: other-pkgs-custom-vars
     #+CALL: custom-vars-table(custom-vars='(desktop-path desktop-save-mode))
+*** A little nXML configuration
+    It ends up that the XML I've been editing for work is indented with tabs. This little tidbit should set it up correctly.
+    #+BEGIN_SRC emacs-lisp :tangle yes
+      (add-hook 'nxml-mode-hook (lambda () (setq nxml-child-indent 8 indent-tabs-mode t)))
+    #+END_SRC
+
 * [[http://company-mode.github.io/][=company-mode=]] Configuration
   Use the excellent [[http://company-mode.github.io/][=company-mode=]] modular in-buffer text completion framework. In particular this is used for [[https://github.com/jorgenschaefer/elpy][=elpy=]] (python) mode and
   [[https://github.com/OmniSharp/omnisharp-emacs][=omnisharp=]] (C#) mode, although it is used elsewhere.
   #+BEGIN_SRC emacs-lisp :tangle yes
     (use-package company
       :diminish)
-
-    (use-package company-box
-      :after company
-      :diminish
-      :hook (company-mode . company-box-mode))
   #+END_SRC
 * [[https://github.com/abo-abo/swiper][=ivy/swiper=]] Configuration
   I used to be a =helm= user, but switched to =ivy=. Lots of nice features in =ivy= and very easy to configure comparatively.
