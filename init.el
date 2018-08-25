@@ -11,6 +11,7 @@
 
 ;; Your customizations are stored in the custom.el file
 ;;  *** DO THIS FIRST SO YOU CAN CUSTOMIZE PACKAGES BEFORE LOADING THEM ***
+(defvar mswindows-p (string-match "windows" (symbol-name system-type)))
 (setq custom-file (expand-file-name "custom.el" user-emacs-directory))
 (load custom-file t)
 

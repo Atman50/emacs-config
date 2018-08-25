@@ -20,8 +20,7 @@
    '("\\\\*.dll" "\\\\*.png" "\\\\*.jpeg" "\\\\*.exe" "\\\\*.csproj"))
  '(auto-save-default nil)
  '(browse-url-browser-function 'browse-url-chrome)
- '(browse-url-chrome-program
-   "C:\\Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe")
+ '(browse-url-chrome-program (if mswindows-p "C:\\Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe" "/usr/bin/google-chrome"))
  '(c-tab-always-indent nil)
  '(case-fold-search t)
  '(column-number-mode t)
@@ -91,7 +90,7 @@
  '(powerline-display-hud nil)
  '(projectile-completion-system 'ivy)
  '(projectile-mode-line '(:eval (format " [%s]" (projectile-project-name))))
- '(python-check-command "c:/Python36/Scripts/flake8.exe")
+ '(python-check-command (if mswindows-p "c:/Python36/Scripts/flake8.exe" "/usr/local/bin/flake8"))
  '(python-flymake-command '("flake8" "-"))
  '(python-indent-trigger-commands '(yas-expand))
  '(python-shell-interpreter "ipython")

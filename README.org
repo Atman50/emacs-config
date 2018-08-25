@@ -72,7 +72,10 @@
 
     I've pointed the customization at my own file =custom.el= and loaded it here. Customization will now be written to this file
     from the Emacs customization system.
+
+    In order for the customization file to be system independent, the =mswindows-p= variable is defined early.
     #+BEGIN_SRC emacs-lisp -n 14 :tangle no
+      (defvar mswindows-p (string-match "windows" (symbol-name system-type)))
       (setq custom-file (expand-file-name "custom.el" user-emacs-directory))
       (load custom-file t)
     #+END_SRC
@@ -84,7 +87,7 @@
     #+CALL: custom-vars-table(custom-vars='(package-archives))
 
 *** Random setting
-    #+BEGIN_SRC emacs-lisp -n 18 :tangle no
+    #+BEGIN_SRC emacs-lisp -n 19 :tangle no
       (prefer-coding-system 'utf-8)
     #+END_SRC
     This was necessary because some packages in ELPA had Unicode characters in them that my Windows system didn't like. Not a bad
@@ -103,7 +106,7 @@
     initialization process that got in the way of my old logic). The first time this code is run it should =package-install= both
     =org-mode= and =use-package=. This code calls =package-initialize= if it has not been detected to be initialized: Both variables
     =package-user-dir= and =package-archive-contents= have not been bound.
-    #+BEGIN_SRC emacs-lisp -n 23 :tangle no
+    #+BEGIN_SRC emacs-lisp -n 24 :tangle no
       (unless (boundp 'package-user-dir)
         (unless (boundp 'package-archive-contents)
           (package-initialize))
@@ -125,7 +128,7 @@
 *** Finally load up this file
     Simply use this file (I default it to =README=) and Babel tangle the configuration (=README.org=) into a file that gets loaded
     (=README.el=). The remainder of the initialization follows in this file.
-    #+BEGIN_SRC emacs-lisp -n 34 :tangle no
+    #+BEGIN_SRC emacs-lisp -n 35 :tangle no
       (defcustom my/cfg-file (concat user-emacs-directory "README")
         "The base name for the .org file to use for Emacs initialization."
         :group 'my-configuration
@@ -150,11 +153,6 @@
    #+BEGIN_SRC emacs-lisp :tangle yes
      (setq gc-cons-threshold 64000000)
      (add-hook 'after-init-hook (lambda () (setq gc-cons-threshold 800000)))
-   #+END_SRC
-   Also create a handy way to know if we are Windows - used later on here only once, but may be used elsewhere now that it's
-   defined.
-   #+BEGIN_SRC emacs-lisp :tangle yes
-     (defvar mswindows-p (string-match "windows" (symbol-name system-type)))
    #+END_SRC
 
 ** General packages
