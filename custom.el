@@ -7,6 +7,9 @@
 
 ;;; Code:
 
+;; Set this so we can customize below
+(defvar mswindows-p (string-match "windows" (symbol-name system-type)))
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; C U S T O M I Z A T I O N  section
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
