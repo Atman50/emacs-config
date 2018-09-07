@@ -1,59 +1,56 @@
 
 # Table of Contents
 
-1.  [Overview](#orgce91f62)
-    1.  [Quick start](#orge95a881)
-    2.  [Why a literate configuration](#org3d6a6c3)
-    3.  [`init.el` in a few small sections](#org72b0083)
-        1.  [Load the custom file](#org6eee3d6)
-        2.  [Random setting](#org80c52bb)
-        3.  [Initialize the package](#org93057ca)
-        4.  [Finally load up this file](#org7664d29)
-        5.  [Customizing the configuration](#orgad502cf)
-2.  [Configuration](#org77be411)
-    1.  [Just a little preamble](#org833ec5a)
-    2.  [General packages](#org05f0804)
-        1.  [Speed up line movement](#orgb5b36fe)
-        2.  [`diminish`](#org5ef090b)
-        3.  [`bind-key`](#orgbea1ffa)
-        4.  [`helpful`](#orgb5927c2)
-        5.  [`savehist`](#orgfe3fc7e)
-        6.  [Themes and mode line](#org7ad346b)
-        7.  [For demonstrations](#org33b4b86)
-        8.  [Trying `codesearch`](#org57122c7)
-        9.  [`which-key`](#org87be9dc)
-        10. [Other useful packages](#org74ca84e)
-        11. [A little nXML configuration](#orgf79abfc)
-3.  [`company-mode` Configuration](#org35f334a)
-4.  [`ivy/swiper` Configuration](#org3cd4103)
-5.  [`prescient` Configuration](#orgc8b0c8b)
-6.  [`yasnippet` Configuration](#orgf06c8c6)
-7.  [Working with C#](#org7a9e2f8)
-8.  [`magit`/git configuration](#org69b2641)
-9.  [`org-mode` Configuration](#org779d66a)
-    1.  [`org-mode` export hacks for HTML and Markdown](#orgb77da57)
-    2.  [Use of babel](#org61154b2)
-10. [python configuration](#org0bcd1ee)
-    1.  [The tale of two IDEs](#org0315cd8)
-        1.  [`elpy` IDE](#org7f9944e)
-        2.  [`lsp-mode` IDE](#org7e3afc9)
-    2.  [Python IDE-agnostic configuration](#org3acd83c)
-11. [Additional bits-o-configuration](#org6711415)
-    1.  [Limit the length of `which-function`](#org4170804)
-    2.  [`my-ansi-term`](#org836d969)
-    3.  [Understand file type by shebang](#orge9e3077)
-    4.  [Additional Configuration](#org6634fd6)
+1.  [Overview](#org8a36520)
+    1.  [Quick start](#orga76f460)
+    2.  [Why a literate configuration](#org36837a3)
+    3.  [`init.el`, short and sweet](#org0643a71)
+        1.  [Loading the custom file first](#org9763910)
+        2.  [Customizing the configuration](#orga9bac51)
+2.  [My Configuration](#orgcf705b6)
+    1.  [A preamble](#org07e5090)
+    2.  [General packages](#org4b8cc9e)
+        1.  [Speed up line movement](#orgad09d26)
+        2.  [`diminish`](#orge16e277)
+        3.  [`bind-key`](#org46dbbc2)
+        4.  [`helpful`](#orgf239ab2)
+        5.  [`savehist`](#orga2d9888)
+        6.  [Themes and mode line](#org59f5c6b)
+        7.  [For demonstrations](#org37f569d)
+        8.  [Trying `codesearch`](#orge21fc53)
+        9.  [`which-key`](#org1d1fc30)
+        10. [Other useful packages](#org0f892ae)
+        11. [A little nXML configuration](#org9920617)
+3.  [`company-mode` Configuration](#org36b639c)
+4.  [`ivy/swiper` Configuration](#orgd2a24e2)
+5.  [`prescient` Configuration](#org160880f)
+6.  [`yasnippet` Configuration](#org0201cd8)
+7.  [Working with C#](#orgfda8232)
+8.  [`magit`/git configuration](#org74e458c)
+9.  [`org-mode` Configuration](#org72fea90)
+    1.  [`org-mode` export hacks for HTML and Markdown](#org570f5a5)
+    2.  [Use of babel](#org3c5a161)
+10. [python configuration](#orgcd5774e)
+    1.  [The tale of two IDEs](#org634765a)
+        1.  [`elpy` IDE](#org5515434)
+        2.  [`lsp-mode` IDE](#org2d4fbca)
+    2.  [Python IDE-agnostic configuration](#org1a44c06)
+11. [Additional bits-o-configuration](#org767ddf5)
+    1.  [Limit the length of `which-function`](#org25f5e5a)
+    2.  [`my-ansi-term`](#org169846b)
+    3.  [Understand file type by shebang](#org5b55d3b)
+    4.  [Additional Configuration](#orgcceb669)
 
 
 
-<a id="orgce91f62"></a>
+<a id="org8a36520"></a>
 
 # Overview
 
 This is my literate and <font color=red size=+3><b><u>portable</u></b></font> Emacs initialization.
 
 
-<a id="orge95a881"></a>
+<a id="orga76f460"></a>
 
 ## Quick start
 
@@ -72,7 +69,7 @@ The ability to simply clone and start is what makes this configuration **portabl
 `custom.el` and then apply it whenever I take updated configurations from the repository.
 
 
-<a id="org3d6a6c3"></a>
+<a id="org36837a3"></a>
 
 ## Why a literate configuration
 
@@ -87,47 +84,182 @@ I have tried to make this configuration 100% portable meaning that on a new syst
 installed. I simple git clone this repository to `~/.emacs.d` and then fire up Emacs. Should work every time. 
 
 
-<a id="org72b0083"></a>
+<a id="org0643a71"></a>
 
-## `init.el` in a few small sections
-
-To get started with a literate configuration, I use a simple `init.el` file documented here.
-
-Here are the pieces of the `init.el` file explained. The line numbers are the line numbers from the `init.el` file from this
-repository.
-
-
-<a id="org6eee3d6"></a>
-
-### Load the custom file
-
-An Emacs user recently said "I don't use the Emacs customization" facility. I think that's just crazy. One of the nicest things
-about Emacs is the extensive and quite useful customization engine. You can customize variables and faces with ease and make the
-settings work for you.
-
-Loading this file first, even before package stuff, is important to get things working. In a subsequent section of this
-`init.el` the `package-refresh-contents` uses the variable `package-archives` for importing archive information (and eventually
-packages).
-
-Loading the customized variables before the package (using `use-package` of course) means that you can now use the customization
-facility in Emacs to modify the variables. I see lots of configurations with the `:config` section of a `use-package` invocation
-performing variable setting. The problem with this is that if you want to change it using Emacs, the loading of the
-customizations first causes your new customizations getting overwritten on the next start of Emacs. The moral of the story is
-to try and make the `use-package` configuration as non-custom-variable-changing as possible.
-
-I've pointed the customization at my own file `custom.el` and loaded it here. Customization will now be written to this file
-from the Emacs customization system.
-
-In order for the customization file to be system independent, the `mswindows-p` variable is defined early.
+## `init.el`, short and sweet
 
 ```emacs-lisp
-14  (defvar mswindows-p (string-match "windows" (symbol-name system-type)))
-15  (setq custom-file (expand-file-name "custom.el" user-emacs-directory))
-16  (load custom-file t)
+11  (setq custom-file (expand-file-name "custom.el" user-emacs-directory))
+12  (load custom-file t)
+13  (prefer-coding-system 'utf-8)
+14  (unless (boundp 'package-user-dir)
+15    (unless (boundp 'package-archive-contents)
+16      (package-initialize))
+17    (unless (assoc 'use-package package-archive-contents)
+18      (package-refresh-contents)
+19      (package-install (elt (cdr (assoc 'org-plus-contrib package-archive-contents)) 0))
+20      (package-install (elt (cdr (assoc 'use-package package-archive-contents)) 0))))
+21  (load "use-package")
+22  (use-package org)
+23  (defcustom my/cfg-file (concat user-emacs-directory "README")
+24    "The base name for the .org file to use for Emacs initialization."
+25    :group 'my-configuration
+26    :type 'string)
+27  (when (file-newer-than-file-p (concat my/cfg-file ".org") (concat my/cfg-file ".el"))
+28    (org-babel-tangle-file (concat my/cfg-file ".org")))
+29  (load my/cfg-file)
 ```
 
-The most important custom variable at this point in the configuration is `package-archives`, which is used by the loading of the
-various extension packages used by this configuration.
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-right" />
+
+<col  class="org-left" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-right">Line</th>
+<th scope="col" class="org-left">Explained</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td class="org-right">11</td>
+<td class="org-left">Breaking the custom setting out into its own file allows it to be loaded in the next line</td>
+</tr>
+
+
+<tr>
+<td class="org-right">12</td>
+<td class="org-left">Load the custom file. All custom settings will now be honored by packages when loaded.</td>
+</tr>
+
+
+<tr>
+<td class="org-right">13</td>
+<td class="org-left">Just a fix for ELPA packages with (certain?) Unicode characters in them.</td>
+</tr>
+
+
+<tr>
+<td class="org-right">14</td>
+<td class="org-left">If there's no `'package-user-dir` defined; `package.el` isn't loaded</td>
+</tr>
+
+
+<tr>
+<td class="org-right">15</td>
+<td class="org-left">If there's no `'package-archive-contents` defined; package archives have not been read</td>
+</tr>
+
+
+<tr>
+<td class="org-right">16</td>
+<td class="org-left">Initialize the package system</td>
+</tr>
+
+
+<tr>
+<td class="org-right">17</td>
+<td class="org-left">If we've not load loaded the definition for the `use-package` ELPA package, then</td>
+</tr>
+
+
+<tr>
+<td class="org-right">18</td>
+<td class="org-left">Refresh (read) the package archives. Note: `'package-archives` from `custom.el` **key** here</td>
+</tr>
+
+
+<tr>
+<td class="org-right">19</td>
+<td class="org-left">Load up the org-mode. The pre-packaged org-mode does not have Babel!</td>
+</tr>
+
+
+<tr>
+<td class="org-right">20</td>
+<td class="org-left">Load up `use-package`</td>
+</tr>
+
+
+<tr>
+<td class="org-right">21</td>
+<td class="org-left">Make sure `use-package` is available</td>
+</tr>
+
+
+<tr>
+<td class="org-right">22</td>
+<td class="org-left">Make sure `org-plus-contrib` is available</td>
+</tr>
+
+
+<tr>
+<td class="org-right">23</td>
+<td class="org-left">Create customizable config variable</td>
+</tr>
+
+
+<tr>
+<td class="org-right">24</td>
+<td class="org-left">&#x2026;</td>
+</tr>
+
+
+<tr>
+<td class="org-right">25</td>
+<td class="org-left">&#x2026; it's nice having a customizable group for personal configuration settings</td>
+</tr>
+
+
+<tr>
+<td class="org-right">26</td>
+<td class="org-left">&#x2026;</td>
+</tr>
+
+
+<tr>
+<td class="org-right">27</td>
+<td class="org-left">If the .el file doesn't exist or is older than this file then&#x2026;</td>
+</tr>
+
+
+<tr>
+<td class="org-right">28</td>
+<td class="org-left">&#x2026; create the tangled output of this file</td>
+</tr>
+
+
+<tr>
+<td class="org-right">29</td>
+<td class="org-left">Load the tangled output of this file</td>
+</tr>
+</tbody>
+</table>
+
+
+<a id="org9763910"></a>
+
+### Loading the custom file first
+
+One of the nicest things about Emacs is the extensive and quite useful customization engine. You can customize variables and
+faces with ease and make the settings work for you.
+
+Loading the customized variables before the package (using `use-package` of course) means that you can now use the customization
+facility in Emacs to modify the variables and have them stick between Emacs invocations. I see lots of configurations with the
+`:config` section of a `use-package` invocation performing variable setting. The problem with this is that if you want to change
+it using Emacs, the loading of the customizations first causes your new customizations getting overwritten on the next start of
+Emacs. You can do it in the reverse order; `use-package` first, then customize, but then you couldn't customize the variable
+using the customization system.
+
+Therefore I try to minimize `use-package` customizations and mostly use the `custom.el` file.
+
+The most important custom variable for this configuration is `package-archives`, which is used by the loading of the various
+extension packages used by this configuration.
 
 <table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
 
@@ -153,75 +285,7 @@ various extension packages used by this configuration.
 </table>
 
 
-<a id="org80c52bb"></a>
-
-### Random setting
-
-```emacs-lisp
-19  (prefer-coding-system 'utf-8)
-```
-
-This was necessary because some packages in ELPA had Unicode characters in them that my Windows system didn't like. Not a bad
-idea to set this somewhere and I needed it before the `package-refresh-contents` below.
-
-
-<a id="org93057ca"></a>
-
-### Initialize the package
-
-This code is meant to ensure that both [`org-mode`](https://orgmode.org/) (the non-built-in most recent [`org-mode`](https://orgmode.org/) version available in the org
-repository) and [`use-package`](https://github.com/jwiegley/use-package) are installed. The built-in `org-mode` (in 27.0.50) is out-of-date and did not contain babel
-capabilities (although it may now). We need the [`org-mode`](https://orgmode.org/) package to tangle (babel) this file itself and the rest of the
-configuration heavily relies on the most excellent [`use-package`](https://github.com/jwiegley/use-package) extension.
-
-The call to `package-refresh-contents` heavily depends on the value of `package-archives` (see above)to be correct. In the
-`init.el` file, the custom file is loaded before this code so it is set via normal Emacs customization.
-
-I had to change the following logic so that it worked under both 26.0.91 and 27.0.50 (there is some difference to the
-initialization process that got in the way of my old logic). The first time this code is run it should `package-install` both
-`org-mode` and `use-package`. This code calls `package-initialize` if it has not been detected to be initialized: Both variables
-`package-user-dir` and `package-archive-contents` have not been bound.
-
-```emacs-lisp
-24  (unless (boundp 'package-user-dir)
-25    (unless (boundp 'package-archive-contents)
-26      (package-initialize))
-27    (unless (assoc 'use-package package-archive-contents)
-28      (package-refresh-contents)
-29      (package-install (elt (cdr (assoc 'org-plus-contrib package-archive-contents)) 0))
-30      (package-install (elt (cdr (assoc 'use-package package-archive-contents)) 0))))
-31  (require 'use-package)
-32  (require 'org)
-```
-
-This code makes it so the actual package contents of the repositories is **not** refreshed every time Emacs loads, mainly for
-speed of startup purposes. You can always refresh the list by using `M-x list-packages`. This is recommended on occasion as the
-extension packages used should be updated.
-
-NOTE: I could not make [`use-package`](https://github.com/jwiegley/use-package) ignore the built-in [`org-mode`](https://orgmode.org/) package in favor of the [`org-mode`](https://orgmode.org/) package from the org repository.
-Many people suggested use the `:ensure`  and `:demand` keywords to control [`use-package`](https://github.com/jwiegley/use-package), but to no avail. There's a nice
-discussion of <https://github.com/jwiegley/use-package/issues/319>.
-
-
-<a id="org7664d29"></a>
-
-### Finally load up this file
-
-Simply use this file (I default it to `README`) and Babel tangle the configuration (`README.org`) into a file that gets loaded
-(`README.el`). The remainder of the initialization follows in this file.
-
-```emacs-lisp
-35  (defcustom my/cfg-file (concat user-emacs-directory "README")
-36    "The base name for the .org file to use for Emacs initialization."
-37    :group 'my-configuration
-38    :type 'string)
-39  (when (file-newer-than-file-p (concat my/cfg-file ".org") (concat my/cfg-file ".el"))
-40    (org-babel-tangle-file (concat my/cfg-file ".org")))
-41  (load my/cfg-file)
-```
-
-
-<a id="orgad502cf"></a>
+<a id="orga9bac51"></a>
 
 ### Customizing the configuration
 
@@ -232,17 +296,17 @@ This allows me to select features to turn on or off selectively and make them st
 Another reason to load the customization file first.
 
 
-<a id="org77be411"></a>
+<a id="orgcf705b6"></a>
 
-# Configuration
+# My Configuration
 
 Here are my configuration bits. All of the following code snippets are tangled from this file into an `.el` file that gets loaded
 from the initialization file. Feel free to take as little or as much as you like from here.
 
 
-<a id="org833ec5a"></a>
+<a id="org07e5090"></a>
 
-## Just a little preamble
+## A preamble
 
 This is a little piece of code that I picked up that might make things faster when downloading and installing all the packages.
 This turns down the garbage collector during the use-package loading when it has to do some compiling. Set it back when done with
@@ -254,14 +318,14 @@ init.
 ```
 
 
-<a id="org05f0804"></a>
+<a id="org4b8cc9e"></a>
 
 ## General packages
 
 Here are some general packages I use
 
 
-<a id="orgb5b36fe"></a>
+<a id="orgad09d26"></a>
 
 ### Speed up line movement
 
@@ -274,7 +338,7 @@ using `next-line` gets very cut down.
 ```
 
 
-<a id="org5ef090b"></a>
+<a id="orge16e277"></a>
 
 ### [`diminish`](https://github.com/myrjola/diminish.el)
 
@@ -286,18 +350,18 @@ is fine and it doesn't need to be on the mode line (diminish it to "").
 ```
 
 
-<a id="orgbea1ffa"></a>
+<a id="org46dbbc2"></a>
 
 ### [`bind-key`](https://github.com/priyadarshan/bind-key)
 
-Much better binding capabilities
+Much better binding capabilities (in later versions this is already loaded via `use-package`).
 
 ```emacs-lisp
 (use-package bind-key)
 ```
 
 
-<a id="orgb5927c2"></a>
+<a id="orgf239ab2"></a>
 
 ### [`helpful`](https://github.com/Wilfred/helpful)
 
@@ -316,7 +380,7 @@ Much better binding capabilities
 ```
 
 
-<a id="orgfe3fc7e"></a>
+<a id="orga2d9888"></a>
 
 ### [`savehist`](https://www.emacswiki.org/emacs/SaveHist)
 
@@ -365,7 +429,7 @@ Set the following variables to control `savehist` (use customize).
 </table>
 
 
-<a id="org7ad346b"></a>
+<a id="org59f5c6b"></a>
 
 ### Themes and mode line
 
@@ -405,7 +469,7 @@ around with the themes. Perhaps someday.
 ```
 
 
-<a id="org33b4b86"></a>
+<a id="org37f569d"></a>
 
 ### For demonstrations
 
@@ -416,7 +480,7 @@ These packages are useful when doing presentations.
 ```
 
 
-<a id="org57122c7"></a>
+<a id="orge21fc53"></a>
 
 ### Trying [`codesearch`](https://github.com/abingham/emacs-codesearch)
 
@@ -428,7 +492,7 @@ These packages are useful when doing presentations.
 ```
 
 
-<a id="org87be9dc"></a>
+<a id="org1d1fc30"></a>
 
 ### [`which-key`](https://github.com/justbur/emacs-which-key)
 
@@ -441,7 +505,7 @@ options. This is, IMO, a great way to learn Emacs key-bindings.
 ```
 
 
-<a id="org74ca84e"></a>
+<a id="org0f892ae"></a>
 
 ### Other useful packages
 
@@ -450,6 +514,8 @@ OK, a little tired of documenting each package on it's own. These packages are j
 ```emacs-lisp
 (use-package realgud)           ;; A "better" gud
 (use-package projectile
+  :bind (:map projectile-mode-map
+              ("C-c C-p" . projectile-command-map))
   :config
   (projectile-mode t))
 (use-package ibuffer-projectile :defer t)
@@ -491,7 +557,7 @@ Customized variables of interest here:
 <tbody>
 <tr>
 <td class="org-left">desktop-path</td>
-<td class="org-left">("`/repos/borg/" "~/.emacs.d/" "`")</td>
+<td class="org-left">("`/repos/Midmarket/" "~/.emacs.d/" "`")</td>
 </tr>
 
 
@@ -503,7 +569,7 @@ Customized variables of interest here:
 </table>
 
 
-<a id="orgf79abfc"></a>
+<a id="org9920617"></a>
 
 ### A little nXML configuration
 
@@ -514,7 +580,7 @@ It ends up that the XML I've been editing for work is indented with tabs. This l
 ```
 
 
-<a id="org35f334a"></a>
+<a id="org36b639c"></a>
 
 # [`company-mode`](http://company-mode.github.io/) Configuration
 
@@ -527,7 +593,7 @@ Use the excellent [`company-mode`](http://company-mode.github.io/) modular in-bu
 ```
 
 
-<a id="org3cd4103"></a>
+<a id="orgd2a24e2"></a>
 
 # [`ivy/swiper`](https://github.com/abo-abo/swiper) Configuration
 
@@ -618,7 +684,7 @@ Customized variables:
 </table>
 
 
-<a id="orgc8b0c8b"></a>
+<a id="org160880f"></a>
 
 # [`prescient`](https://github.com/raxod502/prescient.el) Configuration
 
@@ -631,7 +697,7 @@ Customized variables:
 ```
 
 
-<a id="orgf06c8c6"></a>
+<a id="org0201cd8"></a>
 
 # [`yasnippet`](https://www.emacswiki.org/emacs/Yasnippet) Configuration
 
@@ -691,7 +757,7 @@ Customizations of interest:
 </table>
 
 
-<a id="org7a9e2f8"></a>
+<a id="orgfda8232"></a>
 
 # Working with C#
 
@@ -725,7 +791,7 @@ There are comprehensive directions at [`omnisharp-emacs`](https://github.com/Omn
 ```
 
 
-<a id="org69b2641"></a>
+<a id="org74e458c"></a>
 
 # [`magit`](https://github.com/magit/magit)/git configuration
 
@@ -795,7 +861,7 @@ Customized variables:
 </table>
 
 
-<a id="org779d66a"></a>
+<a id="org72fea90"></a>
 
 # [`org-mode`](https://orgmode.org/) Configuration
 
@@ -884,7 +950,7 @@ Customized variables for org-mode:
 </table>
 
 
-<a id="orgb77da57"></a>
+<a id="org570f5a5"></a>
 
 ## [`org-mode`](https://orgmode.org/) export hacks for HTML and Markdown
 
@@ -938,7 +1004,7 @@ any underscores in the table with inline HTML.
 ```
 
 
-<a id="org61154b2"></a>
+<a id="org3c5a161"></a>
 
 ## Use of babel
 
@@ -969,7 +1035,7 @@ To do literate programming you need to include the languages to "tangle". Here I
 </table>
 
 
-<a id="org0bcd1ee"></a>
+<a id="orgcd5774e"></a>
 
 # python configuration
 
@@ -979,7 +1045,7 @@ bothers me is that when an object is returned, PyCharm will give you list and di
 Seems to be the only real issue at this point.
 
 
-<a id="org0315cd8"></a>
+<a id="org634765a"></a>
 
 ## The tale of two IDEs
 
@@ -1000,7 +1066,7 @@ switch to the `lsp-mode`.
 ```
 
 
-<a id="org7f9944e"></a>
+<a id="org5515434"></a>
 
 ### [`elpy`](https://github.com/jorgenschaefer/elpy) IDE
 
@@ -1020,7 +1086,7 @@ The tried and true [`elpy`](https://github.com/jorgenschaefer/elpy) Python IDE.
 ```
 
 
-<a id="org7e3afc9"></a>
+<a id="org2d4fbca"></a>
 
 ### [`lsp-mode`](https://github.com/emacs-lsp/lsp-mode) IDE
 
@@ -1048,7 +1114,7 @@ This is a newer mode based on the [Language Server Protocol](https://langserver.
 ```
 
 
-<a id="org3acd83c"></a>
+<a id="org1a44c06"></a>
 
 ## Python IDE-agnostic configuration
 
@@ -1099,7 +1165,7 @@ Customized variables used in this python configuration:
 <tbody>
 <tr>
 <td class="org-left">python-check-command</td>
-<td class="org-left">"/usr/local/bin/flake8"</td>
+<td class="org-left">"c:/Python36/Scripts/flake8.exe"</td>
 </tr>
 
 
@@ -1129,12 +1195,12 @@ Customized variables used in this python configuration:
 </table>
 
 
-<a id="org6711415"></a>
+<a id="org767ddf5"></a>
 
 # Additional bits-o-configuration
 
 
-<a id="org4170804"></a>
+<a id="org25f5e5a"></a>
 
 ## Limit the length of [`which-function`](https://www.gnu.org/software/emacs/manual/html_node/emacs/Which-Function.html)
 
@@ -1154,7 +1220,7 @@ Customized variables used in this python configuration:
 ```
 
 
-<a id="org836d969"></a>
+<a id="org169846b"></a>
 
 ## `my-ansi-term`
 
@@ -1170,7 +1236,7 @@ other modes and shells make this less useful these days.
 ```
 
 
-<a id="orge9e3077"></a>
+<a id="org5b55d3b"></a>
 
 ## Understand file type by shebang
 
@@ -1194,7 +1260,7 @@ Script-type is read from #!/... at top of file."
 ```
 
 
-<a id="org6634fd6"></a>
+<a id="orgcceb669"></a>
 
 ## Additional Configuration
 

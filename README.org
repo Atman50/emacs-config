@@ -49,104 +49,81 @@
    I have tried to make this configuration 100% portable meaning that on a new system (Linux or Windows at this point) with Emacs
    installed. I simple git clone this repository to =~/.emacs.d= and then fire up Emacs. Should work every time. 
 
-** =init.el= in a few small sections
-   To get started with a literate configuration, I use a simple =init.el= file documented here.
+** =init.el=, short and sweet
 
-   Here are the pieces of the =init.el= file explained. The line numbers are the line numbers from the =init.el= file from this
-   repository.
+   #+BEGIN_SRC emacs-lisp -n 11 :tangle no
+     (setq custom-file (expand-file-name "custom.el" user-emacs-directory))
+     (load custom-file t)
+     (prefer-coding-system 'utf-8)
+     (unless (boundp 'package-user-dir)
+       (unless (boundp 'package-archive-contents)
+         (package-initialize))
+       (unless (assoc 'use-package package-archive-contents)
+         (package-refresh-contents)
+         (package-install (elt (cdr (assoc 'org-plus-contrib package-archive-contents)) 0))
+         (package-install (elt (cdr (assoc 'use-package package-archive-contents)) 0))))
+     (load "use-package")
+     (use-package org)
+     (defcustom my/cfg-file (concat user-emacs-directory "README")
+       "The base name for the .org file to use for Emacs initialization."
+       :group 'my-configuration
+       :type 'string)
+     (when (file-newer-than-file-p (concat my/cfg-file ".org") (concat my/cfg-file ".el"))
+       (org-babel-tangle-file (concat my/cfg-file ".org")))
+     (load my/cfg-file)
+   #+END_SRC
 
-*** Load the custom file
-    An Emacs user recently said "I don't use the Emacs customization" facility. I think that's just crazy. One of the nicest things
-    about Emacs is the extensive and quite useful customization engine. You can customize variables and faces with ease and make the
-    settings work for you.
-
-    Loading this file first, even before package stuff, is important to get things working. In a subsequent section of this
-    =init.el= the =package-refresh-contents= uses the variable =package-archives= for importing archive information (and eventually
-    packages).
+   | Line | Explained                                                                                  |
+   |------+--------------------------------------------------------------------------------------------|
+   |   11 | Breaking the custom setting out into its own file allows it to be loaded in the next line  |
+   |   12 | Load the custom file. All custom settings will now be honored by packages when loaded.     |
+   |   13 | Just a fix for ELPA packages with (certain?) Unicode characters in them.                   |
+   |   14 | If there's no ='package-user-dir= defined; =package.el= isn't loaded                       |
+   |   15 | If there's no ='package-archive-contents= defined; package archives have not been read     |
+   |   16 | Initialize the package system                                                              |
+   |   17 | If we've not load loaded the definition for the =use-package= ELPA package, then           |
+   |   18 | Refresh (read) the package archives. Note: ='package-archives= from =custom.el= *key* here |
+   |   19 | Load up the org-mode. The pre-packaged org-mode does not have Babel!                       |
+   |   20 | Load up =use-package=                                                                      |
+   |   21 | Make sure =use-package= is available                                                       |
+   |   22 | Make sure =org-plus-contrib= is available                                                  |
+   |   23 | Create customizable config variable                                                        |
+   |   24 | ...                                                                                        |
+   |   25 | ... it's nice having a customizable group for personal configuration settings              |
+   |   26 | ...                                                                                        |
+   |   27 | If the .el file doesn't exist or is older than this file then...                           |
+   |   28 | ... create the tangled output of this file                                                 |
+   |   29 | Load the tangled output of this file                                                       |
+   
+*** Loading the custom file first
+    One of the nicest things about Emacs is the extensive and quite useful customization engine. You can customize variables and
+    faces with ease and make the settings work for you.
 
     Loading the customized variables before the package (using =use-package= of course) means that you can now use the customization
-    facility in Emacs to modify the variables. I see lots of configurations with the =:config= section of a =use-package= invocation
-    performing variable setting. The problem with this is that if you want to change it using Emacs, the loading of the
-    customizations first causes your new customizations getting overwritten on the next start of Emacs. The moral of the story is
-    to try and make the =use-package= configuration as non-custom-variable-changing as possible.
+    facility in Emacs to modify the variables and have them stick between Emacs invocations. I see lots of configurations with the
+    =:config= section of a =use-package= invocation performing variable setting. The problem with this is that if you want to change
+    it using Emacs, the loading of the customizations first causes your new customizations getting overwritten on the next start of
+    Emacs. You can do it in the reverse order; =use-package= first, then customize, but then you couldn't customize the variable
+    using the customization system.
 
-    I've pointed the customization at my own file =custom.el= and loaded it here. Customization will now be written to this file
-    from the Emacs customization system.
+    Therefore I try to minimize =use-package= customizations and mostly use the =custom.el= file.
 
-    In order for the customization file to be system independent, the =mswindows-p= variable is defined early.
-    #+BEGIN_SRC emacs-lisp -n 14 :tangle no
-      (defvar mswindows-p (string-match "windows" (symbol-name system-type)))
-      (setq custom-file (expand-file-name "custom.el" user-emacs-directory))
-      (load custom-file t)
-    #+END_SRC
-
-    The most important custom variable at this point in the configuration is =package-archives=, which is used by the loading of the
-    various extension packages used by this configuration.
+    The most important custom variable for this configuration is =package-archives=, which is used by the loading of the various
+    extension packages used by this configuration.
 
     #+NAME: init-file-custom-vars
     #+CALL: custom-vars-table(custom-vars='(package-archives))
 
-*** Random setting
-    #+BEGIN_SRC emacs-lisp -n 19 :tangle no
-      (prefer-coding-system 'utf-8)
-    #+END_SRC
-    This was necessary because some packages in ELPA had Unicode characters in them that my Windows system didn't like. Not a bad
-    idea to set this somewhere and I needed it before the =package-refresh-contents= below.
-
-*** Initialize the package
-    This code is meant to ensure that both [[https://orgmode.org/][=org-mode=]] (the non-built-in most recent [[https://orgmode.org/][=org-mode=]] version available in the org
-    repository) and [[https://github.com/jwiegley/use-package][=use-package=]] are installed. The built-in =org-mode= (in 27.0.50) is out-of-date and did not contain babel
-    capabilities (although it may now). We need the [[https://orgmode.org/][=org-mode=]] package to tangle (babel) this file itself and the rest of the
-    configuration heavily relies on the most excellent [[https://github.com/jwiegley/use-package][=use-package=]] extension.
-
-    The call to =package-refresh-contents= heavily depends on the value of =package-archives= (see above)to be correct. In the
-    =init.el= file, the custom file is loaded before this code so it is set via normal Emacs customization.
-
-    I had to change the following logic so that it worked under both 26.0.91 and 27.0.50 (there is some difference to the
-    initialization process that got in the way of my old logic). The first time this code is run it should =package-install= both
-    =org-mode= and =use-package=. This code calls =package-initialize= if it has not been detected to be initialized: Both variables
-    =package-user-dir= and =package-archive-contents= have not been bound.
-    #+BEGIN_SRC emacs-lisp -n 24 :tangle no
-      (unless (boundp 'package-user-dir)
-        (unless (boundp 'package-archive-contents)
-          (package-initialize))
-        (unless (assoc 'use-package package-archive-contents)
-          (package-refresh-contents)
-          (package-install (elt (cdr (assoc 'org-plus-contrib package-archive-contents)) 0))
-          (package-install (elt (cdr (assoc 'use-package package-archive-contents)) 0))))
-      (require 'use-package)
-      (require 'org)
-    #+END_SRC
-    This code makes it so the actual package contents of the repositories is *not* refreshed every time Emacs loads, mainly for
-    speed of startup purposes. You can always refresh the list by using =M-x list-packages=. This is recommended on occasion as the
-    extension packages used should be updated.
-
-    NOTE: I could not make [[https://github.com/jwiegley/use-package][=use-package=]] ignore the built-in [[https://orgmode.org/][=org-mode=]] package in favor of the [[https://orgmode.org/][=org-mode=]] package from the org repository.
-    Many people suggested use the =:ensure=  and =:demand= keywords to control [[https://github.com/jwiegley/use-package][=use-package=]], but to no avail. There's a nice
-    discussion of [[https://github.com/jwiegley/use-package/issues/319]].
-
-*** Finally load up this file
-    Simply use this file (I default it to =README=) and Babel tangle the configuration (=README.org=) into a file that gets loaded
-    (=README.el=). The remainder of the initialization follows in this file.
-    #+BEGIN_SRC emacs-lisp -n 35 :tangle no
-      (defcustom my/cfg-file (concat user-emacs-directory "README")
-        "The base name for the .org file to use for Emacs initialization."
-        :group 'my-configuration
-        :type 'string)
-      (when (file-newer-than-file-p (concat my/cfg-file ".org") (concat my/cfg-file ".el"))
-        (org-babel-tangle-file (concat my/cfg-file ".org")))
-      (load my/cfg-file)
-    #+END_SRC
 *** Customizing the configuration
     I've started to use the =defcustom= function to describe those "variables that impact initialization" and are all placed into
     the ='my-configuration= group. Each of the configuration variables can be accessed using =M-x customize-group my-configuration=.
     This allows me to select features to turn on or off selectively and make them sticky if so desired.
 
     Another reason to load the customization file first.
-* Configuration
+* My Configuration
   Here are my configuration bits. All of the following code snippets are tangled from this file into an =.el= file that gets loaded
   from the initialization file. Feel free to take as little or as much as you like from here.
-** Just a little preamble
+** A preamble
    This is a little piece of code that I picked up that might make things faster when downloading and installing all the packages.
    This turns down the garbage collector during the use-package loading when it has to do some compiling. Set it back when done with
    init.
@@ -171,7 +148,7 @@
       (use-package diminish)
     #+END_SRC
 *** [[https://github.com/priyadarshan/bind-key][=bind-key=]]
-    Much better binding capabilities
+    Much better binding capabilities (in later versions this is already loaded via =use-package=).
     #+BEGIN_SRC emacs-lisp :tangle yes
       (use-package bind-key)
     #+END_SRC
@@ -257,6 +234,8 @@
     #+BEGIN_SRC emacs-lisp -r :tangle yes
       (use-package realgud)           ;; A "better" gud
       (use-package projectile
+        :bind (:map projectile-mode-map
+                    ("C-c C-p" . projectile-command-map))
         :config
         (projectile-mode t))
       (use-package ibuffer-projectile :defer t)
