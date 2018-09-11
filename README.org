@@ -282,6 +282,7 @@
                   ("C-w" . ivy-yank-word)           ;; make work like isearch
                   ("C-r" . ivy-previous-line))
       :config
+      (ivy-mode 1)
       (setq ivy-initial-inputs-alist nil)           ;; no regexp by default
       (setq ivy-re-builders-alist                   ;; allow input not in order
             '((t . ivy--regex-ignore-order))))
@@ -415,16 +416,19 @@
     (use-package org-autolist)
     (use-package htmlize)
     (add-hook 'org-mode-hook #'flyspell-mode)
-    (use-package ox-reveal)
-    (require 'ox-reveal)
+    ;; (use-package ox-reveal)
+    ;; (require 'ox-reveal)
   #+END_SRC
   I've started using =ox-reveal= for generating presentations from =org-mode=. Here's a [[https://opensource.com/article/18/2/how-create-slides-emacs-org-mode-and-revealjs][good article]] on getting started. I've set
   the =org-reveal-root= to point to [[http://cdn.jsdelivr.net/reveal.js/3.0.0/]] so that you do not need to install it on your system.
-  If you want to use your own customized theme, see the instructions at [[https://github.com/hakimel/reveal.js/]].
+  If you want to use your own customized theme, see the instructions at [[https://github.com/hakimel/reveal.js/]]. NB: I have removed
+  =ox-reveal= from the normal package load because it has a dependency on the =org= package, but we already install
+  =org-plus-contrib= which =ox-reveal=, I guess, doesn't recognize. Leaving the code here to make it easy to bring in if you are
+  working with reveal.js and presentations.
 
   Customized variables for org-mode:
   #+NAME: org-mode-custom-vars
-  #+CALL: custom-vars-table(custom-vars='(org-catch-invisible-edits org-html-postamble org-html-postamble-format org-log-done org-log-into-drawer org-reveal-root org-reveal-title-slide))
+  #+CALL: custom-vars-table(custom-vars='(org-catch-invisible-edits org-html-postamble org-html-postamble-format org-log-done org-log-into-drawer))
 
 ** [[https://orgmode.org/][=org-mode=]] export hacks for HTML and Markdown
    I export into markdown for github. I do not use the =ox-gfm= package because when I tried it, it modified the source file because
