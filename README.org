@@ -631,15 +631,28 @@
      (bind-key "C-h c" #'customize-group)
      (bind-key "C-+" #'text-scale-increase)
      (bind-key "C--" #'text-scale-decrease)
-     (bind-key "C-z" 'nil)                           ;; get rid of pesky "\C-z"
-     (bind-key "C-z" 'nil ctl-x-map)                 ;;    and "\C-x\C-z" annoying minimize
-     (bind-key "C-c C-d" #'dired-jump)
-     (bind-key "C-c r" #'revert-buffer)
-     (bind-key "C-c t" #'toggle-truncate-lines)
-     (bind-key "C-c c" #'comment-region)
-     (bind-key "C-c u" #'uncomment-region)
-     (bind-key "<up>" #'enlarge-window ctl-x-map)     ;; note: C-x
-     (bind-key "<down>" #'shrink-window ctl-x-map)    ;; note: C-x
+     (bind-key "<up>" #'enlarge-window ctl-x-map)    ;; note: C-x
+     (bind-key "<down>" #'shrink-window ctl-x-map)   ;; note: C-x
+     (bind-key "C-z" 'nil ctl-x-map)                 ;; get rid of annoying minimize "\C-x\C-z"
+
+     (bind-keys :map global-map                      ;; get rid of pesky "\C-z" and use for personal bindings
+                :prefix-map my-ctrl-z-prefix-map
+                :prefix "C-z" 
+                ("C-d" . dired-jump)
+                ("n"   . linum-mode)
+                ("g"   . magit-status)
+                ("r"   . revert-buffer)
+                ("t"   . toggle-truncate-lines)
+                ("c"   . comment-region)
+                ("u"   . uncomment-region))
+
+     ;; Just keep these commented out for now... gotta train muscle memory to got to C-z instead of C-c
+     ;; (bind-key "C-c C-d" #'dired-jump)
+     ;; (bind-key "C-c r" #'revert-buffer)
+     ;; (bind-key "C-c g" #'magit-status)
+     ;; (bind-key "C-c t" #'toggle-truncate-lines)
+     ;; (bind-key "C-c c" #'comment-region)
+     ;; (bind-key "C-c u" #'uncomment-region)
 
      (setq-default ediff-ignore-similar-regions t)   ;; Not a variable but controls ediff
 

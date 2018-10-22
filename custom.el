@@ -102,6 +102,7 @@
  '(python-shell-interpreter-args "-i --simple-prompt")
  '(python-shell-prompt-output-regexp "Out\\[[0-9]+\\]: ")
  '(python-shell-prompt-regexp "In \\[[0-9]+\\]: ")
+ '(rng-nxml-auto-validate-flag nil)
  '(savehist-additional-variables '(kill-ring search-ring regexp-search-ring))
  '(savehist-file "~/.emacs.d/savehist")
  '(savehist-mode t)
