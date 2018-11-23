@@ -141,6 +141,23 @@
     #+BEGIN_SRC emacs-lisp :tangle yes
       (setq auto-window-vscroll nil)
     #+END_SRC
+*** Use Ctrl-Z for personal bindings
+    Ctrl-c was supposed to be left for personal customization but seems to get used more than it should,
+    therefore I've started to bind things to Ctrl-Z, which had the annoying and useless minimize functionality.
+
+    #+BEGIN_SRC  emacs-lisp :tangle yes
+      (bind-keys :map global-map                      ;; get rid of pesky "\C-z" and use for personal bindings
+                 :prefix-map my-ctrl-z-prefix-map
+                 :prefix "C-z"
+                 ("C-d" . dired-jump)
+                 ("n"   . linum-mode)
+                 ("g"   . magit-status)
+                 ("r"   . revert-buffer)
+                 ("t"   . toggle-truncate-lines)
+                 ("c"   . comment-region)
+                 ("u"   . uncomment-region))
+    #+END_SRC
+
 *** [[https://github.com/myrjola/diminish.el][=diminish=]]
     Handy mode to make the modeline more succinct by allowing a /diminished/ mode line string. Sometimes the fact that mode is there
     is fine and it doesn't need to be on the mode line (diminish it to "").
@@ -157,13 +174,13 @@
     [[http://www.wilfred.me.uk/blog/2018/06/22/helpful-one-year-on/][Helpful, one year in]]. More in-depth help along with lots of other information like references, edebug capabilities, ...
     #+BEGIN_SRC emacs-lisp :tangle yes
       (use-package helpful
-        :bind (("C-c h a" . helpful-at-point)
-               ("C-c h c" . helpful-command)
-               ("C-c h C" . helpful-callable)
-               ("C-c h f" . helpful-function)
-               ("C-c h k" . helpful-key)
-               ("C-c h m" . helpful-macro)
-               ("C-c h v" . helpful-variable)))
+        :bind (("C-z h a" . helpful-at-point)
+               ("C-z h c" . helpful-command)
+               ("C-z h C" . helpful-callable)
+               ("C-z h f" . helpful-function)
+               ("C-z h k" . helpful-key)
+               ("C-z h m" . helpful-macro)
+               ("C-z h v" . helpful-variable)))
     #+END_SRC
 *** [[https://www.emacswiki.org/emacs/SaveHist][=savehist=]]
     A great built-in that allows us to have a history file. This means certain elements are saved between sessions of Emacs. This
@@ -287,9 +304,8 @@
       (setq ivy-re-builders-alist                   ;; allow input not in order
             '((t . ivy--regex-ignore-order))))
     (use-package counsel
-      :bind (("C-c j" . counsel-imenu)))
-    ;; Work-around from https://github.com/syl20bnr/spacemacs/issues/11152
-    (setq projectile-keymap-prefix (kbd "C-c C-p"))
+      :bind (("C-z j" . counsel-imenu)))
+    (define-key projectile-mode-map (kbd "C-z C-p") 'projectile-command-map)
     (use-package counsel-projectile
       :config
       (counsel-projectile-mode t))
@@ -367,8 +383,8 @@
       :diminish " \u221e" ;; infinity symbol
       :demand t
       :bind (:map omnisharp-mode-map
-                  ("C-c o" . omnisharp-start-omnisharp-server)
-                  ("C-c d" . omnisharp-go-to-definition-other-window)
+                  ("C-z o" . omnisharp-start-omnisharp-server)
+                  ("C-z d" . omnisharp-go-to-definition-other-window)
                   ("C-x C-j" . counsel-imenu))
       :config
       (add-to-list 'company-backends #'company-omnisharp))
@@ -385,9 +401,9 @@
   #+BEGIN_SRC emacs-lisp :tangle yes
     (use-package git-commit)
     (use-package magit
-      :bind (("C-c f" . magit-find-file-other-window)
-             ("C-c g" . magit-status)
-             ("C-c l" . magit-log-buffer-file))
+      :bind (("C-z f" . magit-find-file-other-window)
+             ("C-z g" . magit-status)
+             ("C-z l" . magit-log-buffer-file))
       ;; Make the default action a branch checkout, not a branch visit when in branch mode
       :bind (:map magit-branch-section-map
                   ([remap magit-visit-thing] . magit-branch-checkout)))
@@ -511,15 +527,16 @@
     The tried and true [[https://github.com/jorgenschaefer/elpy][=elpy=]] Python IDE.
   #+BEGIN_SRC emacs-lisp :tangle yes
     (when my/use-elpy
-        (use-package elpy
-          :demand t
-          :bind (:map elpy-mode-map
-                      ("C-c ." . elpy-goto-definition))
+      (use-package elpy
+        :demand t
+        :bind (:map elpy-mode-map
+                    ("C-z ." . elpy-goto-definition))
+        :config
+        (elpy-enable)
+        (add-to-list 'python-shell-completion-native-disabled-interpreters "jupyter")
+        (use-package company-jedi
           :config
-          (elpy-enable)
-          (use-package company-jedi
-            :config
-            (push 'company-jedi company-backends))))
+          (push 'company-jedi company-backends))))
    #+END_SRC
 *** [[https://github.com/emacs-lsp/lsp-mode][=lsp-mode=]] IDE
     This is a newer mode based on the [[https://langserver.org/][Language Server Protocol]]. Used along with this is the [[https://github.com/emacs-lsp/lsp-ui][=lsp-ui=]] goodies.
@@ -557,11 +574,14 @@
        (python-docstring-install))
      (use-package flymake
        :config
-       (remove-hook 'flymake-diagnostic-functions 'flymake-proc-legacy-flymake))
+       (remove-hook 'flymake-diagnostic-functions 'flymake-proc-legacy-flymake)
+       (when my/use-elpy (add-hook 'flymake-mode-hook (lambda ()
+                                                        (setq flymake-start-syntax-check-on-newline t
+                                                              flymake-no-changes-timeout 0.5)))))
      (use-package python
-       :bind (:map python-mode-map
-                   ("C-c n" . flymake-goto-next-error)
-                   ("C-c p" . flymake-goto-prev-error))
+       ;; :bind (:map python-mode-map
+       ;;             ("C-c n" . flymake-goto-next-error)
+       ;;             ("C-c p" . flymake-goto-prev-error))
        :config
        (add-hook 'inferior-python-mode-hook (lambda () (setq tab-width 4)))
        (add-hook 'python-mode-hook (lambda ()
@@ -571,7 +591,7 @@
    #+END_SRC
    Customized variables used in this python configuration:
    #+NAME: python-custom-vars
-   #+CALL: custom-vars-table(custom-vars='(python-check-command python-shell-interpreter python-shell-interpreter-args python-shell-prompt-output-regexp python-shell-prompt-regexp))
+   #+CALL: custom-vars-table(custom-vars='(python-check-command python-shell-interpreter python-shell-interpreter-args python-shell-prompt-detect-failure-warning python-shell-prompt-output-regexp python-shell-prompt-regexp))
 
 * Additional bits-o-configuration
 ** Limit the length of [[https://www.gnu.org/software/emacs/manual/html_node/emacs/Which-Function.html][=which-function=]]
@@ -634,25 +654,6 @@
      (bind-key "<up>" #'enlarge-window ctl-x-map)    ;; note: C-x
      (bind-key "<down>" #'shrink-window ctl-x-map)   ;; note: C-x
      (bind-key "C-z" 'nil ctl-x-map)                 ;; get rid of annoying minimize "\C-x\C-z"
-
-     (bind-keys :map global-map                      ;; get rid of pesky "\C-z" and use for personal bindings
-                :prefix-map my-ctrl-z-prefix-map
-                :prefix "C-z" 
-                ("C-d" . dired-jump)
-                ("n"   . linum-mode)
-                ("g"   . magit-status)
-                ("r"   . revert-buffer)
-                ("t"   . toggle-truncate-lines)
-                ("c"   . comment-region)
-                ("u"   . uncomment-region))
-
-     ;; Just keep these commented out for now... gotta train muscle memory to got to C-z instead of C-c
-     ;; (bind-key "C-c C-d" #'dired-jump)
-     ;; (bind-key "C-c r" #'revert-buffer)
-     ;; (bind-key "C-c g" #'magit-status)
-     ;; (bind-key "C-c t" #'toggle-truncate-lines)
-     ;; (bind-key "C-c c" #'comment-region)
-     ;; (bind-key "C-c u" #'uncomment-region)
 
      (setq-default ediff-ignore-similar-regions t)   ;; Not a variable but controls ediff
 
