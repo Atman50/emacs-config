@@ -251,9 +251,8 @@
     #+BEGIN_SRC emacs-lisp -r :tangle yes
       (use-package realgud)           ;; A "better" gud
       (use-package projectile
-        :bind (:map projectile-mode-map
-                    ("C-c C-p" . projectile-command-map))
         :config
+        (define-key projectile-mode-map (kbd "C-z C-p") 'projectile-command-map)
         (projectile-mode t))
       (use-package ibuffer-projectile :defer t)
       (use-package xterm-color :defer t)
@@ -305,7 +304,6 @@
             '((t . ivy--regex-ignore-order))))
     (use-package counsel
       :bind (("C-z j" . counsel-imenu)))
-    (define-key projectile-mode-map (kbd "C-z C-p") 'projectile-command-map)
     (use-package counsel-projectile
       :config
       (counsel-projectile-mode t))
