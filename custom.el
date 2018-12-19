@@ -45,6 +45,7 @@
  '(eshell-history-size 1024)
  '(fill-column 132)
  '(flycheck-color-mode-line-face-to-color 'mode-line-buffer-id)
+ '(flymake-no-changes-timeout 2)
  '(font-lock-maximum-size nil)
  '(git-commit-fill-column 78)
  '(git-commit-style-convention-checks '(non-empty-second-line overlong-summary-line))

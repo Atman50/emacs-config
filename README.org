@@ -218,6 +218,9 @@
                               :foreground "gold")
           (set-face-attribute 'mode-line-emphasis nil
                               :foreground "gold")
+          (set-face-attribute 'compilation-error nil        ;; red on blue is hard to read
+                              :background "gray64")
+
           (set-face-attribute 'which-func nil
                               :foreground "light goldenrod")))
       (use-package moody
