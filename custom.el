@@ -131,6 +131,8 @@
  ;; If there is more than one, they won't work right.
  '(default ((t (:slant normal :weight normal :height 98 :width normal :foundry "outline" :family "DejaVu Sans Mono"))))
  '(Info-quoted ((t (:foreground "red3"))))
+ '(doom-modeline-buffer-modified ((t (:inherit (doom-modeline-warning bold)))))
+ '(doom-modeline-project-dir ((t (:inherit doom-modeline-info))))
  '(ivy-posframe ((t (:inherit default :background "LightSkyBlue1" :foreground "#333333"))))
  '(ivy-subdir ((t (:inherit dired-directory :background "LightSkyBlue1"))))
  '(lsp-ui-sideline-current-symbol ((t (:foreground "royal blue" :box (:line-width -1 :color "royal blue") :weight ultra-bold :height 0.99))))

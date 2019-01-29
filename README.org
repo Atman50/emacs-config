@@ -193,42 +193,22 @@
     #+CALL: custom-vars-table(custom-vars='(savehist-file savehist-additional-variables savehist-mode))
 
 *** Themes and mode line
-    Recently switched from =powerline= to =moody=. The =moody= interface gives a nice tabbed mode line. I considered making my own
-    version of the =leuven= template to avoid all this =set-face-attribute= stuff below, but this is much more compact than mucking
-    around with the themes. Perhaps someday.
+    My progression of modelines has gone from =powerline= to =moody= and now =doom=. The =doom-modeline= package is pretty good and
+    not as much fuss as I had with =moody=. All the stuff I need there and makes this configuration much easier. You *must* go
+    install the fonts from the =all-the-icons= package (which is loaded as a dependency) according to the instructions found on the
+    [[https://github.com/seagle0128/doom-modeline][=doom-modeline= website]]: Run =M-x all-the-icons-install-fonts= and then, on Windows, install the font ttf file by right clicking
+    on it and doing install.
     #+BEGIN_SRC emacs-lisp :tangle yes
       (use-package leuven-theme
         :config
-        (load-theme 'leuven t)
-        (let ((line (face-attribute 'mode-line :underline)))
-          (set-face-attribute 'mode-line nil
-                              :overline line
-                              :box nil
-                              :foreground "deep sky blue")
-          (set-face-attribute 'mode-line-inactive nil
-                              :overline line
-                              :underline line
-                              :box nil
-                              :foreground "#335EA8"
-                              :background "gray64")
-          (set-face-attribute 'mode-line-buffer-id nil
-                              :foreground "firebrick3"
-                              :overline line)
-          (set-face-attribute 'mode-line-highlight nil
-                              :foreground "gold")
-          (set-face-attribute 'mode-line-emphasis nil
-                              :foreground "gold")
-          (set-face-attribute 'compilation-error nil        ;; red on blue is hard to read
-                              :background "gray64")
+        (load-theme 'leuven t))
 
-          (set-face-attribute 'which-func nil
-                              :foreground "light goldenrod")))
-      (use-package moody
-        :config
-        (setq x-underline-at-descent-line t)
-        (moody-replace-mode-line-buffer-identification)
-        (moody-replace-vc-mode))
+      (use-package doom-modeline
+        :hook (after-init . doom-modeline-mode))
     #+END_SRC
+    The current modifications I make to the =doom-modeline= default face settings when using the =leuven-theme= are
+    =doom-modeline-buffer-modified= and =doom-modeline-project-dir=. You can look in the =custom.el= file for those settings.
+
 *** For demonstrations
     These packages are useful when doing presentations.
     #+BEGIN_SRC emacs-lisp :tangle yes
