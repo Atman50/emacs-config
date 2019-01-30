@@ -157,7 +157,12 @@
                  ("c"   . comment-region)
                  ("u"   . uncomment-region))
     #+END_SRC
-
+*** =synosaurus=
+    This is a [[https://github.com/hpdeifel/synosaurus][free synonyms plug-in]] for Emacs that uses [[https://wordnet.princeton.edu/][Wordnet]] brought to you by Princeton University. Note that you will have to
+    install  [[https://wordnet.princeton.edu/][Wordnet]] on your system and add it to your path to make this package work properly.
+    #+BEGIN_SRC emacs-lisp :tangle yes
+      (use-package synosaurus)
+    #+END_SRC
 *** [[https://github.com/myrjola/diminish.el][=diminish=]]
     Handy mode to make the modeline more succinct by allowing a /diminished/ mode line string. Sometimes the fact that mode is there
     is fine and it doesn't need to be on the mode line (diminish it to "").
@@ -401,7 +406,8 @@
   I use [[https://github.com/emacsorphanage/org-bullets][=org-bullets=]] which used to be part of the =org-plus-contrib= package but seems to no longer be included . Always throw
   [[https://orgmode.org/][=org-mode=]] buffers into [[https://www.emacswiki.org/emacs/FlySpell][=flyspell-mode=]] for live spell checking.
 
-  The =htmlize= package allows the HTML and Markdown exporters to work (underlying code).
+  The =htmlize= package allows the HTML and Markdown exporters to work (underlying code). It also allows to export your files all
+  fontified: for example, you can export all or part of, say, a Python file and it will come out all colorized for publishing.
 
   #+BEGIN_SRC emacs-lisp :tangle yes
     (use-package org-bullets
