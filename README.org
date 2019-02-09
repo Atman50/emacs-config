@@ -555,32 +555,27 @@
 
    #+END_SRC
 ** Python IDE-agnostic configuration
-   The =remove-hook= call in the =:config= section of the =flymake= package install is there because of the persistent, and annoying,
-   output to the =*Flymake Log*= buffer:
-   #+BEGIN_QUOTE
-   Warning [flymake create_and_activate_device.py]: Disabling backend flymake-proc-legacy-flymake because (error Can’t find a suitable init function)
-   #+END_QUOTE
-   The =remove-hook= relieves this issue. NB: this may be for Emacs version 27.0.50 only.
+   I've abandoned =flymake= (built-in) with =flycheck= (see [[https://www.masteringemacs.org/article/spotlight-flycheck-a-flymake-replacement][flycheck a flymake replacement]]).
    #+BEGIN_SRC emacs-lisp :tangle yes
      (use-package pylint)
      (use-package python-docstring
        :config
        (python-docstring-install))
-     (use-package flymake
+
+     ;TODO: we need to figure out how to make flycheck update the doom modeline status without file saving
+     (use-package flycheck
        :config
-       (remove-hook 'flymake-diagnostic-functions 'flymake-proc-legacy-flymake)
-       (when my/use-elpy (add-hook 'flymake-mode-hook (lambda ()
-                                                        (setq flymake-start-syntax-check-on-newline t
-                                                              flymake-no-changes-timeout 0.5)))))
+       (global-flycheck-mode))
+
      (use-package python
-       ;; :bind (:map python-mode-map
-       ;;             ("C-c n" . flymake-goto-next-error)
-       ;;             ("C-c p" . flymake-goto-prev-error))
+       :bind (:map python-mode-map
+                   ("C-c n" . flycheck-next-error)
+                   ("C-c p" . flymake-goto-previous-error))
        :config
-       (add-hook 'inferior-python-mode-hook (lambda () (setq tab-width 4)))
        (add-hook 'python-mode-hook (lambda ()
+                                     (define-key (current-local-map) "\C-c\C-p" 'flycheck-previous-error)
+                                     (define-key (current-local-map) "\C-c\C-n" 'flycheck-next-error)
                                      (unless my/use-elpy (lsp-python-enable))
-                                     (flymake-mode)
                                      (company-mode))))
    #+END_SRC
    Customized variables used in this python configuration:
