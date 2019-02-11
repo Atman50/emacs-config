@@ -42,6 +42,8 @@
  '(ediff-split-window-function 'split-window-vertically)
  '(ediff-window-setup-function 'ediff-setup-windows-plain)
  '(electric-pair-mode t)
+ '(elpy-modules
+   '(elpy-module-company elpy-module-eldoc elpy-module-pyvenv elpy-module-highlight-indentation elpy-module-yasnippet elpy-module-sane-defaults))
  '(eshell-history-size 1024)
  '(fill-column 132)
  '(flycheck-color-mode-line-face-to-color 'mode-line-buffer-id)

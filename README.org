@@ -334,8 +334,6 @@
   Just love the [[https://www.emacswiki.org/emacs/Yasnippet][=yasnippet=]] package. I only wish there were more templates out there. Creating new ones and placing them the
   appropriate (mode-named) subdirectory of =~/.emacs.d/snippets/=.
   #+BEGIN_SRC emacs-lisp :tangle yes
-    (unless (assq 'warnings package--builtins)
-      (use-package warnings))
     (use-package yasnippet
       :diminish (yas-minor-mode . "")
       :config
@@ -345,6 +343,7 @@
       ;; Fix yas indent issues
       (add-hook 'python-mode-hook (lambda () (set (make-local-variable 'yas-indent-line) 'fixed)))
       ;; Setup to allow for yasnippets to use code to expand
+      (require 'warnings)
       (add-to-list 'warning-suppress-types '(yasnippet backquote-change)))
     (use-package yasnippet-snippets)
   #+END_SRC
@@ -518,12 +517,14 @@
                (const :tag "elpy" t)))
    #+END_SRC
 *** [[https://github.com/jorgenschaefer/elpy][=elpy=]] IDE
-    The tried and true [[https://github.com/jorgenschaefer/elpy][=elpy=]] Python IDE.
+    The tried and true [[https://github.com/jorgenschaefer/elpy][=elpy=]] Python IDE. I run =flycheck= rather than =flymake= now, so rebind the error navigation keys (C-c C-n/C-p).
   #+BEGIN_SRC emacs-lisp :tangle yes
     (when my/use-elpy
       (use-package elpy
         :demand t
         :bind (:map elpy-mode-map
+                    ("C-c C-p" .  flycheck-previous-error)
+                    ("C-c C-n" . flycheck-next-error)
                     ("C-z ." . elpy-goto-definition))
         :config
         (elpy-enable)
@@ -532,6 +533,9 @@
           :config
           (push 'company-jedi company-backends))))
    #+END_SRC
+   The variable =elpy-modules= is updated in my =custom.el= file so that the =flymake= module is removed:
+   #+NAME: elpy-custom-vars
+   #+CALL: custom-vars-table(custom-vars='(elpy-modules))
 *** [[https://github.com/emacs-lsp/lsp-mode][=lsp-mode=]] IDE
     This is a newer mode based on the [[https://langserver.org/][Language Server Protocol]]. Used along with this is the [[https://github.com/emacs-lsp/lsp-ui][=lsp-ui=]] goodies.
   #+BEGIN_SRC emacs-lisp :tangle yes
@@ -556,6 +560,13 @@
    #+END_SRC
 ** Python IDE-agnostic configuration
    I've abandoned =flymake= (built-in) with =flycheck= (see [[https://www.masteringemacs.org/article/spotlight-flycheck-a-flymake-replacement][flycheck a flymake replacement]]).
+
+   The =remove-hook= call for =flymake= is there because of the persistent, and annoying, output to the =*Flymake Log*= buffer:
+   #+BEGIN_QUOTE
+   Warning [flymake create_and_activate_device.py]: Disabling backend flymake-proc-legacy-flymake because (error Can’t find a suitable init function)
+   #+END_QUOTE
+   The =remove-hook= relieves this issue. NB: this may be for Emacs version 27.0.50 only.
+
    #+BEGIN_SRC emacs-lisp :tangle yes
      (use-package pylint)
      (use-package python-docstring
@@ -570,13 +581,15 @@
      (use-package python
        :bind (:map python-mode-map
                    ("C-c n" . flycheck-next-error)
-                   ("C-c p" . flymake-goto-previous-error))
+                   ("C-c p" . flycheck-previous-error))
        :config
        (add-hook 'python-mode-hook (lambda ()
-                                     (define-key (current-local-map) "\C-c\C-p" 'flycheck-previous-error)
-                                     (define-key (current-local-map) "\C-c\C-n" 'flycheck-next-error)
                                      (unless my/use-elpy (lsp-python-enable))
-                                     (company-mode))))
+                                     (company-mode)
+                                     (flymake-mode 0))))
+
+     ;; remove annoying flymake warnings
+     (remove-hook 'flymake-diagnostic-functions 'flymake-proc-legacy-flymake)
    #+END_SRC
    Customized variables used in this python configuration:
    #+NAME: python-custom-vars
