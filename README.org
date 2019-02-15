@@ -237,6 +237,14 @@
     #+BEGIN_SRC emacs-lisp :tangle yes
       (use-package which-key :diminish "")
     #+END_SRC
+*** Very large files
+    Since I deal with potentially gigantic log files, this package allows the file to be carved up and 'paged' through. Get to the
+    =vlf= stuff through the default prefix =C-c C-v=.
+    #+BEGIN_SRC emacs-lisp :tangle yes
+      (use-package vlf
+        :pin melpa)
+    #+END_SRC
+
 *** Other useful packages
     OK, a little tired of documenting each package on it's own. These packages are just generally useful. Some of these packages
     have become so useful that they've found their way into the list of Emacs built-in packages. In those cases, the package is
