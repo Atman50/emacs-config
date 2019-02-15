@@ -244,8 +244,11 @@
     #+BEGIN_SRC emacs-lisp -r :tangle yes
       (use-package realgud)           ;; A "better" gud
       (use-package projectile
+        :bind
+        (:map projectile-mode-map
+              ("C-c p" . projectile-command-map)          ;; traditional binding
+              ("C-z C-p" . projectile-command-map))       ;; my binding
         :config
-        (define-key projectile-mode-map (kbd "C-z C-p") 'projectile-command-map)
         (projectile-mode t))
       (use-package ibuffer-projectile :defer t)
       (use-package xterm-color :defer t)
@@ -579,9 +582,6 @@
        (global-flycheck-mode))
 
      (use-package python
-       :bind (:map python-mode-map
-                   ("C-c n" . flycheck-next-error)
-                   ("C-c p" . flycheck-previous-error))
        :config
        (add-hook 'python-mode-hook (lambda ()
                                      (unless my/use-elpy (lsp-python-enable))
