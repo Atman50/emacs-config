@@ -190,10 +190,10 @@
 *** [[https://www.emacswiki.org/emacs/SaveHist][=savehist=]]
     A great built-in that allows us to have a history file. This means certain elements are saved between sessions of Emacs. This
     history file is kept in =~/.emacs.d/savehist=. Note that in later versions of Emacs this package is already built-in, so check
-    the built-ins before issuing the =use-package=. In later versions of Emacs the =savehist= package is built-in so protect against
-    annoying warnings by checking the built-ins first.
+    the built-ins before issuing the =use-package=. In later versions of Emacs seems the =savehist= package is built-in so ignore
+    annoying errors.
     #+BEGIN_SRC emacs-lisp :tangle yes
-      (unless (assq 'savehist package--builtins)
+      (when (< emacs-major-version 27) 
         (use-package savehist))
     #+END_SRC
     Set the following variables to control =savehist= (use customize).
@@ -419,7 +419,7 @@
 
     Customized variables:
     #+NAME: magit-custom-vars
-    #+CALL: custom-vars-table(custom-vars='(git-commit-fill-column magit-completing-read-function magit-pull-arguments nil magit-repository-directories))
+    #+CALL: custom-vars-table(custom-vars='(git-commit-fill-column magit-completing-read-function magit-repository-directories))
 
 * [[https://orgmode.org/][=org-mode=]] Configuration
   I use [[https://github.com/emacsorphanage/org-bullets][=org-bullets=]] which used to be part of the =org-plus-contrib= package but seems to no longer be included . Always throw
