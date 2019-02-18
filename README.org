@@ -193,7 +193,7 @@
     the built-ins before issuing the =use-package=. In later versions of Emacs seems the =savehist= package is built-in so ignore
     annoying errors.
     #+BEGIN_SRC emacs-lisp :tangle yes
-      (when (< emacs-major-version 27) 
+      (unless (package-built-in-p 'savehist) 
         (use-package savehist))
     #+END_SRC
     Set the following variables to control =savehist= (use customize).
@@ -262,9 +262,9 @@
         (projectile-mode t))
       (use-package ibuffer-projectile :defer t)
       (use-package xterm-color :defer t)
-      (unless (assq 'sh-script package--builtins)
+      (unless (package-built-in-p 'sh-script)
         (use-package sh-script :defer t))
-      (unless (assq 'desktop package--builtins)
+      (unless (package-built-in-p 'desktop)
         (use-package desktop))
       (set-variable 'desktop-path (cons default-directory desktop-path)) (ref:desktop-path)
       (use-package lispy
