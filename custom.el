@@ -74,7 +74,6 @@
  '(lsp-ui-doc-border "black")
  '(lsp-ui-sideline-ignore-duplicate t)
  '(magit-completing-read-function 'ivy-completing-read)
- '(magit-pull-arguments nil)
  '(magit-repository-directories '(("~/repos" . 1)))
  '(magit-submodule-arguments '("--recursive"))
  '(make-backup-files nil)

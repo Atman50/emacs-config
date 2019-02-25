@@ -247,6 +247,11 @@
     I got the =vlf= package from a [[https://writequit.org/articles/working-with-logs-in-emacs.html][really good paper]] on how to use Emacs to deal with logs. If you currently or are going to deal
     with logs in your day to day, then this article is invaluable. I've yet to adopt some of the other features described by the
     article but I have no need as of yet. Soon maybe.
+*** Groovy
+    Since I'm doing more and more work with Jenkins adding support for Groovy is, well, groovy.
+    #+BEGIN_SRC emacs-lisp :tangle yes
+      (use-package groovy-mode)
+    #+END_SRC
 *** Other useful packages
     OK, a little tired of documenting each package on it's own. These packages are just generally useful. Some of these packages
     have become so useful that they've found their way into the list of Emacs built-in packages. In those cases, the package is
