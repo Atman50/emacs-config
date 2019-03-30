@@ -152,6 +152,8 @@
                  ("C-d" . dired-jump)
                  ("n"   . linum-mode)
                  ("g"   . magit-status)
+                 ("f"   . magit-find-file-other-window)
+                 ("l"   . magit-log-buffer-file)
                  ("r"   . revert-buffer)
                  ("t"   . toggle-truncate-lines)
                  ("c"   . comment-region)
@@ -221,13 +223,6 @@
     These packages are useful when doing presentations.
     #+BEGIN_SRC emacs-lisp :tangle yes
       (use-package command-log-mode :defer t)
-    #+END_SRC
-
-*** Trying [[https://github.com/abingham/emacs-codesearch][=codesearch=]]
-    =Codesearch= is Google tool written in Go. You'll need to [[https://golang.org/doc/install][install Go]] on your system. Install [[https://github.com/abingham/emacs-codesearch][=codesearch=]] by issuing the command
-    =go get github.com/google/codesearch/cmd/...=.
-    #+BEGIN_SRC emacs-lisp :tangle yes
-      (use-package codesearch :defer t)
     #+END_SRC
 
 *** [[https://github.com/justbur/emacs-which-key][=which-key=]]
@@ -376,44 +371,11 @@
   Customizations of interest:
   #+NAME: yas-custom-vars
   #+CALL: custom-vars-table(custom-vars='(yas-global-mode))
-* Working with C#
-  I'm a C# developer and pretty much dislike big edits using Visual Studio. I've spent some amount of time coming
-  up with a good C# configuration. This works spectacularly well and takes only minutes to setup.
-
-  There are comprehensive directions at [[https://github.com/OmniSharp/omnisharp-emacs.git][=omnisharp-emacs=]] for using omnisharp.
-
-  #+BEGIN_SRC emacs-lisp :tangle yes
-    (defcustom my/use-omnisharp t
-      "Control whether or not to load omnisharp"
-      :group 'my-configuration
-      :type 'boolean)
-
-    (use-package omnisharp
-      :if my/use-omnisharp
-      :diminish " \u221e" ;; infinity symbol
-      :demand t
-      :bind (:map omnisharp-mode-map
-                  ("C-z o" . omnisharp-start-omnisharp-server)
-                  ("C-z d" . omnisharp-go-to-definition-other-window)
-                  ("C-x C-j" . counsel-imenu))
-      :config
-      (add-to-list 'company-backends #'company-omnisharp))
-    (use-package csharp-mode
-      :config
-      (add-hook 'csharp-mode-hook (lambda() (setq tab-width 4)))
-      (when my/use-omnisharp
-        (add-hook 'csharp-mode-hook #'omnisharp-mode)
-        (add-hook 'csharp-mode-hook #'company-mode)))
-  #+END_SRC
-
 * [[https://github.com/magit/magit][=magit=]]/git configuration
   The *most awesome* git porcelain. Most here are part of magit, [[https://github.com/pidu/git-timemachine][=git-time-machine=]] is not, but well worth using.
   #+BEGIN_SRC emacs-lisp :tangle yes
     (use-package git-commit)
     (use-package magit
-      :bind (("C-z f" . magit-find-file-other-window)
-             ("C-z g" . magit-status)
-             ("C-z l" . magit-log-buffer-file))
       ;; Make the default action a branch checkout, not a branch visit when in branch mode
       :bind (:map magit-branch-section-map
                   ([remap magit-visit-thing] . magit-branch-checkout)))
