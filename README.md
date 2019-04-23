@@ -1,58 +1,58 @@
 
 # Table of Contents
 
-1.  [Overview](#org8eab56d)
-    1.  [Quick start](#orgcc61dcb)
-    2.  [Why a literate configuration](#org4bea2d8)
-    3.  [`init.el`, short and sweet](#org5069066)
-        1.  [Loading the custom file first](#orgd747e79)
-        2.  [Customizing the configuration](#orgcfa9649)
-2.  [My Configuration](#org10f02e8)
-    1.  [A preamble](#org5805317)
-    2.  [General packages](#orgcf6fb42)
-        1.  [Speed up line movement](#org1553430)
-        2.  [Use Ctrl-Z for personal bindings](#org814e49e)
-        3.  [`synosaurus`](#org684ff33)
-        4.  [`diminish`](#orgaeba35d)
-        5.  [`bind-key`](#org7a68bfd)
-        6.  [`helpful`](#org9ae8fcf)
-        7.  [`savehist`](#org29816b0)
-        8.  [Themes and mode line](#org87abc92)
-        9.  [For demonstrations](#orgc8ed3d5)
-        10. [`which-key`](#org2e390e1)
-        11. [Very large files](#orgcf79a30)
-        12. [Groovy](#orgb69bb50)
-        13. [Other useful packages](#org9649bde)
-        14. [A little nXML configuration](#org3993875)
-3.  [`company-mode` Configuration](#orgd4f10ad)
-4.  [`ivy/swiper` Configuration](#org33b1065)
-5.  [`prescient` Configuration](#orgcddb910)
-6.  [`yasnippet` Configuration](#orga97bcdc)
-7.  [`magit`/git configuration](#org3110807)
-8.  [`org-mode` Configuration](#org0b591fe)
-    1.  [`org-mode` export hacks for HTML and Markdown](#org97c0e55)
-    2.  [Use of babel](#org65104f8)
-9.  [python configuration](#org1efc791)
-    1.  [The tale of two IDEs](#orgb06c532)
-        1.  [`elpy` IDE](#org6ab0b4e)
-        2.  [`lsp-mode` IDE](#orgbf54d8f)
-    2.  [Python IDE-agnostic configuration](#orga47bcfc)
-10. [Additional bits-o-configuration](#org30a4fe9)
-    1.  [Limit the length of `which-function`](#org177288e)
-    2.  [`my-ansi-term`](#org73478e6)
-    3.  [Understand file type by shebang](#orgaab0604)
-    4.  [Additional Configuration](#orgb03c9de)
+1.  [Overview](#org7c26e72)
+    1.  [Quick start](#org1f723a1)
+    2.  [Why a literate configuration](#orgae14a29)
+    3.  [`init.el`, short and sweet](#org6135fb4)
+        1.  [Loading the custom file first](#orgee79939)
+        2.  [Customizing the configuration](#orgcd97f81)
+2.  [My Configuration](#orgc7f6d04)
+    1.  [A preamble](#org72c665f)
+    2.  [General packages](#org13da0fd)
+        1.  [Speed up line movement](#orge68d70c)
+        2.  [Use Ctrl-Z for personal bindings](#org3a88970)
+        3.  [`synosaurus`](#orgf527820)
+        4.  [`diminish`](#org138e7e2)
+        5.  [`bind-key`](#orgbf37e38)
+        6.  [`helpful`](#orgdbb9bbf)
+        7.  [`savehist`](#org67abff1)
+        8.  [Themes and mode line](#orgb6a6494)
+        9.  [For demonstrations](#org2f05e5a)
+        10. [`which-key`](#org3e320d5)
+        11. [Very large files](#org894c4e5)
+        12. [Groovy](#org1671938)
+        13. [Other useful packages](#org412a4c6)
+3.  [`company-mode` Configuration](#org9de6e47)
+4.  [`ivy/swiper` Configuration](#org290b82b)
+5.  [`prescient` Configuration](#orga463059)
+6.  [`yasnippet` Configuration](#orgf95740f)
+7.  [`magit`/git configuration](#org7ca4ffc)
+8.  [`org-mode` Configuration](#orga3a5503)
+    1.  [`org-mode` export hacks for HTML and Markdown](#orgeac87ae)
+    2.  [Use of babel](#org13a62ad)
+9.  [python configuration](#orge206027)
+    1.  [The tale of two IDEs](#orgf3bd883)
+        1.  [`elpy` IDE](#org743b6fb)
+        2.  [`lsp-mode` IDE](#org99655e3)
+    2.  [Python IDE-agnostic configuration](#org16327ed)
+10. [Additional bits-o-configuration](#orgef375d2)
+    1.  [Limit the length of `which-function`](#org4a6bcaa)
+    2.  [`my-ansi-term`](#org91c9c07)
+    3.  [Understand file type by shebang](#org4874b5c)
+    4.  [React to screen width changes](#org6c02ced)
+    5.  [Additional Configuration](#org9c2baf7)
 
 
 
-<a id="org8eab56d"></a>
+<a id="org7c26e72"></a>
 
 # Overview
 
 This is my literate and <font color=red size=+3><b><u>portable</u></b></font> Emacs initialization.
 
 
-<a id="orgcc61dcb"></a>
+<a id="org1f723a1"></a>
 
 ## Quick start
 
@@ -71,7 +71,7 @@ The ability to simply clone and start is what makes this configuration **portabl
 `custom.el` and then apply it whenever I take updated configurations from the repository.
 
 
-<a id="org4bea2d8"></a>
+<a id="orgae14a29"></a>
 
 ## Why a literate configuration
 
@@ -86,7 +86,7 @@ I have tried to make this configuration 100% portable meaning that on a new syst
 installed. I simple git clone this repository to `~/.emacs.d` and then fire up Emacs. Should work every time. 
 
 
-<a id="org5069066"></a>
+<a id="org6135fb4"></a>
 
 ## `init.el`, short and sweet
 
@@ -101,15 +101,16 @@ installed. I simple git clone this repository to `~/.emacs.d` and then fire up E
 18      (package-refresh-contents)
 19      (package-install (elt (cdr (assoc 'org-plus-contrib package-archive-contents)) 0))
 20      (package-install (elt (cdr (assoc 'use-package package-archive-contents)) 0))))
-21  (load "use-package")
-22  (use-package org)
-23  (defcustom my/cfg-file (concat user-emacs-directory "README")
-24    "The base name for the .org file to use for Emacs initialization."
-25    :group 'my-configuration
-26    :type 'string)
-27  (when (file-newer-than-file-p (concat my/cfg-file ".org") (concat my/cfg-file ".el"))
-28    (org-babel-tangle-file (concat my/cfg-file ".org")))
-29  (load my/cfg-file)
+21  (setq use-package-enable-imenu-support t)
+22  (require 'use-package)
+23  (use-package org)
+24  (defcustom my/cfg-file (concat user-emacs-directory "README")
+25    "The base name for the .org file to use for Emacs initialization."
+26    :group 'my-configuration
+27    :type 'string)
+28  (when (file-newer-than-file-p (concat my/cfg-file ".org") (concat my/cfg-file ".el"))
+29    (org-babel-tangle-file (concat my/cfg-file ".org")))
+30  (load my/cfg-file)
 ```
 
 <table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
@@ -184,67 +185,73 @@ installed. I simple git clone this repository to `~/.emacs.d` and then fire up E
 
 <tr>
 <td class="org-right">20</td>
-<td class="org-left">Load up `use-package`</td>
+<td class="org-left">Set the variable to allow `use-package` to use counsel for imenus</td>
 </tr>
 
 
 <tr>
 <td class="org-right">21</td>
-<td class="org-left">Make sure `use-package` is available</td>
+<td class="org-left">Require `use-package`</td>
 </tr>
 
 
 <tr>
 <td class="org-right">22</td>
-<td class="org-left">Make sure `org-plus-contrib` is available</td>
+<td class="org-left">Make sure `use-package` is available</td>
 </tr>
 
 
 <tr>
 <td class="org-right">23</td>
-<td class="org-left">Create customizable config variable</td>
+<td class="org-left">Make sure `org` is available</td>
 </tr>
 
 
 <tr>
 <td class="org-right">24</td>
-<td class="org-left">&#x2026;</td>
+<td class="org-left">Create customizable config variable</td>
 </tr>
 
 
 <tr>
 <td class="org-right">25</td>
-<td class="org-left">&#x2026; it's nice having a customizable group for personal configuration settings</td>
-</tr>
-
-
-<tr>
-<td class="org-right">26</td>
 <td class="org-left">&#x2026;</td>
 </tr>
 
 
 <tr>
+<td class="org-right">26</td>
+<td class="org-left">&#x2026; it's nice having a customizable group for personal configuration settings</td>
+</tr>
+
+
+<tr>
 <td class="org-right">27</td>
-<td class="org-left">If the .el file doesn't exist or is older than this file then&#x2026;</td>
+<td class="org-left">&#x2026;</td>
 </tr>
 
 
 <tr>
 <td class="org-right">28</td>
-<td class="org-left">&#x2026; create the tangled output of this file</td>
+<td class="org-left">If the .el file doesn't exist or is older than this file then&#x2026;</td>
 </tr>
 
 
 <tr>
 <td class="org-right">29</td>
+<td class="org-left">&#x2026; create the tangled output of this file</td>
+</tr>
+
+
+<tr>
+<td class="org-right">30</td>
 <td class="org-left">Load the tangled output of this file</td>
 </tr>
 </tbody>
 </table>
 
 
-<a id="orgd747e79"></a>
+<a id="orgee79939"></a>
 
 ### Loading the custom file first
 
@@ -283,11 +290,17 @@ extension packages used by this configuration.
 <td class="org-left">package-archives</td>
 <td class="org-left">(("gnu" . "<a href="https://elpa.gnu.org/packages/">https://elpa.gnu.org/packages/</a>")<br>&nbsp;("melpa" . "<a href="https://melpa.org/packages/">https://melpa.org/packages/</a>")<br>&nbsp;("org" . "<a href="https://orgmode.org/elpa/">https://orgmode.org/elpa/</a>"))</td>
 </tr>
+
+
+<tr>
+<td class="org-left">use-package-enable-imenu-support</td>
+<td class="org-left">t</td>
+</tr>
 </tbody>
 </table>
 
 
-<a id="orgcfa9649"></a>
+<a id="orgcd97f81"></a>
 
 ### Customizing the configuration
 
@@ -298,7 +311,7 @@ This allows me to select features to turn on or off selectively and make them st
 Another reason to load the customization file first.
 
 
-<a id="org10f02e8"></a>
+<a id="orgc7f6d04"></a>
 
 # My Configuration
 
@@ -306,9 +319,19 @@ Here are my configuration bits. All of the following code snippets are tangled f
 from the initialization file. Feel free to take as little or as much as you like from here.
 
 
-<a id="org5805317"></a>
+<a id="org72c665f"></a>
 
 ## A preamble
+
+First make sure that we are doing lexical scoping for speed. See [Some Performance Advantages of Lexical Scope blog](https://nullprogram.com/blog/2016/12/22/).
+
+```emacs-lisp
+;;; README.el --- a file generated from README.org - do not edit by hand!!!!
+;; -*- lexical-binding: t; -*-
+;;; Commentary:
+;;;     Org tangled from README.org. Edit the org file to chnage this configuration
+;;; Code:
+```
 
 This is a little piece of code that I picked up that might make things faster when downloading and installing all the packages.
 This turns down the garbage collector during the use-package loading when it has to do some compiling. Set it back when done with
@@ -320,14 +343,14 @@ init.
 ```
 
 
-<a id="orgcf6fb42"></a>
+<a id="org13da0fd"></a>
 
 ## General packages
 
 Here are some general packages I use
 
 
-<a id="org1553430"></a>
+<a id="orge68d70c"></a>
 
 ### Speed up line movement
 
@@ -340,7 +363,7 @@ using `next-line` gets very cut down.
 ```
 
 
-<a id="org814e49e"></a>
+<a id="org3a88970"></a>
 
 ### Use Ctrl-Z for personal bindings
 
@@ -363,7 +386,7 @@ therefore I've started to bind things to Ctrl-Z, which had the annoying and usel
 ```
 
 
-<a id="org684ff33"></a>
+<a id="orgf527820"></a>
 
 ### `synosaurus`
 
@@ -375,7 +398,7 @@ install  [Wordnet](https://wordnet.princeton.edu/) on your system and add it to 
 ```
 
 
-<a id="orgaeba35d"></a>
+<a id="org138e7e2"></a>
 
 ### [`diminish`](https://github.com/myrjola/diminish.el)
 
@@ -383,22 +406,24 @@ Handy mode to make the modeline more succinct by allowing a *diminished* mode li
 is fine and it doesn't need to be on the mode line (diminish it to "").
 
 ```emacs-lisp
-(use-package diminish)
+(use-package diminish
+  :defer t)
 ```
 
 
-<a id="org7a68bfd"></a>
+<a id="orgbf37e38"></a>
 
 ### [`bind-key`](https://github.com/priyadarshan/bind-key)
 
 Much better binding capabilities (in later versions this is already loaded via `use-package`).
 
 ```emacs-lisp
-(use-package bind-key)
+(use-package bind-key
+  :defer t)
 ```
 
 
-<a id="org9ae8fcf"></a>
+<a id="orgdbb9bbf"></a>
 
 ### [`helpful`](https://github.com/Wilfred/helpful)
 
@@ -407,6 +432,7 @@ Much better binding capabilities (in later versions this is already loaded via `
 
 ```emacs-lisp
 (use-package helpful
+  :defer
   :bind (("C-z h a" . helpful-at-point)
          ("C-z h c" . helpful-command)
          ("C-z h C" . helpful-callable)
@@ -417,7 +443,7 @@ Much better binding capabilities (in later versions this is already loaded via `
 ```
 
 
-<a id="org29816b0"></a>
+<a id="org67abff1"></a>
 
 ### [`savehist`](https://www.emacswiki.org/emacs/SaveHist)
 
@@ -427,8 +453,9 @@ the built-ins before issuing the `use-package`. In later versions of Emacs seems
 annoying errors.
 
 ```emacs-lisp
-(unless (package-built-in-p 'savehist) 
-  (use-package savehist))
+(unless (package-built-in-p 'savehist)
+  (use-package savehist
+    :defer t))
 ```
 
 Set the following variables to control `savehist` (use customize).
@@ -469,7 +496,7 @@ Set the following variables to control `savehist` (use customize).
 </table>
 
 
-<a id="org87abc92"></a>
+<a id="orgb6a6494"></a>
 
 ### Themes and mode line
 
@@ -492,7 +519,7 @@ The current modifications I make to the `doom-modeline` default face settings wh
 `doom-modeline-buffer-modified` and `doom-modeline-project-dir`. You can look in the `custom.el` file for those settings.
 
 
-<a id="orgc8ed3d5"></a>
+<a id="org2f05e5a"></a>
 
 ### For demonstrations
 
@@ -503,7 +530,7 @@ These packages are useful when doing presentations.
 ```
 
 
-<a id="org2e390e1"></a>
+<a id="org3e320d5"></a>
 
 ### [`which-key`](https://github.com/justbur/emacs-which-key)
 
@@ -512,11 +539,13 @@ the functions to which they are bound (or a prefix). Many times I've found unkno
 options. This is, IMO, a great way to learn Emacs key-bindings.
 
 ```emacs-lisp
-(use-package which-key :diminish "")
+(use-package which-key
+  :defer t
+  :diminish "")
 ```
 
 
-<a id="orgcf79a30"></a>
+<a id="org894c4e5"></a>
 
 ### Very large files
 
@@ -525,6 +554,7 @@ Since I deal with potentially gigantic log files, this package allows the file t
 
 ```emacs-lisp
 (use-package vlf
+  :defer t
   :pin melpa)
 ```
 
@@ -533,7 +563,7 @@ with logs in your day to day, then this article is invaluable. I've yet to adopt
 article but I have no need as of yet. Soon maybe.
 
 
-<a id="orgb69bb50"></a>
+<a id="org1671938"></a>
 
 ### Groovy
 
@@ -544,7 +574,7 @@ Since I'm doing more and more work with Jenkins adding support for Groovy is, we
 ```
 
 
-<a id="org9649bde"></a>
+<a id="org412a4c6"></a>
 
 ### Other useful packages
 
@@ -557,8 +587,9 @@ checked here against the list of built-ins to avoid warnings when loading a late
 (use-package projectile
   :bind
   (:map projectile-mode-map
-        ("C-c p" . projectile-command-map)          ;; traditional binding
-        ("C-z C-p" . projectile-command-map))       ;; my binding
+        ("C-c p"   . projectile-command-map)        ;; traditional binding
+        ("C-z C-p" . projectile-command-map)        ;; my binding
+        ("C-z p"   . projectile-command-map))       ;; all paths get to projectile
   :config
   (projectile-mode t))
 (use-package ibuffer-projectile :defer t)
@@ -601,7 +632,7 @@ Customized variables of interest here:
 <tbody>
 <tr>
 <td class="org-left">desktop-path</td>
-<td class="org-left">("`/repos/" "~/.emacs.d/" "`")</td>
+<td class="org-left">("`/toast/git-repos/lunchbox/" "~/.emacs.d/" "`")</td>
 </tr>
 
 
@@ -613,18 +644,7 @@ Customized variables of interest here:
 </table>
 
 
-<a id="org3993875"></a>
-
-### A little nXML configuration
-
-It ends up that the XML I've been editing for work is indented with tabs. This little tidbit should set it up correctly.
-
-```emacs-lisp
-(add-hook 'nxml-mode-hook (lambda () (setq nxml-child-indent 8 indent-tabs-mode t)))
-```
-
-
-<a id="orgd4f10ad"></a>
+<a id="org9de6e47"></a>
 
 # [`company-mode`](http://company-mode.github.io/) Configuration
 
@@ -637,7 +657,7 @@ Use the excellent [`company-mode`](http://company-mode.github.io/) modular in-bu
 ```
 
 
-<a id="org33b1065"></a>
+<a id="org290b82b"></a>
 
 # [`ivy/swiper`](https://github.com/abo-abo/swiper) Configuration
 
@@ -667,7 +687,7 @@ I used to be a `helm` user, but switched to `ivy`. Lots of nice features in `ivy
          ("C-S-r" . isearch-backward)           ;; Keep isearch-backward on Shift-Ctrl-r
          ("C-r" . swiper)))
 (use-package avy
-  :bind (("C-:" . avy-goto-char))) 
+  :bind (("C-:" . avy-goto-char)))
 (use-package ivy-posframe
   :if (>= emacs-major-version 26)
   :config (setq ivy-display-function #'ivy-posframe-display))
@@ -727,7 +747,7 @@ Customized variables:
 </table>
 
 
-<a id="orgcddb910"></a>
+<a id="orga463059"></a>
 
 # [`prescient`](https://github.com/raxod502/prescient.el) Configuration
 
@@ -740,7 +760,7 @@ Customized variables:
 ```
 
 
-<a id="orga97bcdc"></a>
+<a id="orgf95740f"></a>
 
 # [`yasnippet`](https://www.emacswiki.org/emacs/Yasnippet) Configuration
 
@@ -768,9 +788,10 @@ The following code allows the `yasnippet` and `company` to work together. Got th
 to by the [company mode Wiki page](https://www.emacswiki.org/emacs/CompanyMode#toc11).
 
 ```emacs-lisp
-(advice-add 'company-complete-common :before (lambda () (setq my-company-point (point))))
+(defvar my/company-point nil)
+(advice-add 'company-complete-common :before (lambda () (setq my/company-point (point))))
 (advice-add 'company-complete-common :after (lambda ()
-                                              (when (equal my-company-point (point))
+                                              (when (equal my/company-point (point))
                                                 (yas-expand))))
 ```
 
@@ -800,7 +821,7 @@ Customizations of interest:
 </table>
 
 
-<a id="org3110807"></a>
+<a id="org7ca4ffc"></a>
 
 # [`magit`](https://github.com/magit/magit)/git configuration
 
@@ -855,7 +876,7 @@ Customized variables:
 </table>
 
 
-<a id="org0b591fe"></a>
+<a id="orga3a5503"></a>
 
 # [`org-mode`](https://orgmode.org/) Configuration
 
@@ -936,7 +957,7 @@ Customized variables for org-mode:
 </table>
 
 
-<a id="org97c0e55"></a>
+<a id="orgeac87ae"></a>
 
 ## [`org-mode`](https://orgmode.org/) export hacks for HTML and Markdown
 
@@ -990,7 +1011,7 @@ any underscores in the table with inline HTML.
 ```
 
 
-<a id="org65104f8"></a>
+<a id="org13a62ad"></a>
 
 ## Use of babel
 
@@ -1021,7 +1042,7 @@ To do literate programming you need to include the languages to "tangle". Here I
 </table>
 
 
-<a id="org1efc791"></a>
+<a id="orge206027"></a>
 
 # python configuration
 
@@ -1031,7 +1052,7 @@ bothers me is that when an object is returned, PyCharm will give you list and di
 Seems to be the only real issue at this point.
 
 
-<a id="orgb06c532"></a>
+<a id="orgf3bd883"></a>
 
 ## The tale of two IDEs
 
@@ -1052,7 +1073,7 @@ switch to the `lsp-mode`.
 ```
 
 
-<a id="org6ab0b4e"></a>
+<a id="org743b6fb"></a>
 
 ### [`elpy`](https://github.com/jorgenschaefer/elpy) IDE
 
@@ -1100,7 +1121,7 @@ The variable `elpy-modules` is updated in my `custom.el` file so that the `flyma
 </table>
 
 
-<a id="orgbf54d8f"></a>
+<a id="org99655e3"></a>
 
 ### [`lsp-mode`](https://github.com/emacs-lsp/lsp-mode) IDE
 
@@ -1112,7 +1133,7 @@ This is a newer mode based on the [Language Server Protocol](https://langserver.
       :demand t
       :config
       (use-package lsp-python)
-      (add-hook 'lsp-after-open-hook #'lsp-enable-imenu)  
+      (add-hook 'lsp-after-open-hook #'lsp-enable-imenu)
       (lsp-define-stdio-client lsp-python "python" #'projectile-project-root '("pyls"))
       (use-package lsp-ui
         :config
@@ -1128,7 +1149,7 @@ This is a newer mode based on the [Language Server Protocol](https://langserver.
 ```
 
 
-<a id="orga47bcfc"></a>
+<a id="org16327ed"></a>
 
 ## Python IDE-agnostic configuration
 
@@ -1218,12 +1239,12 @@ Customized variables used in this python configuration:
 </table>
 
 
-<a id="org30a4fe9"></a>
+<a id="orgef375d2"></a>
 
 # Additional bits-o-configuration
 
 
-<a id="org177288e"></a>
+<a id="org4a6bcaa"></a>
 
 ## Limit the length of [`which-function`](https://www.gnu.org/software/emacs/manual/html_node/emacs/Which-Function.html)
 
@@ -1243,7 +1264,7 @@ Customized variables used in this python configuration:
 ```
 
 
-<a id="org73478e6"></a>
+<a id="org91c9c07"></a>
 
 ## `my-ansi-term`
 
@@ -1259,7 +1280,7 @@ other modes and shells make this less useful these days.
 ```
 
 
-<a id="orgaab0604"></a>
+<a id="org4874b5c"></a>
 
 ## Understand file type by shebang
 
@@ -1283,7 +1304,24 @@ Script-type is read from #!/... at top of file."
 ```
 
 
-<a id="orgb03c9de"></a>
+<a id="org6c02ced"></a>
+
+## React to screen width changes
+
+Because I use posframe quite a bit now (so that the mini-buffer doesn't continue to change sizes, which I find a little
+annoying), this code reacts to the width changes and will set the custom variables accordingly.
+
+```emacs-lisp
+(cl-defun my/window-size-change (&optional _)
+  "My very own resize defun for modifying the posframe size"
+  (unless (= (window-pixel-width-before-size-change) (window-pixel-width))
+    (customize-set-value 'ivy-posframe-width (window-body-width))))
+
+(add-hook 'window-size-change-functions 'my/window-size-change)
+```
+
+
+<a id="org9c2baf7"></a>
 
 ## Additional Configuration
 
@@ -1312,5 +1350,7 @@ Setup `eldoc` mode, use `y-or-n-p` instead of `yes-or-no-p`. Key bindings&#x2026
 (put 'downcase-region 'disabled nil)
 (put 'upcase-region 'disabled nil)
 (put 'scroll-left 'disabled nil)
+
+;;; README.el ends here
 ```
 

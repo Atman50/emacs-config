@@ -62,7 +62,8 @@
          (package-refresh-contents)
          (package-install (elt (cdr (assoc 'org-plus-contrib package-archive-contents)) 0))
          (package-install (elt (cdr (assoc 'use-package package-archive-contents)) 0))))
-     (load "use-package")
+     (setq use-package-enable-imenu-support t)
+     (require 'use-package)
      (use-package org)
      (defcustom my/cfg-file (concat user-emacs-directory "README")
        "The base name for the .org file to use for Emacs initialization."
@@ -84,16 +85,17 @@
    |   17 | If we've not load loaded the definition for the =use-package= ELPA package, then           |
    |   18 | Refresh (read) the package archives. Note: ='package-archives= from =custom.el= *key* here |
    |   19 | Load up the org-mode. The pre-packaged org-mode does not have Babel!                       |
-   |   20 | Load up =use-package=                                                                      |
-   |   21 | Make sure =use-package= is available                                                       |
-   |   22 | Make sure =org-plus-contrib= is available                                                  |
-   |   23 | Create customizable config variable                                                        |
-   |   24 | ...                                                                                        |
-   |   25 | ... it's nice having a customizable group for personal configuration settings              |
-   |   26 | ...                                                                                        |
-   |   27 | If the .el file doesn't exist or is older than this file then...                           |
-   |   28 | ... create the tangled output of this file                                                 |
-   |   29 | Load the tangled output of this file                                                       |
+   |   20 | Set the variable to allow =use-package= to use counsel for imenus                          |
+   |   21 | Require =use-package=                                                                      |
+   |   22 | Make sure =use-package= is available                                                       |
+   |   23 | Make sure =org= is available                                                               |
+   |   24 | Create customizable config variable                                                        |
+   |   25 | ...                                                                                        |
+   |   26 | ... it's nice having a customizable group for personal configuration settings              |
+   |   27 | ...                                                                                        |
+   |   28 | If the .el file doesn't exist or is older than this file then...                           |
+   |   29 | ... create the tangled output of this file                                                 |
+   |   30 | Load the tangled output of this file                                                       |
    
 *** Loading the custom file first
     One of the nicest things about Emacs is the extensive and quite useful customization engine. You can customize variables and
@@ -112,7 +114,7 @@
     extension packages used by this configuration.
 
     #+NAME: init-file-custom-vars
-    #+CALL: custom-vars-table(custom-vars='(package-archives))
+    #+CALL: custom-vars-table(custom-vars='(package-archives use-package-enable-imenu-support))
 
 *** Customizing the configuration
     I've started to use the =defcustom= function to describe those "variables that impact initialization" and are all placed into
@@ -124,6 +126,14 @@
   Here are my configuration bits. All of the following code snippets are tangled from this file into an =.el= file that gets loaded
   from the initialization file. Feel free to take as little or as much as you like from here.
 ** A preamble
+   First make sure that we are doing lexical scoping for speed. See [[https://nullprogram.com/blog/2016/12/22/][Some Performance Advantages of Lexical Scope blog]].
+   #+BEGIN_SRC emacs-lisp :tangle yes
+     ;;; README.el --- a file generated from README.org - do not edit by hand!!!!
+     ;; -*- lexical-binding: t; -*-
+     ;;; Commentary:
+     ;;;     Org tangled from README.org. Edit the org file to chnage this configuration
+     ;;; Code:
+   #+END_SRC
    This is a little piece of code that I picked up that might make things faster when downloading and installing all the packages.
    This turns down the garbage collector during the use-package loading when it has to do some compiling. Set it back when done with
    init.
@@ -169,18 +179,21 @@
     Handy mode to make the modeline more succinct by allowing a /diminished/ mode line string. Sometimes the fact that mode is there
     is fine and it doesn't need to be on the mode line (diminish it to "").
     #+BEGIN_SRC emacs-lisp :tangle yes
-      (use-package diminish)
+      (use-package diminish
+        :defer t)
     #+END_SRC
 *** [[https://github.com/priyadarshan/bind-key][=bind-key=]]
     Much better binding capabilities (in later versions this is already loaded via =use-package=).
     #+BEGIN_SRC emacs-lisp :tangle yes
-      (use-package bind-key)
+      (use-package bind-key
+        :defer t)
     #+END_SRC
 *** [[https://github.com/Wilfred/helpful][=helpful=]]
     [[https://github.com/Wilfred/helpful][Helpful]] provides contextual help and other features. Here are two blogs that provide good information: [[http://www.wilfred.me.uk/blog/2017/08/30/helpful-adding-contextual-help-to-emacs/][initial Helpful blog]] and
     [[http://www.wilfred.me.uk/blog/2018/06/22/helpful-one-year-on/][Helpful, one year in]]. More in-depth help along with lots of other information like references, edebug capabilities, ...
     #+BEGIN_SRC emacs-lisp :tangle yes
       (use-package helpful
+        :defer
         :bind (("C-z h a" . helpful-at-point)
                ("C-z h c" . helpful-command)
                ("C-z h C" . helpful-callable)
@@ -195,8 +208,9 @@
     the built-ins before issuing the =use-package=. In later versions of Emacs seems the =savehist= package is built-in so ignore
     annoying errors.
     #+BEGIN_SRC emacs-lisp :tangle yes
-      (unless (package-built-in-p 'savehist) 
-        (use-package savehist))
+      (unless (package-built-in-p 'savehist)
+        (use-package savehist
+          :defer t))
     #+END_SRC
     Set the following variables to control =savehist= (use customize).
     #+NAME: savehist-custom-vars
@@ -230,13 +244,16 @@
     the functions to which they are bound (or a prefix). Many times I've found unknown features by simply looking at the various
     options. This is, IMO, a great way to learn Emacs key-bindings.
     #+BEGIN_SRC emacs-lisp :tangle yes
-      (use-package which-key :diminish "")
+      (use-package which-key
+        :defer t
+        :diminish "")
     #+END_SRC
 *** Very large files
     Since I deal with potentially gigantic log files, this package allows the file to be carved up and 'paged' through. Get to the
     =vlf= stuff through the default prefix =C-c C-v=.
     #+BEGIN_SRC emacs-lisp :tangle yes
       (use-package vlf
+        :defer t
         :pin melpa)
     #+END_SRC
     I got the =vlf= package from a [[https://writequit.org/articles/working-with-logs-in-emacs.html][really good paper]] on how to use Emacs to deal with logs. If you currently or are going to deal
@@ -256,8 +273,9 @@
       (use-package projectile
         :bind
         (:map projectile-mode-map
-              ("C-c p" . projectile-command-map)          ;; traditional binding
-              ("C-z C-p" . projectile-command-map))       ;; my binding
+              ("C-c p"   . projectile-command-map)        ;; traditional binding
+              ("C-z C-p" . projectile-command-map)        ;; my binding
+              ("C-z p"   . projectile-command-map))       ;; all paths get to projectile
         :config
         (projectile-mode t))
       (use-package ibuffer-projectile :defer t)
@@ -266,7 +284,7 @@
         (use-package sh-script :defer t))
       (unless (package-built-in-p 'desktop)
         (use-package desktop))
-      (set-variable 'desktop-path (cons default-directory desktop-path)) (ref:desktop-path)
+      (set-variable 'desktop-path (cons default-directory desktop-path))(ref:desktop-path)
       (use-package lispy
         :config
         (add-hook 'emacs-lisp-mode-hook (lambda () (lispy-mode 1)))
@@ -283,12 +301,6 @@
 
     #+NAME: other-pkgs-custom-vars
     #+CALL: custom-vars-table(custom-vars='(desktop-path desktop-save-mode))
-*** A little nXML configuration
-    It ends up that the XML I've been editing for work is indented with tabs. This little tidbit should set it up correctly.
-    #+BEGIN_SRC emacs-lisp :tangle yes
-      (add-hook 'nxml-mode-hook (lambda () (setq nxml-child-indent 8 indent-tabs-mode t)))
-    #+END_SRC
-
 * [[http://company-mode.github.io/][=company-mode=]] Configuration
   Use the excellent [[http://company-mode.github.io/][=company-mode=]] modular in-buffer text completion framework. In particular this is used for [[https://github.com/jorgenschaefer/elpy][=elpy=]] (python) mode and
   [[https://github.com/OmniSharp/omnisharp-emacs][=omnisharp=]] (C#) mode, although it is used elsewhere.
@@ -322,7 +334,7 @@
              ("C-S-r" . isearch-backward)           ;; Keep isearch-backward on Shift-Ctrl-r
              ("C-r" . swiper)))
     (use-package avy
-      :bind (("C-:" . avy-goto-char))) 
+      :bind (("C-:" . avy-goto-char)))
     (use-package ivy-posframe
       :if (>= emacs-major-version 26)
       :config (setq ivy-display-function #'ivy-posframe-display))
@@ -363,9 +375,10 @@
   The following code allows the =yasnippet= and =company= to work together. Got this from a fix posted on [[https://gist.github.com/sebastiencs/a16ea58b2d23e2ea52f62fcce70f4073][github]] which was pointed
   to by the [[https://www.emacswiki.org/emacs/CompanyMode#toc11][company mode Wiki page]].
   #+BEGIN_SRC emacs-lisp :tangle yes
-    (advice-add 'company-complete-common :before (lambda () (setq my-company-point (point))))
+    (defvar my/company-point nil)
+    (advice-add 'company-complete-common :before (lambda () (setq my/company-point (point))))
     (advice-add 'company-complete-common :after (lambda ()
-                                                  (when (equal my-company-point (point))
+                                                  (when (equal my/company-point (point))
                                                     (yas-expand))))
   #+END_SRC
   Customizations of interest:
@@ -524,7 +537,7 @@
           :demand t
           :config
           (use-package lsp-python)
-          (add-hook 'lsp-after-open-hook #'lsp-enable-imenu)  
+          (add-hook 'lsp-after-open-hook #'lsp-enable-imenu)
           (lsp-define-stdio-client lsp-python "python" #'projectile-project-root '("pyls"))
           (use-package lsp-ui
             :config
@@ -616,6 +629,18 @@
      (add-hook 'find-file-hook 'my-find-file-hook)
    #+END_SRC
 
+** React to screen width changes
+   Because I use posframe quite a bit now (so that the mini-buffer doesn't continue to change sizes, which I find a little
+   annoying), this code reacts to the width changes and will set the custom variables accordingly.
+   #+BEGIN_SRC emacs-lisp :tangle yes
+     (cl-defun my/window-size-change (&optional _)
+       "My very own resize defun for modifying the posframe size"
+       (unless (= (window-pixel-width-before-size-change) (window-pixel-width))
+         (customize-set-value 'ivy-posframe-width (window-body-width))))
+
+     (add-hook 'window-size-change-functions 'my/window-size-change)
+   #+END_SRC
+
 ** Additional Configuration
    Setup =eldoc= mode, use =y-or-n-p= instead of =yes-or-no-p=. Key bindings...
    #+BEGIN_SRC emacs-lisp :tangle yes
@@ -641,4 +666,6 @@
      (put 'downcase-region 'disabled nil)
      (put 'upcase-region 'disabled nil)
      (put 'scroll-left 'disabled nil)
+
+     ;;; README.el ends here
   #+END_SRC
