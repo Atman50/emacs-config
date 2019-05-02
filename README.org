@@ -169,6 +169,14 @@
                  ("c"   . comment-region)
                  ("u"   . uncomment-region))
     #+END_SRC
+*** =flycheck=
+   I've abandoned =flymake= (built-in) with =flycheck= (see [[https://www.masteringemacs.org/article/spotlight-flycheck-a-flymake-replacement][flycheck a flymake replacement]]).
+   #+BEGIN_SRC emacs-lisp :tangle yes
+     (use-package flycheck
+       :config
+       (global-flycheck-mode))
+   #+END_SRC
+
 *** =synosaurus=
     This is a [[https://github.com/hpdeifel/synosaurus][free synonyms plug-in]] for Emacs that uses [[https://wordnet.princeton.edu/][Wordnet]] brought to you by Princeton University. Note that you will have to
     install  [[https://wordnet.princeton.edu/][Wordnet]] on your system and add it to your path to make this package work properly.
@@ -181,6 +189,10 @@
     #+BEGIN_SRC emacs-lisp :tangle yes
       (use-package diminish
         :defer t)
+    #+END_SRC
+*** yaml-mode
+    #+BEGIN_SRC emacs-lisp :tangle yes
+      (use-package yaml-mode)
     #+END_SRC
 *** [[https://github.com/priyadarshan/bind-key][=bind-key=]]
     Much better binding capabilities (in later versions this is already loaded via =use-package=).
@@ -302,8 +314,8 @@
     #+NAME: other-pkgs-custom-vars
     #+CALL: custom-vars-table(custom-vars='(desktop-path desktop-save-mode))
 * [[http://company-mode.github.io/][=company-mode=]] Configuration
-  Use the excellent [[http://company-mode.github.io/][=company-mode=]] modular in-buffer text completion framework. In particular this is used for [[https://github.com/jorgenschaefer/elpy][=elpy=]] (python) mode and
-  [[https://github.com/OmniSharp/omnisharp-emacs][=omnisharp=]] (C#) mode, although it is used elsewhere.
+  Use the excellent [[http://company-mode.github.io/][=company-mode=]] modular in-buffer text completion framework. In particular this is used for [[https://github.com/jorgenschaefer/elpy][=elpy=]] (python) 
+  and java modes, although it is used elsewhere.
   #+BEGIN_SRC emacs-lisp :tangle yes
     (use-package company
       :diminish)
@@ -329,15 +341,21 @@
     (use-package counsel-codesearch)
     (use-package ivy-hydra)
     (use-package swiper
-      :bind (("C-S-s" . isearch-forward)            ;; Keep isearch-forward on Shift-Ctrl-s
-             ("C-s" . swiper)                       ;; Use swiper for search and reverse search
-             ("C-S-r" . isearch-backward)           ;; Keep isearch-backward on Shift-Ctrl-r
+      :bind (("C-S-s" . isearch-forward)  ;; Keep isearch-forward on Shift-Ctrl-s
+             ("C-s" . swiper)             ;; Use swiper for search and reverse search
+             ("C-S-r" . isearch-backward) ;; Keep isearch-backward on Shift-Ctrl-r
              ("C-r" . swiper)))
     (use-package avy
       :bind (("C-:" . avy-goto-char)))
+  #+END_SRC
+
+  *NOTE: =posframe= IS MESSED UP - NOT TANGLING*
+  #+BEGIN_SRC emacs-lisp :tangle yes
+    (use-package posframe)
     (use-package ivy-posframe
-      :if (>= emacs-major-version 26)
-      :config (setq ivy-display-function #'ivy-posframe-display))
+      :config
+      (setq ivy-display-function #'ivy-posframe-display)
+      (ivy-posframe-enable))
   #+END_SRC
   I ran into a nice article that fixes a [[http://mbork.pl/2018-06-16_ivy-use-selectable-prompt][problem that I often have with Ivy]]: using a name that is not in the list of candidates (for
   example when trying to write to a buffer to a new file name). To fix this, setting =ivy-use-selectable-prompt= to =t= makes going
@@ -487,6 +505,29 @@
    #+NAME: org-babel-custom-vars
    #+CALL: custom-vars-table(custom-vars='(org-babel-load-languages)))
 
+* LSP configuration
+  LSP ([[https://microsoft.github.io/language-server-protocol/][Language Server Protocol]]) is a new Microsoft-defined interface for IDEs:
+  #+BEGIN_QUOTE
+  The Language Server Protocol (LSP) defines the protocol used between an editor or IDE and a language server that provides language
+  features like auto complete, go to definition, find all references etc.
+  #+END_QUOTE
+  Although I'm currently using =elpy= for Python, I'll be using LSP for Java development.
+  #+BEGIN_SRC emacs-lisp :tangle yes
+    (use-package lsp-mode
+      :demand t
+      :config
+      (add-hook 'lsp-after-open-hook #'lsp-enable-imenu)
+      (use-package lsp-ui
+        :config
+        (add-hook 'lsp-mode-hook 'lsp-ui-mode))
+      (use-package company-lsp
+        :config
+        (push 'company-lsp company-backends))
+      (add-hook 'lsp-after-initialize-hook (lambda ()
+                                             (let ((lsp-cfg `(:pyls (:configurationSources ("flake8")))))
+                                               (lsp--set-configuration lsp-cfg)))))
+  #+END_SRC
+
 * python configuration
   At one point I was using anaconda but have switched back to elpy. I really like =eply-config= that tells you if everything is
   working properly. I've been using a =virtualenv= for my python development and couldn't be happier. Perhaps the only thing that
@@ -530,60 +571,39 @@
    #+NAME: elpy-custom-vars
    #+CALL: custom-vars-table(custom-vars='(elpy-modules))
 *** [[https://github.com/emacs-lsp/lsp-mode][=lsp-mode=]] IDE
-    This is a newer mode based on the [[https://langserver.org/][Language Server Protocol]]. Used along with this is the [[https://github.com/emacs-lsp/lsp-ui][=lsp-ui=]] goodies.
+    This is a newer mode based on the [[https://langserver.org/][Language Server Protocol]].
   #+BEGIN_SRC emacs-lisp :tangle yes
     (unless my/use-elpy
-        (use-package lsp-mode
-          :demand t
-          :config
-          (use-package lsp-python)
-          (add-hook 'lsp-after-open-hook #'lsp-enable-imenu)
-          (lsp-define-stdio-client lsp-python "python" #'projectile-project-root '("pyls"))
-          (use-package lsp-ui
-            :config
-            (require 'lsp-imenu)
-            (add-hook 'lsp-mode-hook 'lsp-ui-mode))
-          (use-package company-lsp
-            :config
-            (push 'company-lsp company-backends))
-          (add-hook 'lsp-after-initialize-hook (lambda ()
-                                                 (let ((lsp-cfg `(:pyls (:configurationSources ("flake8")))))
-                                                   (lsp--set-configuration lsp-cfg))))))
-
+      (use-package lsp-python))
    #+END_SRC
 ** Python IDE-agnostic configuration
-   I've abandoned =flymake= (built-in) with =flycheck= (see [[https://www.masteringemacs.org/article/spotlight-flycheck-a-flymake-replacement][flycheck a flymake replacement]]).
-
-   The =remove-hook= call for =flymake= is there because of the persistent, and annoying, output to the =*Flymake Log*= buffer:
-   #+BEGIN_QUOTE
-   Warning [flymake create_and_activate_device.py]: Disabling backend flymake-proc-legacy-flymake because (error Can’t find a suitable init function)
-   #+END_QUOTE
-   The =remove-hook= relieves this issue. NB: this may be for Emacs version 27.0.50 only.
-
    #+BEGIN_SRC emacs-lisp :tangle yes
      (use-package pylint)
      (use-package python-docstring
        :config
        (python-docstring-install))
-
-     ;TODO: we need to figure out how to make flycheck update the doom modeline status without file saving
-     (use-package flycheck
-       :config
-       (global-flycheck-mode))
-
      (use-package python
        :config
        (add-hook 'python-mode-hook (lambda ()
                                      (unless my/use-elpy (lsp-python-enable))
                                      (company-mode)
-                                     (flymake-mode 0))))
-
-     ;; remove annoying flymake warnings
-     (remove-hook 'flymake-diagnostic-functions 'flymake-proc-legacy-flymake)
+                                     )))
    #+END_SRC
    Customized variables used in this python configuration:
    #+NAME: python-custom-vars
    #+CALL: custom-vars-table(custom-vars='(python-check-command python-shell-interpreter python-shell-interpreter-args python-shell-prompt-detect-failure-warning python-shell-prompt-output-regexp python-shell-prompt-regexp))
+
+* Java configuration
+  Tried to get LSP working, but to no avail. Using Meghanada mode.
+  #+BEGIN_SRC emacs-lisp :tangle yes
+    (use-package gradle-mode)
+    (use-package meghanada
+      :bind (:map meghanada-mode-map
+                  ("C-c C-n" . flycheck-next-error)
+                  ("C-c C-p" . flycheck-previous-error))
+      :config
+      (add-hook 'java-mode-hook (lambda () (meghanada-mode t))))
+  #+END_SRC
 
 * Additional bits-o-configuration
 ** Limit the length of [[https://www.gnu.org/software/emacs/manual/html_node/emacs/Which-Function.html][=which-function=]]
@@ -632,12 +652,13 @@
 ** React to screen width changes
    Because I use posframe quite a bit now (so that the mini-buffer doesn't continue to change sizes, which I find a little
    annoying), this code reacts to the width changes and will set the custom variables accordingly.
-   #+BEGIN_SRC emacs-lisp :tangle yes
+
+   *Does not seem to work with newest POSFRAME (as of 2019-05-02). Need work.*
+   #+BEGIN_SRC emacs-lisp :tangle no
      (cl-defun my/window-size-change (&optional _)
        "My very own resize defun for modifying the posframe size"
        (unless (= (window-pixel-width-before-size-change) (window-pixel-width))
          (customize-set-value 'ivy-posframe-width (window-body-width))))
-
      (add-hook 'window-size-change-functions 'my/window-size-change)
    #+END_SRC
 

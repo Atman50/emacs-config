@@ -1,0 +1,6 @@
+# -*- mode: snippet -*-
+# name: adam-debug
+# key: dbg
+# --
+with open('/tmp/adam.txt', 'a') as f:
+    f.write(${0:f'\n'})

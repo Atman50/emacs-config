@@ -6,16 +6,16 @@
 `(progn (copyright) nil)`
 # All Rights Reserved.
 #
-''' ${1:Module doc string}
-'''
+""" ${1:Module doc string}
+"""
 
 import os
 import sys
 from argparse import ArgumentParser
 
 def main():
-    ''' ${2:Main function}
-    '''
+    """ ${2:Main function}
+    """
     parser = ArgumentParser(description='${3:Command information}')
     parser.add_argument('-v', '--verbose', action='store_true', help='Turn on verbose output')
     args = parser.parse_args()

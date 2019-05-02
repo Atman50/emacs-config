@@ -1,58 +1,62 @@
 
 # Table of Contents
 
-1.  [Overview](#org7c26e72)
-    1.  [Quick start](#org1f723a1)
-    2.  [Why a literate configuration](#orgae14a29)
-    3.  [`init.el`, short and sweet](#org6135fb4)
-        1.  [Loading the custom file first](#orgee79939)
-        2.  [Customizing the configuration](#orgcd97f81)
-2.  [My Configuration](#orgc7f6d04)
-    1.  [A preamble](#org72c665f)
-    2.  [General packages](#org13da0fd)
-        1.  [Speed up line movement](#orge68d70c)
-        2.  [Use Ctrl-Z for personal bindings](#org3a88970)
-        3.  [`synosaurus`](#orgf527820)
-        4.  [`diminish`](#org138e7e2)
-        5.  [`bind-key`](#orgbf37e38)
-        6.  [`helpful`](#orgdbb9bbf)
-        7.  [`savehist`](#org67abff1)
-        8.  [Themes and mode line](#orgb6a6494)
-        9.  [For demonstrations](#org2f05e5a)
-        10. [`which-key`](#org3e320d5)
-        11. [Very large files](#org894c4e5)
-        12. [Groovy](#org1671938)
-        13. [Other useful packages](#org412a4c6)
-3.  [`company-mode` Configuration](#org9de6e47)
-4.  [`ivy/swiper` Configuration](#org290b82b)
-5.  [`prescient` Configuration](#orga463059)
-6.  [`yasnippet` Configuration](#orgf95740f)
-7.  [`magit`/git configuration](#org7ca4ffc)
-8.  [`org-mode` Configuration](#orga3a5503)
-    1.  [`org-mode` export hacks for HTML and Markdown](#orgeac87ae)
-    2.  [Use of babel](#org13a62ad)
-9.  [python configuration](#orge206027)
-    1.  [The tale of two IDEs](#orgf3bd883)
-        1.  [`elpy` IDE](#org743b6fb)
-        2.  [`lsp-mode` IDE](#org99655e3)
-    2.  [Python IDE-agnostic configuration](#org16327ed)
-10. [Additional bits-o-configuration](#orgef375d2)
-    1.  [Limit the length of `which-function`](#org4a6bcaa)
-    2.  [`my-ansi-term`](#org91c9c07)
-    3.  [Understand file type by shebang](#org4874b5c)
-    4.  [React to screen width changes](#org6c02ced)
-    5.  [Additional Configuration](#org9c2baf7)
+1.  [Overview](#orgaab28ac)
+    1.  [Quick start](#orgdbcbf29)
+    2.  [Why a literate configuration](#orgfe01dd7)
+    3.  [`init.el`, short and sweet](#org895e690)
+        1.  [Loading the custom file first](#org187433c)
+        2.  [Customizing the configuration](#org397c40a)
+2.  [My Configuration](#orgcc25a37)
+    1.  [A preamble](#org2455ea4)
+    2.  [General packages](#orga04dacf)
+        1.  [Speed up line movement](#org6f22560)
+        2.  [Use Ctrl-Z for personal bindings](#orge9debf8)
+        3.  [`flycheck`](#orgb1f0dee)
+        4.  [`synosaurus`](#org2a2a072)
+        5.  [`diminish`](#orgc97d482)
+        6.  [yaml-mode](#org2499095)
+        7.  [`bind-key`](#org1298bdf)
+        8.  [`helpful`](#orgf38089c)
+        9.  [`savehist`](#org138172d)
+        10. [Themes and mode line](#org5ce69f0)
+        11. [For demonstrations](#org2292072)
+        12. [`which-key`](#orgf5ef487)
+        13. [Very large files](#orgc7bb803)
+        14. [Groovy](#org4b454b2)
+        15. [Other useful packages](#org546314e)
+3.  [`company-mode` Configuration](#org16da630)
+4.  [`ivy/swiper` Configuration](#org7ee5803)
+5.  [`prescient` Configuration](#org8d383c4)
+6.  [`yasnippet` Configuration](#org272e13d)
+7.  [`magit`/git configuration](#org4805a3c)
+8.  [`org-mode` Configuration](#org7a45235)
+    1.  [`org-mode` export hacks for HTML and Markdown](#org55f0856)
+    2.  [Use of babel](#org1371fed)
+9.  [LSP configuration](#org6c53762)
+10. [python configuration](#orgcb63ce9)
+    1.  [The tale of two IDEs](#org15d27b0)
+        1.  [`elpy` IDE](#org720b8ab)
+        2.  [`lsp-mode` IDE](#orge0ff5bb)
+    2.  [Python IDE-agnostic configuration](#orga7c73f3)
+11. [Java configuration](#org22360bd)
+12. [Additional bits-o-configuration](#org45bb324)
+    1.  [Limit the length of `which-function`](#org5902525)
+    2.  [`my-ansi-term`](#orgee0c56f)
+    3.  [Understand file type by shebang](#org293bd29)
+    4.  [React to screen width changes](#org8d122a1)
+    5.  [Additional Configuration](#orgb84ec4f)
 
 
 
-<a id="org7c26e72"></a>
+<a id="orgaab28ac"></a>
 
 # Overview
 
 This is my literate and <font color=red size=+3><b><u>portable</u></b></font> Emacs initialization.
 
 
-<a id="org1f723a1"></a>
+<a id="orgdbcbf29"></a>
 
 ## Quick start
 
@@ -71,7 +75,7 @@ The ability to simply clone and start is what makes this configuration **portabl
 `custom.el` and then apply it whenever I take updated configurations from the repository.
 
 
-<a id="orgae14a29"></a>
+<a id="orgfe01dd7"></a>
 
 ## Why a literate configuration
 
@@ -86,7 +90,7 @@ I have tried to make this configuration 100% portable meaning that on a new syst
 installed. I simple git clone this repository to `~/.emacs.d` and then fire up Emacs. Should work every time. 
 
 
-<a id="org6135fb4"></a>
+<a id="org895e690"></a>
 
 ## `init.el`, short and sweet
 
@@ -251,7 +255,7 @@ installed. I simple git clone this repository to `~/.emacs.d` and then fire up E
 </table>
 
 
-<a id="orgee79939"></a>
+<a id="org187433c"></a>
 
 ### Loading the custom file first
 
@@ -300,7 +304,7 @@ extension packages used by this configuration.
 </table>
 
 
-<a id="orgcd97f81"></a>
+<a id="org397c40a"></a>
 
 ### Customizing the configuration
 
@@ -311,7 +315,7 @@ This allows me to select features to turn on or off selectively and make them st
 Another reason to load the customization file first.
 
 
-<a id="orgc7f6d04"></a>
+<a id="orgcc25a37"></a>
 
 # My Configuration
 
@@ -319,7 +323,7 @@ Here are my configuration bits. All of the following code snippets are tangled f
 from the initialization file. Feel free to take as little or as much as you like from here.
 
 
-<a id="org72c665f"></a>
+<a id="org2455ea4"></a>
 
 ## A preamble
 
@@ -343,14 +347,14 @@ init.
 ```
 
 
-<a id="org13da0fd"></a>
+<a id="orga04dacf"></a>
 
 ## General packages
 
 Here are some general packages I use
 
 
-<a id="orge68d70c"></a>
+<a id="org6f22560"></a>
 
 ### Speed up line movement
 
@@ -363,7 +367,7 @@ using `next-line` gets very cut down.
 ```
 
 
-<a id="org3a88970"></a>
+<a id="orge9debf8"></a>
 
 ### Use Ctrl-Z for personal bindings
 
@@ -386,7 +390,20 @@ therefore I've started to bind things to Ctrl-Z, which had the annoying and usel
 ```
 
 
-<a id="orgf527820"></a>
+<a id="orgb1f0dee"></a>
+
+### `flycheck`
+
+I've abandoned `flymake` (built-in) with `flycheck` (see [flycheck a flymake replacement](https://www.masteringemacs.org/article/spotlight-flycheck-a-flymake-replacement)).
+
+```emacs-lisp
+(use-package flycheck
+  :config
+  (global-flycheck-mode))
+```
+
+
+<a id="org2a2a072"></a>
 
 ### `synosaurus`
 
@@ -398,7 +415,7 @@ install  [Wordnet](https://wordnet.princeton.edu/) on your system and add it to 
 ```
 
 
-<a id="org138e7e2"></a>
+<a id="orgc97d482"></a>
 
 ### [`diminish`](https://github.com/myrjola/diminish.el)
 
@@ -411,7 +428,16 @@ is fine and it doesn't need to be on the mode line (diminish it to "").
 ```
 
 
-<a id="orgbf37e38"></a>
+<a id="org2499095"></a>
+
+### yaml-mode
+
+```emacs-lisp
+(use-package yaml-mode)
+```
+
+
+<a id="org1298bdf"></a>
 
 ### [`bind-key`](https://github.com/priyadarshan/bind-key)
 
@@ -423,7 +449,7 @@ Much better binding capabilities (in later versions this is already loaded via `
 ```
 
 
-<a id="orgdbb9bbf"></a>
+<a id="orgf38089c"></a>
 
 ### [`helpful`](https://github.com/Wilfred/helpful)
 
@@ -443,7 +469,7 @@ Much better binding capabilities (in later versions this is already loaded via `
 ```
 
 
-<a id="org67abff1"></a>
+<a id="org138172d"></a>
 
 ### [`savehist`](https://www.emacswiki.org/emacs/SaveHist)
 
@@ -496,7 +522,7 @@ Set the following variables to control `savehist` (use customize).
 </table>
 
 
-<a id="orgb6a6494"></a>
+<a id="org5ce69f0"></a>
 
 ### Themes and mode line
 
@@ -519,7 +545,7 @@ The current modifications I make to the `doom-modeline` default face settings wh
 `doom-modeline-buffer-modified` and `doom-modeline-project-dir`. You can look in the `custom.el` file for those settings.
 
 
-<a id="org2f05e5a"></a>
+<a id="org2292072"></a>
 
 ### For demonstrations
 
@@ -530,7 +556,7 @@ These packages are useful when doing presentations.
 ```
 
 
-<a id="org3e320d5"></a>
+<a id="orgf5ef487"></a>
 
 ### [`which-key`](https://github.com/justbur/emacs-which-key)
 
@@ -545,7 +571,7 @@ options. This is, IMO, a great way to learn Emacs key-bindings.
 ```
 
 
-<a id="org894c4e5"></a>
+<a id="orgc7bb803"></a>
 
 ### Very large files
 
@@ -563,7 +589,7 @@ with logs in your day to day, then this article is invaluable. I've yet to adopt
 article but I have no need as of yet. Soon maybe.
 
 
-<a id="org1671938"></a>
+<a id="org4b454b2"></a>
 
 ### Groovy
 
@@ -574,7 +600,7 @@ Since I'm doing more and more work with Jenkins adding support for Groovy is, we
 ```
 
 
-<a id="org412a4c6"></a>
+<a id="org546314e"></a>
 
 ### Other useful packages
 
@@ -644,12 +670,12 @@ Customized variables of interest here:
 </table>
 
 
-<a id="org9de6e47"></a>
+<a id="org16da630"></a>
 
 # [`company-mode`](http://company-mode.github.io/) Configuration
 
-Use the excellent [`company-mode`](http://company-mode.github.io/) modular in-buffer text completion framework. In particular this is used for [`elpy`](https://github.com/jorgenschaefer/elpy) (python) mode and
-[`omnisharp`](https://github.com/OmniSharp/omnisharp-emacs) (C#) mode, although it is used elsewhere.
+Use the excellent [`company-mode`](http://company-mode.github.io/) modular in-buffer text completion framework. In particular this is used for [`elpy`](https://github.com/jorgenschaefer/elpy) (python) 
+and java modes, although it is used elsewhere.
 
 ```emacs-lisp
 (use-package company
@@ -657,7 +683,7 @@ Use the excellent [`company-mode`](http://company-mode.github.io/) modular in-bu
 ```
 
 
-<a id="org290b82b"></a>
+<a id="org7ee5803"></a>
 
 # [`ivy/swiper`](https://github.com/abo-abo/swiper) Configuration
 
@@ -682,15 +708,22 @@ I used to be a `helm` user, but switched to `ivy`. Lots of nice features in `ivy
 (use-package counsel-codesearch)
 (use-package ivy-hydra)
 (use-package swiper
-  :bind (("C-S-s" . isearch-forward)            ;; Keep isearch-forward on Shift-Ctrl-s
-         ("C-s" . swiper)                       ;; Use swiper for search and reverse search
-         ("C-S-r" . isearch-backward)           ;; Keep isearch-backward on Shift-Ctrl-r
+  :bind (("C-S-s" . isearch-forward)  ;; Keep isearch-forward on Shift-Ctrl-s
+         ("C-s" . swiper)             ;; Use swiper for search and reverse search
+         ("C-S-r" . isearch-backward) ;; Keep isearch-backward on Shift-Ctrl-r
          ("C-r" . swiper)))
 (use-package avy
   :bind (("C-:" . avy-goto-char)))
+```
+
+**NOTE: `posframe` IS MESSED UP - NOT TANGLING**
+
+```emacs-lisp
+(use-package posframe)
 (use-package ivy-posframe
-  :if (>= emacs-major-version 26)
-  :config (setq ivy-display-function #'ivy-posframe-display))
+  :config
+  (setq ivy-display-function #'ivy-posframe-display)
+  (ivy-posframe-enable))
 ```
 
 I ran into a nice article that fixes a [problem that I often have with Ivy](http://mbork.pl/2018-06-16_ivy-use-selectable-prompt): using a name that is not in the list of candidates (for
@@ -723,7 +756,7 @@ Customized variables:
 
 <tr>
 <td class="org-left">ivy-height</td>
-<td class="org-left">10</td>
+<td class="org-left">20</td>
 </tr>
 
 
@@ -747,7 +780,7 @@ Customized variables:
 </table>
 
 
-<a id="orga463059"></a>
+<a id="org8d383c4"></a>
 
 # [`prescient`](https://github.com/raxod502/prescient.el) Configuration
 
@@ -760,7 +793,7 @@ Customized variables:
 ```
 
 
-<a id="orgf95740f"></a>
+<a id="org272e13d"></a>
 
 # [`yasnippet`](https://www.emacswiki.org/emacs/Yasnippet) Configuration
 
@@ -821,7 +854,7 @@ Customizations of interest:
 </table>
 
 
-<a id="org7ca4ffc"></a>
+<a id="org4805a3c"></a>
 
 # [`magit`](https://github.com/magit/magit)/git configuration
 
@@ -876,7 +909,7 @@ Customized variables:
 </table>
 
 
-<a id="orga3a5503"></a>
+<a id="org7a45235"></a>
 
 # [`org-mode`](https://orgmode.org/) Configuration
 
@@ -957,7 +990,7 @@ Customized variables for org-mode:
 </table>
 
 
-<a id="orgeac87ae"></a>
+<a id="org55f0856"></a>
 
 ## [`org-mode`](https://orgmode.org/) export hacks for HTML and Markdown
 
@@ -1011,7 +1044,7 @@ any underscores in the table with inline HTML.
 ```
 
 
-<a id="org13a62ad"></a>
+<a id="org1371fed"></a>
 
 ## Use of babel
 
@@ -1042,7 +1075,35 @@ To do literate programming you need to include the languages to "tangle". Here I
 </table>
 
 
-<a id="orge206027"></a>
+<a id="org6c53762"></a>
+
+# LSP configuration
+
+LSP ([Language Server Protocol](https://microsoft.github.io/language-server-protocol/)) is a new Microsoft-defined interface for IDEs:
+
+> The Language Server Protocol (LSP) defines the protocol used between an editor or IDE and a language server that provides language
+> features like auto complete, go to definition, find all references etc.
+
+Although I'm currently using `elpy` for Python, I'll be using LSP for Java development.
+
+```emacs-lisp
+(use-package lsp-mode
+  :demand t
+  :config
+  (add-hook 'lsp-after-open-hook #'lsp-enable-imenu)
+  (use-package lsp-ui
+    :config
+    (add-hook 'lsp-mode-hook 'lsp-ui-mode))
+  (use-package company-lsp
+    :config
+    (push 'company-lsp company-backends))
+  (add-hook 'lsp-after-initialize-hook (lambda ()
+                                         (let ((lsp-cfg `(:pyls (:configurationSources ("flake8")))))
+                                           (lsp--set-configuration lsp-cfg)))))
+```
+
+
+<a id="orgcb63ce9"></a>
 
 # python configuration
 
@@ -1052,7 +1113,7 @@ bothers me is that when an object is returned, PyCharm will give you list and di
 Seems to be the only real issue at this point.
 
 
-<a id="orgf3bd883"></a>
+<a id="org15d27b0"></a>
 
 ## The tale of two IDEs
 
@@ -1073,7 +1134,7 @@ switch to the `lsp-mode`.
 ```
 
 
-<a id="org743b6fb"></a>
+<a id="org720b8ab"></a>
 
 ### [`elpy`](https://github.com/jorgenschaefer/elpy) IDE
 
@@ -1121,66 +1182,33 @@ The variable `elpy-modules` is updated in my `custom.el` file so that the `flyma
 </table>
 
 
-<a id="org99655e3"></a>
+<a id="orge0ff5bb"></a>
 
 ### [`lsp-mode`](https://github.com/emacs-lsp/lsp-mode) IDE
 
-This is a newer mode based on the [Language Server Protocol](https://langserver.org/). Used along with this is the [`lsp-ui`](https://github.com/emacs-lsp/lsp-ui) goodies.
+This is a newer mode based on the [Language Server Protocol](https://langserver.org/).
 
 ```emacs-lisp
 (unless my/use-elpy
-    (use-package lsp-mode
-      :demand t
-      :config
-      (use-package lsp-python)
-      (add-hook 'lsp-after-open-hook #'lsp-enable-imenu)
-      (lsp-define-stdio-client lsp-python "python" #'projectile-project-root '("pyls"))
-      (use-package lsp-ui
-        :config
-        (require 'lsp-imenu)
-        (add-hook 'lsp-mode-hook 'lsp-ui-mode))
-      (use-package company-lsp
-        :config
-        (push 'company-lsp company-backends))
-      (add-hook 'lsp-after-initialize-hook (lambda ()
-                                             (let ((lsp-cfg `(:pyls (:configurationSources ("flake8")))))
-                                               (lsp--set-configuration lsp-cfg))))))
-
+  (use-package lsp-python))
 ```
 
 
-<a id="org16327ed"></a>
+<a id="orga7c73f3"></a>
 
 ## Python IDE-agnostic configuration
-
-I've abandoned `flymake` (built-in) with `flycheck` (see [flycheck a flymake replacement](https://www.masteringemacs.org/article/spotlight-flycheck-a-flymake-replacement)).
-
-The `remove-hook` call for `flymake` is there because of the persistent, and annoying, output to the `*Flymake Log*` buffer:
-
-> Warning [flymake create\_and\_activate\_device.py]: Disabling backend flymake-proc-legacy-flymake because (error Can’t find a suitable init function)
-
-The `remove-hook` relieves this issue. NB: this may be for Emacs version 27.0.50 only.
 
 ```emacs-lisp
 (use-package pylint)
 (use-package python-docstring
   :config
   (python-docstring-install))
-
-;TODO: we need to figure out how to make flycheck update the doom modeline status without file saving
-(use-package flycheck
-  :config
-  (global-flycheck-mode))
-
 (use-package python
   :config
   (add-hook 'python-mode-hook (lambda ()
                                 (unless my/use-elpy (lsp-python-enable))
                                 (company-mode)
-                                (flymake-mode 0))))
-
-;; remove annoying flymake warnings
-(remove-hook 'flymake-diagnostic-functions 'flymake-proc-legacy-flymake)
+                                )))
 ```
 
 Customized variables used in this python configuration:
@@ -1239,12 +1267,29 @@ Customized variables used in this python configuration:
 </table>
 
 
-<a id="orgef375d2"></a>
+<a id="org22360bd"></a>
+
+# Java configuration
+
+Tried to get LSP working, but to no avail. Using Meghanada mode.
+
+```emacs-lisp
+(use-package gradle-mode)
+(use-package meghanada
+  :bind (:map meghanada-mode-map
+              ("C-c C-n" . flycheck-next-error)
+              ("C-c C-p" . flycheck-previous-error))
+  :config
+  (add-hook 'java-mode-hook (lambda () (meghanada-mode t))))
+```
+
+
+<a id="org45bb324"></a>
 
 # Additional bits-o-configuration
 
 
-<a id="org4a6bcaa"></a>
+<a id="org5902525"></a>
 
 ## Limit the length of [`which-function`](https://www.gnu.org/software/emacs/manual/html_node/emacs/Which-Function.html)
 
@@ -1264,7 +1309,7 @@ Customized variables used in this python configuration:
 ```
 
 
-<a id="org91c9c07"></a>
+<a id="orgee0c56f"></a>
 
 ## `my-ansi-term`
 
@@ -1280,7 +1325,7 @@ other modes and shells make this less useful these days.
 ```
 
 
-<a id="org4874b5c"></a>
+<a id="org293bd29"></a>
 
 ## Understand file type by shebang
 
@@ -1304,24 +1349,25 @@ Script-type is read from #!/... at top of file."
 ```
 
 
-<a id="org6c02ced"></a>
+<a id="org8d122a1"></a>
 
 ## React to screen width changes
 
 Because I use posframe quite a bit now (so that the mini-buffer doesn't continue to change sizes, which I find a little
 annoying), this code reacts to the width changes and will set the custom variables accordingly.
 
+**Does not seem to work with newest POSFRAME (as of 2019-05-02). Need work.**
+
 ```emacs-lisp
 (cl-defun my/window-size-change (&optional _)
   "My very own resize defun for modifying the posframe size"
   (unless (= (window-pixel-width-before-size-change) (window-pixel-width))
     (customize-set-value 'ivy-posframe-width (window-body-width))))
-
 (add-hook 'window-size-change-functions 'my/window-size-change)
 ```
 
 
-<a id="org9c2baf7"></a>
+<a id="orgb84ec4f"></a>
 
 ## Additional Configuration
 
