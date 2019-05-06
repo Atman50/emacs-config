@@ -160,14 +160,20 @@
                  :prefix-map my-ctrl-z-prefix-map
                  :prefix "C-z"
                  ("C-d" . dired-jump)
-                 ("n"   . linum-mode)
-                 ("g"   . magit-status)
+                 ("c"   . comment-region)
+                 ("d"   . docker)
                  ("f"   . magit-find-file-other-window)
+                 ("g"   . magit-status)
                  ("l"   . magit-log-buffer-file)
+                 ("n"   . linum-mode)
                  ("r"   . revert-buffer)
                  ("t"   . toggle-truncate-lines)
-                 ("c"   . comment-region)
                  ("u"   . uncomment-region))
+    #+END_SRC
+*** Docker
+    I manage a lot of docker stuff. The docker package is quite useful.
+    #+BEGIN_SRC emacs-lisp :tangle yes
+      (use-package docker)
     #+END_SRC
 *** =flycheck=
    I've abandoned =flymake= (built-in) with =flycheck= (see [[https://www.masteringemacs.org/article/spotlight-flycheck-a-flymake-replacement][flycheck a flymake replacement]]).
@@ -614,7 +620,6 @@
        "The maximum width of the which-function string."
        :group 'my-configuration
        :type 'integer)
-
      (advice-add #'which-function :filter-return
                  (lambda (s) (when (stringp s)
                                (if (< (string-width s) my/which-function-max-width) s
@@ -687,6 +692,9 @@
      (put 'downcase-region 'disabled nil)
      (put 'upcase-region 'disabled nil)
      (put 'scroll-left 'disabled nil)
+  #+END_SRC
 
+  A post-amble to make the tangled =.el= file has no errors/warnings.
+#+BEGIN_SRC emacs-lisp :tangle yes
      ;;; README.el ends here
   #+END_SRC
