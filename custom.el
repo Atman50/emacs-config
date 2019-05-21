@@ -54,6 +54,7 @@
  '(git-commit-fill-column 78)
  '(git-commit-style-convention-checks '(non-empty-second-line overlong-summary-line))
  '(global-font-lock-mode t nil (font-lock))
+ '(groovy-indent-offset 2)
  '(history-delete-duplicates t)
  '(ibuffer-formats
    '((mark modified read-only " "
@@ -127,6 +128,8 @@
  '(visible-bell t)
  '(which-function-mode t)
  '(which-key-mode t)
+ '(which-key-posframe-mode t)
+ '(which-key-posframe-poshandler 'posframe-poshandler-frame-bottom-left-corner)
  '(yas-global-mode t))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
@@ -137,11 +140,12 @@
  '(Info-quoted ((t (:foreground "red3"))))
  '(doom-modeline-buffer-modified ((t (:inherit (doom-modeline-warning bold)))))
  '(doom-modeline-project-dir ((t (:inherit doom-modeline-info))))
- '(ivy-posframe ((t (:inherit default :background "LightSkyBlue1" :foreground "#333333"))))
+ '(ivy-posframe ((t (:inherit default :background "gray93" :foreground "#333333"))))
  '(ivy-subdir ((t (:inherit dired-directory :background "LightSkyBlue1"))))
  '(lsp-ui-sideline-current-symbol ((t (:foreground "royal blue" :box (:line-width -1 :color "royal blue") :weight ultra-bold :height 0.99))))
  '(lsp-ui-sideline-global ((t (:background "blanched almond"))))
  '(lsp-ui-sideline-symbol ((t (:foreground "sea green" :box (:line-width -1 :color "sea green") :weight ultra-bold :height 0.99))))
- '(region ((t (:background "sky blue" :distant-foreground "gtk_selection_fg_color")))))
+ '(region ((t (:background "sky blue" :distant-foreground "gtk_selection_fg_color"))))
+ '(which-key-posframe ((t (:inherit default :background "gray93")))))
 
 ;;; custom.el ends here

@@ -164,6 +164,13 @@
                  ("d"   . docker)
                  ("f"   . magit-find-file-other-window)
                  ("g"   . magit-status)
+                 ("h a" . helpful-at-point)
+                 ("h c" . helpful-command)
+                 ("h C" . helpful-callable)
+                 ("h f" . helpful-function)
+                 ("h k" . helpful-key)
+                 ("h m" . helpful-macro)
+                 ("h v" . helpful-variable)
                  ("l"   . magit-log-buffer-file)
                  ("n"   . linum-mode)
                  ("r"   . revert-buffer)
@@ -210,15 +217,7 @@
     [[https://github.com/Wilfred/helpful][Helpful]] provides contextual help and other features. Here are two blogs that provide good information: [[http://www.wilfred.me.uk/blog/2017/08/30/helpful-adding-contextual-help-to-emacs/][initial Helpful blog]] and
     [[http://www.wilfred.me.uk/blog/2018/06/22/helpful-one-year-on/][Helpful, one year in]]. More in-depth help along with lots of other information like references, edebug capabilities, ...
     #+BEGIN_SRC emacs-lisp :tangle yes
-      (use-package helpful
-        :defer
-        :bind (("C-z h a" . helpful-at-point)
-               ("C-z h c" . helpful-command)
-               ("C-z h C" . helpful-callable)
-               ("C-z h f" . helpful-function)
-               ("C-z h k" . helpful-key)
-               ("C-z h m" . helpful-macro)
-               ("C-z h v" . helpful-variable)))
+      (use-package helpful)
     #+END_SRC
 *** [[https://www.emacswiki.org/emacs/SaveHist][=savehist=]]
     A great built-in that allows us to have a history file. This means certain elements are saved between sessions of Emacs. This
@@ -262,10 +261,11 @@
     the functions to which they are bound (or a prefix). Many times I've found unknown features by simply looking at the various
     options. This is, IMO, a great way to learn Emacs key-bindings.
     #+BEGIN_SRC emacs-lisp :tangle yes
-      (use-package which-key
-        :defer t
-        :diminish "")
+      (use-package which-key :diminish "")
+      (use-package which-key-posframe)
     #+END_SRC
+    #+NAME: which-key-pkg-custom-vars
+    #+CALL: custom-vars-table(custom-vars='(which-key-mode which-key-posframe-mode which-key-posframe-poshandler))
 *** Very large files
     Since I deal with potentially gigantic log files, this package allows the file to be carved up and 'paged' through. Get to the
     =vlf= stuff through the default prefix =C-c C-v=.
@@ -282,6 +282,8 @@
     #+BEGIN_SRC emacs-lisp :tangle yes
       (use-package groovy-mode)
     #+END_SRC
+    #+NAME: groovy-pkg-custom-vars
+    #+CALL: custom-vars-table(custom-vars='(groovy-indent-offset))
 *** Other useful packages
     OK, a little tired of documenting each package on it's own. These packages are just generally useful. Some of these packages
     have become so useful that they've found their way into the list of Emacs built-in packages. In those cases, the package is
@@ -658,7 +660,7 @@
    Because I use posframe quite a bit now (so that the mini-buffer doesn't continue to change sizes, which I find a little
    annoying), this code reacts to the width changes and will set the custom variables accordingly.
 
-   *Does not seem to work with newest POSFRAME (as of 2019-05-02). Need work.*
+   *Does not seem to work with newest POSFRAME (as of 2019-05-02). Needs work.*
    #+BEGIN_SRC emacs-lisp :tangle no
      (cl-defun my/window-size-change (&optional _)
        "My very own resize defun for modifying the posframe size"
