@@ -18,6 +18,7 @@
     (package-refresh-contents)
     (package-install (elt (cdr (assoc 'org-plus-contrib package-archive-contents)) 0))
     (package-install (elt (cdr (assoc 'use-package package-archive-contents)) 0))))
+(assoc-delete-all 'org package--builtins)
 (setq use-package-enable-imenu-support t)
 (require 'use-package)
 (use-package org)

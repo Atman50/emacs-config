@@ -62,6 +62,7 @@
          (package-refresh-contents)
          (package-install (elt (cdr (assoc 'org-plus-contrib package-archive-contents)) 0))
          (package-install (elt (cdr (assoc 'use-package package-archive-contents)) 0))))
+     (assoc-delete-all 'org package--builtins)
      (setq use-package-enable-imenu-support t)
      (require 'use-package)
      (use-package org)
@@ -85,17 +86,18 @@
    |   17 | If we've not load loaded the definition for the =use-package= ELPA package, then           |
    |   18 | Refresh (read) the package archives. Note: ='package-archives= from =custom.el= *key* here |
    |   19 | Load up the org-mode. The pre-packaged org-mode does not have Babel!                       |
-   |   20 | Set the variable to allow =use-package= to use counsel for imenus                          |
-   |   21 | Require =use-package=                                                                      |
-   |   22 | Make sure =use-package= is available                                                       |
-   |   23 | Make sure =org= is available                                                               |
-   |   24 | Create customizable config variable                                                        |
-   |   25 | ...                                                                                        |
-   |   26 | ... it's nice having a customizable group for personal configuration settings              |
-   |   27 | ...                                                                                        |
-   |   28 | If the .el file doesn't exist or is older than this file then...                           |
-   |   29 | ... create the tangled output of this file                                                 |
-   |   30 | Load the tangled output of this file                                                       |
+   |   20 | We'll use org from the proper sources, thank you very much                                 |
+   |   21 | Set the variable to allow =use-package= to use counsel for imenus                          |
+   |   22 | Require =use-package=                                                                      |
+   |   23 | Make sure =use-package= is available                                                       |
+   |   24 | Make sure =org= is available                                                               |
+   |   25 | Create customizable config variable                                                        |
+   |   26 | ...                                                                                        |
+   |   27 | ... it's nice having a customizable group for personal configuration settings              |
+   |   28 | ...                                                                                        |
+   |   29 | If the .el file doesn't exist or is older than this file then...                           |
+   |   30 | ... create the tangled output of this file                                                 |
+   |   31 | Load the tangled output of this file                                                       |
    
 *** Loading the custom file first
     One of the nicest things about Emacs is the extensive and quite useful customization engine. You can customize variables and
