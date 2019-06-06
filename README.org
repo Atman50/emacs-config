@@ -438,13 +438,12 @@
   fontified: for example, you can export all or part of, say, a Python file and it will come out all colorized for publishing.
 
   #+BEGIN_SRC emacs-lisp :tangle yes
-    ;; (use-package org-bullets)
+    (use-package org-bullets)
     (add-hook 'org-mode-hook  (lambda ()
                                 (toggle-truncate-lines -1)
                                 (auto-fill-mode 1)
-                                ;; (org-bullets-mode)
-                                ))
-    (add-hook 'org-mode-hook #'flyspell-mode)
+                                (org-bullets-mode)
+                                (flyspell-mode 1)))
 
     (use-package org-autolist)
     (use-package htmlize)
