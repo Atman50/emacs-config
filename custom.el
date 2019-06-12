@@ -136,16 +136,6 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(default ((t (:inherit nil :stipple nil :foreground "black" :inverse-video nil :box nil :strike-through nil :overline nil :underline nil :slant normal :weight normal :height 120 :width normal :foundry "nil" :family "DejaVu Sans Mono"))))
- '(Info-quoted ((t (:foreground "red3"))))
- '(doom-modeline-buffer-modified ((t (:inherit (doom-modeline-warning bold)))))
- '(doom-modeline-project-dir ((t (:inherit doom-modeline-info))))
- '(ivy-posframe ((t (:inherit default :background "gray93" :foreground "#333333"))))
- '(ivy-subdir ((t (:inherit dired-directory :background "LightSkyBlue1"))))
- '(lsp-ui-sideline-current-symbol ((t (:foreground "royal blue" :box (:line-width -1 :color "royal blue") :weight ultra-bold :height 0.99))))
- '(lsp-ui-sideline-global ((t (:background "blanched almond"))))
- '(lsp-ui-sideline-symbol ((t (:foreground "sea green" :box (:line-width -1 :color "sea green") :weight ultra-bold :height 0.99))))
- '(region ((t (:background "sky blue" :distant-foreground "gtk_selection_fg_color"))))
- '(which-key-posframe ((t (:inherit default :background "gray93")))))
+ '(default ((t (:inherit nil :stipple nil :inverse-video nil :box nil :strike-through nil :overline nil :underline nil :slant normal :weight normal :height 120 :width normal :foundry "nil" :family "DejaVu Sans Mono")))))
 
 ;;; custom.el ends here

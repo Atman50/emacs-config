@@ -242,15 +242,14 @@
     [[https://github.com/seagle0128/doom-modeline][=doom-modeline= website]]: Run =M-x all-the-icons-install-fonts= and then, on Windows, install the font ttf file by right clicking
     on it and doing install.
     #+BEGIN_SRC emacs-lisp :tangle yes
-      (use-package leuven-theme
-        :config
-        (load-theme 'leuven t))
+      (use-package gruvbox-theme
+        :demand t
+        :config (load-theme 'gruvbox-light-medium t))
 
       (use-package doom-modeline
         :hook (after-init . doom-modeline-mode))
     #+END_SRC
-    The current modifications I make to the =doom-modeline= default face settings when using the =leuven-theme= are
-    =doom-modeline-buffer-modified= and =doom-modeline-project-dir=. You can look in the =custom.el= file for those settings.
+    Just experimenting with the =gruvbox-theme= for now. Used to work with the =leuven-theme=.
 
 *** For demonstrations
     These packages are useful when doing presentations.
