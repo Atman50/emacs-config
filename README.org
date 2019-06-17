@@ -242,9 +242,9 @@
     [[https://github.com/seagle0128/doom-modeline][=doom-modeline= website]]: Run =M-x all-the-icons-install-fonts= and then, on Windows, install the font ttf file by right clicking
     on it and doing install.
     #+BEGIN_SRC emacs-lisp :tangle yes
-      (use-package gruvbox-theme
+      (use-package leuven-theme
         :demand t
-        :config (load-theme 'gruvbox-light-medium t))
+        :config (load-theme 'leuven t))
 
       (use-package doom-modeline
         :hook (after-init . doom-modeline-mode))
@@ -416,6 +416,8 @@
   The *most awesome* git porcelain. Most here are part of magit, [[https://github.com/pidu/git-timemachine][=git-time-machine=]] is not, but well worth using.
   #+BEGIN_SRC emacs-lisp :tangle yes
     (use-package git-commit)
+    ;; (use-package forge
+    ;;   :after magit)
     (use-package magit
       ;; Make the default action a branch checkout, not a branch visit when in branch mode
       :bind (:map magit-branch-section-map
@@ -660,13 +662,16 @@
 ** React to screen width changes
    Because I use posframe quite a bit now (so that the mini-buffer doesn't continue to change sizes, which I find a little
    annoying), this code reacts to the width changes and will set the custom variables accordingly.
-
-   *Does not seem to work with newest POSFRAME (as of 2019-05-02). Needs work.*
    #+BEGIN_SRC emacs-lisp :tangle no
      (cl-defun my/window-size-change (&optional _)
        "My very own resize defun for modifying the posframe size"
        (unless (= (window-pixel-width-before-size-change) (window-pixel-width))
-         (customize-set-value 'ivy-posframe-width (window-body-width))))
+         (let ((body-width (window-body-width)))
+           (set-variable 'ivy-posframe-width body-width)
+           (set-variable 'ivy-posframe-min-width body-width)
+           (set-variable 'which-key-posframe-width body-width)
+           (set-variable 'which-key-posframe-min-width body-width))))
+
      (add-hook 'window-size-change-functions 'my/window-size-change)
    #+END_SRC
 
