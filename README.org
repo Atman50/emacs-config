@@ -662,7 +662,7 @@
 ** React to screen width changes
    Because I use posframe quite a bit now (so that the mini-buffer doesn't continue to change sizes, which I find a little
    annoying), this code reacts to the width changes and will set the custom variables accordingly.
-   #+BEGIN_SRC emacs-lisp :tangle no
+   #+BEGIN_SRC emacs-lisp :tangle yes
      (cl-defun my/window-size-change (&optional _)
        "My very own resize defun for modifying the posframe size"
        (unless (= (window-pixel-width-before-size-change) (window-pixel-width))
@@ -671,7 +671,6 @@
            (set-variable 'ivy-posframe-min-width body-width)
            (set-variable 'which-key-posframe-width body-width)
            (set-variable 'which-key-posframe-min-width body-width))))
-
      (add-hook 'window-size-change-functions 'my/window-size-change)
    #+END_SRC
 

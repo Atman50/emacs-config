@@ -1,63 +1,63 @@
 
 # Table of Contents
 
-1.  [Overview](#orgbff6bdb)
-    1.  [Quick start](#org2c42d6b)
-    2.  [Why a literate configuration](#orgec3e0d6)
-    3.  [`init.el`, short and sweet](#org6236740)
-        1.  [Loading the custom file first](#org81ca14b)
-        2.  [Customizing the configuration](#org3ed3303)
-2.  [My Configuration](#org04e330e)
-    1.  [A preamble](#org3dfc1f5)
-    2.  [General packages](#org0b4d3c3)
-        1.  [Speed up line movement](#org06fdbe9)
-        2.  [Use Ctrl-Z for personal bindings](#org9ba7355)
-        3.  [Docker](#org1e624e7)
-        4.  [`flycheck`](#org1c565e9)
-        5.  [`synosaurus`](#orgc604357)
-        6.  [`diminish`](#orga3ea401)
-        7.  [yaml-mode](#org4c279eb)
-        8.  [`bind-key`](#org88744f3)
-        9.  [`helpful`](#org1332a53)
-        10. [`savehist`](#org4a4ec13)
-        11. [Themes and mode line](#orgd9d46e4)
-        12. [For demonstrations](#orgd460129)
-        13. [`which-key`](#orgb2cedb6)
-        14. [Very large files](#orgd54e559)
-        15. [Groovy](#org9ca8ce8)
-        16. [Other useful packages](#org5dcf853)
-3.  [`company-mode` Configuration](#org99da24c)
-4.  [`ivy/swiper` Configuration](#orgbbebd26)
-5.  [`prescient` Configuration](#org306527b)
-6.  [`yasnippet` Configuration](#orgc7c5600)
-7.  [`magit`/git configuration](#org8cc927e)
-8.  [`org-mode` Configuration](#org7aacefe)
-    1.  [`org-mode` export hacks for HTML and Markdown](#orgb0255cd)
-    2.  [Use of babel](#orgaf3ec01)
-9.  [LSP configuration](#orgc6aca5c)
-10. [python configuration](#orgf529d7b)
-    1.  [The tale of two IDEs](#org4ce5baa)
-        1.  [`elpy` IDE](#org39cf8ce)
-        2.  [`lsp-mode` IDE](#org0472496)
-    2.  [Python IDE-agnostic configuration](#org994c5f1)
-11. [Java configuration](#orgc08f457)
-12. [Additional bits-o-configuration](#org2292a2e)
-    1.  [Limit the length of `which-function`](#org904011e)
-    2.  [`my-ansi-term`](#orgc819ecb)
-    3.  [Understand file type by shebang](#org3f2168d)
-    4.  [React to screen width changes](#org2a57dd8)
-    5.  [Additional Configuration](#org15dc79a)
+1.  [Overview](#org31dd23d)
+    1.  [Quick start](#org4537d73)
+    2.  [Why a literate configuration](#orga9cef85)
+    3.  [`init.el`, short and sweet](#org5e5d62d)
+        1.  [Loading the custom file first](#orge540c8b)
+        2.  [Customizing the configuration](#org64767c0)
+2.  [My Configuration](#org92639b2)
+    1.  [A preamble](#orgd9c6fe6)
+    2.  [General packages](#org720b6a8)
+        1.  [Speed up line movement](#org19a92ae)
+        2.  [Use Ctrl-Z for personal bindings](#orgc5a787d)
+        3.  [Docker](#orga9c91b4)
+        4.  [`flycheck`](#org38f4ae3)
+        5.  [`synosaurus`](#org279ec9c)
+        6.  [`diminish`](#org26bb43f)
+        7.  [yaml-mode](#orgfd62922)
+        8.  [`bind-key`](#org30bd8af)
+        9.  [`helpful`](#org021baf1)
+        10. [`savehist`](#org470c311)
+        11. [Themes and mode line](#org64bd055)
+        12. [For demonstrations](#org702a24d)
+        13. [`which-key`](#org20d2e00)
+        14. [Very large files](#org4565886)
+        15. [Groovy](#orgd48dc9d)
+        16. [Other useful packages](#orgdd00d24)
+3.  [`company-mode` Configuration](#org8361c5f)
+4.  [`ivy/swiper` Configuration](#orgcf9fae1)
+5.  [`prescient` Configuration](#org7745541)
+6.  [`yasnippet` Configuration](#orga6237b1)
+7.  [`magit`/git configuration](#org669aac6)
+8.  [`org-mode` Configuration](#orgcb63aae)
+    1.  [`org-mode` export hacks for HTML and Markdown](#org8bc765e)
+    2.  [Use of babel](#org987fe99)
+9.  [LSP configuration](#orge09a930)
+10. [python configuration](#org345ebf4)
+    1.  [The tale of two IDEs](#org70e2add)
+        1.  [`elpy` IDE](#orgcc7b9c5)
+        2.  [`lsp-mode` IDE](#org74da077)
+    2.  [Python IDE-agnostic configuration](#org84d1465)
+11. [Java configuration](#org6803b16)
+12. [Additional bits-o-configuration](#orgcc0fc98)
+    1.  [Limit the length of `which-function`](#orgb096b22)
+    2.  [`my-ansi-term`](#orgb81f26a)
+    3.  [Understand file type by shebang](#org4971235)
+    4.  [React to screen width changes](#org58158ad)
+    5.  [Additional Configuration](#orgaea679e)
 
 
 
-<a id="orgbff6bdb"></a>
+<a id="org31dd23d"></a>
 
 # Overview
 
 This is my literate and <font color=red size=+3><b><u>portable</u></b></font> Emacs initialization.
 
 
-<a id="org2c42d6b"></a>
+<a id="org4537d73"></a>
 
 ## Quick start
 
@@ -76,7 +76,7 @@ The ability to simply clone and start is what makes this configuration **portabl
 `custom.el` and then apply it whenever I take updated configurations from the repository.
 
 
-<a id="orgec3e0d6"></a>
+<a id="orga9cef85"></a>
 
 ## Why a literate configuration
 
@@ -91,7 +91,7 @@ I have tried to make this configuration 100% portable meaning that on a new syst
 installed. I simple git clone this repository to `~/.emacs.d` and then fire up Emacs. Should work every time. 
 
 
-<a id="org6236740"></a>
+<a id="org5e5d62d"></a>
 
 ## `init.el`, short and sweet
 
@@ -263,7 +263,7 @@ installed. I simple git clone this repository to `~/.emacs.d` and then fire up E
 </table>
 
 
-<a id="org81ca14b"></a>
+<a id="orge540c8b"></a>
 
 ### Loading the custom file first
 
@@ -312,7 +312,7 @@ extension packages used by this configuration.
 </table>
 
 
-<a id="org3ed3303"></a>
+<a id="org64767c0"></a>
 
 ### Customizing the configuration
 
@@ -323,7 +323,7 @@ This allows me to select features to turn on or off selectively and make them st
 Another reason to load the customization file first.
 
 
-<a id="org04e330e"></a>
+<a id="org92639b2"></a>
 
 # My Configuration
 
@@ -331,7 +331,7 @@ Here are my configuration bits. All of the following code snippets are tangled f
 from the initialization file. Feel free to take as little or as much as you like from here.
 
 
-<a id="org3dfc1f5"></a>
+<a id="orgd9c6fe6"></a>
 
 ## A preamble
 
@@ -355,14 +355,14 @@ init.
 ```
 
 
-<a id="org0b4d3c3"></a>
+<a id="org720b6a8"></a>
 
 ## General packages
 
 Here are some general packages I use
 
 
-<a id="org06fdbe9"></a>
+<a id="org19a92ae"></a>
 
 ### Speed up line movement
 
@@ -375,7 +375,7 @@ using `next-line` gets very cut down.
 ```
 
 
-<a id="org9ba7355"></a>
+<a id="orgc5a787d"></a>
 
 ### Use Ctrl-Z for personal bindings
 
@@ -406,7 +406,7 @@ therefore I've started to bind things to Ctrl-Z, which had the annoying and usel
 ```
 
 
-<a id="org1e624e7"></a>
+<a id="orga9c91b4"></a>
 
 ### Docker
 
@@ -417,7 +417,7 @@ I manage a lot of docker stuff. The docker package is quite useful.
 ```
 
 
-<a id="org1c565e9"></a>
+<a id="org38f4ae3"></a>
 
 ### `flycheck`
 
@@ -430,7 +430,7 @@ I've abandoned `flymake` (built-in) with `flycheck` (see [flycheck a flymake rep
 ```
 
 
-<a id="orgc604357"></a>
+<a id="org279ec9c"></a>
 
 ### `synosaurus`
 
@@ -442,7 +442,7 @@ install  [Wordnet](https://wordnet.princeton.edu/) on your system and add it to 
 ```
 
 
-<a id="orga3ea401"></a>
+<a id="org26bb43f"></a>
 
 ### [`diminish`](https://github.com/myrjola/diminish.el)
 
@@ -455,7 +455,7 @@ is fine and it doesn't need to be on the mode line (diminish it to "").
 ```
 
 
-<a id="org4c279eb"></a>
+<a id="orgfd62922"></a>
 
 ### yaml-mode
 
@@ -464,7 +464,7 @@ is fine and it doesn't need to be on the mode line (diminish it to "").
 ```
 
 
-<a id="org88744f3"></a>
+<a id="org30bd8af"></a>
 
 ### [`bind-key`](https://github.com/priyadarshan/bind-key)
 
@@ -476,7 +476,7 @@ Much better binding capabilities (in later versions this is already loaded via `
 ```
 
 
-<a id="org1332a53"></a>
+<a id="org021baf1"></a>
 
 ### [`helpful`](https://github.com/Wilfred/helpful)
 
@@ -488,7 +488,7 @@ Much better binding capabilities (in later versions this is already loaded via `
 ```
 
 
-<a id="org4a4ec13"></a>
+<a id="org470c311"></a>
 
 ### [`savehist`](https://www.emacswiki.org/emacs/SaveHist)
 
@@ -529,7 +529,7 @@ Set the following variables to control `savehist` (use customize).
 
 <tr>
 <td class="org-left">savehist-additional-variables</td>
-<td class="org-left">(tablist-named-filter kill-ring search-ring regexp-search-ring)</td>
+<td class="org-left">(kill-ring search-ring regexp-search-ring)</td>
 </tr>
 
 
@@ -541,7 +541,7 @@ Set the following variables to control `savehist` (use customize).
 </table>
 
 
-<a id="orgd9d46e4"></a>
+<a id="org64bd055"></a>
 
 ### Themes and mode line
 
@@ -563,7 +563,7 @@ on it and doing install.
 Just experimenting with the `gruvbox-theme` for now. Used to work with the `leuven-theme`.
 
 
-<a id="orgd460129"></a>
+<a id="org702a24d"></a>
 
 ### For demonstrations
 
@@ -574,7 +574,7 @@ These packages are useful when doing presentations.
 ```
 
 
-<a id="orgb2cedb6"></a>
+<a id="org20d2e00"></a>
 
 ### [`which-key`](https://github.com/justbur/emacs-which-key)
 
@@ -623,7 +623,7 @@ options. This is, IMO, a great way to learn Emacs key-bindings.
 </table>
 
 
-<a id="orgd54e559"></a>
+<a id="org4565886"></a>
 
 ### Very large files
 
@@ -641,7 +641,7 @@ with logs in your day to day, then this article is invaluable. I've yet to adopt
 article but I have no need as of yet. Soon maybe.
 
 
-<a id="org9ca8ce8"></a>
+<a id="orgd48dc9d"></a>
 
 ### Groovy
 
@@ -675,7 +675,7 @@ Since I'm doing more and more work with Jenkins adding support for Groovy is, we
 </table>
 
 
-<a id="org5dcf853"></a>
+<a id="orgdd00d24"></a>
 
 ### Other useful packages
 
@@ -733,7 +733,7 @@ Customized variables of interest here:
 <tbody>
 <tr>
 <td class="org-left">desktop-path</td>
-<td class="org-left">("`/.emacs.d/" "~/.emacs.d/" "`")</td>
+<td class="org-left">("`/toast/git-repos/development-setup/" "~/.emacs.d/" "`")</td>
 </tr>
 
 
@@ -745,7 +745,7 @@ Customized variables of interest here:
 </table>
 
 
-<a id="org99da24c"></a>
+<a id="org8361c5f"></a>
 
 # [`company-mode`](http://company-mode.github.io/) Configuration
 
@@ -758,7 +758,7 @@ and java modes, although it is used elsewhere.
 ```
 
 
-<a id="orgbbebd26"></a>
+<a id="orgcf9fae1"></a>
 
 # [`ivy/swiper`](https://github.com/abo-abo/swiper) Configuration
 
@@ -855,7 +855,7 @@ Customized variables:
 </table>
 
 
-<a id="org306527b"></a>
+<a id="org7745541"></a>
 
 # [`prescient`](https://github.com/raxod502/prescient.el) Configuration
 
@@ -868,7 +868,7 @@ Customized variables:
 ```
 
 
-<a id="orgc7c5600"></a>
+<a id="orga6237b1"></a>
 
 # [`yasnippet`](https://www.emacswiki.org/emacs/Yasnippet) Configuration
 
@@ -930,7 +930,7 @@ Customizations of interest:
 </table>
 
 
-<a id="org8cc927e"></a>
+<a id="org669aac6"></a>
 
 # [`magit`](https://github.com/magit/magit)/git configuration
 
@@ -987,7 +987,7 @@ Customized variables:
 </table>
 
 
-<a id="org7aacefe"></a>
+<a id="orgcb63aae"></a>
 
 # [`org-mode`](https://orgmode.org/) Configuration
 
@@ -1069,7 +1069,7 @@ Customized variables for org-mode:
 </table>
 
 
-<a id="orgb0255cd"></a>
+<a id="org8bc765e"></a>
 
 ## [`org-mode`](https://orgmode.org/) export hacks for HTML and Markdown
 
@@ -1123,7 +1123,7 @@ any underscores in the table with inline HTML.
 ```
 
 
-<a id="orgaf3ec01"></a>
+<a id="org987fe99"></a>
 
 ## Use of babel
 
@@ -1154,7 +1154,7 @@ To do literate programming you need to include the languages to "tangle". Here I
 </table>
 
 
-<a id="orgc6aca5c"></a>
+<a id="orge09a930"></a>
 
 # LSP configuration
 
@@ -1181,7 +1181,7 @@ Although I'm currently using `elpy` for Python, I'll be using LSP for Java devel
 ```
 
 
-<a id="orgf529d7b"></a>
+<a id="org345ebf4"></a>
 
 # python configuration
 
@@ -1191,7 +1191,7 @@ bothers me is that when an object is returned, PyCharm will give you list and di
 Seems to be the only real issue at this point.
 
 
-<a id="org4ce5baa"></a>
+<a id="org70e2add"></a>
 
 ## The tale of two IDEs
 
@@ -1212,7 +1212,7 @@ switch to the `lsp-mode`.
 ```
 
 
-<a id="org39cf8ce"></a>
+<a id="orgcc7b9c5"></a>
 
 ### [`elpy`](https://github.com/jorgenschaefer/elpy) IDE
 
@@ -1260,7 +1260,7 @@ The variable `elpy-modules` is updated in my `custom.el` file so that the `flyma
 </table>
 
 
-<a id="org0472496"></a>
+<a id="org74da077"></a>
 
 ### [`lsp-mode`](https://github.com/emacs-lsp/lsp-mode) IDE
 
@@ -1272,7 +1272,7 @@ This is a newer mode based on the [Language Server Protocol](https://langserver.
 ```
 
 
-<a id="org994c5f1"></a>
+<a id="org84d1465"></a>
 
 ## Python IDE-agnostic configuration
 
@@ -1344,7 +1344,7 @@ Customized variables used in this python configuration:
 </table>
 
 
-<a id="orgc08f457"></a>
+<a id="org6803b16"></a>
 
 # Java configuration
 
@@ -1361,12 +1361,12 @@ Tried to get LSP working, but to no avail. Using Meghanada mode.
 ```
 
 
-<a id="org2292a2e"></a>
+<a id="orgcc0fc98"></a>
 
 # Additional bits-o-configuration
 
 
-<a id="org904011e"></a>
+<a id="orgb096b22"></a>
 
 ## Limit the length of [`which-function`](https://www.gnu.org/software/emacs/manual/html_node/emacs/Which-Function.html)
 
@@ -1385,7 +1385,7 @@ Tried to get LSP working, but to no avail. Using Meghanada mode.
 ```
 
 
-<a id="orgc819ecb"></a>
+<a id="orgb81f26a"></a>
 
 ## `my-ansi-term`
 
@@ -1401,7 +1401,7 @@ other modes and shells make this less useful these days.
 ```
 
 
-<a id="org3f2168d"></a>
+<a id="org4971235"></a>
 
 ## Understand file type by shebang
 
@@ -1425,7 +1425,7 @@ Script-type is read from #!/... at top of file."
 ```
 
 
-<a id="org2a57dd8"></a>
+<a id="org58158ad"></a>
 
 ## React to screen width changes
 
@@ -1441,12 +1441,11 @@ annoying), this code reacts to the width changes and will set the custom variabl
       (set-variable 'ivy-posframe-min-width body-width)
       (set-variable 'which-key-posframe-width body-width)
       (set-variable 'which-key-posframe-min-width body-width))))
-
 (add-hook 'window-size-change-functions 'my/window-size-change)
 ```
 
 
-<a id="org15dc79a"></a>
+<a id="orgaea679e"></a>
 
 ## Additional Configuration
 
