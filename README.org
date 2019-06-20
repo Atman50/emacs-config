@@ -250,7 +250,16 @@
         :hook (after-init . doom-modeline-mode))
     #+END_SRC
     Just experimenting with the =gruvbox-theme= for now. Used to work with the =leuven-theme=.
-
+*** Dired
+    Make sure dired is properly configured. Using =:ensure nil= here because the dired package is builtin.
+    #+BEGIN_SRC emacs-lisp :tangle yes
+      (use-package dired
+        :ensure nil
+        :config (when (string= system-type "darwin")
+                  (setq dired-use-ls-dired t
+                        insert-directory-program "/usr/local/bin/gls"))
+        :custom (dired-listing-switches "-aBhl --group-directories-first"))
+    #+END_SRC
 *** For demonstrations
     These packages are useful when doing presentations.
     #+BEGIN_SRC emacs-lisp :tangle yes
