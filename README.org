@@ -320,6 +320,10 @@
         (emacs-lisp-mode . (lambda () (lispy-mode 1)))
         (minibuffer-setup . (lambda () (when (eq this-command 'eval-expression) (lispy-mode 1)))))
 
+      (use-package default-text-scale                     ;; text-scale on steroids - for all windows C-M-- and C-M-=
+        :bind (("C-M--" . default-text-scale-decrease)
+               ("C-M-=" . default-text-scale-increase)))
+
       (use-package powershell
         :if mswindows-p)
     #+END_SRC
@@ -695,7 +699,7 @@
      ;; Some key bindings
      (bind-key "C-x p" #'pop-to-mark-command)
      (bind-key "C-h c" #'customize-group)
-     (bind-key "C-+" #'text-scale-increase)
+     (bind-key "C-=" #'text-scale-increase)          ;; because it's the + key too and agrees with default-text-scale
      (bind-key "C--" #'text-scale-decrease)
      (bind-key "<up>" #'enlarge-window ctl-x-map)    ;; note: C-x
      (bind-key "<down>" #'shrink-window ctl-x-map)   ;; note: C-x
