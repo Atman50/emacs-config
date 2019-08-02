@@ -139,7 +139,7 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(default ((t (:inherit nil :stipple nil :inverse-video nil :box nil :strike-through nil :overline nil :underline nil :slant normal :weight normal :height 150 :width normal :foundry "nil" :family "DejaVu Sans Mono"))))
- '(ivy-posframe ((t (:inherit default :background "wheat2"))))
- '(which-key-posframe ((t (:inherit default :background "wheat2")))))
+ '(ivy-posframe ((t (:inherit default :background "wheat1"))))
+ '(which-key-posframe ((t (:inherit default :background "wheat1")))))
 
 ;;; custom.el ends here
