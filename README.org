@@ -191,19 +191,19 @@
        :config
        (global-flycheck-mode))
    #+END_SRC
-
 *** =synosaurus=
     This is a [[https://github.com/hpdeifel/synosaurus][free synonyms plug-in]] for Emacs that uses [[https://wordnet.princeton.edu/][Wordnet]] brought to you by Princeton University. Note that you will have to
     install  [[https://wordnet.princeton.edu/][Wordnet]] on your system and add it to your path to make this package work properly.
-    #+BEGIN_SRC emacs-lisp :tangle yes
+
+    *NB: This is currently not tangled (not in force).*
+    #+BEGIN_SRC emacs-lisp :tangle no
       (use-package synosaurus)
     #+END_SRC
 *** [[https://github.com/myrjola/diminish.el][=diminish=]]
     Handy mode to make the modeline more succinct by allowing a /diminished/ mode line string. Sometimes the fact that mode is there
     is fine and it doesn't need to be on the mode line (diminish it to "").
     #+BEGIN_SRC emacs-lisp :tangle yes
-      (use-package diminish
-        :defer t)
+      (use-package diminish :defer t)
     #+END_SRC
 *** yaml-mode
     #+BEGIN_SRC emacs-lisp :tangle yes
@@ -212,8 +212,7 @@
 *** [[https://github.com/priyadarshan/bind-key][=bind-key=]]
     Much better binding capabilities (in later versions this is already loaded via =use-package=).
     #+BEGIN_SRC emacs-lisp :tangle yes
-      (use-package bind-key
-        :defer t)
+      (use-package bind-key :defer t)
     #+END_SRC
 *** [[https://github.com/Wilfred/helpful][=helpful=]]
     [[https://github.com/Wilfred/helpful][Helpful]] provides contextual help and other features. Here are two blogs that provide good information: [[http://www.wilfred.me.uk/blog/2017/08/30/helpful-adding-contextual-help-to-emacs/][initial Helpful blog]] and
@@ -228,8 +227,7 @@
     annoying errors.
     #+BEGIN_SRC emacs-lisp :tangle yes
       (unless (package-built-in-p 'savehist)
-        (use-package savehist
-          :defer t))
+        (use-package savehist :defer t))
     #+END_SRC
     Set the following variables to control =savehist= (use customize).
     #+NAME: savehist-custom-vars
@@ -265,7 +263,6 @@
     #+BEGIN_SRC emacs-lisp :tangle yes
       (use-package command-log-mode :defer t)
     #+END_SRC
-
 *** [[https://github.com/justbur/emacs-which-key][=which-key=]]
     Perhaps one of the most useful extensions, this little gem will provide a list in the mini-buffer of the relevant keystrokes and
     the functions to which they are bound (or a prefix). Many times I've found unknown features by simply looking at the various
@@ -324,8 +321,8 @@
         :bind (("C-M--" . default-text-scale-decrease)
                ("C-M-=" . default-text-scale-increase)))
 
-      (use-package powershell
-        :if mswindows-p)
+      (when mswindows-p
+        (use-package powershell))
     #+END_SRC
     Note that the setting of [[(desktop-path)][=desktop-path=]] allows the multiple =.emacs.desktop= files, each in the directory where =emacs= was
     started. Although =desktop-path= is changed outside =custom.el=, I've included it here in the table below so you can see that
@@ -539,18 +536,18 @@
   #+END_QUOTE
   Although I'm currently using =elpy= for Python, I'll be using LSP for Java development.
   #+BEGIN_SRC emacs-lisp :tangle yes
-        (use-package lsp-mode
-          :config
-          (use-package lsp-ui)
-          (use-package company-lsp
-            :config
-            (push 'company-lsp company-backends))
-          :hook
-          (lsp-mode . 'lsp-ui-mode)
-          (lsp-after-open . #'lsp-enable-imenu)
-          (lsp-after-initialize . (lambda ()
-                                    (let ((lsp-cfg `(:pyls (:configurationSources ("flake8")))))
-                                      (lsp--set-configuration lsp-cfg)))))
+    (use-package lsp-mode
+      :config
+      (use-package lsp-ui)
+      (use-package company-lsp
+        :config
+        (push 'company-lsp company-backends))
+      :hook
+      (lsp-mode . 'lsp-ui-mode)
+      (lsp-after-open . #'lsp-enable-imenu)
+      (lsp-after-initialize . (lambda ()
+                                (let ((lsp-cfg `(:pyls (:configurationSources ("flake8")))))
+                                  (lsp--set-configuration lsp-cfg)))))
   #+END_SRC
 
 * python configuration
