@@ -73,6 +73,7 @@
  '(ivy-mode t)
  '(ivy-use-selectable-prompt t)
  '(ivy-use-virtual-buffers t)
+ '(kotlin-tab-width 4)
  '(line-move-visual nil)
  '(line-number-display-limit-width 40000)
  '(lsp-ui-doc-border "black")
