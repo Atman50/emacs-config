@@ -82,7 +82,6 @@
  '(magit-repository-directories '(("~/repos" . 1)))
  '(magit-submodule-arguments '("--recursive"))
  '(make-backup-files nil)
- '(my/use-elpy t)
  '(org-babel-load-languages '((shell . t) (plantuml . t) (python . t) (emacs-lisp . t)))
  '(org-catch-invisible-edits 'show)
  '(org-html-postamble t)

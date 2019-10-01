@@ -156,7 +156,6 @@
 *** Use Ctrl-Z for personal bindings
     Ctrl-c was supposed to be left for personal customization but seems to get used more than it should,
     therefore I've started to bind things to Ctrl-Z, which had the annoying and useless minimize functionality.
-
     #+BEGIN_SRC  emacs-lisp :tangle yes
       (bind-keys :map global-map                      ;; get rid of pesky "\C-z" and use for personal bindings
                  :prefix-map my-ctrl-z-prefix-map
@@ -191,14 +190,6 @@
        :config
        (global-flycheck-mode))
    #+END_SRC
-*** =synosaurus=
-    This is a [[https://github.com/hpdeifel/synosaurus][free synonyms plug-in]] for Emacs that uses [[https://wordnet.princeton.edu/][Wordnet]] brought to you by Princeton University. Note that you will have to
-    install  [[https://wordnet.princeton.edu/][Wordnet]] on your system and add it to your path to make this package work properly.
-
-    *NB: This is currently not tangled (not in force).*
-    #+BEGIN_SRC emacs-lisp :tangle no
-      (use-package synosaurus)
-    #+END_SRC
 *** [[https://github.com/myrjola/diminish.el][=diminish=]]
     Handy mode to make the modeline more succinct by allowing a /diminished/ mode line string. Sometimes the fact that mode is there
     is fine and it doesn't need to be on the mode line (diminish it to "").
@@ -232,7 +223,6 @@
     Set the following variables to control =savehist= (use customize).
     #+NAME: savehist-custom-vars
     #+CALL: custom-vars-table(custom-vars='(savehist-file savehist-additional-variables savehist-mode))
-
 *** Themes and mode line
     My progression of modelines has gone from =powerline= to =moody= and now =doom=. The =doom-modeline= package is pretty good and
     not as much fuss as I had with =moody=. All the stuff I need there and makes this configuration much easier. You *must* go
@@ -247,7 +237,6 @@
       (use-package doom-modeline
         :hook (after-init . doom-modeline-mode))
     #+END_SRC
-    Just experimenting with the =gruvbox-theme= for now. Used to work with the =leuven-theme=.
 *** Dired
     Make sure dired is properly configured. Using =:ensure nil= here because the dired package is builtin.
     #+BEGIN_SRC emacs-lisp :tangle yes
@@ -333,38 +322,11 @@
     #+NAME: other-pkgs-custom-vars
     #+CALL: custom-vars-table(custom-vars='(desktop-path desktop-save-mode))
 * [[http://company-mode.github.io/][=company-mode=]] Configuration
-  Use the excellent [[http://company-mode.github.io/][=company-mode=]] modular in-buffer text completion framework. In particular this is used for [[https://github.com/jorgenschaefer/elpy][=elpy=]] (python) 
-  and java modes, although it is used elsewhere.
+  Use the excellent [[http://company-mode.github.io/][=company-mode=]] modular in-buffer text completion framework.
   #+BEGIN_SRC emacs-lisp :tangle yes
     (use-package company
       :diminish
       :config (global-company-mode 1))
-
-    ;; Do this stuff to make tabs work...
-    (defun my/check-expansion ()
-      "Check to see if this should be expanded."
-      (save-excursion
-        (if (looking-at "\\_>") t
-          (backward-char 1)
-          (if (looking-at "\\.") t
-            (backward-char 1)
-            (if (looking-at "->") t nil)))))
-
-    (defun my/do-yas-expand ()
-      "Try to YAS expand."
-      (let ((yas/fallback-behavior 'return-nil))
-        (yas/expand)))
-
-    (defun my/tab-indent-or-complete ()
-      "Tab or complete."
-      (interactive)
-      (if (minibufferp)
-          (minibuffer-complete)
-        (if (or (not yas/minor-mode)
-                (null (my/do-yas-expand)))
-            (if (my/check-expansion)
-                (company-complete-common)
-              (indent-for-tab-command)))))
   #+END_SRC
 * [[https://github.com/abo-abo/swiper][=ivy/swiper=]] Configuration
   I used to be a =helm= user, but switched to =ivy=. Lots of nice features in =ivy= and very easy to configure comparatively.
@@ -596,17 +558,26 @@
    switch to the =lsp-mode=.
 
    #+BEGIN_SRC emacs-lisp :tangle yes
-     (defcustom my/use-elpy t
+     (defcustom my/python-ide 'eglot
        "Setting to t uses elpy as the Python IDE. Set to nil to use lsp."
        :group 'my-configuration
-       :type '(choice
-               (const :tag "lsp" nil)
-               (const :tag "elpy" t)))
+       :type '(radio
+               (const :tag "lsp" lsp)
+               (const :tag "elpy" elpy)
+               (const :tag "eglot" eglot)))
    #+END_SRC
+*** =eglot= IDE
+    Well, this is more than just for Python, but we'll put it here. The [[https://github.com/joaotavora/eglot][eglot package]] supports many languages out-of-the-box. For
+    Python, =eglot= relies upon the =pyls= Python package.
+    #+BEGIN_SRC emacs-lisp :tangle yes
+      (when (eq my/python-ide 'eglot)
+        (use-package eglot :pin melpa))
+    #+END_SRC
+
 *** [[https://github.com/jorgenschaefer/elpy][=elpy=]] IDE
     The tried and true [[https://github.com/jorgenschaefer/elpy][=elpy=]] Python IDE. I run =flycheck= rather than =flymake= now, so rebind the error navigation keys (C-c C-n/C-p).
   #+BEGIN_SRC emacs-lisp :tangle yes
-    (when my/use-elpy
+    (when (eq my/python-ide 'elpy)
       (use-package elpy
         :demand t
         :bind (:map elpy-mode-map
@@ -620,13 +591,13 @@
           :config
           (push 'company-jedi company-backends))))
    #+END_SRC
-   The variable =elpy-modules= is updated in my =custom.el= file so that the =flymake= module is removed:
-   #+NAME: elpy-custom-vars
-   #+CALL: custom-vars-table(custom-vars='(elpy-modules))
+   The variable =elpy-modules= is updated in the =custom.el= file. Since I'm no longer really using =elpy= (using =eglot= now),
+   there is no longer an =elpy-modules= in my =custom.el= file. When using =flycheck=, you should make sure to remove the =flymake=
+   module from =elpy=.
 *** [[https://github.com/emacs-lsp/lsp-mode][=lsp-mode=]] IDE
     This is a newer mode based on the [[https://langserver.org/][Language Server Protocol]].
   #+BEGIN_SRC emacs-lisp :tangle yes
-    (unless my/use-elpy
+    (when (eq my/python-ide 'lsp)
       (use-package lsp-python))
    #+END_SRC
 ** Python IDE-agnostic configuration
@@ -638,7 +609,9 @@
      (use-package python
        :hook
        (python-mode . (lambda ()
-                        (unless my/use-elpy (lsp-python-enable))
+                        (cond
+                         ((eq my/python-ide 'lsp) (lsp-python-enable))
+                         ((eq my/python-ide 'eglot) (eglot-ensure)))
                         (company-mode))))
    #+END_SRC
    Customized variables used in this python configuration:
@@ -649,21 +622,22 @@
   We're using Kotlin so trying out the =kotlin-language-server=. You'll need to clone github =fwcd/kotlin-language-server= and build
   the language server: see [[https://github.com/fwcd/kotlin-language-server][kotlin-language-server]].
   #+BEGIN_SRC emacs-lisp :tangle yes
-    (use-package kotlin-mode
-      :hook (kotlin-mode . (lambda () (lsp-mode 1)))
-      :bind (:map kotlin-mode-map ([tab] . #'my/tab-indent-or-complete)))
+    (unless (eq my/python-ide 'eglot)
+      (use-package kotlin-mode
+        :hook (kotlin-mode . (lambda () (lsp-mode 1)))))
   #+END_SRC
 
 * Java configuration
   Tried to get LSP working, but to no avail. Using Meghanada mode.
   #+BEGIN_SRC emacs-lisp :tangle yes
     (use-package gradle-mode)
-    (use-package meghanada
-      :bind (:map meghanada-mode-map
-                  ("C-c C-n" . flycheck-next-error)
-                  ("C-c C-p" . flycheck-previous-error))
-      :hook
-      (java-mode . (lambda () (meghanada-mode t))))
+    (unless (eq my/python-ide 'eglot)
+      (use-package meghanada
+        :bind (:map meghanada-mode-map
+                    ("C-c C-n" . flycheck-next-error)
+                    ("C-c C-p" . flycheck-previous-error))
+        :hook
+        (java-mode . (lambda () (meghanada-mode t)))))
   #+END_SRC
 
 * Additional bits-o-configuration
@@ -684,7 +658,7 @@
    Allows me to name my ANSI terms. Was very useful when I used more ANSI shells (so that tabs were interpreted by the shell). Some
    other modes and shells make this less useful these days.
    #+BEGIN_SRC emacs-lisp :tangle yes
-     (cl-defun my-ansi-term (term-name cmd)
+     (cl-defun my/ansi-term (term-name cmd)
        "Create an ansi term with a name - other than *ansi-term* given TERM-NAME and CMD."
        (interactive "sName for terminal: \nsCommand to run [/bin/bash]: ")
        (ansi-term (if (= 0 (length cmd)) "/bin/bash" cmd))
