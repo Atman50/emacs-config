@@ -516,11 +516,11 @@
 
       (advice-add #'orgtbl-to-orgtbl :filter-return #'my-md-export-hack)
     #+END_SRC
-** Use of babel
-   To do literate programming you need to include the languages to "tangle". Here I've added more than just the standard
-   =emacs-lisp= value. Added Python, [[http://plantuml.com/][PlantUML]], and shell.
-   #+NAME: org-babel-custom-vars
-   #+CALL: custom-vars-table(custom-vars='(org-babel-load-languages)))
+*** Use of babel
+    To do literate programming you need to include the languages to "tangle". Here I've added more than just the standard
+    =emacs-lisp= value. Added Python, [[http://plantuml.com/][PlantUML]], and shell.
+    #+NAME: org-babel-custom-vars
+    #+CALL: custom-vars-table(custom-vars='(org-babel-load-languages)))
 
 ** Language support
    This section covers the various language support features of this configuration.
