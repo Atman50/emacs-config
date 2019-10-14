@@ -261,7 +261,7 @@
       (use-package which-key-posframe)
     #+END_SRC
     #+NAME: which-key-pkg-custom-vars
-    #+CALL: custom-vars-table(custom-vars='(which-key-mode which-key-posframe-mode which-key-posframe-poshandler))
+    #+CALL: custom-vars-table(custom-vars='(which-function-mode which-key-mode which-key-posframe-mode which-key-posframe-poshandler))
 *** Very large files
     Since I deal with potentially gigantic log files, this package allows the file to be carved up and 'paged' through. Get to the
     =vlf= stuff through the default prefix =C-c C-v=.
@@ -543,102 +543,49 @@
       :commands lsp)
   #+END_SRC
 
-* python configuration
-  At one point I was using anaconda but have switched back to elpy. I really like =eply-config= that tells you if everything is
-  working properly. I've been using a =virtualenv= for my python development and couldn't be happier. Perhaps the only thing that
-  bothers me is that when an object is returned, PyCharm will give you list and dictionary methods while =eply=/=company= does not.
-  Seems to be the only real issue at this point.
-
-** The tale of two IDEs
-   I've decided to take the [[https://langserver.org/][Language Server Protocol]] out for a spin. Unfortunately it might be a while before I decide to switch
-   since there are some things I find a little annoying, like initial startup speed of loading a large Python file into Emacs,
-   presumably because =lsp-mode= is initializing. Either way, the Python IDE is selected using the.
-
-   To switch between the two IDEs might take a bit of futzing - I've had to go remove =elpy= entries from =~/.emacs.d/custom.el= to
-   switch to the =lsp-mode=.
+* Language support
+  This section covers the various language support features of this configuration.
+** Taking the =eglot= plunge
+   The [[https://github.com/joaotavora/eglot][=eglot=]] package is a [[https://microsoft.github.io/language-server-protocol/][language server protocol]] (LSP) client for Emacs that supports many languages out-of-the-box. After
+   spending time with =elpy= and other Emacs implementations of LSP clients, it turns out =eglot= is very multipurpose with minimal
+   configuration.
 
    #+BEGIN_SRC emacs-lisp :tangle yes
-     (defcustom my/python-ide 'eglot
-       "Setting to t uses elpy as the Python IDE. Set to nil to use lsp."
-       :group 'my-configuration
-       :type '(radio
-               (const :tag "lsp" lsp)
-               (const :tag "elpy" elpy)
-               (const :tag "eglot" eglot)))
+     (use-package eglot :pin melpa)
    #+END_SRC
-*** =eglot= IDE
-    Well, this is more than just for Python, but we'll put it here. The [[https://github.com/joaotavora/eglot][eglot package]] supports many languages out-of-the-box. For
-    Python, =eglot= relies upon the =pyls= Python package.
-    #+BEGIN_SRC emacs-lisp :tangle yes
-      (when (eq my/python-ide 'eglot)
-        (use-package eglot :pin melpa))
-    #+END_SRC
 
-*** [[https://github.com/jorgenschaefer/elpy][=elpy=]] IDE
-    The tried and true [[https://github.com/jorgenschaefer/elpy][=elpy=]] Python IDE. I run =flycheck= rather than =flymake= now, so rebind the error navigation keys (C-c C-n/C-p).
-  #+BEGIN_SRC emacs-lisp :tangle yes
-    (when (eq my/python-ide 'elpy)
-      (use-package elpy
-        :demand t
-        :bind (:map elpy-mode-map
-                    ("C-c C-p" .  flycheck-previous-error)
-                    ("C-c C-n" . flycheck-next-error)
-                    ("C-z ." . elpy-goto-definition))
-        :config
-        (elpy-enable)
-        (add-to-list 'python-shell-completion-native-disabled-interpreters "jupyter")
-        (use-package company-jedi
-          :config
-          (push 'company-jedi company-backends))))
-   #+END_SRC
-   The variable =elpy-modules= is updated in the =custom.el= file. Since I'm no longer really using =elpy= (using =eglot= now),
-   there is no longer an =elpy-modules= in my =custom.el= file. When using =flycheck=, you should make sure to remove the =flymake=
-   module from =elpy=.
-*** [[https://github.com/emacs-lsp/lsp-mode][=lsp-mode=]] IDE
-    This is a newer mode based on the [[https://langserver.org/][Language Server Protocol]].
-  #+BEGIN_SRC emacs-lisp :tangle yes
-    (when (eq my/python-ide 'lsp)
-      (use-package lsp-python))
-   #+END_SRC
-** Python IDE-agnostic configuration
+** Python
+   Now with =eglot= this is pretty straight forward configuration.
    #+BEGIN_SRC emacs-lisp :tangle yes
      (use-package pylint)
      (use-package python-docstring
        :config
        (python-docstring-install))
      (use-package python
+       :bind (:map python-mode-map
+                   ("C-c C-p" .  flycheck-previous-error)
+                   ("C-c C-n" . flycheck-next-error))
        :hook
        (python-mode . (lambda ()
-                        (cond
-                         ((eq my/python-ide 'lsp) (lsp-python-enable))
-                         ((eq my/python-ide 'eglot) (eglot-ensure)))
+                        (eglot-ensure)
                         (company-mode))))
    #+END_SRC
    Customized variables used in this python configuration:
    #+NAME: python-custom-vars
-   #+CALL: custom-vars-table(custom-vars='(python-check-command python-shell-interpreter python-shell-interpreter-args python-shell-prompt-detect-failure-warning python-shell-prompt-output-regexp python-shell-prompt-regexp))
+   #+CALL: custom-vars-table(custom-vars='(python-check-command python-flymake-command python-indent-trigger-commands python-shell-interpreter python-shell-interpreter-args python-shell-prompt-detect-failure-warning python-shell-prompt-output-regexp python-shell-prompt-regexp))
 
-* Kotlin configuration
-  We're using Kotlin so trying out the =kotlin-language-server=. You'll need to clone github =fwcd/kotlin-language-server= and build
-  the language server: see [[https://github.com/fwcd/kotlin-language-server][kotlin-language-server]].
-  #+BEGIN_SRC emacs-lisp :tangle yes
-    (unless (eq my/python-ide 'eglot)
-      (use-package kotlin-mode
-        :hook (kotlin-mode . (lambda () (lsp-mode 1)))))
-  #+END_SRC
+** Kotlin
+   We're using Kotlin so trying out the =kotlin-language-server=. You'll need to clone github =fwcd/kotlin-language-server= and build
+   the language server: see [[https://github.com/fwcd/kotlin-language-server][kotlin-language-server]].
+   #+BEGIN_SRC emacs-lisp :tangle yes
+     (use-package kotlin-mode)
+   #+END_SRC
 
-* Java configuration
-  Tried to get LSP working, but to no avail. Using Meghanada mode.
-  #+BEGIN_SRC emacs-lisp :tangle yes
-    (use-package gradle-mode)
-    (unless (eq my/python-ide 'eglot)
-      (use-package meghanada
-        :bind (:map meghanada-mode-map
-                    ("C-c C-n" . flycheck-next-error)
-                    ("C-c C-p" . flycheck-previous-error))
-        :hook
-        (java-mode . (lambda () (meghanada-mode t)))))
-  #+END_SRC
+** Java
+   Tried to get LSP working, but to no avail. Using Meghanada mode.
+   #+BEGIN_SRC emacs-lisp :tangle yes
+     (use-package gradle-mode)
+   #+END_SRC
 
 * Additional bits-o-configuration
 ** Limit the length of [[https://www.gnu.org/software/emacs/manual/html_node/emacs/Which-Function.html][=which-function=]]
@@ -683,9 +630,9 @@
      (add-hook 'find-file-hook #'my-find-file-hook)
    #+END_SRC
 
-** React to screen width changes
-   Because I use posframe quite a bit now (so that the mini-buffer doesn't continue to change sizes, which I find a little
-   annoying), this code reacts to the width changes and will set the custom variables accordingly.
+** React to screen width changes for =posframe=
+   Because I use =posframe= quite a bit now (so that the mini-buffer doesn't continue to change sizes, which I find a little
+   distracting), this code reacts to the width changes and will set the custom variables accordingly.
    #+BEGIN_SRC emacs-lisp :tangle yes
      (cl-defun my/window-size-change (&optional _)
        "My very own resize defun for modifying the posframe size"
@@ -723,6 +670,9 @@
      (put 'downcase-region 'disabled nil)
      (put 'upcase-region 'disabled nil)
      (put 'scroll-left 'disabled nil)
+
+     ;; add pom file to xml type
+      (add-to-list 'auto-mode-alist '("\\.pom\\'" . xml-mode))
   #+END_SRC
 
   A post-amble to make the tangled =.el= file has no errors/warnings.
