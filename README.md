@@ -1,61 +1,63 @@
 
 # Table of Contents
 
-1.  [Overview](#org5b288c3)
-    1.  [Quick start](#org48f4050)
-    2.  [Why a literate configuration](#org6da41ea)
-    3.  [`init.el`, short and sweet](#orgd00b2f8)
-        1.  [Loading the custom file first](#org93186a5)
-        2.  [Customizing the configuration](#orge7707da)
-2.  [My Configuration](#orgc676c4e)
-    1.  [A preamble](#orge1018d2)
-    2.  [General packages](#org81f33fe)
-        1.  [Speed up line movement](#org564dbae)
-        2.  [Use Ctrl-Z for personal bindings](#orgd9458d1)
-        3.  [Docker](#orgff8eca1)
-        4.  [`flycheck`](#orgde02bfb)
-        5.  [`diminish`](#org2c6d23b)
-        6.  [yaml-mode](#orgd48df89)
-        7.  [`bind-key`](#orgb658446)
-        8.  [`helpful`](#org2c86775)
-        9.  [`savehist`](#org8c26391)
-        10. [Themes and mode line](#org5546166)
-        11. [Dired](#org6b1b0c5)
-        12. [For demonstrations](#org202b613)
-        13. [`which-key`](#org0a26c57)
-        14. [Very large files](#orgf3083c7)
-        15. [Groovy](#org732d969)
-        16. [Other useful packages](#orgd13402b)
-3.  [`company-mode` Configuration](#orgf9fd7a6)
-4.  [`ivy/swiper` Configuration](#org4ffadc0)
-5.  [`prescient` Configuration](#org29ac455)
-6.  [`yasnippet` Configuration](#org44245d6)
-7.  [`magit`/git configuration](#org4180914)
-8.  [`org-mode` Configuration](#org111031b)
-    1.  [`org-mode` export hacks for HTML and Markdown](#orgbe25e11)
-    2.  [Use of babel](#org4cdc8a7)
-9.  [Language support](#org51f09e5)
-    1.  [Taking the `eglot` plunge](#orgaee09bf)
-    2.  [Python](#org5d836f6)
-    3.  [Kotlin](#org01e88f9)
-    4.  [Java](#org3485b53)
-10. [Additional bits-o-configuration](#org842dd5c)
-    1.  [Limit the length of `which-function`](#org71261d5)
-    2.  [`my-ansi-term`](#orgbe23779)
-    3.  [Understand file type by shebang](#org4dc9156)
-    4.  [React to screen width changes for `posframe`](#orgfdc3172)
-    5.  [Additional Configuration](#org6b8a094)
+1.  [Overview](#org211268f)
+    1.  [Quick start](#org9c94802)
+    2.  [Why a literate configuration](#org067614d)
+    3.  [`init.el`, short and sweet](#orga973c3c)
+        1.  [Loading the custom file first](#orgde0dad6)
+        2.  [Customizing the configuration](#orge7ee593)
+2.  [Configuration start here](#org30a44c0)
+    1.  [A preamble](#org180bda5)
+    2.  [Speed up loading](#org98dd057)
+    3.  [Speed up line movement](#org35c0021)
+    4.  [I use Ctrl-Z for personal bindings](#org1103667)
+    5.  [Theme and mode line](#orgccceb50)
+    6.  [Packages](#orge981bbb)
+        1.  [`magit`](#org452bd5b)
+        2.  [`which-key`](#orge86eb9b)
+        3.  [`projectile`](#org34fc8fa)
+        4.  [`company-mode`](#org3d20b56)
+        5.  [`ivy/swiper`](#orge226de6)
+        6.  [Use `ivy` and `posframe` together](#orgea74749)
+        7.  [`prescient`](#orged039f0)
+        8.  [`yasnippet`](#org7ea5d97)
+        9.  [`dired`](#orge005790)
+        10. [`command-log-mod`](#org3cbf1af)
+        11. [Docker](#org813dd58)
+        12. [`flycheck`](#org0a8694a)
+        13. [yaml-mode](#orgcf2825c)
+        14. [`bind-key`](#org8b7fc1c)
+        15. [`helpful`](#org041d728)
+        16. [`savehist`](#orge0107cb)
+        17. [Very large files](#orgb83c5c9)
+        18. [Groovy](#org5439b3f)
+        19. [Random packages](#org044de51)
+    7.  [`org-mode`](#org5ea30c2)
+        1.  [`org-mode` export hacks for HTML and Markdown](#orgff479f0)
+    8.  [Use of babel](#orga036fad)
+    9.  [Language support](#org806d0bd)
+        1.  [Taking the `eglot` plunge](#org22afba3)
+        2.  [Python](#org0acbb05)
+        3.  [Kotlin](#org414761f)
+        4.  [Java](#org16c5147)
+    10. [Additional bits-o-configuration](#org9c9721e)
+        1.  [Limit the length of `which-function`](#org628a4c3)
+        2.  [`my-ansi-term`](#orgf5be55b)
+        3.  [Understand file type by shebang](#orgc982153)
+        4.  [React to screen width changes for `posframe`](#orgb4facc4)
+    11. [Final (random) bits](#org44fe193)
 
 
 
-<a id="org5b288c3"></a>
+<a id="org211268f"></a>
 
 # Overview
 
 This is my literate and <font color=red size=+3><b><u>portable</u></b></font> Emacs initialization.
 
 
-<a id="org48f4050"></a>
+<a id="org9c94802"></a>
 
 ## Quick start
 
@@ -74,7 +76,7 @@ The ability to simply clone and start is what makes this configuration **portabl
 `custom.el` and then apply it whenever I take updated configurations from the repository.
 
 
-<a id="org6da41ea"></a>
+<a id="org067614d"></a>
 
 ## Why a literate configuration
 
@@ -89,7 +91,7 @@ I have tried to make this configuration 100% portable meaning that on a new syst
 installed. I simple git clone this repository to `~/.emacs.d` and then fire up Emacs. Should work every time. 
 
 
-<a id="orgd00b2f8"></a>
+<a id="orga973c3c"></a>
 
 ## `init.el`, short and sweet
 
@@ -261,7 +263,7 @@ installed. I simple git clone this repository to `~/.emacs.d` and then fire up E
 </table>
 
 
-<a id="org93186a5"></a>
+<a id="orgde0dad6"></a>
 
 ### Loading the custom file first
 
@@ -310,7 +312,7 @@ extension packages used by this configuration.
 </table>
 
 
-<a id="orge7707da"></a>
+<a id="orge7ee593"></a>
 
 ### Customizing the configuration
 
@@ -321,15 +323,15 @@ This allows me to select features to turn on or off selectively and make them st
 Another reason to load the customization file first.
 
 
-<a id="orgc676c4e"></a>
+<a id="org30a44c0"></a>
 
-# My Configuration
+# Configuration start here
 
 Here are my configuration bits. All of the following code snippets are tangled from this file into an `.el` file that gets loaded
 from the initialization file. Feel free to take as little or as much as you like from here.
 
 
-<a id="orge1018d2"></a>
+<a id="org180bda5"></a>
 
 ## A preamble
 
@@ -343,6 +345,11 @@ First make sure that we are doing lexical scoping for speed. See [Some Performan
 ;;; Code:
 ```
 
+
+<a id="org98dd057"></a>
+
+## Speed up loading
+
 This is a little piece of code that I picked up that might make things faster when downloading and installing all the packages.
 This turns down the garbage collector during the use-package loading when it has to do some compiling. Set it back when done with
 init.
@@ -353,16 +360,9 @@ init.
 ```
 
 
-<a id="org81f33fe"></a>
+<a id="org35c0021"></a>
 
-## General packages
-
-Here are some general packages I use
-
-
-<a id="org564dbae"></a>
-
-### Speed up line movement
+## Speed up line movement
 
 I ran into this little tidbit while reading Sacha Chua's posts from Emacs. It is described [here](https://emacs.stackexchange.com/questions/28736/emacs-pointcursor-movement-lag/28746), but to summarize the
 `next-line` defun triggers `line-move-partial` which leads to excessive processing. By setting the variable here, the speed of
@@ -373,11 +373,11 @@ using `next-line` gets very cut down.
 ```
 
 
-<a id="orgd9458d1"></a>
+<a id="org1103667"></a>
 
-### Use Ctrl-Z for personal bindings
+## I use Ctrl-Z for personal bindings
 
-Ctrl-c was supposed to be left for personal customization but seems to get used more than it should,
+Ctrl-C was supposed to be left for personal customization but seems to get used more than it should,
 therefore I've started to bind things to Ctrl-Z, which had the annoying and useless minimize functionality.
 
 ```emacs-lisp
@@ -404,89 +404,54 @@ therefore I've started to bind things to Ctrl-Z, which had the annoying and usel
 ```
 
 
-<a id="orgff8eca1"></a>
+<a id="orgccceb50"></a>
 
-### Docker
+## Theme and mode line
 
-I manage a lot of docker stuff. The docker package is quite useful.
+My progression of modelines has gone from `powerline` to `moody` and now `doom`. The `doom-modeline` package is pretty good and
+not as much fuss as I had with `moody`. All the stuff I need there and makes this configuration much easier. You **must** go
+install the fonts from the `all-the-icons` package (which is loaded as a dependency) according to the instructions found on the
+[`doom-modeline` website](https://github.com/seagle0128/doom-modeline): Run `M-x all-the-icons-install-fonts` and then, on Windows, install the font ttf file by right clicking
+on it and doing install.
 
 ```emacs-lisp
-(use-package docker)
+(use-package leuven-theme
+  :demand t
+  :config (load-theme 'leuven t))
+
+(use-package doom-modeline
+  :hook (after-init . doom-modeline-mode))
 ```
 
 
-<a id="orgde02bfb"></a>
+<a id="orge981bbb"></a>
 
-### `flycheck`
+## Packages
 
-I've abandoned `flymake` (built-in) with `flycheck` (see [flycheck a flymake replacement](https://www.masteringemacs.org/article/spotlight-flycheck-a-flymake-replacement)).
-
-```emacs-lisp
-(use-package flycheck
-  :config
-  (global-flycheck-mode))
-```
+Here are the packages I use and I've tried to list them in a relatively logical order (trying to put the more significant
+packages earlier in this document).
 
 
-<a id="org2c6d23b"></a>
+<a id="org452bd5b"></a>
 
-### [`diminish`](https://github.com/myrjola/diminish.el)
+### [`magit`](https://github.com/magit/magit)
 
-Handy mode to make the modeline more succinct by allowing a *diminished* mode line string. Sometimes the fact that mode is there
-is fine and it doesn't need to be on the mode line (diminish it to "").
+The **most awesome** git porcelain. Most here are part of magit, [`git-time-machine`](https://github.com/pidu/git-timemachine) is not, but well worth using.
 
 ```emacs-lisp
-(use-package diminish :defer t)
+(use-package git-commit)
+;; (use-package forge
+;;   :after magit)
+(use-package magit
+  ;; Make the default action a branch checkout, not a branch visit when in branch mode
+  :bind (:map magit-branch-section-map
+              ([remap magit-visit-thing] . magit-branch-checkout)))
+(use-package magit-filenotify)
+(use-package magit-find-file)
+(use-package git-timemachine)
 ```
 
-
-<a id="orgd48df89"></a>
-
-### yaml-mode
-
-```emacs-lisp
-(use-package yaml-mode)
-```
-
-
-<a id="orgb658446"></a>
-
-### [`bind-key`](https://github.com/priyadarshan/bind-key)
-
-Much better binding capabilities (in later versions this is already loaded via `use-package`).
-
-```emacs-lisp
-(use-package bind-key :defer t)
-```
-
-
-<a id="org2c86775"></a>
-
-### [`helpful`](https://github.com/Wilfred/helpful)
-
-[Helpful](https://github.com/Wilfred/helpful) provides contextual help and other features. Here are two blogs that provide good information: [initial Helpful blog](http://www.wilfred.me.uk/blog/2017/08/30/helpful-adding-contextual-help-to-emacs/) and
-[Helpful, one year in](http://www.wilfred.me.uk/blog/2018/06/22/helpful-one-year-on/). More in-depth help along with lots of other information like references, edebug capabilities, &#x2026;
-
-```emacs-lisp
-(use-package helpful)
-```
-
-
-<a id="org8c26391"></a>
-
-### [`savehist`](https://www.emacswiki.org/emacs/SaveHist)
-
-A great built-in that allows us to have a history file. This means certain elements are saved between sessions of Emacs. This
-history file is kept in `~/.emacs.d/savehist`. Note that in later versions of Emacs this package is already built-in, so check
-the built-ins before issuing the `use-package`. In later versions of Emacs seems the `savehist` package is built-in so ignore
-annoying errors.
-
-```emacs-lisp
-(unless (package-built-in-p 'savehist)
-  (use-package savehist :defer t))
-```
-
-Set the following variables to control `savehist` (use customize).
+Customized variables:
 
 <table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
 
@@ -505,73 +470,34 @@ Set the following variables to control `savehist` (use customize).
 
 <tbody>
 <tr>
-<td class="org-left">savehist-file</td>
-<td class="org-left">"~/.emacs.d/savehist"</td>
+<td class="org-left">git-commit-fill-column</td>
+<td class="org-left">78</td>
 </tr>
 
 
 <tr>
-<td class="org-left">savehist-additional-variables</td>
-<td class="org-left">(tablist-named-filter kill-ring search-ring regexp-search-ring)</td>
+<td class="org-left">magit-completing-read-function</td>
+<td class="org-left">ivy-completing-read</td>
 </tr>
 
 
 <tr>
-<td class="org-left">savehist-mode</td>
-<td class="org-left">t</td>
+<td class="org-left">magit-repository-directories</td>
+<td class="org-left">(("~/repos" . 1))</td>
 </tr>
 </tbody>
 </table>
 
-
-<a id="org5546166"></a>
-
-### Themes and mode line
-
-My progression of modelines has gone from `powerline` to `moody` and now `doom`. The `doom-modeline` package is pretty good and
-not as much fuss as I had with `moody`. All the stuff I need there and makes this configuration much easier. You **must** go
-install the fonts from the `all-the-icons` package (which is loaded as a dependency) according to the instructions found on the
-[`doom-modeline` website](https://github.com/seagle0128/doom-modeline): Run `M-x all-the-icons-install-fonts` and then, on Windows, install the font ttf file by right clicking
-on it and doing install.
+Handy mode to make the modeline more succinct by allowing a *diminished* mode line string. Sometimes the fact that mode is there
+is fine and it doesn't need to be on the mode line (diminish it to ""). Putting diminish first not out of importance, but
+because it is used later on.
 
 ```emacs-lisp
-(use-package leuven-theme
-  :demand t
-  :config (load-theme 'leuven t))
-
-(use-package doom-modeline
-  :hook (after-init . doom-modeline-mode))
+(use-package diminish :defer t)
 ```
 
 
-<a id="org6b1b0c5"></a>
-
-### Dired
-
-Make sure dired is properly configured. Using `:ensure nil` here because the dired package is builtin.
-
-```emacs-lisp
-(use-package dired
-  :ensure nil
-  :config (when (string= system-type "darwin")
-            (setq dired-use-ls-dired t
-                  insert-directory-program "/usr/local/bin/gls"))
-  :custom (dired-listing-switches "-aBhl --group-directories-first"))
-```
-
-
-<a id="org202b613"></a>
-
-### For demonstrations
-
-These packages are useful when doing presentations.
-
-```emacs-lisp
-(use-package command-log-mode :defer t)
-```
-
-
-<a id="org0a26c57"></a>
+<a id="orge86eb9b"></a>
 
 ### [`which-key`](https://github.com/justbur/emacs-which-key)
 
@@ -626,68 +552,14 @@ options. This is, IMO, a great way to learn Emacs key-bindings.
 </table>
 
 
-<a id="orgf3083c7"></a>
+<a id="org34fc8fa"></a>
 
-### Very large files
+### `projectile`
 
-Since I deal with potentially gigantic log files, this package allows the file to be carved up and 'paged' through. Get to the
-`vlf` stuff through the default prefix `C-c C-v`.
-
-```emacs-lisp
-(use-package vlf
-  :defer t
-  :pin melpa)
-```
-
-I got the `vlf` package from a [really good paper](https://writequit.org/articles/working-with-logs-in-emacs.html) on how to use Emacs to deal with logs. If you currently or are going to deal
-with logs in your day to day, then this article is invaluable. I've yet to adopt some of the other features described by the
-article but I have no need as of yet. Soon maybe.
-
-
-<a id="org732d969"></a>
-
-### Groovy
-
-Since I'm doing more and more work with Jenkins adding support for Groovy is, well, groovy.
+Perhaps one of the most useful packages - understands `git` repositories by default and makes dealing with project-wide stuff
+(like opening files and searching through all project files) much more efficient.
 
 ```emacs-lisp
-(use-package groovy-mode)
-```
-
-<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
-
-
-<colgroup>
-<col  class="org-left" />
-
-<col  class="org-right" />
-</colgroup>
-<thead>
-<tr>
-<th scope="col" class="org-left">Symbol Name</th>
-<th scope="col" class="org-right">Value</th>
-</tr>
-</thead>
-
-<tbody>
-<tr>
-<td class="org-left">groovy-indent-offset</td>
-<td class="org-right">2</td>
-</tr>
-</tbody>
-</table>
-
-
-<a id="orgd13402b"></a>
-
-### Other useful packages
-
-OK, a little tired of documenting each package on it's own. These packages are just generally useful. Some of these packages
-have become so useful that they've found their way into the list of Emacs built-in packages. In those cases, the package is
-checked here against the list of built-ins to avoid warnings when loading a later version of Emacs.
-
-```emacs-lisp
-(use-package realgud)           ;; A "better" gud
 (use-package projectile
   :bind
   (:map projectile-mode-map
@@ -696,65 +568,12 @@ checked here against the list of built-ins to avoid warnings when loading a late
         ("C-z p"   . projectile-command-map))       ;; all paths get to projectile
   :config
   (projectile-mode t))
-(use-package ibuffer-projectile :defer t)
-(use-package xterm-color :defer t)
-(unless (package-built-in-p 'sh-script)
-  (use-package sh-script :defer t))
-(unless (package-built-in-p 'desktop)
-  (use-package desktop))
-(set-variable 'desktop-path (cons default-directory desktop-path))
-(use-package lispy
-  :hook
-  (emacs-lisp-mode . (lambda () (lispy-mode 1)))
-  (minibuffer-setup . (lambda () (when (eq this-command 'eval-expression) (lispy-mode 1)))))
-
-(use-package default-text-scale                     ;; text-scale on steroids - for all windows C-M-- and C-M-=
-  :bind (("C-M--" . default-text-scale-decrease)
-         ("C-M-=" . default-text-scale-increase)))
-
-(when mswindows-p
-  (use-package powershell))
 ```
 
-Note that the setting of `desktop-path` allows the multiple `.emacs.desktop` files, each in the directory where `emacs` was
-started. Although `desktop-path` is changed outside `custom.el`, I've included it here in the table below so you can see that
-the default is augmented with the start-up directory which in this case is `~/.emacs.d`.
 
-Customized variables of interest here:
+<a id="org3d20b56"></a>
 
-<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
-
-
-<colgroup>
-<col  class="org-left" />
-
-<col  class="org-left" />
-</colgroup>
-<thead>
-<tr>
-<th scope="col" class="org-left">Symbol Name</th>
-<th scope="col" class="org-left">Value</th>
-</tr>
-</thead>
-
-<tbody>
-<tr>
-<td class="org-left">desktop-path</td>
-<td class="org-left">("`/toast/git-repos/univers/" "~/.emacs.d/" "`")</td>
-</tr>
-
-
-<tr>
-<td class="org-left">desktop-save-mode</td>
-<td class="org-left">t</td>
-</tr>
-</tbody>
-</table>
-
-
-<a id="orgf9fd7a6"></a>
-
-# [`company-mode`](http://company-mode.github.io/) Configuration
+### [`company-mode`](http://company-mode.github.io/)
 
 Use the excellent [`company-mode`](http://company-mode.github.io/) modular in-buffer text completion framework.
 
@@ -765,9 +584,9 @@ Use the excellent [`company-mode`](http://company-mode.github.io/) modular in-bu
 ```
 
 
-<a id="org4ffadc0"></a>
+<a id="orge226de6"></a>
 
-# [`ivy/swiper`](https://github.com/abo-abo/swiper) Configuration
+### [`ivy/swiper`](https://github.com/abo-abo/swiper)
 
 I used to be a `helm` user, but switched to `ivy`. Lots of nice features in `ivy` and very easy to configure comparatively.
 
@@ -798,7 +617,12 @@ I used to be a `helm` user, but switched to `ivy`. Lots of nice features in `ivy
   :bind (("C-:" . avy-goto-char)))
 ```
 
-**NOTE: `posframe` IS MESSED UP - NOT TANGLING**
+
+<a id="orgea74749"></a>
+
+### Use `ivy` and `posframe` together
+
+This makes the ivy completion buffers popup over the modeline instead of in the minibuffer.
 
 ```emacs-lisp
 (use-package posframe)
@@ -862,9 +686,9 @@ Customized variables:
 </table>
 
 
-<a id="org29ac455"></a>
+<a id="orged039f0"></a>
 
-# [`prescient`](https://github.com/raxod502/prescient.el) Configuration
+### [`prescient`](https://github.com/raxod502/prescient.el)
 
 [`prescient`](https://github.com/raxod502/prescient.el) provides "simple but effective sorting and filtering for Emacs."
 
@@ -875,9 +699,9 @@ Customized variables:
 ```
 
 
-<a id="org44245d6"></a>
+<a id="org7ea5d97"></a>
 
-# [`yasnippet`](https://www.emacswiki.org/emacs/Yasnippet) Configuration
+### [`yasnippet`](https://www.emacswiki.org/emacs/Yasnippet)
 
 [`yasnippet`](https://www.emacswiki.org/emacs/Yasnippet) is a truly awesome package. Local modifications should go in `~/.emacs.d/snippets/`.
 
@@ -895,8 +719,7 @@ appropriate (mode-named) subdirectory of `~/.emacs.d/snippets/`.
   :hook ;; fix tab in term-mode
   (term-mode . (lambda() (yas-minor-mode -1)))
   ;; Fix yas indent issues
-  (python-mode . (lambda () (set (make-local-variable 'yas-indent-line) 'fixed)))
-  )
+  (python-mode . (lambda () (set (make-local-variable 'yas-indent-line) 'fixed))))
 (use-package yasnippet-snippets)
 ```
 
@@ -937,26 +760,104 @@ Customizations of interest:
 </table>
 
 
-<a id="org4180914"></a>
+<a id="orge005790"></a>
 
-# [`magit`](https://github.com/magit/magit)/git configuration
+### `dired`
 
-The **most awesome** git porcelain. Most here are part of magit, [`git-time-machine`](https://github.com/pidu/git-timemachine) is not, but well worth using.
+Make sure dired is properly configured. Using `:ensure nil` here because the dired package is builtin.
 
 ```emacs-lisp
-(use-package git-commit)
-;; (use-package forge
-;;   :after magit)
-(use-package magit
-  ;; Make the default action a branch checkout, not a branch visit when in branch mode
-  :bind (:map magit-branch-section-map
-              ([remap magit-visit-thing] . magit-branch-checkout)))
-(use-package magit-filenotify)
-(use-package magit-find-file)
-(use-package git-timemachine)
+(use-package dired
+  :ensure nil
+  :config (when (string= system-type "darwin")
+            (setq dired-use-ls-dired t
+                  insert-directory-program "/usr/local/bin/gls"))
+  :custom (dired-listing-switches "-aBhl --group-directories-first"))
 ```
 
-Customized variables:
+
+<a id="org3cbf1af"></a>
+
+### `command-log-mod`
+
+These packages are useful when doing presentations.
+
+```emacs-lisp
+(use-package command-log-mode :defer t)
+```
+
+
+<a id="org813dd58"></a>
+
+### Docker
+
+I manage a lot of docker stuff. The docker package is quite useful.
+
+```emacs-lisp
+(use-package docker)
+```
+
+
+<a id="org0a8694a"></a>
+
+### `flycheck`
+
+I've abandoned `flymake` (built-in) with `flycheck` (see [flycheck a flymake replacement](https://www.masteringemacs.org/article/spotlight-flycheck-a-flymake-replacement)).
+
+```emacs-lisp
+(use-package flycheck
+  :config
+  (global-flycheck-mode))
+```
+
+
+<a id="orgcf2825c"></a>
+
+### yaml-mode
+
+```emacs-lisp
+(use-package yaml-mode)
+```
+
+
+<a id="org8b7fc1c"></a>
+
+### [`bind-key`](https://github.com/priyadarshan/bind-key)
+
+Much better binding capabilities (in later versions this is already loaded via `use-package`).
+
+```emacs-lisp
+(use-package bind-key :defer t)
+```
+
+
+<a id="org041d728"></a>
+
+### [`helpful`](https://github.com/Wilfred/helpful)
+
+[Helpful](https://github.com/Wilfred/helpful) provides contextual help and other features. Here are two blogs that provide good information: [initial Helpful blog](http://www.wilfred.me.uk/blog/2017/08/30/helpful-adding-contextual-help-to-emacs/) and
+[Helpful, one year in](http://www.wilfred.me.uk/blog/2018/06/22/helpful-one-year-on/). More in-depth help along with lots of other information like references, edebug capabilities, &#x2026;
+
+```emacs-lisp
+(use-package helpful)
+```
+
+
+<a id="orge0107cb"></a>
+
+### [`savehist`](https://www.emacswiki.org/emacs/SaveHist)
+
+A great built-in that allows us to have a history file. This means certain elements are saved between sessions of Emacs. This
+history file is kept in `~/.emacs.d/savehist`. Note that in later versions of Emacs this package is already built-in, so check
+the built-ins before issuing the `use-package`. In later versions of Emacs seems the `savehist` package is built-in so ignore
+annoying errors.
+
+```emacs-lisp
+(unless (package-built-in-p 'savehist)
+  (use-package savehist :defer t))
+```
+
+Set the following variables to control `savehist` (use customize).
 
 <table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
 
@@ -975,34 +876,154 @@ Customized variables:
 
 <tbody>
 <tr>
-<td class="org-left">git-commit-fill-column</td>
-<td class="org-left">78</td>
+<td class="org-left">savehist-file</td>
+<td class="org-left">"~/.emacs.d/savehist"</td>
 </tr>
 
 
 <tr>
-<td class="org-left">magit-completing-read-function</td>
-<td class="org-left">ivy-completing-read</td>
+<td class="org-left">savehist-additional-variables</td>
+<td class="org-left">(kill-ring search-ring regexp-search-ring)</td>
 </tr>
 
 
 <tr>
-<td class="org-left">magit-repository-directories</td>
-<td class="org-left">(("~/repos" . 1))</td>
+<td class="org-left">savehist-mode</td>
+<td class="org-left">t</td>
 </tr>
 </tbody>
 </table>
 
 
-<a id="org111031b"></a>
+<a id="orgb83c5c9"></a>
 
-# [`org-mode`](https://orgmode.org/) Configuration
+### Very large files
 
-I use [`org-bullets`](https://github.com/emacsorphanage/org-bullets) which used to be part of the `org-plus-contrib` package but seems to no longer be included . Always throw
-[`org-mode`](https://orgmode.org/) buffers into [`flyspell-mode`](https://www.emacswiki.org/emacs/FlySpell) for live spell checking.
+Since I deal with potentially gigantic log files, this package allows the file to be carved up and 'paged' through. Get to the
+`vlf` stuff through the default prefix `C-c C-v`.
 
-The `htmlize` package allows the HTML and Markdown exporters to work (underlying code). It also allows to export your files all
-fontified: for example, you can export all or part of, say, a Python file and it will come out all colorized for publishing.
+```emacs-lisp
+(use-package vlf
+  :defer t
+  :pin melpa)
+```
+
+I got the `vlf` package from a [really good paper](https://writequit.org/articles/working-with-logs-in-emacs.html) on how to use Emacs to deal with logs. If you currently or are going to deal
+with logs in your day to day, then this article is invaluable. I've yet to adopt some of the other features described by the
+article but I have no need as of yet. Soon maybe.
+
+
+<a id="org5439b3f"></a>
+
+### Groovy
+
+Since I'm doing more and more work with Jenkins adding support for Groovy is, well, groovy.
+
+```emacs-lisp
+(use-package groovy-mode)
+```
+
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-left" />
+
+<col  class="org-right" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-left">Symbol Name</th>
+<th scope="col" class="org-right">Value</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td class="org-left">groovy-indent-offset</td>
+<td class="org-right">2</td>
+</tr>
+</tbody>
+</table>
+
+
+<a id="org044de51"></a>
+
+### Random packages
+
+OK, a little tired of documenting each package on it's own. These packages are just generally useful. Some of these packages
+have become so useful that they've found their way into the list of Emacs built-in packages. In those cases, the package is
+checked here against the list of built-ins to avoid warnings when loading a later version of Emacs.
+
+```emacs-lisp
+(use-package realgud)           ;; A "better" gud
+(use-package ibuffer-projectile :defer t)
+(use-package xterm-color :defer t)
+(unless (package-built-in-p 'sh-script)
+  (use-package sh-script :defer t))
+(unless (package-built-in-p 'desktop)
+  (use-package desktop))
+(set-variable 'desktop-path (cons default-directory desktop-path))
+(use-package lispy
+  :hook
+  (emacs-lisp-mode . (lambda () (lispy-mode 1)))
+  (minibuffer-setup . (lambda () (when (eq this-command 'eval-expression) (lispy-mode 1)))))
+
+(use-package default-text-scale                     ;; text-scale on steroids - for all windows C-M-- and C-M-=
+  :bind (("C-M--" . default-text-scale-decrease)
+         ("C-M-=" . default-text-scale-increase)))
+
+(when mswindows-p
+  (use-package powershell))
+```
+
+Note that the setting of `desktop-path` allows the multiple `.emacs.desktop` files, each in the directory where `emacs` was
+started. Although `desktop-path` is changed outside `custom.el`, I've included it here in the table below so you can see that
+the default is augmented with the start-up directory which in this case is `~/.emacs.d`.
+
+Customized variables of interest here:
+
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-left" />
+
+<col  class="org-left" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-left">Symbol Name</th>
+<th scope="col" class="org-left">Value</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td class="org-left">desktop-path</td>
+<td class="org-left">("`/toast/git-repos/univers/" "~/.emacs.d/" "`")</td>
+</tr>
+
+
+<tr>
+<td class="org-left">desktop-save-mode</td>
+<td class="org-left">t</td>
+</tr>
+</tbody>
+</table>
+
+
+<a id="org5ea30c2"></a>
+
+## [`org-mode`](https://orgmode.org/)
+
+I've split out this `org-mode` section because of the customization that was necessary to make exporting this module and the
+various customized variable tables to output  nicely.
+
+Always put [`org-mode`](https://orgmode.org/) buffers into [`flyspell-mode`](https://www.emacswiki.org/emacs/FlySpell) for live spell checking.
+
+The `htmlize` package allows the HTML and Markdown exporters to work (underlying code). This also provides language-specific
+colorization to be present in the export HTML file.
 
 ```emacs-lisp
 (use-package org-bullets)
@@ -1076,9 +1097,9 @@ Customized variables for org-mode:
 </table>
 
 
-<a id="orgbe25e11"></a>
+<a id="orgff479f0"></a>
 
-## [`org-mode`](https://orgmode.org/) export hacks for HTML and Markdown
+### [`org-mode`](https://orgmode.org/) export hacks for HTML and Markdown
 
 I export into markdown for github. I do not use the `ox-gfm` package because when I tried it, it modified the source file because
 of this file's use of the `#+CALL` construct (each call adds the table to the source file). So I use the built in `ox-md`
@@ -1130,7 +1151,7 @@ any underscores in the table with inline HTML.
 ```
 
 
-<a id="org4cdc8a7"></a>
+<a id="orga036fad"></a>
 
 ## Use of babel
 
@@ -1161,16 +1182,16 @@ To do literate programming you need to include the languages to "tangle". Here I
 </table>
 
 
-<a id="org51f09e5"></a>
+<a id="org806d0bd"></a>
 
-# Language support
+## Language support
 
 This section covers the various language support features of this configuration.
 
 
-<a id="orgaee09bf"></a>
+<a id="org22afba3"></a>
 
-## Taking the `eglot` plunge
+### Taking the `eglot` plunge
 
 The [`eglot`](https://github.com/joaotavora/eglot) package is a [language server protocol](https://microsoft.github.io/language-server-protocol/) (LSP) client for Emacs that supports many languages out-of-the-box. After
 spending time with `elpy` and other Emacs implementations of LSP clients, it turns out `eglot` is very multipurpose with minimal
@@ -1181,9 +1202,9 @@ configuration.
 ```
 
 
-<a id="org5d836f6"></a>
+<a id="org0acbb05"></a>
 
-## Python
+### Python
 
 Now with `eglot` this is pretty straight forward configuration.
 
@@ -1270,9 +1291,9 @@ Customized variables used in this python configuration:
 </table>
 
 
-<a id="org01e88f9"></a>
+<a id="org414761f"></a>
 
-## Kotlin
+### Kotlin
 
 We're using Kotlin so trying out the `kotlin-language-server`. You'll need to clone github `fwcd/kotlin-language-server` and build
 the language server: see [kotlin-language-server](https://github.com/fwcd/kotlin-language-server).
@@ -1282,25 +1303,25 @@ the language server: see [kotlin-language-server](https://github.com/fwcd/kotlin
 ```
 
 
-<a id="org3485b53"></a>
+<a id="org16c5147"></a>
 
-## Java
+### Java
 
-Tried to get LSP working, but to no avail. Using Meghanada mode.
+Using eglot, hopefully Java just works - untested at this point.
 
 ```emacs-lisp
 (use-package gradle-mode)
 ```
 
 
-<a id="org842dd5c"></a>
+<a id="org9c9721e"></a>
 
-# Additional bits-o-configuration
+## Additional bits-o-configuration
 
 
-<a id="org71261d5"></a>
+<a id="org628a4c3"></a>
 
-## Limit the length of [`which-function`](https://www.gnu.org/software/emacs/manual/html_node/emacs/Which-Function.html)
+### Limit the length of [`which-function`](https://www.gnu.org/software/emacs/manual/html_node/emacs/Which-Function.html)
 
 [`which-function`](https://www.gnu.org/software/emacs/manual/html_node/emacs/Which-Function.html) which is used on the mode-line has no maximum method/function signature. This handy adviser limits the name to
 64 characters.
@@ -1309,7 +1330,7 @@ Tried to get LSP working, but to no avail. Using Meghanada mode.
 (defcustom  my/which-function-max-width 64
   "The maximum width of the which-function string."
   :group 'my-configuration
-  :type 'integer)
+'  :type 'integer)
 (advice-add #'which-function :filter-return
             (lambda (s) (when (stringp s)
                           (if (< (string-width s) my/which-function-max-width) s
@@ -1317,9 +1338,9 @@ Tried to get LSP working, but to no avail. Using Meghanada mode.
 ```
 
 
-<a id="orgbe23779"></a>
+<a id="orgf5be55b"></a>
 
-## `my-ansi-term`
+### `my-ansi-term`
 
 Allows me to name my ANSI terms. Was very useful when I used more ANSI shells (so that tabs were interpreted by the shell). Some
 other modes and shells make this less useful these days.
@@ -1333,9 +1354,9 @@ other modes and shells make this less useful these days.
 ```
 
 
-<a id="org4dc9156"></a>
+<a id="orgc982153"></a>
 
-## Understand file type by shebang
+### Understand file type by shebang
 
 When a file is opened and it is determined there is no mode (fundamental-mode) this code reads the first line of the file looking
 for an appropriate shebang for either python or bash and sets the mode for the file.
@@ -1357,9 +1378,9 @@ Script-type is read from #!/... at top of file."
 ```
 
 
-<a id="orgfdc3172"></a>
+<a id="orgb4facc4"></a>
 
-## React to screen width changes for `posframe`
+### React to screen width changes for `posframe`
 
 Because I use `posframe` quite a bit now (so that the mini-buffer doesn't continue to change sizes, which I find a little
 distracting), this code reacts to the width changes and will set the custom variables accordingly.
@@ -1377,9 +1398,9 @@ distracting), this code reacts to the width changes and will set the custom vari
 ```
 
 
-<a id="org6b8a094"></a>
+<a id="org44fe193"></a>
 
-## Additional Configuration
+## Final (random) bits
 
 Setup `eldoc` mode, use `y-or-n-p` instead of `yes-or-no-p`. Key bindings&#x2026;
 
