@@ -517,32 +517,6 @@
    #+NAME: org-babel-custom-vars
    #+CALL: custom-vars-table(custom-vars='(org-babel-load-languages)))
 
-* LSP configuration
-  LSP ([[https://microsoft.github.io/language-server-protocol/][Language Server Protocol]]) is a new Microsoft-defined interface for IDEs:
-  #+BEGIN_QUOTE
-  The Language Server Protocol (LSP) defines the protocol used between an editor or IDE and a language server that provides language
-  features like auto complete, go to definition, find all references etc.
-  #+END_QUOTE
-  Although I'm currently using =elpy= for Python, I'll be using LSP for Java development.
-  #+BEGIN_SRC emacs-lisp :tangle yes
-    (use-package lsp-mode
-      :ensure t
-      :config
-      (use-package lsp-ui :commands lsp-ui-mode)
-      (use-package company-lsp
-        :commands company-lsp
-        :config
-        (push 'company-lsp company-backends))
-      (use-package dap-mode)
-      :hook
-      (lsp-mode . 'lsp-ui-mode)
-      (lsp-after-open . #'lsp-enable-imenu)
-      (lsp-after-initialize . (lambda ()
-                                (let ((lsp-cfg `(:pyls (:configurationSources ("flake8")))))
-                                  (lsp--set-configuration lsp-cfg))))
-      :commands lsp)
-  #+END_SRC
-
 * Language support
   This section covers the various language support features of this configuration.
 ** Taking the =eglot= plunge
