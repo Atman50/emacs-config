@@ -213,7 +213,7 @@
     Customized variables:
     #+NAME: magit-custom-vars
     #+CALL: custom-vars-table(custom-vars='(git-commit-fill-column magit-completing-read-function magit-repository-directories))
-
+*** =diminish=
     Handy mode to make the modeline more succinct by allowing a /diminished/ mode line string. Sometimes the fact that mode is there
     is fine and it doesn't need to be on the mode line (diminish it to ""). Putting diminish first not out of importance, but
     because it is used later on.
@@ -399,18 +399,13 @@
     I got the =vlf= package from a [[https://writequit.org/articles/working-with-logs-in-emacs.html][really good paper]] on how to use Emacs to deal with logs. If you currently or are going to deal
     with logs in your day to day, then this article is invaluable. I've yet to adopt some of the other features described by the
     article but I have no need as of yet. Soon maybe.
-*** Groovy
-    Since I'm doing more and more work with Jenkins adding support for Groovy is, well, groovy.
-    #+BEGIN_SRC emacs-lisp :tangle yes
-      (use-package groovy-mode)
-    #+END_SRC
-    #+NAME: groovy-pkg-custom-vars
-    #+CALL: custom-vars-table(custom-vars='(groovy-indent-offset))
 *** Random packages
     OK, a little tired of documenting each package on it's own. These packages are just generally useful. Some of these packages
     have become so useful that they've found their way into the list of Emacs built-in packages. In those cases, the package is
     checked here against the list of built-ins to avoid warnings when loading a later version of Emacs.
     #+BEGIN_SRC emacs-lisp -r :tangle yes
+      (use-package groovy-mode)
+      (use-package plantuml-mode)
       (use-package realgud)           ;; A "better" gud
       (use-package ibuffer-projectile :defer t)
       (use-package xterm-color :defer t)
@@ -436,9 +431,8 @@
     the default is augmented with the start-up directory which in this case is =~/.emacs.d=.
 
     Customized variables of interest here:
-
     #+NAME: other-pkgs-custom-vars
-    #+CALL: custom-vars-table(custom-vars='(desktop-path desktop-save-mode))
+    #+CALL: custom-vars-table(custom-vars='(desktop-path desktop-save-mode groovy-indent-offset))
 ** [[https://orgmode.org/][=org-mode=]]
    I've split out this =org-mode= section because of the customization that was necessary to make exporting this module and the
    various customized variable tables to output  nicely.
