@@ -187,8 +187,9 @@
    #+BEGIN_SRC emacs-lisp :tangle yes
      (use-package leuven-theme
        :demand t
-       :config (load-theme 'leuven t))
-
+       :config
+       (load-theme 'leuven t)
+       (set-face-attribute 'fringe nil :background "beige"))
      (use-package doom-modeline
        :hook (after-init . doom-modeline-mode))
    #+END_SRC
@@ -418,11 +419,9 @@
         :hook
         (emacs-lisp-mode . (lambda () (lispy-mode 1)))
         (minibuffer-setup . (lambda () (when (eq this-command 'eval-expression) (lispy-mode 1)))))
-
       (use-package default-text-scale                     ;; text-scale on steroids - for all windows C-M-- and C-M-=
         :bind (("C-M--" . default-text-scale-decrease)
                ("C-M-=" . default-text-scale-increase)))
-
       (when mswindows-p
         (use-package powershell))
     #+END_SRC
@@ -536,18 +535,22 @@
 *** Python
     Now with =eglot= this is pretty straight forward configuration.
     #+BEGIN_SRC emacs-lisp :tangle yes
-     (use-package pylint)
-     (use-package python-docstring
-       :config
-       (python-docstring-install))
-     (use-package python
-       :bind (:map python-mode-map
-                   ("C-c C-p" .  flycheck-previous-error)
-                   ("C-c C-n" . flycheck-next-error))
-       :hook
-       (python-mode . (lambda ()
-                        (eglot-ensure)
-                        (company-mode))))
+      (use-package pylint)
+      (use-package python-docstring
+        :config
+        (python-docstring-install))
+      (use-package pipenv
+        :init
+        (setq pipenv-projectile-after-switch-function #'pipenv-projectile-after-switch-extended))
+      (use-package python
+        :bind (:map python-mode-map
+                    ("C-c C-p" .  flycheck-previous-error)
+                    ("C-c C-n" . flycheck-next-error))
+        :hook
+        (python-mode . (lambda ()
+                         (eglot-ensure)
+                         (pipenv-mode)
+                         (company-mode))))
     #+END_SRC
     Customized variables used in this python configuration:
     #+NAME: python-custom-vars
@@ -601,11 +604,10 @@
             (ignore-errors
                 (save-excursion
                   (goto-char (point-min))
-                  (re-search-forward "^#!\s*/.*/\\(python\\|bash\\).*$")
+                  (re-search-forward "^#!\s*/.*/\\(python\\|bash\\|sh\\).*$")
                   (if (string= (match-string 1) "python")
                       (python-mode)
                     (sh-mode))))))
-
       (add-hook 'find-file-hook #'my-find-file-hook)
     #+END_SRC
 
@@ -629,10 +631,8 @@
    #+BEGIN_SRC emacs-lisp :tangle yes
      (add-hook 'emacs-lisp-mode-hook #'eldoc-mode)   ;; Run elisp with eldoc-mode
      (diminish 'eldoc-mode "Doc")                    ;; Diminish eldoc-mode
-
      (fset #'list-buffers #'ibuffer)                 ;; prefer ibuffer over list-buffers
      (fset #'yes-or-no-p #'y-or-n-p)                 ;; for lazy people use y/n instead of yes/no
-
      ;; Some key bindings
      (bind-key "C-x p" #'pop-to-mark-command)
      (bind-key "C-h c" #'customize-group)
@@ -641,15 +641,12 @@
      (bind-key "<up>" #'enlarge-window ctl-x-map)    ;; note: C-x
      (bind-key "<down>" #'shrink-window ctl-x-map)   ;; note: C-x
      (bind-key "C-z" 'nil ctl-x-map)                 ;; get rid of annoying minimize "\C-x\C-z"
-
      (setq-default ediff-ignore-similar-regions t)   ;; Not a variable but controls ediff
-
      ;; Enable some stuff that's normally disabled
      (put 'narrow-to-region 'disabled nil)
      (put 'downcase-region 'disabled nil)
      (put 'upcase-region 'disabled nil)
      (put 'scroll-left 'disabled nil)
-
      ;; add pom file to xml type
       (add-to-list 'auto-mode-alist '("\\.pom\\'" . xml-mode))
    #+END_SRC

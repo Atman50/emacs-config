@@ -1,0 +1,11 @@
+# Usage: pip install -r ~/.emacs.d/emacs-pip.txt
+# This sets up the necessary pyhton packages to support eglot out-of-the-box
+python-language-server
+pycodestyle
+rope
+autopep8
+yapf
+flake8
+ipdb
+ipython
+jupyter
