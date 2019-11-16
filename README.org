@@ -521,12 +521,7 @@
       (add-to-list 'auto-mode-alist '("\\.pom\\'" . xml-mode))
    #+END_SRC
 
-   A post-amble to make the tangled =.el= file has no errors/warnings.
-   #+BEGIN_SRC emacs-lisp :tangle yes
-     ;;; README.el ends here
-   #+END_SRC
-
-* =init.el=, short and sweet
+* <a name="initel"></a>=init.el=, short and sweet
 #+NAME: initel
 Everything above here is loaded by =init.el=
 
@@ -594,6 +589,9 @@ Everything above here is loaded by =init.el=
   The most important custom variable for this configuration is =package-archives=, which is used by the loading of the various
   extension packages used by this configuration.
 
+   #+NAME: init-file-custom-vars
+   #+CALL: custom-vars-table(custom-vars='(package-archives use-package-enable-imenu-support))
+
 ** [[https://orgmode.org/][=org-mode=]] export hacks for HTML and Markdown
    I export into markdown for github. I do not use the =ox-gfm= package because when I tried it, it modified the source file because
    of this file's use of the =#+CALL= construct (each call adds the table to the source file). So I use the built in =ox-md=
@@ -646,8 +644,11 @@ Everything above here is loaded by =init.el=
      (advice-add #'orgtbl-to-orgtbl :filter-return #'my-md-export-hack)
    #+END_SRC
 
-   #+NAME: init-file-custom-vars
-   #+CALL: custom-vars-table(custom-vars='(package-archives use-package-enable-imenu-support))
+
+   A post-amble to make the tangled =.el= file has no errors/warnings.
+   #+BEGIN_SRC emacs-lisp :tangle yes
+     ;;; README.el ends here
+   #+END_SRC
 
    #+NAME: custom-vars-table
    #+BEGIN_SRC emacs-lisp :results silent :exports results :var custom-vars=() :tangle no
