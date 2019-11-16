@@ -41,8 +41,8 @@
 ** My customizations
    While not many, I use the customization engine to provide any custom definitions. The are put into the =my-configuration= group.
 ** The importance of the =init.el= file
-   There's a [[initel][detailed explanation]] on how this configuration works at the end of this file so that we can concentrate on the actual
-   configuration here.
+   There's a [detailed explanation](#initel) on how this configuration works at the end of this file so that we can concentrate on
+   the actual configuration here.
 
    TLDR; The real trick with =init.el= is to load the Emacs user customizations first so that packages properly initialize and
    everything places nicely with [[https://www.gnu.org/software/emacs/manual/html_node/emacs/Easy-Customization.html][Emacs customization]].
@@ -522,7 +522,6 @@
    #+END_SRC
 
 * <a name="initel"></a>=init.el=, short and sweet
-#+NAME: initel
 Everything above here is loaded by =init.el=
 
   #+BEGIN_SRC emacs-lisp -n 11 :tangle no
