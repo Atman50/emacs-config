@@ -1,63 +1,63 @@
 
 # Table of Contents
 
-1.  [Overview](#org2ca6e38)
-    1.  [Quick start](#org403a6c8)
-    2.  [Why a literate configuration](#org4759c35)
-    3.  [My customizations](#org0368513)
-    4.  [The importance of the `init.el` file](#orgc410deb)
-2.  [The Configuration](#org7062e07)
-    1.  [A preamble](#org07b2962)
-    2.  [Speed up loading](#org95b1246)
-    3.  [Speed up line movement](#org8dceb08)
-    4.  [I use Ctrl-Z for personal bindings](#org2aef569)
-    5.  [Theme and mode line](#orgba2e530)
-    6.  [Packages](#orgb3124b6)
-        1.  [`magit`](#orgb525a7b)
-        2.  [`diminish`](#orgb9f60f9)
-        3.  [`which-key`](#orgb97b17f)
-        4.  [`projectile`](#org4e15913)
-        5.  [`company-mode`](#orgaf90252)
-        6.  [`ivy/swiper`](#org0e22123)
-        7.  [Use `ivy` and `posframe` together](#orgb325dc3)
-        8.  [`prescient`](#orgfe569f3)
-        9.  [`yasnippet`](#org7e94fb3)
-        10. [`dired`](#org37c3461)
-        11. [`command-log-mod`](#orge35173a)
-        12. [Docker](#orgff2df25)
-        13. [`flycheck`](#orgc0ec7cc)
-        14. [yaml-mode](#org943d1c0)
-        15. [`bind-key`](#orga57079b)
-        16. [`helpful`](#orgeaba9fb)
-        17. [`savehist`](#org19aae8b)
-        18. [Very large files](#org5e15986)
-        19. [Random packages](#org774a674)
-    7.  [`org-mode`](#org965054f)
-        1.  [Use of babel](#org8d5ee1c)
-    8.  [Language support](#org8ce1f74)
-        1.  [Taking the `eglot` plunge](#org838a674)
-        2.  [Python](#org5630d88)
-        3.  [Kotlin](#org8e3db42)
-        4.  [Java](#org4a54593)
-    9.  [Additional bits-o-configuration](#org8699080)
-        1.  [Limit the length of `which-function`](#org583a690)
-        2.  [`my-ansi-term`](#org7c74442)
-        3.  [Understand file type by shebang](#org1c4e5b6)
-        4.  [React to screen width changes for `posframe`](#org0a467c0)
-    10. [Final (random) bits](#org42bd631)
-3.  [<a name="initel"></a>=init.el=, short and sweet](#org9bb8dfc)
-    1.  [`org-mode` export hacks for HTML and Markdown](#org2c66d86)
+1.  [Overview](#org1934a28)
+    1.  [Quick start](#org5771db4)
+    2.  [Why a literate configuration](#org956f93d)
+    3.  [My customizations](#orgc8750fc)
+    4.  [The importance of the `init.el` file](#org0cabc66)
+2.  [The Configuration](#orgfdafc7e)
+    1.  [A preamble](#org7449fd5)
+    2.  [Speed up loading](#org3f4d305)
+    3.  [Speed up line movement](#orgca430a6)
+    4.  [I use Ctrl-Z for personal bindings](#orga3e4d2c)
+    5.  [Theme and mode line](#orgeaa0787)
+    6.  [Packages](#org44b5fa9)
+        1.  [`magit`](#orgb670173)
+        2.  [`diminish`](#org14aed99)
+        3.  [`which-key`](#orgf19070e)
+        4.  [`projectile`](#orgfc353b2)
+        5.  [`company-mode`](#orgf0557cf)
+        6.  [`ivy/swiper`](#org9ca24e0)
+        7.  [Use `ivy` and `posframe` together](#orge5ce904)
+        8.  [`prescient`](#orgfba9d6b)
+        9.  [`yasnippet`](#org8843ae8)
+        10. [`dired`](#org52b8f6c)
+        11. [`command-log-mod`](#org32d9399)
+        12. [Docker](#org195bbe8)
+        13. [`flycheck`](#orge47f8a3)
+        14. [yaml-mode](#org2cd9e5e)
+        15. [`bind-key`](#orgef1af65)
+        16. [`helpful`](#orgc76d0d4)
+        17. [`savehist`](#orgc3e5ebd)
+        18. [Very large files](#org6ee754d)
+        19. [Random packages](#org174efae)
+    7.  [`org-mode`](#orga04e185)
+        1.  [Use of babel](#orge74518d)
+    8.  [Language support](#orgefe1b34)
+        1.  [Taking the `eglot` plunge](#orga63ec53)
+        2.  [Python](#org55ed366)
+        3.  [Kotlin](#org57113ea)
+        4.  [Java](#org48c9e9b)
+    9.  [Additional bits-o-configuration](#org08234c1)
+        1.  [Limit the length of `which-function`](#orgfd7df55)
+        2.  [`my-ansi-term`](#org4c62b79)
+        3.  [Understand file type by shebang](#orgb2227ad)
+        4.  [React to screen width changes for `posframe`](#org84a90ca)
+    10. [Final (random) bits](#org610ff84)
+3.  [`init.el`, short and sweet](#org89c660d)
+    1.  [`org-mode` export hacks for HTML and Markdown](#org180345f)
 
 
 
-<a id="org2ca6e38"></a>
+<a id="org1934a28"></a>
 
 # Overview
 
 This is a literate and <font color=red size=+3><b><u>portable</u></b></font> Emacs initialization.
 
 
-<a id="org403a6c8"></a>
+<a id="org5771db4"></a>
 
 ## Quick start
 
@@ -76,7 +76,7 @@ The ability to simply clone and start is what makes this configuration **portabl
 `custom.el` and then apply it whenever I take updated configurations from the repository.
 
 
-<a id="org4759c35"></a>
+<a id="org956f93d"></a>
 
 ## Why a literate configuration
 
@@ -91,25 +91,54 @@ I have tried to make this configuration 100% portable meaning that on a new syst
 installed. I simple git clone this repository to `~/.emacs.d` and then fire up Emacs. Should work every time. 
 
 
-<a id="org0368513"></a>
+<a id="orgc8750fc"></a>
 
 ## My customizations
 
 While not many, I use the customization engine to provide any custom definitions. The are put into the `my-configuration` group.
 
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
 
-<a id="orgc410deb"></a>
+
+<colgroup>
+<col  class="org-left" />
+
+<col  class="org-left" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-left">Symbol Name</th>
+<th scope="col" class="org-left">Value</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td class="org-left">my/cfg-file</td>
+<td class="org-left">"~/.emacs.d/README"</td>
+</tr>
+
+
+<tr>
+<td class="org-left">my/which-function-max-width</td>
+<td class="org-left">64</td>
+</tr>
+</tbody>
+</table>
+
+
+<a id="org0cabc66"></a>
 
 ## The importance of the `init.el` file
 
-There's a [detailed explanation](#initel) on how this configuration works at the end of this file so that we can concentrate on
-the actual configuration here.
+There's a detailed explanation on how this configuration works WRT to `init.el` at the end of this document.
 
 TLDR; The real trick with `init.el` is to load the Emacs user customizations first so that packages properly initialize and
-everything places nicely with [Emacs customization](https://www.gnu.org/software/emacs/manual/html_node/emacs/Easy-Customization.html).
+everything places nicely with [Emacs customization](https://www.gnu.org/software/emacs/manual/html_node/emacs/Easy-Customization.html). Then make sure `org-mode` is at the proper level and tangle this document
+into the configuration to load.
 
 
-<a id="org7062e07"></a>
+<a id="orgfdafc7e"></a>
 
 # The Configuration
 
@@ -117,7 +146,7 @@ Here are the configuration bits. All of the following code snippets that are tan
 from the initialization (`~/emacs.d/init.el`) file.
 
 
-<a id="org07b2962"></a>
+<a id="org7449fd5"></a>
 
 ## A preamble
 
@@ -132,7 +161,7 @@ First make sure that we are doing lexical scoping for speed. See [Some Performan
 ```
 
 
-<a id="org95b1246"></a>
+<a id="org3f4d305"></a>
 
 ## Speed up loading
 
@@ -146,7 +175,7 @@ init.
 ```
 
 
-<a id="org8dceb08"></a>
+<a id="orgca430a6"></a>
 
 ## Speed up line movement
 
@@ -159,7 +188,7 @@ using `next-line` gets very cut down.
 ```
 
 
-<a id="org2aef569"></a>
+<a id="orga3e4d2c"></a>
 
 ## I use Ctrl-Z for personal bindings
 
@@ -190,7 +219,7 @@ therefore I've started to bind things to Ctrl-Z, which had the annoying and usel
 ```
 
 
-<a id="orgba2e530"></a>
+<a id="orgeaa0787"></a>
 
 ## Theme and mode line
 
@@ -211,7 +240,7 @@ on it and doing install.
 ```
 
 
-<a id="orgb3124b6"></a>
+<a id="org44b5fa9"></a>
 
 ## Packages
 
@@ -219,7 +248,7 @@ Here are the packages I use and I've tried to list them in a relatively logical 
 packages earlier in this document).
 
 
-<a id="orgb525a7b"></a>
+<a id="orgb670173"></a>
 
 ### [`magit`](https://github.com/magit/magit)
 
@@ -276,7 +305,7 @@ Customized variables:
 </table>
 
 
-<a id="orgb9f60f9"></a>
+<a id="org14aed99"></a>
 
 ### `diminish`
 
@@ -289,7 +318,7 @@ because it is used later on.
 ```
 
 
-<a id="orgb97b17f"></a>
+<a id="orgf19070e"></a>
 
 ### [`which-key`](https://github.com/justbur/emacs-which-key)
 
@@ -344,7 +373,7 @@ options. This is, IMO, a great way to learn Emacs key-bindings.
 </table>
 
 
-<a id="org4e15913"></a>
+<a id="orgfc353b2"></a>
 
 ### `projectile`
 
@@ -363,7 +392,7 @@ Perhaps one of the most useful packages - understands `git` repositories by defa
 ```
 
 
-<a id="orgaf90252"></a>
+<a id="orgf0557cf"></a>
 
 ### [`company-mode`](http://company-mode.github.io/)
 
@@ -376,7 +405,7 @@ Use the excellent [`company-mode`](http://company-mode.github.io/) modular in-bu
 ```
 
 
-<a id="org0e22123"></a>
+<a id="org9ca24e0"></a>
 
 ### [`ivy/swiper`](https://github.com/abo-abo/swiper)
 
@@ -410,7 +439,7 @@ I used to be a `helm` user, but switched to `ivy`. Lots of nice features in `ivy
 ```
 
 
-<a id="orgb325dc3"></a>
+<a id="orge5ce904"></a>
 
 ### Use `ivy` and `posframe` together
 
@@ -476,7 +505,7 @@ Customized variables:
 </table>
 
 
-<a id="orgfe569f3"></a>
+<a id="orgfba9d6b"></a>
 
 ### [`prescient`](https://github.com/raxod502/prescient.el)
 
@@ -489,7 +518,7 @@ Customized variables:
 ```
 
 
-<a id="org7e94fb3"></a>
+<a id="org8843ae8"></a>
 
 ### [`yasnippet`](https://www.emacswiki.org/emacs/Yasnippet)
 
@@ -548,7 +577,7 @@ Customizations of interest:
 </table>
 
 
-<a id="org37c3461"></a>
+<a id="org52b8f6c"></a>
 
 ### `dired`
 
@@ -564,7 +593,7 @@ Make sure dired is properly configured. Using `:ensure nil` here because the dir
 ```
 
 
-<a id="orge35173a"></a>
+<a id="org32d9399"></a>
 
 ### `command-log-mod`
 
@@ -575,7 +604,7 @@ These packages are useful when doing presentations.
 ```
 
 
-<a id="orgff2df25"></a>
+<a id="org195bbe8"></a>
 
 ### Docker
 
@@ -586,7 +615,7 @@ I manage a lot of docker stuff. The docker package is quite useful.
 ```
 
 
-<a id="orgc0ec7cc"></a>
+<a id="orge47f8a3"></a>
 
 ### `flycheck`
 
@@ -599,7 +628,7 @@ I've abandoned `flymake` (built-in) with `flycheck` (see [flycheck a flymake rep
 ```
 
 
-<a id="org943d1c0"></a>
+<a id="org2cd9e5e"></a>
 
 ### yaml-mode
 
@@ -608,7 +637,7 @@ I've abandoned `flymake` (built-in) with `flycheck` (see [flycheck a flymake rep
 ```
 
 
-<a id="orga57079b"></a>
+<a id="orgef1af65"></a>
 
 ### [`bind-key`](https://github.com/priyadarshan/bind-key)
 
@@ -619,7 +648,7 @@ Much better binding capabilities (in later versions this is already loaded via `
 ```
 
 
-<a id="orgeaba9fb"></a>
+<a id="orgc76d0d4"></a>
 
 ### [`helpful`](https://github.com/Wilfred/helpful)
 
@@ -631,7 +660,7 @@ Much better binding capabilities (in later versions this is already loaded via `
 ```
 
 
-<a id="org19aae8b"></a>
+<a id="orgc3e5ebd"></a>
 
 ### [`savehist`](https://www.emacswiki.org/emacs/SaveHist)
 
@@ -683,7 +712,7 @@ Set the following variables to control `savehist` (use customize).
 </table>
 
 
-<a id="org5e15986"></a>
+<a id="org6ee754d"></a>
 
 ### Very large files
 
@@ -701,7 +730,7 @@ with logs in your day to day, then this article is invaluable. I've yet to adopt
 article but I have no need as of yet. Soon maybe.
 
 
-<a id="org774a674"></a>
+<a id="org174efae"></a>
 
 ### Random packages
 
@@ -773,7 +802,7 @@ Customized variables of interest here:
 </table>
 
 
-<a id="org965054f"></a>
+<a id="orga04e185"></a>
 
 ## [`org-mode`](https://orgmode.org/)
 
@@ -857,7 +886,7 @@ Customized variables for org-mode:
 </table>
 
 
-<a id="org8d5ee1c"></a>
+<a id="orge74518d"></a>
 
 ### Use of babel
 
@@ -888,14 +917,14 @@ To do literate programming you need to include the languages to "tangle". Here I
 </table>
 
 
-<a id="org8ce1f74"></a>
+<a id="orgefe1b34"></a>
 
 ## Language support
 
 This section covers the various language support features of this configuration.
 
 
-<a id="org838a674"></a>
+<a id="orga63ec53"></a>
 
 ### Taking the `eglot` plunge
 
@@ -908,7 +937,7 @@ configuration.
 ```
 
 
-<a id="org5630d88"></a>
+<a id="org55ed366"></a>
 
 ### Python
 
@@ -1001,7 +1030,7 @@ Customized variables used in this python configuration:
 </table>
 
 
-<a id="org8e3db42"></a>
+<a id="org57113ea"></a>
 
 ### Kotlin
 
@@ -1013,7 +1042,7 @@ the language server: see [kotlin-language-server](https://github.com/fwcd/kotlin
 ```
 
 
-<a id="org4a54593"></a>
+<a id="org48c9e9b"></a>
 
 ### Java
 
@@ -1024,12 +1053,12 @@ Using eglot, hopefully Java just works - untested at this point.
 ```
 
 
-<a id="org8699080"></a>
+<a id="org08234c1"></a>
 
 ## Additional bits-o-configuration
 
 
-<a id="org583a690"></a>
+<a id="orgfd7df55"></a>
 
 ### Limit the length of [`which-function`](https://www.gnu.org/software/emacs/manual/html_node/emacs/Which-Function.html)
 
@@ -1048,7 +1077,7 @@ Using eglot, hopefully Java just works - untested at this point.
 ```
 
 
-<a id="org7c74442"></a>
+<a id="org4c62b79"></a>
 
 ### `my-ansi-term`
 
@@ -1064,7 +1093,7 @@ other modes and shells make this less useful these days.
 ```
 
 
-<a id="org1c4e5b6"></a>
+<a id="orgb2227ad"></a>
 
 ### Understand file type by shebang
 
@@ -1087,7 +1116,7 @@ Script-type is read from #!/... at top of file."
 ```
 
 
-<a id="org0a467c0"></a>
+<a id="org84a90ca"></a>
 
 ### React to screen width changes for `posframe`
 
@@ -1107,7 +1136,7 @@ distracting), this code reacts to the width changes and will set the custom vari
 ```
 
 
-<a id="org42bd631"></a>
+<a id="org610ff84"></a>
 
 ## Final (random) bits
 
@@ -1137,9 +1166,9 @@ Setup `eldoc` mode, use `y-or-n-p` instead of `yes-or-no-p`. Key bindings&#x2026
 ```
 
 
-<a id="org9bb8dfc"></a>
+<a id="org89c660d"></a>
 
-# <a name="initel"></a>=init.el=, short and sweet
+# `init.el`, short and sweet
 
 Everything above here is loaded by `init.el`
 
@@ -1356,7 +1385,7 @@ extension packages used by this configuration.
 </table>
 
 
-<a id="org2c66d86"></a>
+<a id="org180345f"></a>
 
 ## [`org-mode`](https://orgmode.org/) export hacks for HTML and Markdown
 
