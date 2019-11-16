@@ -128,6 +128,7 @@
  '(use-package-enable-imenu-support t)
  '(vc-diff-switches '("--diff-cmd" "tkdiff"))
  '(visible-bell t)
+ '(warning-suppress-types '((yasnippet backquote-change)))
  '(which-function-mode t)
  '(which-key-mode t)
  '(which-key-posframe-mode t)
