@@ -2,6 +2,7 @@
 # This sets up the necessary pyhton packages to support eglot out-of-the-box
 python-language-server
 pycodestyle
+pydocstyle
 rope
 autopep8
 yapf
