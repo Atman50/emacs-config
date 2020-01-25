@@ -323,6 +323,28 @@
     I got the =vlf= package from a [[https://writequit.org/articles/working-with-logs-in-emacs.html][really good paper]] on how to use Emacs to deal with logs. If you currently or are going to deal
     with logs in your day to day, then this article is invaluable. I've yet to adopt some of the other features described by the
     article but I have no need as of yet. Soon maybe.
+*** Logs in general
+    Here's a [[https://writequit.org/articles/working-with-logs-in-emacs.html][great article]] on dealing with log files. I've stolen some if it here.
+
+    First make all the logs read-only (view) mode.
+    #+BEGIN_SRC emacs-lisp :tangle yes
+      (use-package view
+        :ensure t
+        :config
+        (defun View-goto-line-last (&optional line)
+          "goto last line"
+          (interactive "P")
+          (goto-line (line-number-at-pos (point-max))))
+        (define-key view-mode-map (kbd ">") 'View-goto-line-last))
+
+      (use-package log4j-mode
+        :ensure t
+        :init
+        (add-hook #'log4j-mode-hook #'view-mode)
+        (add-hook #'log4j-mode-hook #'auto-revert-tail-mode)
+        (add-hook #'log4j-mode-hook #'read-only-mode))
+    #+END_SRC
+
 *** Random packages
     OK, a little tired of documenting each package on it's own. These packages are just generally useful. Some of these packages
     have become so useful that they've found their way into the list of Emacs built-in packages. In those cases, the package is
@@ -403,7 +425,10 @@
     configuration.
 
     #+BEGIN_SRC emacs-lisp :tangle yes
-      (use-package eglot :pin melpa)
+      (use-package eglot
+        :pin melpa
+        :config
+        (add-hook 'eglot--managed-mode-hook (lambda () (flymake-mode -1))))
     #+END_SRC
 
 *** Python
