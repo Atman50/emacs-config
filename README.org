@@ -105,6 +105,12 @@
                 ("t"   . toggle-truncate-lines)
                 ("u"   . uncomment-region))
    #+END_SRC
+** Extra org mode key bindings
+   Seems at least one key binding disappeared on me in org mode.
+   #+BEGIN_SRC emacs-lisp :tangle yes
+     (org-defkey org-mode-map "\C-c\C-x\C-r" 'org-clock-report)
+   #+END_SRC
+
 ** Theme and mode line
    My progression of modelines has gone from =powerline= to =moody= and now =doom=. The =doom-modeline= package is pretty good and
    not as much fuss as I had with =moody=. All the stuff I need there and makes this configuration much easier. You *must* go
@@ -410,6 +416,23 @@
    Customized variables for org-mode:
    #+NAME: org-mode-custom-vars
    #+CALL: custom-vars-table(custom-vars='(org-catch-invisible-edits org-html-postamble org-html-postamble-format org-log-done org-log-into-drawer))
+
+*** For blogging
+    I'm using [[https://github.com/org2blog/org2blog][org2blog]] to blog from org mode. This is a pretty comprehensive package and I'm using the =~/.netrc= file to provide
+    credentials so there is the setup of =org2blog/wp-blog-alist= here (according to the instructions on GitHub).
+    #+BEGIN_SRC emacs-lisp :tangle yes
+      (use-package org2blog)
+      (require 'auth-source)
+
+      (let* ((credentials (auth-source-user-and-password "myblog"))
+             (username (nth 0 credentials))
+             (password (nth 1 credentials))
+             (config `(("myblog"
+                       :url "http://adamhitstheroad.com/xmlrpc.php"
+                       :username ,username
+                       :password ,password))))
+        (setq org2blog/wp-blog-alist config))
+    #+END_SRC
 
 *** Use of babel
     To do literate programming you need to include the languages to "tangle". Here I've added more than just the standard
