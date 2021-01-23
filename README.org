@@ -580,13 +580,11 @@ Everything above here is loaded by =init.el=
     (setq custom-file (expand-file-name "custom.el" user-emacs-directory))
     (load custom-file t)
     (prefer-coding-system 'utf-8)
-    (unless (boundp 'package-user-dir)
-      (unless (boundp 'package-archive-contents)
-        (package-initialize))
-      (unless (assoc 'use-package package-archive-contents)
-        (package-refresh-contents)
-        (package-install (elt (cdr (assoc 'org-plus-contrib package-archive-contents)) 0))
-        (package-install (elt (cdr (assoc 'use-package package-archive-contents)) 0))))
+    (package-initialize)
+    (unless (assoc 'use-package package-archive-contents)
+      (package-refresh-contents)
+      (package-install (elt (cdr (assoc 'org-plus-contrib package-archive-contents)) 0))
+      (package-install (elt (cdr (assoc 'use-package package-archive-contents)) 0)))
     (assoc-delete-all 'org package--builtins)
     (setq use-package-enable-imenu-support t)
     (require 'use-package)
@@ -600,29 +598,27 @@ Everything above here is loaded by =init.el=
     (load my/cfg-file)
   #+END_SRC
 
-  | Line | Explained                                                                                  |
-  |------+--------------------------------------------------------------------------------------------|
-  |   11 | Breaking the custom setting out into its own file allows it to be loaded in the next line  |
-  |   12 | Load the custom file. All custom settings will now be honored by packages when loaded.     |
-  |   13 | Just a fix for ELPA packages with (certain?) Unicode characters in them.                   |
-  |   14 | If there's no ='package-user-dir= defined; =package.el= isn't loaded                       |
-  |   15 | If there's no ='package-archive-contents= defined; package archives have not been read     |
-  |   16 | Initialize the package system                                                              |
-  |   17 | If we've not load loaded the definition for the =use-package= ELPA package, then           |
-  |   18 | Refresh (read) the package archives. Note: ='package-archives= from =custom.el= *key* here |
-  |   19 | Load up the org-mode. The pre-packaged org-mode does not have Babel!                       |
-  |   20 | We'll use org from the proper sources, thank you very much                                 |
-  |   21 | Set the variable to allow =use-package= to use counsel for imenus                          |
-  |   22 | Require =use-package=                                                                      |
-  |   23 | Make sure =use-package= is available                                                       |
-  |   24 | Make sure =org= is available                                                               |
-  |   25 | Create customizable config variable                                                        |
-  |   26 | ...                                                                                        |
-  |   27 | ... it's nice having a customizable group for personal configuration settings              |
-  |   28 | ...                                                                                        |
-  |   29 | If the .el file doesn't exist or is older than this file then...                           |
-  |   30 | ... create the tangled output of this file                                                 |
-  |   31 | Load the tangled output of this file                                                       |
+  | Line | Explained                                                                                                            |
+  |------+----------------------------------------------------------------------------------------------------------------------|
+  |   11 | Breaking the custom setting out into its own file allows it to be loaded in the next line                            |
+  |   12 | Load the custom file. All custom settings will now be honored by packages when loaded.                               |
+  |   13 | Just a fix for ELPA packages with (certain?) Unicode characters in them.                                             |
+  |   14 | Initialize the package system.Reloading this doesn't seem to have a downside (once loaded this seems to not matter). |
+  |   15 | If we've not load loaded the definition for the =use-package= ELPA package, then                                     |
+  |   16 | Refresh (read) the package archives. Note: ='package-archives= from =custom.el= *key* here                           |
+  |   17 | Load up org-mode. The pre-packaged org-mode does not have Babel!                                                     |
+  |   18 | Load up use-package. Used for all package loading                                                                    |
+  |   19 | We'll use org from the proper sources, thank you very much (not the builtin version if any)                          |
+  |   20 | Set the variable to allow =use-package= to use counsel for imenus                                                    |
+  |   21 | Require =use-package=                                                                                                |
+  |   22 | Make sure =use-package= is available                                                                                 |
+  |   23 | Make sure =org= is available                                                                                         |
+  |   24 | Create customizable config variable                                                                                  |
+  |   25 | ... it's nice having a customizable                                                                                  |
+  |   26 | ...    group for personal configuration settings                                                                     |
+  |   27 | If the .el file doesn't exist or is older than this file then...                                                     |
+  |   28 | ... create the tangled output of this file                                                                           |
+  |   29 | Load the tangled output of this file                                                                                 |
    
   One of the nicest things about Emacs is the extensive and quite useful customization engine. You can customize variables and
   faces with ease and make the settings work for you.

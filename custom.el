@@ -71,6 +71,7 @@
  '(ivy-count-format "(%d/%d) ")
  '(ivy-height 20)
  '(ivy-mode t)
+ '(ivy-posframe-display-functions-alist '((t . ivy-posframe-display-at-window-bottom-left)))
  '(ivy-use-selectable-prompt t)
  '(ivy-use-virtual-buffers t)
  '(kotlin-tab-width 4)
