@@ -7,6 +7,8 @@ rope
 autopep8
 yapf
 flake8
+pylint
+pyflakes
 ipdb
 ipython
 jupyter

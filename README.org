@@ -90,6 +90,7 @@
                 ("C-d" . dired-jump)
                 ("c"   . comment-region)
                 ("d"   . docker)
+                ("e"   . eglot-rename)
                 ("f"   . magit-find-file-other-window)
                 ("g"   . magit-status)
                 ("h a" . helpful-at-point)
@@ -226,7 +227,7 @@
 
     Customized variables:
     #+NAME: ivy-custom-vars
-    #+CALL: custom-vars-table(custom-vars='(ivy-count-format ivy-height ivy-mode ivy-use-selectable-prompt ivy-use-virtual-buffers))
+    #+CALL: custom-vars-table(custom-vars='(ivy-count-format ivy-mode ivy-use-selectable-prompt ivy-use-virtual-buffers))
 *** [[https://github.com/raxod502/prescient.el][=prescient=]]
     [[https://github.com/raxod502/prescient.el][=prescient=]] provides "simple but effective sorting and filtering for Emacs."
     #+BEGIN_SRC emacs-lisp :tangle yes
@@ -476,7 +477,7 @@
     #+END_SRC
     Customized variables used in this python configuration:
     #+NAME: python-custom-vars
-    #+CALL: custom-vars-table(custom-vars='(python-check-command python-flymake-command python-indent-trigger-commands python-shell-interpreter python-shell-interpreter-args python-shell-prompt-detect-failure-warning python-shell-prompt-output-regexp python-shell-prompt-regexp))
+    #+CALL: custom-vars-table(custom-vars='(python-check-command python-flymake-command python-indent-trigger-commands python-shell-interpreter python-shell-interpreter-args python-shell-prompt-detect-failure-warning python-shell-prompt-output-regexp python-shell-prompt-regexp python-shell-completion-native-disabled-interpreters))
 
 *** Kotlin
     We're using Kotlin so trying out the =kotlin-language-server=. You'll need to clone github =fwcd/kotlin-language-server= and build
@@ -489,6 +490,22 @@
     Using eglot, hopefully Java just works - untested at this point.
     #+BEGIN_SRC emacs-lisp :tangle yes
       (use-package gradle-mode)
+    #+END_SRC
+
+*** Javascript
+    Just started using javascript and used the [[https://www.emacswiki.org/emacs/CategoryJavaScript][emacs wiki]] to find =j2s-mode=.
+    #+BEGIN_SRC emacs-lisp :tangle yes
+      (use-package add-node-modules-path)
+      (use-package js2-refactor)
+      (use-package ac-js2
+        :config (add-to-list 'company-backends #'ac-js2-company))
+      (use-package xref-js2)
+
+      (use-package js2-mode
+        :config
+        (add-to-list 'auto-mode-alist '("\\.js\\'" . js2-mode))
+        (add-hook 'js-mode-hook #'add-node-modules-path)
+        :pin gnu)
     #+END_SRC
 
 ** Additional bits-o-configuration
