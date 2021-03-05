@@ -69,8 +69,9 @@
    This turns down the garbage collector during the use-package loading when it has to do some compiling. Set it back when done with
    init.
    #+BEGIN_SRC emacs-lisp :tangle yes
-     (setq gc-cons-threshold 64000000)
-     (add-hook 'after-init-hook (lambda () (setq gc-cons-threshold 800000)))
+     (setq gc-cons-threshold 100000000)
+     ;; never set it back, but if you wanted to:
+     ;; (add-hook 'after-init-hook (lambda () (setq gc-cons-threshold 800000)))
    #+END_SRC
 
 ** Speed up line movement
@@ -119,11 +120,16 @@
    [[https://github.com/seagle0128/doom-modeline][=doom-modeline= website]]: Run =M-x all-the-icons-install-fonts= and then, on Windows, install the font ttf file by right clicking
    on it and doing install.
    #+BEGIN_SRC emacs-lisp :tangle yes
-     (use-package leuven-theme
+     (use-package color-theme-sanityinc-tomorrow
        :demand t
        :config
-       (load-theme 'leuven t)
-       (set-face-attribute 'fringe nil :background "beige"))
+       (load-theme 'sanityinc-tomorrow-bright t)
+       (set-face-attribute 'fringe nil :background "black")
+       (set-face-attribute 'org-verbatim nil :foreground "wheat2")
+       (set-face-attribute 'org-meta-line nil :foreground "slategray2")
+       (set-face-attribute 'org-block-begin-line nil :background "gray30" :foreground "wheat3")
+       (set-face-attribute 'org-block-end-line nil :background "gray30" :foreground "wheat3")
+       (set-face-attribute 'org-block nil :background "gray18"))
      (use-package doom-modeline
        :hook (after-init . doom-modeline-mode))
    #+END_SRC
@@ -161,7 +167,9 @@
     options. This is, IMO, a great way to learn Emacs key-bindings.
     #+BEGIN_SRC emacs-lisp :tangle yes
       (use-package which-key :diminish "")
-      (use-package which-key-posframe)
+      (use-package which-key-posframe
+        :config
+        (set-face-attribute 'which-key-posframe nil :background "firebrick4"))
     #+END_SRC
     #+NAME: which-key-pkg-custom-vars
     #+CALL: custom-vars-table(custom-vars='(which-function-mode which-key-mode which-key-posframe-mode which-key-posframe-poshandler))
@@ -218,7 +226,9 @@
     This makes the ivy completion buffers popup over the modeline instead of in the minibuffer.
     #+BEGIN_SRC emacs-lisp :tangle yes
       (use-package posframe)
-      (use-package ivy-posframe)
+      (use-package ivy-posframe
+        :config
+        (set-face-attribute 'ivy-posframe nil :background "firebrick4"))
       (ivy-posframe-mode 1)
     #+END_SRC
     I ran into a nice article that fixes a [[http://mbork.pl/2018-06-16_ivy-use-selectable-prompt][problem that I often have with Ivy]]: using a name that is not in the list of candidates (for
@@ -462,9 +472,6 @@
       (use-package python-docstring
         :config
         (python-docstring-install))
-      (use-package pipenv
-        :init
-        (setq pipenv-projectile-after-switch-function #'pipenv-projectile-after-switch-extended))
       (use-package python
         :bind (:map python-mode-map
                     ("C-c C-p" .  flycheck-previous-error)
@@ -472,41 +479,11 @@
         :hook
         (python-mode . (lambda ()
                          (eglot-ensure)
-                         (pipenv-mode)
                          (company-mode))))
     #+END_SRC
     Customized variables used in this python configuration:
     #+NAME: python-custom-vars
     #+CALL: custom-vars-table(custom-vars='(python-check-command python-flymake-command python-indent-trigger-commands python-shell-interpreter python-shell-interpreter-args python-shell-prompt-detect-failure-warning python-shell-prompt-output-regexp python-shell-prompt-regexp python-shell-completion-native-disabled-interpreters))
-
-*** Kotlin
-    We're using Kotlin so trying out the =kotlin-language-server=. You'll need to clone github =fwcd/kotlin-language-server= and build
-    the language server: see [[https://github.com/fwcd/kotlin-language-server][kotlin-language-server]].
-    #+BEGIN_SRC emacs-lisp :tangle yes
-      (use-package kotlin-mode)
-    #+END_SRC
-
-*** Java
-    Using eglot, hopefully Java just works - untested at this point.
-    #+BEGIN_SRC emacs-lisp :tangle yes
-      (use-package gradle-mode)
-    #+END_SRC
-
-*** Javascript
-    Just started using javascript and used the [[https://www.emacswiki.org/emacs/CategoryJavaScript][emacs wiki]] to find =j2s-mode=.
-    #+BEGIN_SRC emacs-lisp :tangle yes
-      (use-package add-node-modules-path)
-      (use-package js2-refactor)
-      (use-package ac-js2
-        :config (add-to-list 'company-backends #'ac-js2-company))
-      (use-package xref-js2)
-
-      (use-package js2-mode
-        :config
-        (add-to-list 'auto-mode-alist '("\\.js\\'" . js2-mode))
-        (add-hook 'js-mode-hook #'add-node-modules-path)
-        :pin gnu)
-    #+END_SRC
 
 ** Additional bits-o-configuration
 *** Limit the length of [[https://www.gnu.org/software/emacs/manual/html_node/emacs/Which-Function.html][=which-function=]]
@@ -529,7 +506,7 @@
       (cl-defun my/ansi-term (term-name cmd)
         "Create an ansi term with a name - other than *ansi-term* given TERM-NAME and CMD."
         (interactive "sName for terminal: \nsCommand to run [/bin/bash]: ")
-        (ansi-term (if (= 0 (length cmd)) "/bin/bash" cmd))
+        (ansi-term (if (= 0 (length cmd)) "/bin/zsh" cmd))
         (rename-buffer term-name))
     #+END_SRC
 *** Understand file type by shebang
