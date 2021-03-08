@@ -123,13 +123,8 @@
      (use-package color-theme-sanityinc-tomorrow
        :demand t
        :config
-       (load-theme 'sanityinc-tomorrow-bright t)
-       (set-face-attribute 'fringe nil :background "black")
-       (set-face-attribute 'org-verbatim nil :foreground "wheat2")
-       (set-face-attribute 'org-meta-line nil :foreground "slategray2")
-       (set-face-attribute 'org-block-begin-line nil :background "gray30" :foreground "wheat3")
-       (set-face-attribute 'org-block-end-line nil :background "gray30" :foreground "wheat3")
-       (set-face-attribute 'org-block nil :background "gray18"))
+       (load-theme 'leuven t)
+       (set-face-attribute 'fringe nil :background "beige"))
      (use-package doom-modeline
        :hook (after-init . doom-modeline-mode))
    #+END_SRC
@@ -140,20 +135,24 @@
 *** [[https://github.com/magit/magit][=magit=]]
     The *most awesome* git porcelain. Most here are part of magit, [[https://github.com/pidu/git-timemachine][=git-time-machine=]] is not, but well worth using.
     #+BEGIN_SRC emacs-lisp :tangle yes
-      (use-package git-commit)
+      (use-package git-commit
+        :custom
+        (git-commit-fill-column 78)
+        (git-commit-style-convention-checks '(non-empty-second-line overlong-summary-line)))
       ;; (use-package forge
       ;;   :after magit)
       (use-package magit
         ;; Make the default action a branch checkout, not a branch visit when in branch mode
         :bind (:map magit-branch-section-map
-                    ([remap magit-visit-thing] . magit-branch-checkout)))
+                    ([remap magit-visit-thing] . magit-branch-checkout))
+        :custom
+        (magit-completing-read-function 'ivy-completing-read)
+        (magit-repository-directories '(("~/repos" . 1)))
+        (magit-submodule-arguments '("--recursive")))
       (use-package magit-filenotify)
       (use-package magit-find-file)
       (use-package git-timemachine)
     #+END_SRC
-    Customized variables:
-    #+NAME: magit-custom-vars
-    #+CALL: custom-vars-table(custom-vars='(git-commit-fill-column magit-completing-read-function magit-repository-directories))
 *** =diminish=
     Handy mode to make the modeline more succinct by allowing a /diminished/ mode line string. Sometimes the fact that mode is there
     is fine and it doesn't need to be on the mode line (diminish it to ""). Putting diminish first not out of importance, but
@@ -166,13 +165,17 @@
     the functions to which they are bound (or a prefix). Many times I've found unknown features by simply looking at the various
     options. This is, IMO, a great way to learn Emacs key-bindings.
     #+BEGIN_SRC emacs-lisp :tangle yes
-      (use-package which-key :diminish "")
+      (use-package which-key :diminish ""
+        :custom
+        (which-key-mode t))
       (use-package which-key-posframe
         :config
-        (set-face-attribute 'which-key-posframe nil :background "firebrick4"))
+        (set-face-attribute 'which-key-posframe nil :background "wheat1")
+        :custom
+        (which-key-posframe-mode t)
+        (which-key-posframe-poshandler 'posframe-poshandler-frame-bottom-left-corner))
+      (which-function-mode t)
     #+END_SRC
-    #+NAME: which-key-pkg-custom-vars
-    #+CALL: custom-vars-table(custom-vars='(which-function-mode which-key-mode which-key-posframe-mode which-key-posframe-poshandler))
 *** =projectile=
     Perhaps one of the most useful packages - understands =git= repositories by default and makes dealing with project-wide stuff
     (like opening files and searching through all project files) much more efficient.
@@ -199,13 +202,18 @@
       (use-package ivy
         :diminish ""
         :bind (:map ivy-minibuffer-map
-                    ("C-w" . ivy-yank-word)           ;; make work like isearch
+                    ("C-w" . ivy-yank-word) ;; make work like isearch
                     ("C-r" . ivy-previous-line))
         :config
         (ivy-mode 1)
-        (setq ivy-initial-inputs-alist nil)           ;; no regexp by default
-        (setq ivy-re-builders-alist                   ;; allow input not in order
-              '((t . ivy--regex-ignore-order))))
+        (setq ivy-initial-inputs-alist nil) ;; no regexp by default
+        (setq ivy-re-builders-alist         ;; allow input not in order
+              '((t . ivy--regex-ignore-order)))
+        :custom
+        (ivy-count-format "(%d/%d) ")
+        (ivy-mode t)
+        (ivy-use-selectable-prompt t)
+        (ivy-use-virtual-buffers t))
       (use-package counsel
         :bind (("C-z j" . counsel-imenu)))
       (use-package counsel-projectile
@@ -221,23 +229,20 @@
       (use-package avy
         :bind (("C-:" . avy-goto-char)))
     #+END_SRC
-
 *** Use =ivy= and =posframe= together
     This makes the ivy completion buffers popup over the modeline instead of in the minibuffer.
     #+BEGIN_SRC emacs-lisp :tangle yes
       (use-package posframe)
       (use-package ivy-posframe
         :config
-        (set-face-attribute 'ivy-posframe nil :background "firebrick4"))
+        (set-face-attribute 'ivy-posframe nil :background "wheat1")
+        :custom
+        (ivy-posframe-display-functions-alist '((t . ivy-posframe-display-at-window-bottom-left))))
       (ivy-posframe-mode 1)
     #+END_SRC
     I ran into a nice article that fixes a [[http://mbork.pl/2018-06-16_ivy-use-selectable-prompt][problem that I often have with Ivy]]: using a name that is not in the list of candidates (for
     example when trying to write to a buffer to a new file name). To fix this, setting =ivy-use-selectable-prompt= to =t= makes going
     back before the first candidate to a "verbatim" prompt.
-
-    Customized variables:
-    #+NAME: ivy-custom-vars
-    #+CALL: custom-vars-table(custom-vars='(ivy-count-format ivy-mode ivy-use-selectable-prompt ivy-use-virtual-buffers))
 *** [[https://github.com/raxod502/prescient.el][=prescient=]]
     [[https://github.com/raxod502/prescient.el][=prescient=]] provides "simple but effective sorting and filtering for Emacs."
     #+BEGIN_SRC emacs-lisp :tangle yes
@@ -261,6 +266,7 @@
         ;; Fix yas indent issues
         (python-mode . (lambda () (set (make-local-variable 'yas-indent-line) 'fixed))))
       (use-package yasnippet-snippets)
+      (yas-global-mode t)
     #+END_SRC
     The following code allows the =yasnippet= and =company= to work together. Got this from a fix posted on [[https://gist.github.com/sebastiencs/a16ea58b2d23e2ea52f62fcce70f4073][github]] which was pointed
     to by the [[https://www.emacswiki.org/emacs/CompanyMode#toc11][company mode Wiki page]].
@@ -271,9 +277,6 @@
                                                     (when (equal my/company-point (point))
                                                       (yas-expand))))
     #+END_SRC
-    Customizations of interest:
-    #+NAME: yas-custom-vars
-    #+CALL: custom-vars-table(custom-vars='(yas-global-mode))
 *** =dired=
     Make sure dired is properly configured. Using =:ensure nil= here because the dired package is builtin.
     #+BEGIN_SRC emacs-lisp :tangle yes
@@ -367,7 +370,9 @@
     have become so useful that they've found their way into the list of Emacs built-in packages. In those cases, the package is
     checked here against the list of built-ins to avoid warnings when loading a later version of Emacs.
     #+BEGIN_SRC emacs-lisp -r :tangle yes
-      (use-package groovy-mode)
+      (use-package groovy-mode
+        :custom
+        (groovy-indent-offset 2))
       (use-package plantuml-mode)
       (use-package realgud)           ;; A "better" gud
       (use-package ibuffer-projectile :defer t)
@@ -377,6 +382,7 @@
       (unless (package-built-in-p 'desktop)
         (use-package desktop))
       (set-variable 'desktop-path (cons default-directory desktop-path))(ref:desktop-path)
+      (desktop-save-mode t)
       (use-package lispy
         :hook
         (emacs-lisp-mode . (lambda () (lispy-mode 1)))
@@ -390,10 +396,6 @@
     Note that the setting of [[(desktop-path)][=desktop-path=]] allows the multiple =.emacs.desktop= files, each in the directory where =emacs= was
     started. Although =desktop-path= is changed outside =custom.el=, I've included it here in the table below so you can see that
     the default is augmented with the start-up directory which in this case is =~/.emacs.d=.
-
-    Customized variables of interest here:
-    #+NAME: other-pkgs-custom-vars
-    #+CALL: custom-vars-table(custom-vars='(desktop-path desktop-save-mode groovy-indent-offset))
 ** [[https://orgmode.org/][=org-mode=]]
    I've split out this =org-mode= section because of the customization that was necessary to make exporting this module and the
    various customized variable tables to output  nicely.
@@ -479,11 +481,17 @@
         :hook
         (python-mode . (lambda ()
                          (eglot-ensure)
-                         (company-mode))))
+                         (company-mode)))
+        :custom
+        (python-flymake-command '("flake8" "-"))
+        (python-indent-trigger-commands '(yas-expand))
+        (python-shell-completion-native-disabled-interpreters '("pypy" "ipython" "jupyter"))
+        (python-shell-interpreter "jupyter")
+        (python-shell-interpreter-args "console --simple-prompt")
+        (python-shell-prompt-detect-failure-warning nil)
+        (python-shell-prompt-output-regexp "Out\\[[0-9]+\\]: ")
+        (python-shell-prompt-regexp "In \\[[0-9]+\\]: "))
     #+END_SRC
-    Customized variables used in this python configuration:
-    #+NAME: python-custom-vars
-    #+CALL: custom-vars-table(custom-vars='(python-check-command python-flymake-command python-indent-trigger-commands python-shell-interpreter python-shell-interpreter-args python-shell-prompt-detect-failure-warning python-shell-prompt-output-regexp python-shell-prompt-regexp python-shell-completion-native-disabled-interpreters))
 
 ** Additional bits-o-configuration
 *** Limit the length of [[https://www.gnu.org/software/emacs/manual/html_node/emacs/Which-Function.html][=which-function=]]
