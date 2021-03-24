@@ -123,8 +123,7 @@
      (use-package color-theme-sanityinc-tomorrow
        :demand t
        :config
-       (load-theme 'leuven t)
-       (set-face-attribute 'fringe nil :background "beige"))
+       (load-theme 'leuven t))
      (use-package doom-modeline
        :hook (after-init . doom-modeline-mode))
    #+END_SRC

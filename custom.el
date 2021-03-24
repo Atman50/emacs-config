@@ -108,9 +108,6 @@
  '(visible-bell t)
  '(warning-suppress-types '((yasnippet backquote-change)))
  '(which-function-mode t)
- '(which-key-mode t)
- '(which-key-posframe-mode t)
- '(which-key-posframe-poshandler 'posframe-poshandler-frame-bottom-left-corner)
  '(yas-global-mode t))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
