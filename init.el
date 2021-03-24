@@ -4,22 +4,44 @@
 ;; Copyright (C) 2017-2018 Adam Taylor
 
 ;;; Commentary:
-;;      This file is document in README.org
-;;
+;;      This init file is used to load up the literate configuration that resides
+;;      in the `my/cfg-file`.org file. This is babel'd into a .el file that is then
+;;      loaded as the configuration.
+;; 
+;;      The code here simply:
+;;          1. Disables the package system (using straight speeds up Emacs start quite a bit)
+;;          2. Loads the custom file before anything else (to properly customize variables)
+;;          3. Bootstraps the straight package system (and sets some variables)
+;;          4. Loads the literate configuration
+;; 
 
 ;;; Code:
+;; Don't use package subsystem (1)
+(setq package-enable-at-startup nil)
+;; Load custom-file first (2)
 (setq custom-file (expand-file-name "custom.el" user-emacs-directory))
 (load custom-file t)
-(prefer-coding-system 'utf-8)
-(package-initialize)
-(unless (assoc 'use-package package-archive-contents)
-  (package-refresh-contents)
-  (package-install (elt (cdr (assoc 'org-plus-contrib package-archive-contents)) 0))
-  (package-install (elt (cdr (assoc 'use-package package-archive-contents)) 0)))
-(assoc-delete-all 'org package--builtins)
-(setq use-package-enable-imenu-support t)
-(require 'use-package)
+;; Bootstrap straight (3)
+(defvar bootstrap-version)
+(let ((bootstrap-file
+       (expand-file-name "straight/repos/straight.el/bootstrap.el" user-emacs-directory))
+      (bootstrap-version 5))
+  (unless (file-exists-p bootstrap-file)
+    (with-current-buffer
+        (url-retrieve-synchronously
+         "https://raw.githubusercontent.com/raxod502/straight.el/develop/install.el"
+         'silent 'inhibit-cookies)
+      (goto-char (point-max))
+      (eval-print-last-sexp)))
+  (load bootstrap-file nil 'nomessage))
+
+;; Use-package as the package configuration tool of choice
+(straight-use-package 'use-package)
+;; Force use-package to use straight.el to automatically install missing packages
+(setq straight-use-package-by-default t)
+;; Make sure we have org for the org-babel-tangle-file below
 (use-package org)
+;; Load my config file (4)
 (defcustom my/cfg-file (concat user-emacs-directory "README")
   "The base name for the .org file to use for Emacs initialization."
   :group 'my-configuration

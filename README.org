@@ -21,8 +21,17 @@
 
    That's it.
 
-   Starting Emacs for the first time on a new machine loads all the packages/configuration loads. It takes some time on this first
-   load since all the packages referenced need to download and compile. On subsequent Emacs invocations startup time is much better.
+   Starting Emacs for the first time on a new machine loads all the packages/configuration needed.
+
+   This configuration currently uses the []=straight= package manager since, once setup, the startup time is far superior to the
+   built-in package system. The [[https://github.com/raxod502/straight.el][=straight=]] package system uses git for the packages. Since I do not contribute back to the packages
+   (yet), I don't use a whole lot of the [[https://github.com/raxod502/straight.el][=straight=]] features.
+
+   The first time this configuration loads it might take a little while as it is git cloning and then building all the requisite
+   packages used by this configuration.
+
+   Subsequent Emacs invocations startup fairly quickly now that we're using [[https://github.com/raxod502/straight.el][=straight=]].
+   
    The ability to simply clone and start is what makes this configuration *portable*. Note that some of the Emacs customization (see
    =custom.el=) are system (file system) dependent. I handle this by using git to create a stash of the localized changes for
    =custom.el= and then apply it whenever I take updated configurations from the repository.
@@ -47,9 +56,13 @@
 ** The importance of the =init.el= file
    There's a detailed explanation on how this configuration works WRT to =init.el= at the end of this document.
 
-   TLDR; The real trick with =init.el= is to load the Emacs user customizations first so that packages properly initialize and
-   everything places nicely with [[https://www.gnu.org/software/emacs/manual/html_node/emacs/Easy-Customization.html][Emacs customization]]. Then make sure =org-mode= is at the proper level and tangle this document
+   The real trick with =init.el= is to load the Emacs user customizations first so that packages properly initialize and
+   everything places nicely with [[https://www.gnu.org/software/emacs/manual/html_node/emacs/Easy-Customization.html][Emacs customization]]. Then make sure =org-mode= is at the proper level and tangles this document
    into the configuration to load.
+
+   The =init.el= file itself is well commented and needs no extra documentation here. Please see the file for it's contents. It does
+   the minimal amount of work to load (=org-babel-tangle-file=) this file.
+
 
 * The Configuration
   Here are the configuration bits. All of the following code snippets that are tangled from this file placed into an =.el= file that gets loaded
@@ -157,7 +170,7 @@
     is fine and it doesn't need to be on the mode line (diminish it to ""). Putting diminish first not out of importance, but
     because it is used later on.
     #+BEGIN_SRC emacs-lisp :tangle yes
-      (use-package diminish :defer t)
+      (use-package diminish)
     #+END_SRC
 *** [[https://github.com/justbur/emacs-which-key][=which-key=]]
     Perhaps one of the most useful extensions, this little gem will provide a list in the mini-buffer of the relevant keystrokes and
@@ -276,20 +289,10 @@
                                                     (when (equal my/company-point (point))
                                                       (yas-expand))))
     #+END_SRC
-*** =dired=
-    Make sure dired is properly configured. Using =:ensure nil= here because the dired package is builtin.
-    #+BEGIN_SRC emacs-lisp :tangle yes
-      (use-package dired
-        :ensure nil
-        :config (when (string= system-type "darwin")
-                  (setq dired-use-ls-dired t
-                        insert-directory-program "/usr/local/bin/gls"))
-        :custom (dired-listing-switches "-aBhl --group-directories-first"))
-    #+END_SRC
 *** =command-log-mod=
     These packages are useful when doing presentations.
     #+BEGIN_SRC emacs-lisp :tangle yes
-      (use-package command-log-mode :defer t)
+      (use-package command-log-mode)
     #+END_SRC
 *** Docker
     I manage a lot of docker stuff. The docker package is quite useful.
@@ -310,7 +313,7 @@
 *** [[https://github.com/priyadarshan/bind-key][=bind-key=]]
     Much better binding capabilities (in later versions this is already loaded via =use-package=).
     #+BEGIN_SRC emacs-lisp :tangle yes
-      (use-package bind-key :defer t)
+      (use-package bind-key)
     #+END_SRC
 *** [[https://github.com/Wilfred/helpful][=helpful=]]
     [[https://github.com/Wilfred/helpful][Helpful]] provides contextual help and other features. Here are two blogs that provide good information: [[http://www.wilfred.me.uk/blog/2017/08/30/helpful-adding-contextual-help-to-emacs/][initial Helpful blog]] and
@@ -325,7 +328,7 @@
     annoying errors.
     #+BEGIN_SRC emacs-lisp :tangle yes
       (unless (package-built-in-p 'savehist)
-        (use-package savehist :defer t))
+        (use-package savehist))
     #+END_SRC
     Set the following variables to control =savehist= (use customize).
     #+NAME: savehist-custom-vars
@@ -335,9 +338,7 @@
     Since I deal with potentially gigantic log files, this package allows the file to be carved up and 'paged' through. Get to the
     =vlf= stuff through the default prefix =C-c C-v=.
     #+BEGIN_SRC emacs-lisp :tangle yes
-      (use-package vlf
-        :defer t
-        :pin melpa)
+      (use-package vlf)
     #+END_SRC
     I got the =vlf= package from a [[https://writequit.org/articles/working-with-logs-in-emacs.html][really good paper]] on how to use Emacs to deal with logs. If you currently or are going to deal
     with logs in your day to day, then this article is invaluable. I've yet to adopt some of the other features described by the
@@ -374,10 +375,10 @@
         (groovy-indent-offset 2))
       (use-package plantuml-mode)
       (use-package realgud)           ;; A "better" gud
-      (use-package ibuffer-projectile :defer t)
-      (use-package xterm-color :defer t)
+      (use-package ibuffer-projectile)
+      (use-package xterm-color)
       (unless (package-built-in-p 'sh-script)
-        (use-package sh-script :defer t))
+        (use-package sh-script))
       (unless (package-built-in-p 'desktop)
         (use-package desktop))
       (set-variable 'desktop-path (cons default-directory desktop-path))(ref:desktop-path)
@@ -574,136 +575,69 @@
       (add-to-list 'auto-mode-alist '("\\.pom\\'" . xml-mode))
    #+END_SRC
 
-* =init.el=, short and sweet
-Everything above here is loaded by =init.el=
+* [[https://orgmode.org/][=org-mode=]] export hacks for HTML and Markdown
+  I export into markdown for github. I do not use the =ox-gfm= package because when I tried it, it modified the source file because
+  of this file's use of the =#+CALL= construct (each call adds the table to the source file). So I use the built in =ox-md=
+  exporter. However, it just indents the code blocks rather put the =```emacs-lisp= code snippet prefix and =```= postfix but
+  rather just indents. First we load the library so it turns up in the export menu (=C-x C-e=). Then we override the output method
+  for the code.
 
-  #+BEGIN_SRC emacs-lisp -n 11 :tangle no
-    (setq custom-file (expand-file-name "custom.el" user-emacs-directory))
-    (load custom-file t)
-    (prefer-coding-system 'utf-8)
-    (package-initialize)
-    (unless (assoc 'use-package package-archive-contents)
-      (package-refresh-contents)
-      (package-install (elt (cdr (assoc 'org-plus-contrib package-archive-contents)) 0))
-      (package-install (elt (cdr (assoc 'use-package package-archive-contents)) 0)))
-    (assoc-delete-all 'org package--builtins)
-    (setq use-package-enable-imenu-support t)
-    (require 'use-package)
-    (use-package org)
-    (defcustom my/cfg-file (concat user-emacs-directory "README")
-      "The base name for the .org file to use for Emacs initialization."
-      :group 'my-configuration
-      :type 'string)
-    (when (file-newer-than-file-p (concat my/cfg-file ".org") (concat my/cfg-file ".el"))
-      (org-babel-tangle-file (concat my/cfg-file ".org")))
-    (load my/cfg-file)
+  #+BEGIN_SRC emacs-lisp :tangle yes
+    (load-library "ox-md")
+
+    (cl-defun org-md-example-block (example-block _contents info)
+      "My modified: Transcode EXAMPLE-BLOCK element into Markdown format.
+    CONTENTS is nil.  INFO is a plist used as a communication
+    channel."
+      (concat "```emacs-lisp\n"
+              (org-remove-indentation
+               (org-export-format-code-default example-block info))
+              "```\n"))
   #+END_SRC
 
-  | Line | Explained                                                                                                            |
-  |------+----------------------------------------------------------------------------------------------------------------------|
-  |   11 | Breaking the custom setting out into its own file allows it to be loaded in the next line                            |
-  |   12 | Load the custom file. All custom settings will now be honored by packages when loaded.                               |
-  |   13 | Just a fix for ELPA packages with (certain?) Unicode characters in them.                                             |
-  |   14 | Initialize the package system.Reloading this doesn't seem to have a downside (once loaded this seems to not matter). |
-  |   15 | If we've not load loaded the definition for the =use-package= ELPA package, then                                     |
-  |   16 | Refresh (read) the package archives. Note: ='package-archives= from =custom.el= *key* here                           |
-  |   17 | Load up org-mode. The pre-packaged org-mode does not have Babel!                                                     |
-  |   18 | Load up use-package. Used for all package loading                                                                    |
-  |   19 | We'll use org from the proper sources, thank you very much (not the builtin version if any)                          |
-  |   20 | Set the variable to allow =use-package= to use counsel for imenus                                                    |
-  |   21 | Require =use-package=                                                                                                |
-  |   22 | Make sure =use-package= is available                                                                                 |
-  |   23 | Make sure =org= is available                                                                                         |
-  |   24 | Create customizable config variable                                                                                  |
-  |   25 | ... it's nice having a customizable                                                                                  |
-  |   26 | ...    group for personal configuration settings                                                                     |
-  |   27 | If the .el file doesn't exist or is older than this file then...                                                     |
-  |   28 | ... create the tangled output of this file                                                                           |
-  |   29 | Load the tangled output of this file                                                                                 |
-   
-  One of the nicest things about Emacs is the extensive and quite useful customization engine. You can customize variables and
-  faces with ease and make the settings work for you.
+  To support the using of dynamic custom vars table using the library of Babel, the export text for Markdown and HTML goes through
+  =orgtbl-to-orgtbl= which turns the list returned in the an org-mode table. After =orgtbl-to-orgtbl=, the =htmlize= package turns
+  it into a HTML table. The adviser changes all the spaces after a =<br>= into =&nbsp;= entities and surrounds them with inline
+  HTML. This is necessary because =orgtbl-to-orgtbl= strips text between the =@@= used to inline HTML. The adviser also protects
+  any underscores in the table with inline HTML.
 
-  Loading the customized variables before the package (using =use-package= of course) means that you can now use the customization
-  facility in Emacs to modify the variables and have them stick between Emacs invocations. I see lots of configurations with the
-  =:config= section of a =use-package= invocation performing variable setting. The problem with this is that if you want to change
-  it using Emacs, the loading of the customizations first causes your new customizations getting overwritten on the next start of
-  Emacs. You can do it in the reverse order; =use-package= first, then customize, but then you couldn't customize the variable
-  using the customization system.
+  #+BEGIN_SRC emacs-lisp :tangle yes
+    (cl-defun my-md-export-hack(text)
+      "Fix up md export on writing my README.org file.
 
-  Therefore trying to minimize =use-package= customizations and mostly using the =custom.el= file play much nicer with the
-  [[https://www.gnu.org/software/emacs/manual/html_node/emacs/Easy-Customization.html][Emacs customization package]].
+    Converts a <br> followed by zero or more spaces into inline html format.
+    For example: an in put of \"hello<br>there<br> my<br>  friend<br>\" becomes
+    \"hello@@html:<br>@@there@@html:<br>&nbsp;\
+      @@my@@html:<br>&nbsp;&nbsp;@@friend@@html:<br>@@\"
+    This function also adds inline HTML around '_' in the TEXT."
+      (when (stringp text)
+        (let ((result text)
+              (replacements '(("<br>\[[:space:]\]*" (lambda (match)
+                                                      (concat "@@html:<br>"
+                                                              (apply 'concat (make-list (- (length match) 4) "&nbsp;"))
+                                                              "@@")))
+                              ("\"\\(https?:\[^\"\]*\\)" "\"@@html:<a href=\"\\1\">\\1</a>@@")
+                              ("_" "@@html:_@@")
+                              ("<\\(p.*?\\)>" "@@html:&lt;\\1&gt;@@")
+                              ("</p>" "@@html:&lt;/p&gt;@@"))))
+          (cl-loop for rep in replacements do
+                   (setq result (replace-regexp-in-string (nth 0 rep) (nth 1 rep) result)))
+          result)))
 
-  The most important custom variable for this configuration is =package-archives=, which is used by the loading of the various
-  extension packages used by this configuration.
+    (advice-add #'orgtbl-to-orgtbl :filter-return #'my-md-export-hack)
+  #+END_SRC
 
-   #+NAME: init-file-custom-vars
-   #+CALL: custom-vars-table(custom-vars='(package-archives use-package-enable-imenu-support))
+  A post-amble to make the tangled =.el= file has no errors/warnings.
+  #+BEGIN_SRC emacs-lisp :tangle yes
+    ;;; README.el ends here
+  #+END_SRC
 
-** [[https://orgmode.org/][=org-mode=]] export hacks for HTML and Markdown
-   I export into markdown for github. I do not use the =ox-gfm= package because when I tried it, it modified the source file because
-   of this file's use of the =#+CALL= construct (each call adds the table to the source file). So I use the built in =ox-md=
-   exporter. However, it just indents the code blocks rather put the =```emacs-lisp= code snippet prefix and =```= postfix but
-   rather just indents. First we load the library so it turns up in the export menu (=C-x C-e=). Then we override the output method
-   for the code.
-
-   #+BEGIN_SRC emacs-lisp :tangle yes
-      (load-library "ox-md")
-
-      (cl-defun org-md-example-block (example-block _contents info)
-        "My modified: Transcode EXAMPLE-BLOCK element into Markdown format.
-      CONTENTS is nil.  INFO is a plist used as a communication
-      channel."
-        (concat "```emacs-lisp\n"
-                (org-remove-indentation
-                 (org-export-format-code-default example-block info))
-                "```\n"))
-   #+END_SRC
-
-   To support the using of dynamic custom vars table using the library of Babel, the export text for Markdown and HTML goes through
-   =orgtbl-to-orgtbl= which turns the list returned in the an org-mode table. After =orgtbl-to-orgtbl=, the =htmlize= package turns
-   it into a HTML table. The adviser changes all the spaces after a =<br>= into =&nbsp;= entities and surrounds them with inline
-   HTML. This is necessary because =orgtbl-to-orgtbl= strips text between the =@@= used to inline HTML. The adviser also protects
-   any underscores in the table with inline HTML.
-
-   #+BEGIN_SRC emacs-lisp :tangle yes
-     (cl-defun my-md-export-hack(text)
-       "Fix up md export on writing my README.org file.
-
-     Converts a <br> followed by zero or more spaces into inline html format.
-     For example: an in put of \"hello<br>there<br> my<br>  friend<br>\" becomes
-     \"hello@@html:<br>@@there@@html:<br>&nbsp;\
-       @@my@@html:<br>&nbsp;&nbsp;@@friend@@html:<br>@@\"
-     This function also adds inline HTML around '_' in the TEXT."
-       (when (stringp text)
-         (let ((result text)
-               (replacements '(("<br>\[[:space:]\]*" (lambda (match)
-                                                       (concat "@@html:<br>"
-                                                               (apply 'concat (make-list (- (length match) 4) "&nbsp;"))
-                                                               "@@")))
-                               ("\"\\(https?:\[^\"\]*\\)" "\"@@html:<a href=\"\\1\">\\1</a>@@")
-                               ("_" "@@html:_@@")
-                               ("<\\(p.*?\\)>" "@@html:&lt;\\1&gt;@@")
-                               ("</p>" "@@html:&lt;/p&gt;@@"))))
-           (cl-loop for rep in replacements do
-                    (setq result (replace-regexp-in-string (nth 0 rep) (nth 1 rep) result)))
-           result)))
-
-     (advice-add #'orgtbl-to-orgtbl :filter-return #'my-md-export-hack)
-   #+END_SRC
-
-
-   A post-amble to make the tangled =.el= file has no errors/warnings.
-   #+BEGIN_SRC emacs-lisp :tangle yes
-     ;;; README.el ends here
-   #+END_SRC
-
-   #+NAME: custom-vars-table
-   #+BEGIN_SRC emacs-lisp :results silent :exports results :var custom-vars=() :tangle no
+  #+NAME: custom-vars-table
+  #+BEGIN_SRC emacs-lisp :results silent :exports results :var custom-vars=() :tangle no
     ;; This "function" creates a list that is converted to a table by the exporter
     `((Symbol\ Name Value)
       hline
       ,@(cl-loop for cv in custom-vars
                  collect `(,cv
                            ,(replace-regexp-in-string "\n" "<br>" (string-trim-right (pp-to-string (default-value cv)))))))
-   #+END_SRC
+  #+END_SRC
