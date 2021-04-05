@@ -89,6 +89,35 @@
  '(projectile-completion-system 'ivy)
  '(projectile-mode-line '(:eval (format " [%s]" (projectile-project-name))))
  '(rng-nxml-auto-validate-flag nil)
+ '(safe-local-variable-values
+   '((eval when
+           (and
+            (buffer-file-name)
+            (not
+             (file-directory-p
+              (buffer-file-name)))
+            (string-match-p "^[^.]"
+                            (buffer-file-name)))
+           (unless
+               (featurep 'package-build)
+             (let
+                 ((load-path
+                   (cons "../package-build" load-path)))
+               (require 'package-build)))
+           (unless
+               (derived-mode-p 'emacs-lisp-mode)
+             (emacs-lisp-mode))
+           (package-build-minor-mode)
+           (setq-local flycheck-checkers nil)
+           (set
+            (make-local-variable 'package-build-working-dir)
+            (expand-file-name "../working/"))
+           (set
+            (make-local-variable 'package-build-archive-dir)
+            (expand-file-name "../packages/"))
+           (set
+            (make-local-variable 'package-build-recipes-dir)
+            default-directory))))
  '(savehist-additional-variables '(kill-ring search-ring regexp-search-ring))
  '(savehist-file "~/.emacs.d/savehist")
  '(savehist-mode t)

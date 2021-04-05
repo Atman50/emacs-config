@@ -492,6 +492,16 @@
         (python-shell-prompt-output-regexp "Out\\[[0-9]+\\]: ")
         (python-shell-prompt-regexp "In \\[[0-9]+\\]: "))
     #+END_SRC
+*** Go
+    I like go and we are using at my new gig.
+    #+BEGIN_SRC emacs-lisp :tangle yes
+      (use-package go-mode
+        :hook
+        (go-mode . (lambda ()
+                     (eglot-ensure)
+                     (company-mode))))
+    #+END_SRC
+
 
 ** Additional bits-o-configuration
 *** Limit the length of [[https://www.gnu.org/software/emacs/manual/html_node/emacs/Which-Function.html][=which-function=]]
