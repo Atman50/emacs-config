@@ -133,10 +133,12 @@
    [[https://github.com/seagle0128/doom-modeline][=doom-modeline= website]]: Run =M-x all-the-icons-install-fonts= and then, on Windows, install the font ttf file by right clicking
    on it and doing install.
    #+BEGIN_SRC emacs-lisp :tangle yes
-     (use-package color-theme-sanityinc-tomorrow
+     (use-package leuven-theme
        :demand t
        :config
-       (load-theme 'leuven t))
+       (load-theme 'leuven t)
+         (set-face-attribute 'scroll-bar nil :foreground "lightgray")
+         (set-face-attribute 'menu nil :foreground "black" :background "lightgray"))
      (use-package doom-modeline
        :hook (after-init . doom-modeline-mode))
    #+END_SRC
