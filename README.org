@@ -291,10 +291,55 @@
                                                     (when (equal my/company-point (point))
                                                       (yas-expand))))
     #+END_SRC
+*** Emacs Application Framework
+    This is a package that allows Emacs to more graphically oriented. This is a test for now. I'm following the instructions found
+    at the [[https://github.com/manateelazycat/emacs-application-framework][emacs-application-framework github]].
+
+    I had to modify the directions to work with ~use-package~ used along with ~straight~. Here's what I had to do initially:
+    1. I followed the direction to clone the ~eaf~ frame work to ~~/.emacs.d/site-lisp/emacs-application-framework~.
+    2. I then executed the ~install-eaf.sh~ script that installs a bunch of things on the system that ~eaf~ neads
+    3. Then the ~use-package~, with the ~:load-path~ statement, failed with a cannot find ~straight/build/eaf/app~. This step did
+       clone the ~emacs-application-framework~ to straight as ~eaf~, as you'd expect from the ~use-package~ statement. 
+    4. To fix the failure in the original ~use-package~, I removed the ~:load-path~ and created a link from ~build/eap/app~ to
+       ~../../repos/eap/app~, and tada it loads. Now to see if it works.
+    5. I had to add the packages so mentioned in the instructions to ~~/.emacs.d/emacs-pip.txt~. NB: ~aria2~ and ~libreoffice~ are
+       ~apt~ based packages. The documentation for ~eaf~ leaves a little to be desired.
+
+    #+BEGIN_SRC emacs-lisp :tangle yes
+      (use-package eaf
+        :straight (eaf :type git
+                       :host github
+                       :repo "manateelazycat/emacs-application-framework"
+                       :files ("*.el" "*.py" "core" "app"))
+        :init
+        (use-package epc :defer t :ensure t)
+        (use-package ctable :defer t :ensure t)
+        (use-package deferred :defer t :ensure t)
+        (use-package s :defer t :ensure t)
+        :custom
+        (eaf-browser-continue-where-left-off t)
+        :config
+        (eaf-setq eaf-browser-enable-adblocker "true")
+        (eaf-bind-key scroll_up "C-n" eaf-pdf-viewer-keybinding)
+        (eaf-bind-key scroll_down "C-p" eaf-pdf-viewer-keybinding)
+        (eaf-bind-key take_photo "p" eaf-camera-keybinding)
+        ;; unbind M-q, see more in the Wiki
+        (eaf-bind-key nil "M-q" eaf-browser-keybinding))
+    #+END_SRC
+*** Jinja2
+    I'm using [[https://docs.pylonsproject.org/projects/pyramid/en/2.0-branch/][Pyramid]] in my projects with [[https://jinja.palletsprojects.com/en/2.11.x/][Jinja2]] so ~jinja2-mode~ is quite useful
+    #+BEGIN_SRC emacs-lisp :tangle yes
+      (use-package jinja2-mode)
+    #+END_SRC
 *** =command-log-mod=
     These packages are useful when doing presentations.
     #+BEGIN_SRC emacs-lisp :tangle yes
       (use-package command-log-mode)
+    #+END_SRC
+*** Markdown mode
+    Nice for editing all those markdown files (that should really just be org files):
+    #+BEGIN_SRC emacs-lisp :tangle yes
+      (use-package markdown-mode)
     #+END_SRC
 *** Docker
     I manage a lot of docker stuff. The docker package is quite useful.
@@ -306,7 +351,10 @@
     #+BEGIN_SRC emacs-lisp :tangle yes
       (use-package flycheck
         :config
-        (global-flycheck-mode))
+        (global-flycheck-mode)
+        :custom
+        (flycheck-check-syntax-automatically '(save idle-change mode-enabled))
+        (flycheck-idle-change-delay 0.5))
     #+END_SRC
 *** yaml-mode
     #+BEGIN_SRC emacs-lisp :tangle yes
@@ -375,7 +423,10 @@
       (use-package groovy-mode
         :custom
         (groovy-indent-offset 2))
-      (use-package plantuml-mode)
+      (use-package plantuml-mode
+        :custom
+        (plantuml-default-exec-mode 'jar)
+        (plantuml-jar-path "~/bin/plantuml.jar"))
       (use-package realgud)           ;; A "better" gud
       (use-package ibuffer-projectile)
       (use-package xterm-color)
@@ -525,7 +576,7 @@
     #+BEGIN_SRC emacs-lisp :tangle yes
       (cl-defun my/ansi-term (term-name cmd)
         "Create an ansi term with a name - other than *ansi-term* given TERM-NAME and CMD."
-        (interactive "sName for terminal: \nsCommand to run [/bin/bash]: ")
+        (interactive "sName for terminal: \nsCommand to run [/bin/zsh]: ")
         (ansi-term (if (= 0 (length cmd)) "/bin/zsh" cmd))
         (rename-buffer term-name))
     #+END_SRC

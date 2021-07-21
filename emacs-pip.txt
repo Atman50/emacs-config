@@ -12,3 +12,15 @@ pyflakes
 ipdb
 ipython
 jupyter
+# For emacs-application-framework
+epc
+pyqt5-sip
+pyqtwebengine
+wmctrl
+pygetwindow
+nodejs
+pymupdf
+qtconsole
+retrying
+pytaglib
+aria2p
