@@ -126,23 +126,6 @@
      (org-defkey org-mode-map "\C-c\C-x\C-r" 'org-clock-report)
    #+END_SRC
 
-** Theme and mode line
-   My progression of modelines has gone from =powerline= to =moody= and now =doom=. The =doom-modeline= package is pretty good and
-   not as much fuss as I had with =moody=. All the stuff I need there and makes this configuration much easier. You *must* go
-   install the fonts from the =all-the-icons= package (which is loaded as a dependency) according to the instructions found on the
-   [[https://github.com/seagle0128/doom-modeline][=doom-modeline= website]]: Run =M-x all-the-icons-install-fonts= and then, on Windows, install the font ttf file by right clicking
-   on it and doing install.
-   #+BEGIN_SRC emacs-lisp :tangle yes
-     (use-package leuven-theme
-       :demand t
-       :config
-       (load-theme 'leuven t)
-         (set-face-attribute 'scroll-bar nil :foreground "lightgray")
-         (set-face-attribute 'menu nil :foreground "black" :background "lightgray"))
-     (use-package doom-modeline
-       :hook (after-init . doom-modeline-mode))
-   #+END_SRC
-
 ** Packages
    Here are the packages I use and I've tried to list them in a relatively logical order (trying to put the more significant
    packages earlier in this document).
@@ -305,7 +288,9 @@
     5. I had to add the packages so mentioned in the instructions to ~~/.emacs.d/emacs-pip.txt~. NB: ~aria2~ and ~libreoffice~ are
        ~apt~ based packages. The documentation for ~eaf~ leaves a little to be desired.
 
-    #+BEGIN_SRC emacs-lisp :tangle yes
+    *I've disabled EAF for now*
+
+    #+BEGIN_SRC emacs-lisp :tangle no
       (use-package eaf
         :straight (eaf :type git
                        :host github
@@ -546,14 +531,36 @@
         (python-shell-prompt-regexp "In \\[[0-9]+\\]: "))
     #+END_SRC
 *** Go
-    I like go and we are using at my new gig.
+    For golang since we are using at my new gig. However, I'm not a big golang fan and it seems very difficult to make work with
+    eglot (so that's disabled for now).
     #+BEGIN_SRC emacs-lisp :tangle yes
       (use-package go-mode
         :hook
         (go-mode . (lambda ()
-                     (eglot-ensure)
+                     (set-variable 'tab-width 4)
+                     ;; (eglot-ensure)
                      (company-mode))))
     #+END_SRC
+
+
+** Theme and mode line
+   My progression of modelines has gone from =powerline= to =moody= and now =doom=. The =doom-modeline= package is pretty good and
+   not as much fuss as I had with =moody=. All the stuff I need there and makes this configuration much easier. You *must* go
+   install the fonts from the =all-the-icons= package (which is loaded as a dependency) according to the instructions found on the
+   [[https://github.com/seagle0128/doom-modeline][=doom-modeline= website]]: Run =M-x all-the-icons-install-fonts= and then, on Windows, install the font ttf file by right clicking
+   on it and doing install.
+   #+BEGIN_SRC emacs-lisp :tangle yes
+     (use-package leuven-theme
+       :demand t
+       :config
+       (load-theme 'leuven t)
+         (set-face-attribute 'scroll-bar nil :foreground "lightgray")
+         (set-face-attribute 'menu nil :foreground "black" :background "lightgray"))
+     (use-package doom-modeline
+       :hook (after-init . doom-modeline-mode)
+       :config
+       (set-face-attribute 'doom-modeline-buffer-modified nil :foreground "orange1"))
+   #+END_SRC
 
 
 ** Additional bits-o-configuration
