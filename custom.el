@@ -21,6 +21,10 @@
  ;; If there is more than one, they won't work right.
  '(ag-ignore-list
    '("\\\\*.dll" "\\\\*.png" "\\\\*.jpeg" "\\\\*.exe" "\\\\*.csproj"))
+ '(ansi-color-faces-vector
+   [default default default italic underline success warning error])
+ '(ansi-color-names-vector
+   ["black" "red3" "ForestGreen" "yellow3" "blue" "magenta3" "DeepSkyBlue" "gray50"])
  '(auto-save-default nil)
  '(browse-url-browser-function 'browse-url-chrome)
  '(browse-url-chrome-program
@@ -121,12 +125,13 @@
  '(savehist-additional-variables '(kill-ring search-ring regexp-search-ring))
  '(savehist-file "~/.emacs.d/savehist")
  '(savehist-mode t)
- '(scroll-bar-mode 'none)
+ '(scroll-bar-mode 'right)
  '(sentence-end-double-space nil)
  '(show-paren-mode t nil (paren))
  '(show-paren-style 'expression)
  '(split-width-threshold nil)
  '(sql-mode-hook '((lambda nil (setq tab-width 4 indent-tabs-mode t))))
+ '(straight-check-for-modifications '(check-on-save find-when-checking))
  '(tool-bar-mode nil)
  '(truncate-partial-width-windows t)
  '(uniquify-buffer-name-style 'post-forward-angle-brackets nil (uniquify))
