@@ -538,7 +538,7 @@
         :hook
         (go-mode . (lambda ()
                      (set-variable 'tab-width 4)
-                     ;; (eglot-ensure)
+                     (eglot-ensure)
                      (company-mode))))
     #+END_SRC
 
