@@ -79,9 +79,7 @@
  '(org-catch-invisible-edits 'show)
  '(org-html-postamble t)
  '(org-html-postamble-format
-   '(("en" "<p class=\"author\">Author: %a (%e)</p>
-<p class=\"date\">Date: %T</p>
-<p class=\"creator\">%c</p>")))
+   '(("en" "<p class=\"author\">Author: %a (%e)</p>\12<p class=\"date\">Date: %T</p>\12<p class=\"creator\">%c</p>")))
  '(org-log-done 'time)
  '(org-log-into-drawer t)
  '(org-reveal-root "http://cdn.jsdelivr.net/reveal.js/3.0.0/")
@@ -92,6 +90,7 @@
      ("org" . "https://orgmode.org/elpa/")))
  '(projectile-completion-system 'ivy)
  '(projectile-mode-line '(:eval (format " [%s]" (projectile-project-name))))
+ '(recentf-mode t)
  '(rng-nxml-auto-validate-flag nil)
  '(safe-local-variable-values
    '((eval when
