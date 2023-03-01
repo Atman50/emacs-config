@@ -77,6 +77,7 @@
  '(make-backup-files nil)
  '(org-babel-load-languages '((shell . t) (plantuml . t) (python . t) (emacs-lisp . t)))
  '(org-catch-invisible-edits 'show)
+ '(org-fold-catch-invisible-edits 'show)
  '(org-html-postamble t)
  '(org-html-postamble-format
    '(("en" "<p class=\"author\">Author: %a (%e)</p>\12<p class=\"date\">Date: %T</p>\12<p class=\"creator\">%c</p>")))
