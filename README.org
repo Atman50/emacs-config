@@ -289,94 +289,94 @@ I had to modify the directions to work with ~use-package~ used along with ~strai
 
 *I've disabled EAF for now*
 
-    #+BEGIN_SRC emacs-lisp :tangle no
-      (use-package eaf
-        :straight (eaf :type git
-                       :host github
-                       :repo "manateelazycat/emacs-application-framework"
-                       :files ("*.el" "*.py" "core" "app"))
-        :init
-        (use-package epc :defer t :ensure t)
-        (use-package ctable :defer t :ensure t)
-        (use-package deferred :defer t :ensure t)
-        (use-package s :defer t :ensure t)
-        :custom
-        (eaf-browser-continue-where-left-off t)
-        :config
-        (eaf-setq eaf-browser-enable-adblocker "true")
-        (eaf-bind-key scroll_up "C-n" eaf-pdf-viewer-keybinding)
-        (eaf-bind-key scroll_down "C-p" eaf-pdf-viewer-keybinding)
-        (eaf-bind-key take_photo "p" eaf-camera-keybinding)
-        ;; unbind M-q, see more in the Wiki
-        (eaf-bind-key nil "M-q" eaf-browser-keybinding))
-    #+END_SRC
+#+BEGIN_SRC emacs-lisp :tangle no
+  (use-package eaf
+    :straight (eaf :type git
+                   :host github
+                   :repo "manateelazycat/emacs-application-framework"
+                   :files ("*.el" "*.py" "core" "app"))
+    :init
+    (use-package epc :defer t :ensure t)
+    (use-package ctable :defer t :ensure t)
+    (use-package deferred :defer t :ensure t)
+    (use-package s :defer t :ensure t)
+    :custom
+    (eaf-browser-continue-where-left-off t)
+    :config
+    (eaf-setq eaf-browser-enable-adblocker "true")
+    (eaf-bind-key scroll_up "C-n" eaf-pdf-viewer-keybinding)
+    (eaf-bind-key scroll_down "C-p" eaf-pdf-viewer-keybinding)
+    (eaf-bind-key take_photo "p" eaf-camera-keybinding)
+    ;; unbind M-q, see more in the Wiki
+    (eaf-bind-key nil "M-q" eaf-browser-keybinding))
+#+END_SRC
 *** Jinja2
-    I'm using [[https://docs.pylonsproject.org/projects/pyramid/en/2.0-branch/][Pyramid]] in my projects with [[https://jinja.palletsprojects.com/en/2.11.x/][Jinja2]] so ~jinja2-mode~ is quite useful
-    #+BEGIN_SRC emacs-lisp :tangle yes
-      (use-package jinja2-mode)
-    #+END_SRC
+I'm using [[https://docs.pylonsproject.org/projects/pyramid/en/2.0-branch/][Pyramid]] in my projects with [[https://jinja.palletsprojects.com/en/2.11.x/][Jinja2]] so ~jinja2-mode~ is quite useful
+#+BEGIN_SRC emacs-lisp :tangle yes
+  (use-package jinja2-mode)
+#+END_SRC
 *** =command-log-mod=
-    These packages are useful when doing presentations.
-    #+BEGIN_SRC emacs-lisp :tangle yes
-      (use-package command-log-mode)
-    #+END_SRC
+These packages are useful when doing presentations.
+#+BEGIN_SRC emacs-lisp :tangle yes
+  (use-package command-log-mode)
+#+END_SRC
 *** Markdown mode
-    Nice for editing all those markdown files (that should really just be org files):
-    #+BEGIN_SRC emacs-lisp :tangle yes
-      (use-package markdown-mode)
-    #+END_SRC
+Nice for editing all those markdown files (that should really just be org files):
+#+BEGIN_SRC emacs-lisp :tangle yes
+  (use-package markdown-mode)
+#+END_SRC
 *** Docker
-    I manage a lot of docker stuff. The docker package is quite useful.
-    #+BEGIN_SRC emacs-lisp :tangle yes
-      (use-package docker)
-    #+END_SRC
+I manage a lot of docker stuff. The docker package is quite useful.
+#+BEGIN_SRC emacs-lisp :tangle yes
+  (use-package docker)
+#+END_SRC
 *** =flycheck=
-    I've abandoned =flymake= (built-in) with =flycheck= (see [[https://www.masteringemacs.org/article/spotlight-flycheck-a-flymake-replacement][flycheck a flymake replacement]]).
-    #+BEGIN_SRC emacs-lisp :tangle yes
-      (use-package flycheck
-        :config
-        (global-flycheck-mode)
-        :custom
-        (flycheck-check-syntax-automatically '(save idle-change mode-enabled))
-        (flycheck-idle-change-delay 0.5))
-    #+END_SRC
+I've abandoned =flymake= (built-in) with =flycheck= (see [[https://www.masteringemacs.org/article/spotlight-flycheck-a-flymake-replacement][flycheck a flymake replacement]]).
+#+BEGIN_SRC emacs-lisp :tangle yes
+  (use-package flycheck
+    :config
+    (global-flycheck-mode)
+    :custom
+    (flycheck-check-syntax-automatically '(save idle-change mode-enabled))
+    (flycheck-idle-change-delay 0.5))
+#+END_SRC
 *** yaml-mode
-    #+BEGIN_SRC emacs-lisp :tangle yes
-      (use-package yaml-mode)
-    #+END_SRC
+#+BEGIN_SRC emacs-lisp :tangle yes
+  (use-package yaml-mode)
+#+END_SRC
 *** [[https://github.com/priyadarshan/bind-key][=bind-key=]]
-    Much better binding capabilities (in later versions this is already loaded via =use-package=).
-    #+BEGIN_SRC emacs-lisp :tangle yes
-      (use-package bind-key)
-    #+END_SRC
+Much better binding capabilities (in later versions this is already loaded via =use-package=).
+#+BEGIN_SRC emacs-lisp :tangle yes
+  (use-package bind-key)
+#+END_SRC
 *** [[https://github.com/Wilfred/helpful][=helpful=]]
-    [[https://github.com/Wilfred/helpful][Helpful]] provides contextual help and other features. Here are two blogs that provide good information: [[http://www.wilfred.me.uk/blog/2017/08/30/helpful-adding-contextual-help-to-emacs/][initial Helpful blog]] and
-    [[http://www.wilfred.me.uk/blog/2018/06/22/helpful-one-year-on/][Helpful, one year in]]. More in-depth help along with lots of other information like references, edebug capabilities, ...
-    #+BEGIN_SRC emacs-lisp :tangle yes
-      (use-package helpful)
-    #+END_SRC
+[[https://github.com/Wilfred/helpful][Helpful]] provides contextual help and other features. Here are two blogs that provide good information: [[http://www.wilfred.me.uk/blog/2017/08/30/helpful-adding-contextual-help-to-emacs/][initial Helpful blog]] and
+[[http://www.wilfred.me.uk/blog/2018/06/22/helpful-one-year-on/][Helpful, one year in]]. More in-depth help along with lots of other information like references, edebug capabilities, ...
+#+BEGIN_SRC emacs-lisp :tangle yes
+  (use-package helpful)
+#+END_SRC
 *** [[https://www.emacswiki.org/emacs/SaveHist][=savehist=]]
-    A great built-in that allows us to have a history file. This means certain elements are saved between sessions of Emacs. This
-    history file is kept in =~/.emacs.d/savehist=. Note that in later versions of Emacs this package is already built-in, so check
-    the built-ins before issuing the =use-package=. In later versions of Emacs seems the =savehist= package is built-in so ignore
-    annoying errors.
-    #+BEGIN_SRC emacs-lisp :tangle yes
-      (unless (package-built-in-p 'savehist)
-        (use-package savehist))
-    #+END_SRC
-    Set the following variables to control =savehist= (use customize).
-    #+NAME: savehist-custom-vars
-    #+CALL: custom-vars-table(custom-vars='(savehist-file savehist-additional-variables savehist-mode))
+A great built-in that allows us to have a history file. This means certain elements are saved between sessions of Emacs. This
+history file is kept in =~/.emacs.d/savehist=. Note that in later versions of Emacs this package is already built-in, so check
+the built-ins before issuing the =use-package=. In later versions of Emacs seems the =savehist= package is built-in so ignore
+annoying errors.
+#+BEGIN_SRC emacs-lisp :tangle yes
+  (unless (package-built-in-p 'savehist)
+    (use-package savehist))
+#+END_SRC
+Set the following variables to control =savehist= (use customize).
+#+NAME: savehist-custom-vars
+#+CALL: custom-vars-table(custom-vars='(savehist-file savehist-additional-variables savehist-mode))
 
 *** Very large files
-    Since I deal with potentially gigantic log files, this package allows the file to be carved up and 'paged' through. Get to the
-    =vlf= stuff through the default prefix =C-c C-v=.
-    #+BEGIN_SRC emacs-lisp :tangle yes
-      (use-package vlf)
-    #+END_SRC
-    I got the =vlf= package from a [[https://writequit.org/articles/working-with-logs-in-emacs.html][really good paper]] on how to use Emacs to deal with logs. If you currently or are going to deal
-    with logs in your day to day, then this article is invaluable. I've yet to adopt some of the other features described by the
-    article but I have no need as of yet. Soon maybe.
+Since I deal with potentially gigantic log files, this package allows the file to be carved up and 'paged' through. Get to the =vlf=
+stuff through the default prefix =C-c C-v=.
+#+BEGIN_SRC emacs-lisp :tangle yes
+  (use-package vlf)
+#+END_SRC
+I got the =vlf= package from a [[https://writequit.org/articles/working-with-logs-in-emacs.html][really good paper]] on how to use Emacs to deal with logs. If you currently or are going to deal with
+logs in your day to day, then this article is invaluable. I've yet to adopt some of the other features described by the article but
+I have no need as of yet. Soon maybe.
 *** Logs in general
     Here's a [[https://writequit.org/articles/working-with-logs-in-emacs.html][great article]] on dealing with log files. I've stolen some if it here.
 
@@ -400,77 +400,77 @@ I had to modify the directions to work with ~use-package~ used along with ~strai
     #+END_SRC
 
 *** Random packages
-    OK, a little tired of documenting each package on it's own. These packages are just generally useful. Some of these packages
-    have become so useful that they've found their way into the list of Emacs built-in packages. In those cases, the package is
-    checked here against the list of built-ins to avoid warnings when loading a later version of Emacs.
-    #+BEGIN_SRC emacs-lisp -r :tangle yes
-      (use-package groovy-mode
-        :custom
-        (groovy-indent-offset 2))
-      (use-package plantuml-mode
-        :custom
-        (plantuml-default-exec-mode 'jar)
-        (plantuml-jar-path "~/bin/plantuml.jar"))
-      (use-package realgud)           ;; A "better" gud
-      (use-package ibuffer-projectile)
-      (use-package xterm-color)
-      (unless (package-built-in-p 'sh-script)
-        (use-package sh-script))
-      (unless (package-built-in-p 'desktop)
-        (use-package desktop))
-      (set-variable 'desktop-path (cons default-directory desktop-path))(ref:desktop-path)
-      (desktop-save-mode t)
-      (use-package lispy
-        :hook
-        (emacs-lisp-mode . (lambda () (lispy-mode 1)))
-        (minibuffer-setup . (lambda () (when (eq this-command 'eval-expression) (lispy-mode 1)))))
-      (use-package default-text-scale                     ;; text-scale on steroids - for all windows C-M-- and C-M-=
-        :bind (("C-M--" . default-text-scale-decrease)
-               ("C-M-=" . default-text-scale-increase)))
-      (when (string-match "windows" (symbol-name system-type))
-        (use-package powershell))
-    #+END_SRC
-    Note that the setting of [[(desktop-path)][=desktop-path=]] allows the multiple =.emacs.desktop= files, each in the directory where =emacs= was
-    started. Although =desktop-path= is changed outside =custom.el=, I've included it here in the table below so you can see that
-    the default is augmented with the start-up directory which in this case is =~/.emacs.d=.
+OK, a little tired of documenting each package on it's own. These packages are just generally useful. Some of these packages
+have become so useful that they've found their way into the list of Emacs built-in packages. In those cases, the package is
+checked here against the list of built-ins to avoid warnings when loading a later version of Emacs.
+#+BEGIN_SRC emacs-lisp -r :tangle yes
+  (use-package groovy-mode
+    :custom
+    (groovy-indent-offset 2))
+  (use-package plantuml-mode
+    :custom
+    (plantuml-default-exec-mode 'jar)
+    (plantuml-jar-path "~/bin/plantuml.jar"))
+  (use-package realgud)           ;; A "better" gud
+  (use-package ibuffer-projectile)
+  (use-package xterm-color)
+  (unless (package-built-in-p 'sh-script)
+    (use-package sh-script))
+  (unless (package-built-in-p 'desktop)
+    (use-package desktop))
+  (set-variable 'desktop-path (cons default-directory desktop-path))(ref:desktop-path)
+  (desktop-save-mode t)
+  (use-package lispy
+    :hook
+    (emacs-lisp-mode . (lambda () (lispy-mode 1)))
+    (minibuffer-setup . (lambda () (when (eq this-command 'eval-expression) (lispy-mode 1)))))
+  (use-package default-text-scale                     ;; text-scale on steroids - for all windows C-M-- and C-M-=
+    :bind (("C-M--" . default-text-scale-decrease)
+           ("C-M-=" . default-text-scale-increase)))
+  (when (string-match "windows" (symbol-name system-type))
+    (use-package powershell))
+#+END_SRC
+Note that the setting of [[(desktop-path)][=desktop-path=]] allows the multiple =.emacs.desktop= files, each in the directory where =emacs= was started.
+Although =desktop-path= is changed outside =custom.el=, I've included it here in the table below so you can see that the default is
+augmented with the start-up directory which in this case is =~/.emacs.d=.
 ** [[https://orgmode.org/][=org-mode=]]
-   I've split out this =org-mode= section because of the customization that was necessary to make exporting this module and the
-   various customized variable tables to output  nicely.
+I've split out this =org-mode= section because of the customization that was necessary to make exporting this module and the various
+customized variable tables to output nicely.
 
-   Always put [[https://orgmode.org/][=org-mode=]] buffers into [[https://www.emacswiki.org/emacs/FlySpell][=flyspell-mode=]] for live spell checking.
+Always put [[https://orgmode.org/][=org-mode=]] buffers into [[https://www.emacswiki.org/emacs/FlySpell][=flyspell-mode=]] for live spell checking.
 
-   The =htmlize= package allows the HTML and Markdown exporters to work (underlying code). This also provides language-specific
-   colorization to be present in the export HTML file.
+The =htmlize= package allows the HTML and Markdown exporters to work (underlying code). This also provides language-specific
+colorization to be present in the export HTML file.
 
-   #+BEGIN_SRC emacs-lisp :tangle yes
-     (use-package org-bullets)
-     (add-hook 'org-mode-hook  (lambda ()
-                                 (toggle-truncate-lines -1)
-                                 (auto-fill-mode 1)
-                                 (org-bullets-mode)
-                                 (flyspell-mode 1)
-                                 (org-indent-mode 1)))
+#+BEGIN_SRC emacs-lisp :tangle yes
+  (use-package org-bullets)
+  (add-hook 'org-mode-hook  (lambda ()
+                              (toggle-truncate-lines -1)
+                              (auto-fill-mode 1)
+                              (org-bullets-mode)
+                              (flyspell-mode 1)
+                              (org-indent-mode 1)))
 
-     (use-package org-autolist)
-     (use-package htmlize)
-     ;; Not using the powerpoint generation right now...
-     ;; (use-package ox-reveal)
-     ;; (require 'ox-reveal)
-   #+END_SRC
-   I've started using =ox-reveal= for generating presentations from =org-mode=. Here's a [[https://opensource.com/article/18/2/how-create-slides-emacs-org-mode-and-revealjs][good article]] on getting started. I've set
-   the =org-reveal-root= to point to [[http://cdn.jsdelivr.net/reveal.js/3.0.0/]] so that you do not need to install it on your system.
-   If you want to use your own customized theme, see the instructions at [[https://github.com/hakimel/reveal.js/]]. NB: I have removed
-   =ox-reveal= from the normal package load because it has a dependency on the =org= package, but we already install
-   =org-plus-contrib= which =ox-reveal=, I guess, doesn't recognize. Leaving the code here to make it easy to bring in if you are
-   working with reveal.js and presentations.
+  (use-package org-autolist)
+  (use-package htmlize)
+  ;; Not using the powerpoint generation right now...
+  ;; (use-package ox-reveal)
+  ;; (require 'ox-reveal)
+#+END_SRC
+I've started using =ox-reveal= for generating presentations from =org-mode=. Here's a [[https://opensource.com/article/18/2/how-create-slides-emacs-org-mode-and-revealjs][good article]] on getting started. I've set the
+=org-reveal-root= to point to [[http://cdn.jsdelivr.net/reveal.js/3.0.0/]] so that you do not need to install it on your system. If you
+want to use your own customized theme, see the instructions at [[https://github.com/hakimel/reveal.js/]]. NB: I have removed =ox-reveal=
+from the normal package load because it has a dependency on the =org= package, but we already install =org-plus-contrib= which
+=ox-reveal=, I guess, doesn't recognize. Leaving the code here to make it easy to bring in if you are working with reveal.js and
+presentations.
 
-   Customized variables for org-mode:
+Customized variables for org-mode:
    #+NAME: org-mode-custom-vars
    #+CALL: custom-vars-table(custom-vars='(org-catch-invisible-edits org-html-postamble org-html-postamble-format org-log-done org-log-into-drawer))
 
 *** For blogging
-    I'm using [[https://github.com/org2blog/org2blog][org2blog]] to blog from org mode. This is a pretty comprehensive package and I'm using the =~/.netrc= file to provide
-    credentials so there is the setup of =org2blog/wp-blog-alist= here (according to the instructions on GitHub).
+I'm using [[https://github.com/org2blog/org2blog][org2blog]] to blog from org mode. This is a pretty comprehensive package and I'm using the =~/.netrc= file to provide
+credentials so there is the setup of =org2blog/wp-blog-alist= here (according to the instructions on GitHub).
     #+BEGIN_SRC emacs-lisp :tangle yes
       (use-package org2blog)
       (require 'auth-source)
@@ -492,222 +492,220 @@ I had to modify the directions to work with ~use-package~ used along with ~strai
     #+CALL: custom-vars-table(custom-vars='(org-babel-load-languages)))
 
 ** Language support
-   This section covers the various language support features of this configuration.
+This section covers the various language support features of this configuration.
 *** Taking the =eglot= plunge
-    The [[https://github.com/joaotavora/eglot][=eglot=]] package is a [[https://microsoft.github.io/language-server-protocol/][language server protocol]] (LSP) client for Emacs that supports many languages out-of-the-box. After
-    spending time with =elpy= and other Emacs implementations of LSP clients, it turns out =eglot= is very multipurpose with minimal
-    configuration.
+The [[https://github.com/joaotavora/eglot][=eglot=]] package is a [[https://microsoft.github.io/language-server-protocol/][language server protocol]] (LSP) client for Emacs that supports many languages out-of-the-box. After spending
+time with =elpy= and other Emacs implementations of LSP clients, it turns out =eglot= is very multipurpose with minimal configuration.
 
-    #+BEGIN_SRC emacs-lisp :tangle yes
-      (use-package eglot
-        :pin melpa
-        :config
-        (add-hook 'eglot--managed-mode-hook (lambda () (flymake-mode -1))))
-    #+END_SRC
+#+BEGIN_SRC emacs-lisp :tangle yes
+  (use-package eglot
+    :pin melpa
+    :config
+    (add-hook 'eglot--managed-mode-hook (lambda () (flymake-mode -1))))
+#+END_SRC
 
 *** Python
-    Now with =eglot= this is pretty straight forward configuration.
-    #+BEGIN_SRC emacs-lisp :tangle yes
-      (use-package pylint)
-      (use-package python-docstring
-        :config
-        (python-docstring-install))
-      (use-package python
-        :bind (:map python-mode-map
-                    ("C-c C-p" .  flycheck-previous-error)
-                    ("C-c C-n" . flycheck-next-error))
-        :hook
-        (python-mode . (lambda ()
-                         (eglot-ensure)
-                         (company-mode)))
-        :custom
-        (python-flymake-command '("flake8" "-"))
-        (python-indent-trigger-commands '(yas-expand))
-        (python-shell-completion-native-disabled-interpreters '("pypy" "ipython" "jupyter"))
-        (python-shell-interpreter "jupyter")
-        (python-shell-interpreter-args "console --simple-prompt")
-        (python-shell-prompt-detect-failure-warning nil)
-        (python-shell-prompt-output-regexp "Out\\[[0-9]+\\]: ")
-        (python-shell-prompt-regexp "In \\[[0-9]+\\]: "))
-    #+END_SRC
-*** Go
-    For golang since we are using at my new gig. However, I'm not a big golang fan and it seems very difficult to make work with
-    eglot (so that's disabled for now).
-    #+BEGIN_SRC emacs-lisp :tangle yes
-      (use-package go-mode
-        :hook
-        (go-mode . (lambda ()
-                     (set-variable 'tab-width 4)
+Now with =eglot= this is pretty straight forward configuration.
+#+BEGIN_SRC emacs-lisp :tangle yes
+  (use-package pylint)
+  (use-package python-docstring
+    :config
+    (python-docstring-install))
+  (use-package python
+    :bind (:map python-mode-map
+                ("C-c C-p" .  flycheck-previous-error)
+                ("C-c C-n" . flycheck-next-error))
+    :hook
+    (python-mode . (lambda ()
                      (eglot-ensure)
-                     (company-mode))))
-    #+END_SRC
-
+                     (company-mode)))
+    :custom
+    (python-flymake-command '("flake8" "-"))
+    (python-indent-trigger-commands '(yas-expand))
+    (python-shell-completion-native-disabled-interpreters '("pypy" "ipython" "jupyter"))
+    (python-shell-interpreter "jupyter")
+    (python-shell-interpreter-args "console --simple-prompt")
+    (python-shell-prompt-detect-failure-warning nil)
+    (python-shell-prompt-output-regexp "Out\\[[0-9]+\\]: ")
+    (python-shell-prompt-regexp "In \\[[0-9]+\\]: "))
+#+END_SRC
+*** Go
+For golang since we are using at my new gig. However, I'm not a big golang fan and it seems very difficult to make work with eglot
+(so that's disabled for now).
+#+BEGIN_SRC emacs-lisp :tangle yes
+  (use-package go-mode
+    :hook
+    (go-mode . (lambda ()
+                 (set-variable 'tab-width 4)
+                 (eglot-ensure)
+                 (company-mode))))
+#+END_SRC
 
 ** Theme and mode line
-   My progression of modelines has gone from =powerline= to =moody= and now =doom=. The =doom-modeline= package is pretty good and
-   not as much fuss as I had with =moody=. All the stuff I need there and makes this configuration much easier. You *must* go
-   install the fonts from the =all-the-icons= package (which is loaded as a dependency) according to the instructions found on the
-   [[https://github.com/seagle0128/doom-modeline][=doom-modeline= website]]: Run =M-x all-the-icons-install-fonts= and then, on Windows, install the font ttf file by right clicking
-   on it and doing install.
-   #+BEGIN_SRC emacs-lisp :tangle yes
-     (use-package leuven-theme
-       :demand t
-       :config
-       (load-theme 'leuven t)
-         (set-face-attribute 'scroll-bar nil :foreground "lightgray")
-         (set-face-attribute 'menu nil :foreground "black" :background "lightgray"))
-     (use-package doom-modeline
-       :hook (after-init . doom-modeline-mode)
-       :config
-       (set-face-attribute 'doom-modeline-buffer-modified nil :foreground "orange1"))
-   #+END_SRC
-
+My progression of modelines has gone from =powerline= to =moody= and now =doom=. The =doom-modeline= package is pretty good and not
+as much fuss as I had with =moody=. All the stuff I need there and makes this configuration much easier. You *must* go install the
+fonts from the =all-the-icons= package (which is loaded as a dependency) according to the instructions found on the [[https://github.com/seagle0128/doom-modeline][=doom-modeline=
+website]]: Run =M-x all-the-icons-install-fonts= and then, on Windows, install the font ttf file by right clicking on it and doing
+install.
+#+BEGIN_SRC emacs-lisp :tangle yes
+  (use-package leuven-theme
+    :demand t
+    :config
+    (load-theme 'leuven t)
+    (set-face-attribute 'scroll-bar nil :foreground "lightgray")
+    (set-face-attribute 'menu nil :foreground "black" :background "lightgray"))
+  (use-package doom-modeline
+    :hook (after-init . doom-modeline-mode)
+    :config
+    (set-face-attribute 'doom-modeline-buffer-modified nil :foreground "orange1"))
+#+END_SRC
 
 ** Additional bits-o-configuration
 *** Limit the length of [[https://www.gnu.org/software/emacs/manual/html_node/emacs/Which-Function.html][=which-function=]]
-    [[https://www.gnu.org/software/emacs/manual/html_node/emacs/Which-Function.html][=which-function=]] which is used on the mode-line has no maximum method/function signature. This handy adviser limits the name to
-    64 characters.
-    #+BEGIN_SRC emacs-lisp :tangle yes
-      (defcustom  my/which-function-max-width 64
-        "The maximum width of the which-function string."
-        :group 'my-configuration
-        :type 'integer)
-      (advice-add #'which-function :filter-return
-                  (lambda (s) (when (stringp s)
-                                (if (< (string-width s) my/which-function-max-width) s
-                                  (concat (truncate-string-to-width s (- my/which-function-max-width 3)) "...")))))
-    #+END_SRC
+[[https://www.gnu.org/software/emacs/manual/html_node/emacs/Which-Function.html][=which-function=]] which is used on the mode-line has no maximum method/function signature. This handy adviser limits the name to
+64 characters.
+#+BEGIN_SRC emacs-lisp :tangle yes
+  (defcustom  my/which-function-max-width 64
+    "The maximum width of the which-function string."
+    :group 'my-configuration
+    :type 'integer)
+  (advice-add #'which-function :filter-return
+              (lambda (s) (when (stringp s)
+                            (if (< (string-width s) my/which-function-max-width) s
+                              (concat (truncate-string-to-width s (- my/which-function-max-width 3)) "...")))))
+#+END_SRC
 *** =my-ansi-term=
-    Allows me to name my ANSI terms. Was very useful when I used more ANSI shells (so that tabs were interpreted by the shell). Some
-    other modes and shells make this less useful these days.
-    #+BEGIN_SRC emacs-lisp :tangle yes
-      (cl-defun my/ansi-term (term-name cmd)
-        "Create an ansi term with a name - other than *ansi-term* given TERM-NAME and CMD."
-        (interactive "sName for terminal: \nsCommand to run [/bin/zsh]: ")
-        (ansi-term (if (= 0 (length cmd)) "/bin/zsh" cmd))
-        (rename-buffer term-name))
-    #+END_SRC
+Allows me to name my ANSI terms. Was very useful when I used more ANSI shells (so that tabs were interpreted by the shell). Some
+other modes and shells make this less useful these days.
+#+BEGIN_SRC emacs-lisp :tangle yes
+  (cl-defun my/ansi-term (term-name cmd)
+    "Create an ansi term with a name - other than *ansi-term* given TERM-NAME and CMD."
+    (interactive "sName for terminal: \nsCommand to run [/bin/zsh]: ")
+    (ansi-term (if (= 0 (length cmd)) "/bin/zsh" cmd))
+    (rename-buffer term-name))
+#+END_SRC
 *** Understand file type by shebang
-    When a file is opened and it is determined there is no mode (fundamental-mode) this code reads the first line of the file looking
-    for an appropriate shebang for either python or bash and sets the mode for the file.
-    #+BEGIN_SRC emacs-lisp :tangle yes
-      (cl-defun my-find-file-hook ()
-        "If `fundamental-mode', look for script type so the mode gets properly set.
-      Script-type is read from #!/... at top of file."
-        (if (eq major-mode 'fundamental-mode)
-            (ignore-errors
-                (save-excursion
-                  (goto-char (point-min))
-                  (re-search-forward "^#!\s*/.*/\\(python\\|bash\\|sh\\).*$")
-                  (if (string= (match-string 1) "python")
-                      (python-mode)
-                    (sh-mode))))))
-      (add-hook 'find-file-hook #'my-find-file-hook)
-    #+END_SRC
+When a file is opened and it is determined there is no mode (fundamental-mode) this code reads the first line of the file looking
+for an appropriate shebang for either python or bash and sets the mode for the file.
+#+BEGIN_SRC emacs-lisp :tangle yes
+  (cl-defun my-find-file-hook ()
+    "If `fundamental-mode', look for script type so the mode gets properly set.
+  Script-type is read from #!/... at top of file."
+    (if (eq major-mode 'fundamental-mode)
+        (ignore-errors
+            (save-excursion
+              (goto-char (point-min))
+              (re-search-forward "^#!\s*/.*/\\(python\\|bash\\|sh\\).*$")
+              (if (string= (match-string 1) "python")
+                  (python-mode)
+                (sh-mode))))))
+  (add-hook 'find-file-hook #'my-find-file-hook)
+#+END_SRC
 
 *** React to screen width changes for =posframe=
-    Because I use =posframe= quite a bit now (so that the mini-buffer doesn't continue to change sizes, which I find a little
-    distracting), this code reacts to the width changes and will set the custom variables accordingly.
-    #+BEGIN_SRC emacs-lisp :tangle yes
-      (cl-defun my/window-size-change (&optional _)
-        "My very own resize defun for modifying the posframe size."
-        (unless (= (window-pixel-width-before-size-change) (window-pixel-width))
-          (let ((body-width (window-body-width)))
-            (set-variable 'ivy-posframe-width body-width)
-            (set-variable 'ivy-posframe-min-width body-width)
-            (set-variable 'which-key-posframe-width body-width)
-            (set-variable 'which-key-posframe-min-width body-width))))
-      (add-hook 'window-size-change-functions 'my/window-size-change)
-    #+END_SRC
+Because I use =posframe= quite a bit now (so that the mini-buffer doesn't continue to change sizes, which I find a little
+distracting), this code reacts to the width changes and will set the custom variables accordingly.
+#+BEGIN_SRC emacs-lisp :tangle yes
+  (cl-defun my/window-size-change (&optional _)
+    "My very own resize defun for modifying the posframe size."
+    (unless (= (window-pixel-width-before-size-change) (window-pixel-width))
+      (let ((body-width (window-body-width)))
+        (set-variable 'ivy-posframe-width body-width)
+        (set-variable 'ivy-posframe-min-width body-width)
+        (set-variable 'which-key-posframe-width body-width)
+        (set-variable 'which-key-posframe-min-width body-width))))
+  (add-hook 'window-size-change-functions 'my/window-size-change)
+#+END_SRC
 
 ** Final (random) bits
-   Setup =eldoc= mode, use =y-or-n-p= instead of =yes-or-no-p=. Key bindings...
-   #+BEGIN_SRC emacs-lisp :tangle yes
-     (add-hook 'emacs-lisp-mode-hook #'eldoc-mode)   ;; Run elisp with eldoc-mode
-     (diminish 'eldoc-mode "Doc")                    ;; Diminish eldoc-mode
-     (fset #'list-buffers #'ibuffer)                 ;; prefer ibuffer over list-buffers
-     (fset #'yes-or-no-p #'y-or-n-p)                 ;; for lazy people use y/n instead of yes/no
-     ;; Some key bindings
-     (bind-key "C-x p" #'pop-to-mark-command)
-     (bind-key "C-h c" #'customize-group)
-     (bind-key "C-=" #'text-scale-increase)          ;; because it's the + key too and agrees with default-text-scale
-     (bind-key "C--" #'text-scale-decrease)
-     (bind-key "<up>" #'enlarge-window ctl-x-map)    ;; note: C-x
-     (bind-key "<down>" #'shrink-window ctl-x-map)   ;; note: C-x
-     (bind-key "C-z" 'nil ctl-x-map)                 ;; get rid of annoying minimize "\C-x\C-z"
-     (setq-default ediff-ignore-similar-regions t)   ;; Not a variable but controls ediff
-     ;; Enable some stuff that's normally disabled
-     (put 'narrow-to-region 'disabled nil)
-     (put 'downcase-region 'disabled nil)
-     (put 'upcase-region 'disabled nil)
-     (put 'scroll-left 'disabled nil)
-     ;; add pom file to xml type
-      (add-to-list 'auto-mode-alist '("\\.pom\\'" . xml-mode))
-   #+END_SRC
+Setup =eldoc= mode, use =y-or-n-p= instead of =yes-or-no-p=. Key bindings...
+#+BEGIN_SRC emacs-lisp :tangle yes
+  (add-hook 'emacs-lisp-mode-hook #'eldoc-mode)   ;; Run elisp with eldoc-mode
+  (diminish 'eldoc-mode "Doc")                    ;; Diminish eldoc-mode
+  (fset #'list-buffers #'ibuffer)                 ;; prefer ibuffer over list-buffers
+  (fset #'yes-or-no-p #'y-or-n-p)                 ;; for lazy people use y/n instead of yes/no
+  ;; Some key bindings
+  (bind-key "C-x p" #'pop-to-mark-command)
+  (bind-key "C-h c" #'customize-group)
+  (bind-key "C-=" #'text-scale-increase)          ;; because it's the + key too and agrees with default-text-scale
+  (bind-key "C--" #'text-scale-decrease)
+  (bind-key "<up>" #'enlarge-window ctl-x-map)    ;; note: C-x
+  (bind-key "<down>" #'shrink-window ctl-x-map)   ;; note: C-x
+  (bind-key "C-z" 'nil ctl-x-map)                 ;; get rid of annoying minimize "\C-x\C-z"
+  (setq-default ediff-ignore-similar-regions t)   ;; Not a variable but controls ediff
+  ;; Enable some stuff that's normally disabled
+  (put 'narrow-to-region 'disabled nil)
+  (put 'downcase-region 'disabled nil)
+  (put 'upcase-region 'disabled nil)
+  (put 'scroll-left 'disabled nil)
+  ;; add pom file to xml type
+  (add-to-list 'auto-mode-alist '("\\.pom\\'" . xml-mode))
+#+END_SRC
 
 * [[https://orgmode.org/][=org-mode=]] export hacks for HTML and Markdown
-  I export into markdown for github. I do not use the =ox-gfm= package because when I tried it, it modified the source file because
-  of this file's use of the =#+CALL= construct (each call adds the table to the source file). So I use the built in =ox-md=
-  exporter. However, it just indents the code blocks rather put the =```emacs-lisp= code snippet prefix and =```= postfix but
-  rather just indents. First we load the library so it turns up in the export menu (=C-x C-e=). Then we override the output method
-  for the code.
+I export into markdown for github. I do not use the =ox-gfm= package because when I tried it, it modified the source file because
+of this file's use of the =#+CALL= construct (each call adds the table to the source file). So I use the built in =ox-md=
+exporter. However, it just indents the code blocks rather put the =```emacs-lisp= code snippet prefix and =```= postfix but
+rather just indents. First we load the library so it turns up in the export menu (=C-x C-e=). Then we override the output method
+for the code.
 
-  #+BEGIN_SRC emacs-lisp :tangle yes
-    (load-library "ox-md")
+#+BEGIN_SRC emacs-lisp :tangle yes
+  (load-library "ox-md")
 
-    (cl-defun org-md-example-block (example-block _contents info)
-      "My modified: Transcode EXAMPLE-BLOCK element into Markdown format.
-    CONTENTS is nil.  INFO is a plist used as a communication
-    channel."
-      (concat "```emacs-lisp\n"
-              (org-remove-indentation
-               (org-export-format-code-default example-block info))
-              "```\n"))
-  #+END_SRC
+  (cl-defun org-md-example-block (example-block _contents info)
+    "My modified: Transcode EXAMPLE-BLOCK element into Markdown format.
+  CONTENTS is nil.  INFO is a plist used as a communication
+  channel."
+    (concat "```emacs-lisp\n"
+            (org-remove-indentation
+             (org-export-format-code-default example-block info))
+            "```\n"))
+#+END_SRC
 
-  To support the using of dynamic custom vars table using the library of Babel, the export text for Markdown and HTML goes through
-  =orgtbl-to-orgtbl= which turns the list returned in the an org-mode table. After =orgtbl-to-orgtbl=, the =htmlize= package turns
-  it into a HTML table. The adviser changes all the spaces after a =<br>= into =&nbsp;= entities and surrounds them with inline
-  HTML. This is necessary because =orgtbl-to-orgtbl= strips text between the =@@= used to inline HTML. The adviser also protects
-  any underscores in the table with inline HTML.
+To support the using of dynamic custom vars table using the library of Babel, the export text for Markdown and HTML goes through
+=orgtbl-to-orgtbl= which turns the list returned in the an org-mode table. After =orgtbl-to-orgtbl=, the =htmlize= package turns
+it into a HTML table. The adviser changes all the spaces after a =<br>= into =&nbsp;= entities and surrounds them with inline
+HTML. This is necessary because =orgtbl-to-orgtbl= strips text between the =@@= used to inline HTML. The adviser also protects
+any underscores in the table with inline HTML.
 
-  #+BEGIN_SRC emacs-lisp :tangle yes
-    (cl-defun my-md-export-hack(text)
-      "Fix up md export on writing my README.org file.
+#+BEGIN_SRC emacs-lisp :tangle yes
+  (cl-defun my-md-export-hack(text)
+    "Fix up md export on writing my README.org file.
 
-    Converts a <br> followed by zero or more spaces into inline html format.
-    For example: an in put of \"hello<br>there<br> my<br>  friend<br>\" becomes
-    \"hello@@html:<br>@@there@@html:<br>&nbsp;\
-      @@my@@html:<br>&nbsp;&nbsp;@@friend@@html:<br>@@\"
-    This function also adds inline HTML around '_' in the TEXT."
-      (when (stringp text)
-        (let ((result text)
-              (replacements '(("<br>\[[:space:]\]*" (lambda (match)
-                                                      (concat "@@html:<br>"
-                                                              (apply 'concat (make-list (- (length match) 4) "&nbsp;"))
-                                                              "@@")))
-                              ("\"\\(https?:\[^\"\]*\\)" "\"@@html:<a href=\"\\1\">\\1</a>@@")
-                              ("_" "@@html:_@@")
-                              ("<\\(p.*?\\)>" "@@html:&lt;\\1&gt;@@")
-                              ("</p>" "@@html:&lt;/p&gt;@@"))))
-          (cl-loop for rep in replacements do
-                   (setq result (replace-regexp-in-string (nth 0 rep) (nth 1 rep) result)))
-          result)))
+  Converts a <br> followed by zero or more spaces into inline html format.
+  For example: an in put of \"hello<br>there<br> my<br>  friend<br>\" becomes
+  \"hello@@html:<br>@@there@@html:<br>&nbsp;\
+    @@my@@html:<br>&nbsp;&nbsp;@@friend@@html:<br>@@\"
+  This function also adds inline HTML around '_' in the TEXT."
+    (when (stringp text)
+      (let ((result text)
+            (replacements '(("<br>\[[:space:]\]*" (lambda (match)
+                                                    (concat "@@html:<br>"
+                                                            (apply 'concat (make-list (- (length match) 4) "&nbsp;"))
+                                                            "@@")))
+                            ("\"\\(https?:\[^\"\]*\\)" "\"@@html:<a href=\"\\1\">\\1</a>@@")
+                            ("_" "@@html:_@@")
+                            ("<\\(p.*?\\)>" "@@html:&lt;\\1&gt;@@")
+                            ("</p>" "@@html:&lt;/p&gt;@@"))))
+        (cl-loop for rep in replacements do
+                 (setq result (replace-regexp-in-string (nth 0 rep) (nth 1 rep) result)))
+        result)))
 
-    (advice-add #'orgtbl-to-orgtbl :filter-return #'my-md-export-hack)
-  #+END_SRC
+  (advice-add #'orgtbl-to-orgtbl :filter-return #'my-md-export-hack)
+#+END_SRC
 
-  A post-amble to make the tangled =.el= file has no errors/warnings.
-  #+BEGIN_SRC emacs-lisp :tangle yes
-    ;;; README.el ends here
-  #+END_SRC
+A post-amble to make the tangled =.el= file has no errors/warnings.
+#+BEGIN_SRC emacs-lisp :tangle yes
+  ;;; README.el ends here
+#+END_SRC
 
-  #+NAME: custom-vars-table
-  #+BEGIN_SRC emacs-lisp :results silent :exports results :var custom-vars=() :tangle no
-    ;; This "function" creates a list that is converted to a table by the exporter
-    `((Symbol\ Name Value)
-      hline
-      ,@(cl-loop for cv in custom-vars
-                 collect `(,cv
-                           ,(replace-regexp-in-string "\n" "<br>" (string-trim-right (pp-to-string (default-value cv)))))))
-  #+END_SRC
+#+NAME: custom-vars-table
+#+BEGIN_SRC emacs-lisp :results silent :exports results :var custom-vars=() :tangle no
+  ;; This "function" creates a list that is converted to a table by the exporter
+  `((Symbol\ Name Value)
+    hline
+    ,@(cl-loop for cv in custom-vars
+               collect `(,cv
+                         ,(replace-regexp-in-string "\n" "<br>" (string-trim-right (pp-to-string (default-value cv)))))))
+  '
+#+END_SRC
