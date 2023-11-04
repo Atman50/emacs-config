@@ -11,284 +11,283 @@
 #+TITLE: A _Portable_ and _Literate_ Emacs Initialization
 
 * Overview
-  This is a literate and @@html:<font color=red size=+3><b><u>@@portable@@html:</u></b></font>@@ Emacs initialization.
+This is a literate and @@html:<font color=red size=+3><b><u>@@portable@@html:</u></b></font>@@ Emacs initialization.
 ** Quick start
-   Simply
+Simply
 
-   1. git clone this repository into =~/.emacs.d=: =git clone https://github.com/Atman50/emacs-config.git =/.emacs.d=
+1. git clone this repository into =~/.emacs.d=: =git clone https://github.com/Atman50/emacs-config.git =/.emacs.d=
 
-   2. start Emacs
+2. start Emacs
 
-   That's it.
+That's it.
 
-   Starting Emacs for the first time on a new machine loads all the packages/configuration needed.
+Starting Emacs for the first time on a new machine loads all the packages/configuration needed.
 
-   This configuration currently uses the []=straight= package manager since, once setup, the startup time is far superior to the
-   built-in package system. The [[https://github.com/raxod502/straight.el][=straight=]] package system uses git for the packages. Since I do not contribute back to the packages
-   (yet), I don't use a whole lot of the [[https://github.com/raxod502/straight.el][=straight=]] features.
+This configuration currently uses the []=straight= package manager since, once setup, the startup time is far superior to the
+built-in package system. The [[https://github.com/raxod502/straight.el][=straight=]] package system uses git for the packages. Since I do not contribute back to the packages
+(yet), I don't use a whole lot of the [[https://github.com/raxod502/straight.el][=straight=]] features.
 
-   The first time this configuration loads it might take a little while as it is git cloning and then building all the requisite
-   packages used by this configuration.
+The first time this configuration loads it might take a little while as it is git cloning and then building all the requisite
+packages used by this configuration.
 
-   Subsequent Emacs invocations startup fairly quickly now that we're using [[https://github.com/raxod502/straight.el][=straight=]].
+Subsequent Emacs invocations startup fairly quickly now that we're using [[https://github.com/raxod502/straight.el][=straight=]].
    
-   The ability to simply clone and start is what makes this configuration *portable*. Note that some of the Emacs customization (see
-   =custom.el=) are system (file system) dependent. I handle this by using git to create a stash of the localized changes for
-   =custom.el= and then apply it whenever I take updated configurations from the repository.
+The ability to simply clone and start is what makes this configuration *portable*. Note that some of the Emacs customization (see
+=custom.el=) are system (file system) dependent. I handle this by using git to create a stash of the localized changes for
+=custom.el= and then apply it whenever I take updated configurations from the repository.
 
 ** Why a literate configuration
-   Well mostly I wanted to learn how to do it, but also I was having issues with managing my initialization/configuration. FWIW
-   this is the approach that I came up with. My  =init.el= file is simple and relies on the fact that customizations are saved to
-   its own file and that these customizations are read in before the packages are loaded.
+Well mostly I wanted to learn how to do it, but also I was having issues with managing my initialization/configuration. FWIW
+this is the approach that I came up with. My  =init.el= file is simple and relies on the fact that customizations are saved to
+its own file and that these customizations are read in before the packages are loaded.
 
-   What I've gotten out of all this work is a portable and documented configuration that works well for me. Please feel free to
-   take whatever portion(s) you wish from this and make it your own.
+What I've gotten out of all this work is a portable and documented configuration that works well for me. Please feel free to
+take whatever portion(s) you wish from this and make it your own.
 
-   I have tried to make this configuration 100% portable meaning that on a new system (Linux or Windows at this point) with Emacs
-   installed. I simple git clone this repository to =~/.emacs.d= and then fire up Emacs. Should work every time. 
+I have tried to make this configuration 100% portable meaning that on a new system (Linux or Windows at this point) with Emacs
+installed. I simple git clone this repository to =~/.emacs.d= and then fire up Emacs. Should work every time. 
 
 ** My customizations
-   While not many, I use the customization engine to provide any custom definitions. The are put into the =my-configuration= group.
+While not many, I use the customization engine to provide any custom definitions. The are put into the =my-configuration= group.
 
-   #+NAME: my-configuration
-   #+CALL: custom-vars-table(custom-vars='(my/cfg-file my/which-function-max-width))
+#+NAME: my-configuration
+#+CALL: custom-vars-table(custom-vars='(my/cfg-file my/which-function-max-width))
 
 ** The importance of the =init.el= file
-   There's a detailed explanation on how this configuration works WRT to =init.el= at the end of this document.
+There's a detailed explanation on how this configuration works WRT to =init.el= at the end of this document.
 
-   The real trick with =init.el= is to load the Emacs user customizations first so that packages properly initialize and
-   everything places nicely with [[https://www.gnu.org/software/emacs/manual/html_node/emacs/Easy-Customization.html][Emacs customization]]. Then make sure =org-mode= is at the proper level and tangles this document
-   into the configuration to load.
+The real trick with =init.el= is to load the Emacs user customizations first so that packages properly initialize and
+everything places nicely with [[https://www.gnu.org/software/emacs/manual/html_node/emacs/Easy-Customization.html][Emacs customization]]. Then make sure =org-mode= is at the proper level and tangles this document
+into the configuration to load.
 
-   The =init.el= file itself is well commented and needs no extra documentation here. Please see the file for it's contents. It does
-   the minimal amount of work to load (=org-babel-tangle-file=) this file.
+The =init.el= file itself is well commented and needs no extra documentation here. Please see the file for it's contents. It does
+the minimal amount of work to load (=org-babel-tangle-file=) this file.
 
 
 * The Configuration
   Here are the configuration bits. All of the following code snippets that are tangled from this file placed into an =.el= file that gets loaded
   from the initialization (=~/emacs.d/init.el=) file.
 ** A preamble
-   First make sure that we are doing lexical scoping for speed. See [[https://nullprogram.com/blog/2016/12/22/][Some Performance Advantages of Lexical Scope blog]].
-   #+BEGIN_SRC emacs-lisp :tangle yes
-     ;;; README.el --- a file generated from README.org - do not edit by hand!!!!
-     ;; -*- lexical-binding: t; -*-
-     ;;; Commentary:
-     ;;;     Org tangled from README.org. Edit the org file to chnage this configuration
-     ;;; Code:
-   #+END_SRC
+First make sure that we are doing lexical scoping for speed. See [[https://nullprogram.com/blog/2016/12/22/][Some Performance Advantages of Lexical Scope blog]].
+#+BEGIN_SRC emacs-lisp :tangle yes
+  ;;; README.el --- a file generated from README.org - do not edit by hand!!!!
+  ;; -*- lexical-binding: t; -*-
+  ;;; Commentary:
+  ;;;     Org tangled from README.org. Edit the org file to chnage this configuration
+  ;;; Code:
+#+END_SRC
 
 ** Speed up loading
-   This is a little piece of code that I picked up that might make things faster when downloading and installing all the packages.
-   This turns down the garbage collector during the use-package loading when it has to do some compiling. Set it back when done with
-   init.
-   #+BEGIN_SRC emacs-lisp :tangle yes
-     (setq gc-cons-threshold 100000000)
-     ;; never set it back, but if you wanted to:
-     ;; (add-hook 'after-init-hook (lambda () (setq gc-cons-threshold 800000)))
-   #+END_SRC
+This is a little piece of code that I picked up that might make things faster when downloading and installing all the packages.
+This turns down the garbage collector during the use-package loading when it has to do some compiling. Set it back when done with
+init.
+#+BEGIN_SRC emacs-lisp :tangle yes
+  (setq gc-cons-threshold 100000000)
+  ;; never set it back, but if you wanted to:
+  ;; (add-hook 'after-init-hook (lambda () (setq gc-cons-threshold 800000)))
+#+END_SRC
 
 ** Speed up line movement
-   I ran into this little tidbit while reading Sacha Chua's posts from Emacs. It is described [[https://emacs.stackexchange.com/questions/28736/emacs-pointcursor-movement-lag/28746][here]], but to summarize the
-   =next-line= defun triggers =line-move-partial= which leads to excessive processing. By setting the variable here, the speed of
-   using =next-line= gets very cut down.
-   #+BEGIN_SRC emacs-lisp :tangle yes
-     (setq auto-window-vscroll nil)
-   #+END_SRC
+I ran into this little tidbit while reading Sacha Chua's posts from Emacs. It is described [[https://emacs.stackexchange.com/questions/28736/emacs-pointcursor-movement-lag/28746][here]], but to summarize the
+=next-line= defun triggers =line-move-partial= which leads to excessive processing. By setting the variable here, the speed of
+using =next-line= gets very cut down.
+#+BEGIN_SRC emacs-lisp :tangle yes
+  (setq auto-window-vscroll nil)
+#+END_SRC
 ** I use Ctrl-Z for personal bindings
-   Ctrl-C was supposed to be left for personal customization but seems to get used more than it should,
-   therefore I've started to bind things to Ctrl-Z, which had the annoying and useless minimize functionality.
-   #+BEGIN_SRC  emacs-lisp :tangle yes
-     (bind-keys :map global-map                      ;; get rid of pesky "\C-z" and use for personal bindings
-                :prefix-map my-ctrl-z-prefix-map
-                :prefix "C-z"
-                ("C-d" . dired-jump)
-                ("c"   . comment-region)
-                ("d"   . docker)
-                ("e"   . eglot-rename)
-                ("f"   . magit-find-file-other-window)
-                ("g"   . magit-status)
-                ("h a" . helpful-at-point)
-                ("h c" . helpful-command)
-                ("h C" . helpful-callable)
-                ("h f" . helpful-function)
-                ("h k" . helpful-key)
-                ("h m" . helpful-macro)
-                ("h v" . helpful-variable)
-                ("l"   . magit-log-buffer-file)
-                ("n"   . linum-mode)
-                ("r"   . revert-buffer)
-                ("t"   . toggle-truncate-lines)
-                ("u"   . uncomment-region))
-   #+END_SRC
+Ctrl-C was supposed to be left for personal customization but seems to get used more than it should,
+therefore I've started to bind things to Ctrl-Z, which had the annoying and useless minimize functionality.
+#+BEGIN_SRC  emacs-lisp :tangle yes
+  (bind-keys :map global-map                      ;; get rid of pesky "\C-z" and use for personal bindings
+             :prefix-map my-ctrl-z-prefix-map
+             :prefix "C-z"
+             ("C-d" . dired-jump)
+             ("c"   . comment-region)
+             ("d"   . docker)
+             ("e"   . eglot-rename)
+             ("f"   . magit-find-file-other-window)
+             ("g"   . magit-status)
+             ("h a" . helpful-at-point)
+             ("h c" . helpful-command)
+             ("h C" . helpful-callable)
+             ("h f" . helpful-function)
+             ("h k" . helpful-key)
+             ("h m" . helpful-macro)
+             ("h v" . helpful-variable)
+             ("l"   . magit-log-buffer-file)
+             ("n"   . linum-mode)
+             ("r"   . revert-buffer)
+             ("t"   . toggle-truncate-lines)
+             ("u"   . uncomment-region))
+#+END_SRC
 ** Extra org mode key bindings
-   Seems at least one key binding disappeared on me in org mode.
-   #+BEGIN_SRC emacs-lisp :tangle yes
-     (org-defkey org-mode-map "\C-c\C-x\C-r" 'org-clock-report)
-   #+END_SRC
-
+Seems at least one key binding disappeared on me in org mode.
+#+BEGIN_SRC emacs-lisp :tangle yes
+  (org-defkey org-mode-map "\C-c\C-x\C-r" 'org-clock-report)
+#+END_SRC
 ** Packages
-   Here are the packages I use and I've tried to list them in a relatively logical order (trying to put the more significant
-   packages earlier in this document).
+Here are the packages I use and I've tried to list them in a relatively logical order (trying to put the more significant
+packages earlier in this document).
 *** [[https://github.com/magit/magit][=magit=]]
-    The *most awesome* git porcelain. Most here are part of magit, [[https://github.com/pidu/git-timemachine][=git-time-machine=]] is not, but well worth using.
-    #+BEGIN_SRC emacs-lisp :tangle yes
-      (use-package git-commit
-        :custom
-        (git-commit-fill-column 78)
-        (git-commit-style-convention-checks '(non-empty-second-line overlong-summary-line)))
-      ;; (use-package forge
-      ;;   :after magit)
-      (use-package magit
-        ;; Make the default action a branch checkout, not a branch visit when in branch mode
-        :bind (:map magit-branch-section-map
-                    ([remap magit-visit-thing] . magit-branch-checkout))
-        :custom
-        (magit-completing-read-function 'ivy-completing-read)
-        (magit-repository-directories '(("~/repos" . 1)))
-        (magit-submodule-arguments '("--recursive")))
-      (use-package magit-filenotify)
-      (use-package magit-find-file)
-      (use-package git-timemachine)
-    #+END_SRC
+The *most awesome* git porcelain. Most here are part of magit, [[https://github.com/pidu/git-timemachine][=git-time-machine=]] is not, but well worth using.
+#+BEGIN_SRC emacs-lisp :tangle yes
+  (use-package git-commit
+    :custom
+    (git-commit-fill-column 78)
+    (git-commit-style-convention-checks '(non-empty-second-line overlong-summary-line)))
+  ;; (use-package forge
+  ;;   :after magit)
+  (use-package magit
+    ;; Make the default action a branch checkout, not a branch visit when in branch mode
+    :bind (:map magit-branch-section-map
+                ([remap magit-visit-thing] . magit-branch-checkout))
+    :custom
+    (magit-completing-read-function 'ivy-completing-read)
+    (magit-repository-directories '(("~/repos" . 1)))
+    (magit-submodule-arguments '("--recursive")))
+  (use-package magit-filenotify)
+  (use-package magit-find-file)
+  (use-package git-timemachine)
+#+END_SRC
 *** =diminish=
-    Handy mode to make the modeline more succinct by allowing a /diminished/ mode line string. Sometimes the fact that mode is there
-    is fine and it doesn't need to be on the mode line (diminish it to ""). Putting diminish first not out of importance, but
-    because it is used later on.
-    #+BEGIN_SRC emacs-lisp :tangle yes
-      (use-package diminish)
-    #+END_SRC
+Handy mode to make the modeline more succinct by allowing a /diminished/ mode line string. Sometimes the fact that mode is there
+is fine and it doesn't need to be on the mode line (diminish it to ""). Putting diminish first not out of importance, but
+because it is used later on.
+#+BEGIN_SRC emacs-lisp :tangle yes
+  (use-package diminish)
+#+END_SRC
 *** [[https://github.com/justbur/emacs-which-key][=which-key=]]
-    Perhaps one of the most useful extensions, this little gem will provide a list in the mini-buffer of the relevant keystrokes and
-    the functions to which they are bound (or a prefix). Many times I've found unknown features by simply looking at the various
-    options. This is, IMO, a great way to learn Emacs key-bindings.
-    #+BEGIN_SRC emacs-lisp :tangle yes
-      (use-package which-key :diminish ""
-        :custom
-        (which-key-mode t))
-      (use-package which-key-posframe
-        :config
-        (set-face-attribute 'which-key-posframe nil :background "wheat1")
-        :custom
-        (which-key-posframe-mode t)
-        (which-key-posframe-poshandler 'posframe-poshandler-frame-bottom-left-corner))
-      (which-function-mode t)
-    #+END_SRC
+Perhaps one of the most useful extensions, this little gem will provide a list in the mini-buffer of the relevant keystrokes and
+the functions to which they are bound (or a prefix). Many times I've found unknown features by simply looking at the various
+options. This is, IMO, a great way to learn Emacs key-bindings.
+#+BEGIN_SRC emacs-lisp :tangle yes
+  (use-package which-key :diminish ""
+    :custom
+    (which-key-mode t))
+  (use-package which-key-posframe
+    :config
+    (set-face-attribute 'which-key-posframe nil :background "wheat1")
+    :custom
+    (which-key-posframe-mode t)
+    (which-key-posframe-poshandler 'posframe-poshandler-frame-bottom-left-corner))
+  (which-function-mode t)
+#+END_SRC
 *** =projectile=
-    Perhaps one of the most useful packages - understands =git= repositories by default and makes dealing with project-wide stuff
-    (like opening files and searching through all project files) much more efficient.
-    #+BEGIN_SRC emacs-lisp :tangle yes
-      (use-package projectile
-        :bind
-        (:map projectile-mode-map
-              ("C-c p"   . projectile-command-map)        ;; traditional binding
-              ("C-z C-p" . projectile-command-map)        ;; my binding
-              ("C-z p"   . projectile-command-map))       ;; all paths get to projectile
-        :config
-        (projectile-mode t))
-    #+END_SRC
+Perhaps one of the most useful packages - understands =git= repositories by default and makes dealing with project-wide stuff
+(like opening files and searching through all project files) much more efficient.
+#+BEGIN_SRC emacs-lisp :tangle yes
+  (use-package projectile
+    :bind
+    (:map projectile-mode-map
+          ("C-c p"   . projectile-command-map)        ;; traditional binding
+          ("C-z C-p" . projectile-command-map)        ;; my binding
+          ("C-z p"   . projectile-command-map))       ;; all paths get to projectile
+    :config
+    (projectile-mode t))
+#+END_SRC
 *** [[http://company-mode.github.io/][=company-mode=]]
-    Use the excellent [[http://company-mode.github.io/][=company-mode=]] modular in-buffer text completion framework.
-    #+BEGIN_SRC emacs-lisp :tangle yes
-      (use-package company
-        :diminish
-        :config (global-company-mode 1))
-     #+END_SRC
+Use the excellent [[http://company-mode.github.io/][=company-mode=]] modular in-buffer text completion framework.
+#+BEGIN_SRC emacs-lisp :tangle yes
+  (use-package company
+    :diminish
+    :config (global-company-mode 1))
+#+END_SRC
 *** [[https://github.com/abo-abo/swiper][=ivy/swiper=]]
-    I used to be a =helm= user, but switched to =ivy=. Lots of nice features in =ivy= and very easy to configure comparatively.
-    #+BEGIN_SRC emacs-lisp :tangle yes
-      (use-package ivy
-        :diminish ""
-        :bind (:map ivy-minibuffer-map
-                    ("C-w" . ivy-yank-word) ;; make work like isearch
-                    ("C-r" . ivy-previous-line))
-        :config
-        (ivy-mode 1)
-        (setq ivy-initial-inputs-alist nil) ;; no regexp by default
-        (setq ivy-re-builders-alist         ;; allow input not in order
-              '((t . ivy--regex-ignore-order)))
-        :custom
-        (ivy-count-format "(%d/%d) ")
-        (ivy-mode t)
-        (ivy-use-selectable-prompt t)
-        (ivy-use-virtual-buffers t))
-      (use-package counsel
-        :bind (("C-z j" . counsel-imenu)))
-      (use-package counsel-projectile
-        :config
-        (counsel-projectile-mode t))
-      (use-package counsel-codesearch)
-      (use-package ivy-hydra)
-      (use-package swiper
-        :bind (("C-S-s" . isearch-forward)  ;; Keep isearch-forward on Shift-Ctrl-s
-               ("C-s" . swiper)             ;; Use swiper for search and reverse search
-               ("C-S-r" . isearch-backward) ;; Keep isearch-backward on Shift-Ctrl-r
-               ("C-r" . swiper)))
-      (use-package avy
-        :bind (("C-:" . avy-goto-char)))
-    #+END_SRC
+I used to be a =helm= user, but switched to =ivy=. Lots of nice features in =ivy= and very easy to configure comparatively.
+#+BEGIN_SRC emacs-lisp :tangle yes
+  (use-package ivy
+    :diminish ""
+    :bind (:map ivy-minibuffer-map
+                ("C-w" . ivy-yank-word) ;; make work like isearch
+                ("C-r" . ivy-previous-line))
+    :config
+    (ivy-mode 1)
+    (setq ivy-initial-inputs-alist nil) ;; no regexp by default
+    (setq ivy-re-builders-alist         ;; allow input not in order
+          '((t . ivy--regex-ignore-order)))
+    :custom
+    (ivy-count-format "(%d/%d) ")
+    (ivy-mode t)
+    (ivy-use-selectable-prompt t)
+    (ivy-use-virtual-buffers t))
+  (use-package counsel
+    :bind (("C-z j" . counsel-imenu)))
+  (use-package counsel-projectile
+    :config
+    (counsel-projectile-mode t))
+  (use-package counsel-codesearch)
+  (use-package ivy-hydra)
+  (use-package swiper
+    :bind (("C-S-s" . isearch-forward)  ;; Keep isearch-forward on Shift-Ctrl-s
+           ("C-s" . swiper)             ;; Use swiper for search and reverse search
+           ("C-S-r" . isearch-backward) ;; Keep isearch-backward on Shift-Ctrl-r
+           ("C-r" . swiper)))
+  (use-package avy
+    :bind (("C-:" . avy-goto-char)))
+#+END_SRC
 *** Use =ivy= and =posframe= together
-    This makes the ivy completion buffers popup over the modeline instead of in the minibuffer.
-    #+BEGIN_SRC emacs-lisp :tangle yes
-      (use-package posframe)
-      (use-package ivy-posframe
-        :config
-        (set-face-attribute 'ivy-posframe nil :background "wheat1")
-        :custom
-        (ivy-posframe-display-functions-alist '((t . ivy-posframe-display-at-window-bottom-left))))
-      (ivy-posframe-mode 1)
-    #+END_SRC
-    I ran into a nice article that fixes a [[http://mbork.pl/2018-06-16_ivy-use-selectable-prompt][problem that I often have with Ivy]]: using a name that is not in the list of candidates (for
-    example when trying to write to a buffer to a new file name). To fix this, setting =ivy-use-selectable-prompt= to =t= makes going
-    back before the first candidate to a "verbatim" prompt.
+This makes the ivy completion buffers popup over the modeline instead of in the minibuffer.
+#+BEGIN_SRC emacs-lisp :tangle yes
+  (use-package posframe)
+  (use-package ivy-posframe
+    :config
+    (set-face-attribute 'ivy-posframe nil :background "wheat1")
+    :custom
+    (ivy-posframe-display-functions-alist '((t . ivy-posframe-display-at-window-bottom-left))))
+  (ivy-posframe-mode 1)
+#+END_SRC
+I ran into a nice article that fixes a [[http://mbork.pl/2018-06-16_ivy-use-selectable-prompt][problem that I often have with Ivy]]: using a name that is not in the list of candidates (for
+example when trying to write to a buffer to a new file name). To fix this, setting =ivy-use-selectable-prompt= to =t= makes going
+back before the first candidate to a "verbatim" prompt.
 *** [[https://github.com/raxod502/prescient.el][=prescient=]]
-    [[https://github.com/raxod502/prescient.el][=prescient=]] provides "simple but effective sorting and filtering for Emacs."
-    #+BEGIN_SRC emacs-lisp :tangle yes
-      (use-package prescient)
-      (use-package ivy-prescient)
-      (use-package company-prescient)
-    #+END_SRC
+[[https://github.com/raxod502/prescient.el][=prescient=]] provides "simple but effective sorting and filtering for Emacs."
+#+BEGIN_SRC emacs-lisp :tangle yes
+  (use-package prescient)
+  (use-package ivy-prescient)
+  (use-package company-prescient)
+#+END_SRC
 *** [[https://www.emacswiki.org/emacs/Yasnippet][=yasnippet=]]
-    [[https://www.emacswiki.org/emacs/Yasnippet][=yasnippet=]] is a truly awesome package. Local modifications should go in =~/.emacs.d/snippets/=.
+[[https://www.emacswiki.org/emacs/Yasnippet][=yasnippet=]] is a truly awesome package. Local modifications should go in =~/.emacs.d/snippets/=.
 
-    Just love the [[https://www.emacswiki.org/emacs/Yasnippet][=yasnippet=]] package. I only wish there were more templates out there. Creating new ones and placing them the
-    appropriate (mode-named) subdirectory of =~/.emacs.d/snippets/=.
-    #+BEGIN_SRC emacs-lisp :tangle yes
-      (use-package yasnippet
-        :diminish (yas-minor-mode . "")
-        :config
-        (yas-reload-all)
-        (require 'warnings)
-        :hook ;; fix tab in term-mode
-        (term-mode . (lambda() (yas-minor-mode -1)))
-        ;; Fix yas indent issues
-        (python-mode . (lambda () (set (make-local-variable 'yas-indent-line) 'fixed))))
-      (use-package yasnippet-snippets)
-      (yas-global-mode t)
-    #+END_SRC
-    The following code allows the =yasnippet= and =company= to work together. Got this from a fix posted on [[https://gist.github.com/sebastiencs/a16ea58b2d23e2ea52f62fcce70f4073][github]] which was pointed
-    to by the [[https://www.emacswiki.org/emacs/CompanyMode#toc11][company mode Wiki page]].
-    #+BEGIN_SRC emacs-lisp :tangle yes
-      (defvar my/company-point nil)
-      (advice-add 'company-complete-common :before (lambda () (setq my/company-point (point))))
-      (advice-add 'company-complete-common :after (lambda ()
-                                                    (when (equal my/company-point (point))
-                                                      (yas-expand))))
-    #+END_SRC
+Just love the [[https://www.emacswiki.org/emacs/Yasnippet][=yasnippet=]] package. I only wish there were more templates out there. Creating new ones and placing them the
+appropriate (mode-named) subdirectory of =~/.emacs.d/snippets/=.
+#+BEGIN_SRC emacs-lisp :tangle yes
+  (use-package yasnippet
+    :diminish (yas-minor-mode . "")
+    :config
+    (yas-reload-all)
+    (require 'warnings)
+    :hook ;; fix tab in term-mode
+    (term-mode . (lambda() (yas-minor-mode -1)))
+    ;; Fix yas indent issues
+    (python-mode . (lambda () (set (make-local-variable 'yas-indent-line) 'fixed))))
+  (use-package yasnippet-snippets)
+  (yas-global-mode t)
+#+END_SRC
+The following code allows the =yasnippet= and =company= to work together. Got this from a fix posted on [[https://gist.github.com/sebastiencs/a16ea58b2d23e2ea52f62fcce70f4073][github]] which was pointed
+to by the [[https://www.emacswiki.org/emacs/CompanyMode#toc11][company mode Wiki page]].
+#+BEGIN_SRC emacs-lisp :tangle yes
+  (defvar my/company-point nil)
+  (advice-add 'company-complete-common :before (lambda () (setq my/company-point (point))))
+  (advice-add 'company-complete-common :after (lambda ()
+                                                (when (equal my/company-point (point))
+                                                  (yas-expand))))
+#+END_SRC
 *** Emacs Application Framework
-    This is a package that allows Emacs to more graphically oriented. This is a test for now. I'm following the instructions found
-    at the [[https://github.com/manateelazycat/emacs-application-framework][emacs-application-framework github]].
+This is a package that allows Emacs to more graphically oriented. This is a test for now. I'm following the instructions found
+at the [[https://github.com/manateelazycat/emacs-application-framework][emacs-application-framework github]].
 
-    I had to modify the directions to work with ~use-package~ used along with ~straight~. Here's what I had to do initially:
-    1. I followed the direction to clone the ~eaf~ frame work to ~~/.emacs.d/site-lisp/emacs-application-framework~.
-    2. I then executed the ~install-eaf.sh~ script that installs a bunch of things on the system that ~eaf~ neads
-    3. Then the ~use-package~, with the ~:load-path~ statement, failed with a cannot find ~straight/build/eaf/app~. This step did
-       clone the ~emacs-application-framework~ to straight as ~eaf~, as you'd expect from the ~use-package~ statement. 
-    4. To fix the failure in the original ~use-package~, I removed the ~:load-path~ and created a link from ~build/eap/app~ to
-       ~../../repos/eap/app~, and tada it loads. Now to see if it works.
-    5. I had to add the packages so mentioned in the instructions to ~~/.emacs.d/emacs-pip.txt~. NB: ~aria2~ and ~libreoffice~ are
-       ~apt~ based packages. The documentation for ~eaf~ leaves a little to be desired.
+I had to modify the directions to work with ~use-package~ used along with ~straight~. Here's what I had to do initially:
+1. I followed the direction to clone the ~eaf~ frame work to ~~/.emacs.d/site-lisp/emacs-application-framework~.
+2. I then executed the ~install-eaf.sh~ script that installs a bunch of things on the system that ~eaf~ neads
+3. Then the ~use-package~, with the ~:load-path~ statement, failed with a cannot find ~straight/build/eaf/app~. This step did
+   clone the ~emacs-application-framework~ to straight as ~eaf~, as you'd expect from the ~use-package~ statement. 
+4. To fix the failure in the original ~use-package~, I removed the ~:load-path~ and created a link from ~build/eap/app~ to
+   ~../../repos/eap/app~, and tada it loads. Now to see if it works.
+5. I had to add the packages so mentioned in the instructions to ~~/.emacs.d/emacs-pip.txt~. NB: ~aria2~ and ~libreoffice~ are
+   ~apt~ based packages. The documentation for ~eaf~ leaves a little to be desired.
 
-    *I've disabled EAF for now*
+*I've disabled EAF for now*
 
     #+BEGIN_SRC emacs-lisp :tangle no
       (use-package eaf
@@ -449,7 +448,8 @@
                                  (toggle-truncate-lines -1)
                                  (auto-fill-mode 1)
                                  (org-bullets-mode)
-                                 (flyspell-mode 1)))
+                                 (flyspell-mode 1)
+                                 (org-indent-mode 1)))
 
      (use-package org-autolist)
      (use-package htmlize)
