@@ -540,6 +540,25 @@ For golang since we are using at my new gig. However, I'm not a big golang fan a
                  (eglot-ensure)
                  (company-mode))))
 #+END_SRC
+*** Flutter and Dart
+I'm trying to learn Flutter and Dart because I asked my son, "What should I learn to stay somewhat relevant?" This was his response.
+#+BEGIN_SRC emacs-lisp :tangle yes
+  (use-package dart-mode
+    :ensure t
+    :hook
+    (dart-mode . (lambda ()
+                   (flutter-test-mode)
+                   (eglot-ensure)
+                   (company-mode))))
+
+  (use-package flutter
+    :ensure t
+    :after dart-mode
+    :bind (:map dart-mode-map
+                ("C-M-x" . #'flutter-run-or-hot-reload))
+    :custom
+    (flutter-sdk-path (string-trim (shell-command-to-string "flutter sdk-path"))))
+#+END_SRC
 
 ** Theme and mode line
 My progression of modelines has gone from =powerline= to =moody= and now =doom=. The =doom-modeline= package is pretty good and not
