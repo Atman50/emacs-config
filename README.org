@@ -192,6 +192,9 @@ Use the excellent [[http://company-mode.github.io/][=company-mode=]] modular in-
     :diminish
     :config (global-company-mode 1))
 #+END_SRC
+I've found that company mode works much better if you set the ~company-minimum-prefix-length~ to 1 (from 3).
+#+NAME: companymode-custom-vars
+#+CALL: custom-vars-table(custom-vars='(company-insertion-on-trigger company-minimum-prefix-length))
 *** [[https://github.com/abo-abo/swiper][=ivy/swiper=]]
 I used to be a =helm= user, but switched to =ivy=. Lots of nice features in =ivy= and very easy to configure comparatively.
 #+BEGIN_SRC emacs-lisp :tangle yes
@@ -737,9 +740,10 @@ A post-amble to make the tangled =.el= file has no errors/warnings.
 #+NAME: custom-vars-table
 #+BEGIN_SRC emacs-lisp :results silent :exports results :var custom-vars=() :tangle no
   ;; This "function" creates a list that is converted to a table by the exporter
-  `((Symbol\ Name Value)
+  `((Symbol\ Name Custom\ Value Standard\ Value)
     hline
-    ,@(cl-loop for cv in custom-vars
-               collect `(,cv
-                         ,(replace-regexp-in-string "\n" "<br>" (string-trim-right (pp-to-string (default-value cv)))))))
+    ,@(cl-loop for custom_var in custom-vars
+               collect `(,custom_var
+                         ,(replace-regexp-in-string "\n" "<br>" (string-trim-right (pp-to-string (default-value custom_var))))
+                         ,(custom--standard-value custom_var))))
 #+END_SRC
