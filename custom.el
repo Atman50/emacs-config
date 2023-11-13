@@ -35,6 +35,8 @@
  '(command-log-mode-auto-show t)
  '(command-log-mode-is-global t)
  '(command-log-mode-open-log-turns-on-mode t)
+ '(company-insertion-on-trigger 'company-explicit-action-p)
+ '(company-minimum-prefix-length 1)
  '(compilation-error-regexp-alist '(ant bash java gnu gcc-include lcc perl))
  '(compilation-error-regexp-systems-list '(gnu perl))
  '(confirm-kill-emacs 'yes-or-no-p)
@@ -46,9 +48,6 @@
  '(ediff-split-window-function 'split-window-vertically)
  '(ediff-window-setup-function 'ediff-setup-windows-plain)
  '(electric-pair-mode t)
- '(elpy-modules
-   '(elpy-module-company elpy-module-eldoc elpy-module-pyvenv elpy-module-highlight-indentation elpy-module-yasnippet elpy-module-sane-defaults))
- '(elpy-rpc-python-command "python3")
  '(eshell-history-size 1024)
  '(fill-column 132)
  '(flycheck-color-mode-line-face-to-color 'mode-line-buffer-id)
@@ -57,15 +56,9 @@
  '(global-font-lock-mode t nil (font-lock))
  '(history-delete-duplicates t)
  '(ibuffer-formats
-   '((mark modified read-only " "
-           (name 36 36 :left :elide)
-           " "
-           (size 9 -1 :right)
-           " "
-           (mode 16 16 :left :elide)
-           " " filename-and-process)
-     (mark modified read-only " "
-           (name 36 -1))))
+   '((mark modified read-only " " (name 36 36 :left :elide) " " (size 9 -1 :right) " " (mode 16 16 :left :elide) " "
+           filename-and-process)
+     (mark modified read-only " " (name 36 -1))))
  '(indent-tabs-mode nil)
  '(inhibit-startup-screen t)
  '(js-indent-level 2)
@@ -86,42 +79,19 @@
  '(org-reveal-root "http://cdn.jsdelivr.net/reveal.js/3.0.0/")
  '(org-reveal-title-slide nil)
  '(package-archives
-   '(("gnu" . "https://elpa.gnu.org/packages/")
-     ("melpa" . "https://melpa.org/packages/")
-     ("org" . "https://orgmode.org/elpa/")))
+   '(("gnu" . "https://elpa.gnu.org/packages/") ("melpa" . "https://melpa.org/packages/") ("org" . "https://orgmode.org/elpa/")))
  '(projectile-completion-system 'ivy)
  '(projectile-mode-line '(:eval (format " [%s]" (projectile-project-name))))
  '(recentf-mode t)
  '(rng-nxml-auto-validate-flag nil)
  '(safe-local-variable-values
-   '((eval when
-           (and
-            (buffer-file-name)
-            (not
-             (file-directory-p
-              (buffer-file-name)))
-            (string-match-p "^[^.]"
-                            (buffer-file-name)))
-           (unless
-               (featurep 'package-build)
-             (let
-                 ((load-path
-                   (cons "../package-build" load-path)))
-               (require 'package-build)))
-           (unless
-               (derived-mode-p 'emacs-lisp-mode)
-             (emacs-lisp-mode))
-           (package-build-minor-mode)
+   '((eval when (and (buffer-file-name) (not (file-directory-p (buffer-file-name))) (string-match-p "^[^.]" (buffer-file-name)))
+           (unless (featurep 'package-build) (let ((load-path (cons "../package-build" load-path))) (require 'package-build)))
+           (unless (derived-mode-p 'emacs-lisp-mode) (emacs-lisp-mode)) (package-build-minor-mode)
            (setq-local flycheck-checkers nil)
-           (set
-            (make-local-variable 'package-build-working-dir)
-            (expand-file-name "../working/"))
-           (set
-            (make-local-variable 'package-build-archive-dir)
-            (expand-file-name "../packages/"))
-           (set
-            (make-local-variable 'package-build-recipes-dir)
-            default-directory))))
+           (set (make-local-variable 'package-build-working-dir) (expand-file-name "../working/"))
+           (set (make-local-variable 'package-build-archive-dir) (expand-file-name "../packages/"))
+           (set (make-local-variable 'package-build-recipes-dir) default-directory))))
  '(savehist-additional-variables '(kill-ring search-ring regexp-search-ring))
  '(savehist-file "~/.emacs.d/savehist")
  '(savehist-mode t)
@@ -140,7 +110,7 @@
  '(use-package-enable-imenu-support t)
  '(vc-diff-switches '("--diff-cmd" "tkdiff"))
  '(visible-bell t)
- '(warning-suppress-types '((yasnippet backquote-change)))
+ '(warning-suppress-types '((comp) (yasnippet backquote-change)))
  '(which-function-mode t)
  '(yas-global-mode t))
 (custom-set-faces

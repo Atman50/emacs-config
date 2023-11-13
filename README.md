@@ -1,63 +1,67 @@
 
 # Table of Contents
 
-1.  [Overview](#orgfec91f6)
-    1.  [Quick start](#orge9ad36e)
-    2.  [Why a literate configuration](#org7caad7f)
-    3.  [My customizations](#org11a69c9)
-    4.  [The importance of the `init.el` file](#orgbb19069)
-2.  [The Configuration](#orgdda958d)
-    1.  [A preamble](#org1f647f6)
-    2.  [Speed up loading](#orgab9f7c2)
-    3.  [Speed up line movement](#org60c7c78)
-    4.  [I use Ctrl-Z for personal bindings](#org5bd4c92)
-    5.  [Extra org mode key bindings](#orgb63a181)
-    6.  [Theme and mode line](#org28f71c1)
-    7.  [Packages](#org414fe31)
-        1.  [`magit`](#org0bdea87)
-        2.  [`diminish`](#org758c438)
-        3.  [`which-key`](#orgf064592)
-        4.  [`projectile`](#orgc879ae1)
-        5.  [`company-mode`](#org27e18e0)
-        6.  [`ivy/swiper`](#org85f6d88)
-        7.  [Use `ivy` and `posframe` together](#org1fb3f72)
-        8.  [`prescient`](#orgd856312)
-        9.  [`yasnippet`](#org863593e)
-        10. [`command-log-mod`](#orgd074dc8)
-        11. [Docker](#org9c09d10)
-        12. [`flycheck`](#orgc503b7e)
-        13. [yaml-mode](#orga0182a2)
-        14. [`bind-key`](#org085e795)
-        15. [`helpful`](#org70dfa33)
-        16. [`savehist`](#org8dff1f4)
-        17. [Very large files](#org6b797bb)
-        18. [Logs in general](#orgd476113)
-        19. [Random packages](#orgde3478b)
-    8.  [`org-mode`](#orgfac884f)
-        1.  [For blogging](#org1d28f16)
-        2.  [Use of babel](#orgcfcb034)
-    9.  [Language support](#org9539ba8)
-        1.  [Taking the `eglot` plunge](#org998be2f)
-        2.  [Python](#orgf9b6966)
-        3.  [Go](#org23f1d34)
-    10. [Additional bits-o-configuration](#org1b86798)
-        1.  [Limit the length of `which-function`](#org417d4cd)
-        2.  [`my-ansi-term`](#org45b8c3b)
-        3.  [Understand file type by shebang](#orge2d5cb6)
-        4.  [React to screen width changes for `posframe`](#orga945f6a)
-    11. [Final (random) bits](#org399519f)
-3.  [`org-mode` export hacks for HTML and Markdown](#org1a47e0b)
+1.  [Overview](#org95ea53f)
+    1.  [Quick start](#org70c4a43)
+    2.  [Why a literate configuration](#orgcf1650f)
+    3.  [My customizations](#orgcf93f95)
+    4.  [The importance of the `init.el` file](#orgb696586)
+2.  [The Configuration](#org19ed8ca)
+    1.  [A preamble](#org6566299)
+    2.  [Speed up loading](#orgc865d9b)
+    3.  [Speed up line movement](#org43f1234)
+    4.  [I use Ctrl-Z for personal bindings](#org0030b87)
+    5.  [Extra org mode key bindings](#org893026a)
+    6.  [Packages](#org7f21ce3)
+        1.  [`magit`](#org59fbcfc)
+        2.  [`diminish`](#org8af16dd)
+        3.  [`which-key`](#orgb002782)
+        4.  [`projectile`](#org0a1e2b9)
+        5.  [`company-mode`](#org9a5901a)
+        6.  [`ivy/swiper`](#org12bcdd5)
+        7.  [Use `ivy` and `posframe` together](#org16ea6ff)
+        8.  [`prescient`](#orga66f3f7)
+        9.  [`yasnippet`](#orgbdb63f1)
+        10. [Emacs Application Framework](#orgcec5714)
+        11. [Jinja2](#org1441d58)
+        12. [`command-log-mod`](#orgaa8aa87)
+        13. [Markdown mode](#orgf440e46)
+        14. [Docker](#orgedafb1c)
+        15. [`flycheck`](#org457baf2)
+        16. [yaml-mode](#orgf324b69)
+        17. [`bind-key`](#orgeb41671)
+        18. [`helpful`](#org1fa35db)
+        19. [`savehist`](#org8f19697)
+        20. [Very large files](#org933b641)
+        21. [Logs in general](#org3d2fc60)
+        22. [Random packages](#org1c8795c)
+    7.  [`org-mode`](#org1164daf)
+        1.  [For blogging](#orgb0a6ba0)
+        2.  [Use of babel](#orge6ded1d)
+    8.  [Language support](#org29d92a4)
+        1.  [Back to LSP for the time being](#org194aa02)
+        2.  [Python](#orgcf66a6d)
+        3.  [Go](#orge7874f5)
+        4.  [Flutter and Dart](#org77afb06)
+    9.  [Theme and mode line](#orge083fce)
+    10. [Additional bits-o-configuration](#orgf207a71)
+        1.  [Limit the length of `which-function`](#org333f164)
+        2.  [`my-ansi-term`](#org3b4d9dd)
+        3.  [Understand file type by shebang](#org29bb690)
+        4.  [React to screen width changes for `posframe`](#orgf908dcb)
+    11. [Final (random) bits](#org16c5d49)
+3.  [`org-mode` export hacks for HTML and Markdown](#org3ffb11c)
 
 
 
-<a id="orgfec91f6"></a>
+<a id="org95ea53f"></a>
 
 # Overview
 
 This is a literate and <font color=red size=+3><b><u>portable</u></b></font> Emacs initialization.
 
 
-<a id="orge9ad36e"></a>
+<a id="org70c4a43"></a>
 
 ## Quick start
 
@@ -85,7 +89,7 @@ The ability to simply clone and start is what makes this configuration **portabl
 `custom.el` and then apply it whenever I take updated configurations from the repository.
 
 
-<a id="org7caad7f"></a>
+<a id="orgcf1650f"></a>
 
 ## Why a literate configuration
 
@@ -100,7 +104,7 @@ I have tried to make this configuration 100% portable meaning that on a new syst
 installed. I simple git clone this repository to `~/.emacs.d` and then fire up Emacs. Should work every time. 
 
 
-<a id="org11a69c9"></a>
+<a id="orgcf93f95"></a>
 
 ## My customizations
 
@@ -136,7 +140,7 @@ While not many, I use the customization engine to provide any custom definitions
 </table>
 
 
-<a id="orgbb19069"></a>
+<a id="orgb696586"></a>
 
 ## The importance of the `init.el` file
 
@@ -150,7 +154,7 @@ The `init.el` file itself is well commented and needs no extra documentation her
 the minimal amount of work to load (`org-babel-tangle-file`) this file.
 
 
-<a id="orgdda958d"></a>
+<a id="org19ed8ca"></a>
 
 # The Configuration
 
@@ -158,7 +162,7 @@ Here are the configuration bits. All of the following code snippets that are tan
 from the initialization (`~/emacs.d/init.el`) file.
 
 
-<a id="org1f647f6"></a>
+<a id="org6566299"></a>
 
 ## A preamble
 
@@ -173,7 +177,7 @@ First make sure that we are doing lexical scoping for speed. See [Some Performan
 ```
 
 
-<a id="orgab9f7c2"></a>
+<a id="orgc865d9b"></a>
 
 ## Speed up loading
 
@@ -188,7 +192,7 @@ init.
 ```
 
 
-<a id="org60c7c78"></a>
+<a id="org43f1234"></a>
 
 ## Speed up line movement
 
@@ -201,7 +205,7 @@ using `next-line` gets very cut down.
 ```
 
 
-<a id="org5bd4c92"></a>
+<a id="org0030b87"></a>
 
 ## I use Ctrl-Z for personal bindings
 
@@ -233,7 +237,7 @@ therefore I've started to bind things to Ctrl-Z, which had the annoying and usel
 ```
 
 
-<a id="orgb63a181"></a>
+<a id="org893026a"></a>
 
 ## Extra org mode key bindings
 
@@ -244,29 +248,7 @@ Seems at least one key binding disappeared on me in org mode.
 ```
 
 
-<a id="org28f71c1"></a>
-
-## Theme and mode line
-
-My progression of modelines has gone from `powerline` to `moody` and now `doom`. The `doom-modeline` package is pretty good and
-not as much fuss as I had with `moody`. All the stuff I need there and makes this configuration much easier. You **must** go
-install the fonts from the `all-the-icons` package (which is loaded as a dependency) according to the instructions found on the
-[`doom-modeline` website](https://github.com/seagle0128/doom-modeline): Run `M-x all-the-icons-install-fonts` and then, on Windows, install the font ttf file by right clicking
-on it and doing install.
-
-```emacs-lisp
-(use-package leuven-theme
-  :demand t
-  :config
-  (load-theme 'leuven t)
-    (set-face-attribute 'scroll-bar nil :foreground "lightgray")
-    (set-face-attribute 'menu nil :foreground "black" :background "lightgray"))
-(use-package doom-modeline
-  :hook (after-init . doom-modeline-mode))
-```
-
-
-<a id="org414fe31"></a>
+<a id="org7f21ce3"></a>
 
 ## Packages
 
@@ -274,7 +256,7 @@ Here are the packages I use and I've tried to list them in a relatively logical 
 packages earlier in this document).
 
 
-<a id="org0bdea87"></a>
+<a id="org59fbcfc"></a>
 
 ### [`magit`](https://github.com/magit/magit)
 
@@ -301,7 +283,7 @@ The **most awesome** git porcelain. Most here are part of magit, [`git-time-mach
 ```
 
 
-<a id="org758c438"></a>
+<a id="org8af16dd"></a>
 
 ### `diminish`
 
@@ -314,7 +296,7 @@ because it is used later on.
 ```
 
 
-<a id="orgf064592"></a>
+<a id="orgb002782"></a>
 
 ### [`which-key`](https://github.com/justbur/emacs-which-key)
 
@@ -336,7 +318,7 @@ options. This is, IMO, a great way to learn Emacs key-bindings.
 ```
 
 
-<a id="orgc879ae1"></a>
+<a id="org0a1e2b9"></a>
 
 ### `projectile`
 
@@ -355,7 +337,7 @@ Perhaps one of the most useful packages - understands `git` repositories by defa
 ```
 
 
-<a id="org27e18e0"></a>
+<a id="org9a5901a"></a>
 
 ### [`company-mode`](http://company-mode.github.io/)
 
@@ -368,7 +350,7 @@ Use the excellent [`company-mode`](http://company-mode.github.io/) modular in-bu
 ```
 
 
-<a id="org85f6d88"></a>
+<a id="org12bcdd5"></a>
 
 ### [`ivy/swiper`](https://github.com/abo-abo/swiper)
 
@@ -407,7 +389,7 @@ I used to be a `helm` user, but switched to `ivy`. Lots of nice features in `ivy
 ```
 
 
-<a id="org1fb3f72"></a>
+<a id="org16ea6ff"></a>
 
 ### Use `ivy` and `posframe` together
 
@@ -428,7 +410,7 @@ example when trying to write to a buffer to a new file name). To fix this, setti
 back before the first candidate to a "verbatim" prompt.
 
 
-<a id="orgd856312"></a>
+<a id="orga66f3f7"></a>
 
 ### [`prescient`](https://github.com/raxod502/prescient.el)
 
@@ -441,7 +423,7 @@ back before the first candidate to a "verbatim" prompt.
 ```
 
 
-<a id="org863593e"></a>
+<a id="orgbdb63f1"></a>
 
 ### [`yasnippet`](https://www.emacswiki.org/emacs/Yasnippet)
 
@@ -476,7 +458,61 @@ to by the [company mode Wiki page](https://www.emacswiki.org/emacs/CompanyMode#t
 ```
 
 
-<a id="orgd074dc8"></a>
+<a id="orgcec5714"></a>
+
+### Emacs Application Framework
+
+This is a package that allows Emacs to more graphically oriented. This is a test for now. I'm following the instructions found
+at the [emacs-application-framework github](https://github.com/manateelazycat/emacs-application-framework).
+
+I had to modify the directions to work with `use-package` used along with `straight`. Here's what I had to do initially:
+
+1.  I followed the direction to clone the `eaf` frame work to `~/.emacs.d/site-lisp/emacs-application-framework`.
+2.  I then executed the `install-eaf.sh` script that installs a bunch of things on the system that `eaf` neads
+3.  Then the `use-package`, with the `:load-path` statement, failed with a cannot find `straight/build/eaf/app`. This step did
+    clone the `emacs-application-framework` to straight as `eaf`, as you'd expect from the `use-package` statement.
+4.  To fix the failure in the original `use-package`, I removed the `:load-path` and created a link from `build/eap/app` to
+    `../../repos/eap/app`, and tada it loads. Now to see if it works.
+5.  I had to add the packages so mentioned in the instructions to `~/.emacs.d/emacs-pip.txt`. NB: `aria2` and `libreoffice` are
+    `apt` based packages. The documentation for `eaf` leaves a little to be desired.
+
+**I've disabled EAF for now**
+
+```emacs-lisp
+(use-package eaf
+  :straight (eaf :type git
+                 :host github
+                 :repo "manateelazycat/emacs-application-framework"
+                 :files ("*.el" "*.py" "core" "app"))
+  :init
+  (use-package epc :defer t :ensure t)
+  (use-package ctable :defer t :ensure t)
+  (use-package deferred :defer t :ensure t)
+  (use-package s :defer t :ensure t)
+  :custom
+  (eaf-browser-continue-where-left-off t)
+  :config
+  (eaf-setq eaf-browser-enable-adblocker "true")
+  (eaf-bind-key scroll_up "C-n" eaf-pdf-viewer-keybinding)
+  (eaf-bind-key scroll_down "C-p" eaf-pdf-viewer-keybinding)
+  (eaf-bind-key take_photo "p" eaf-camera-keybinding)
+  ;; unbind M-q, see more in the Wiki
+  (eaf-bind-key nil "M-q" eaf-browser-keybinding))
+```
+
+
+<a id="org1441d58"></a>
+
+### Jinja2
+
+I'm using [Pyramid](https://docs.pylonsproject.org/projects/pyramid/en/2.0-branch/) in my projects with [Jinja2](https://jinja.palletsprojects.com/en/2.11.x/) so `jinja2-mode` is quite useful
+
+```emacs-lisp
+(use-package jinja2-mode)
+```
+
+
+<a id="orgaa8aa87"></a>
 
 ### `command-log-mod`
 
@@ -487,7 +523,18 @@ These packages are useful when doing presentations.
 ```
 
 
-<a id="org9c09d10"></a>
+<a id="orgf440e46"></a>
+
+### Markdown mode
+
+Nice for editing all those markdown files (that should really just be org files):
+
+```emacs-lisp
+(use-package markdown-mode)
+```
+
+
+<a id="orgedafb1c"></a>
 
 ### Docker
 
@@ -498,7 +545,7 @@ I manage a lot of docker stuff. The docker package is quite useful.
 ```
 
 
-<a id="orgc503b7e"></a>
+<a id="org457baf2"></a>
 
 ### `flycheck`
 
@@ -507,11 +554,14 @@ I've abandoned `flymake` (built-in) with `flycheck` (see [flycheck a flymake rep
 ```emacs-lisp
 (use-package flycheck
   :config
-  (global-flycheck-mode))
+  (global-flycheck-mode)
+  :custom
+  (flycheck-check-syntax-automatically '(save idle-change mode-enabled))
+  (flycheck-idle-change-delay 0.5))
 ```
 
 
-<a id="orga0182a2"></a>
+<a id="orgf324b69"></a>
 
 ### yaml-mode
 
@@ -520,7 +570,7 @@ I've abandoned `flymake` (built-in) with `flycheck` (see [flycheck a flymake rep
 ```
 
 
-<a id="org085e795"></a>
+<a id="orgeb41671"></a>
 
 ### [`bind-key`](https://github.com/priyadarshan/bind-key)
 
@@ -531,7 +581,7 @@ Much better binding capabilities (in later versions this is already loaded via `
 ```
 
 
-<a id="org70dfa33"></a>
+<a id="org1fa35db"></a>
 
 ### [`helpful`](https://github.com/Wilfred/helpful)
 
@@ -543,7 +593,7 @@ Much better binding capabilities (in later versions this is already loaded via `
 ```
 
 
-<a id="org8dff1f4"></a>
+<a id="org8f19697"></a>
 
 ### [`savehist`](https://www.emacswiki.org/emacs/SaveHist)
 
@@ -583,7 +633,7 @@ Set the following variables to control `savehist` (use customize).
 
 <tr>
 <td class="org-left">savehist-additional-variables</td>
-<td class="org-left">(kill-ring search-ring regexp-search-ring)</td>
+<td class="org-left">(tablist-named-filter kill-ring search-ring regexp-search-ring)</td>
 </tr>
 
 
@@ -595,23 +645,23 @@ Set the following variables to control `savehist` (use customize).
 </table>
 
 
-<a id="org6b797bb"></a>
+<a id="org933b641"></a>
 
 ### Very large files
 
-Since I deal with potentially gigantic log files, this package allows the file to be carved up and 'paged' through. Get to the
-`vlf` stuff through the default prefix `C-c C-v`.
+Since I deal with potentially gigantic log files, this package allows the file to be carved up and 'paged' through. Get to the `vlf`
+stuff through the default prefix `C-c C-v`.
 
 ```emacs-lisp
 (use-package vlf)
 ```
 
-I got the `vlf` package from a [really good paper](https://writequit.org/articles/working-with-logs-in-emacs.html) on how to use Emacs to deal with logs. If you currently or are going to deal
-with logs in your day to day, then this article is invaluable. I've yet to adopt some of the other features described by the
-article but I have no need as of yet. Soon maybe.
+I got the `vlf` package from a [really good paper](https://writequit.org/articles/working-with-logs-in-emacs.html) on how to use Emacs to deal with logs. If you currently or are going to deal with
+logs in your day to day, then this article is invaluable. I've yet to adopt some of the other features described by the article but
+I have no need as of yet. Soon maybe.
 
 
-<a id="orgd476113"></a>
+<a id="org3d2fc60"></a>
 
 ### Logs in general
 
@@ -638,7 +688,7 @@ First make all the logs read-only (view) mode.
 ```
 
 
-<a id="orgde3478b"></a>
+<a id="org1c8795c"></a>
 
 ### Random packages
 
@@ -650,7 +700,10 @@ checked here against the list of built-ins to avoid warnings when loading a late
 (use-package groovy-mode
   :custom
   (groovy-indent-offset 2))
-(use-package plantuml-mode)
+(use-package plantuml-mode
+  :custom
+  (plantuml-default-exec-mode 'jar)
+  (plantuml-jar-path "~/bin/plantuml.jar"))
 (use-package realgud)           ;; A "better" gud
 (use-package ibuffer-projectile)
 (use-package xterm-color)
@@ -671,17 +724,17 @@ checked here against the list of built-ins to avoid warnings when loading a late
   (use-package powershell))
 ```
 
-Note that the setting of `desktop-path` allows the multiple `.emacs.desktop` files, each in the directory where `emacs` was
-started. Although `desktop-path` is changed outside `custom.el`, I've included it here in the table below so you can see that
-the default is augmented with the start-up directory which in this case is `~/.emacs.d`.
+Note that the setting of `desktop-path` allows the multiple `.emacs.desktop` files, each in the directory where `emacs` was started.
+Although `desktop-path` is changed outside `custom.el`, I've included it here in the table below so you can see that the default is
+augmented with the start-up directory which in this case is `~/.emacs.d`.
 
 
-<a id="orgfac884f"></a>
+<a id="org1164daf"></a>
 
 ## [`org-mode`](https://orgmode.org/)
 
-I've split out this `org-mode` section because of the customization that was necessary to make exporting this module and the
-various customized variable tables to output  nicely.
+I've split out this `org-mode` section because of the customization that was necessary to make exporting this module and the various
+customized variable tables to output nicely.
 
 Always put [`org-mode`](https://orgmode.org/) buffers into [`flyspell-mode`](https://www.emacswiki.org/emacs/FlySpell) for live spell checking.
 
@@ -694,7 +747,8 @@ colorization to be present in the export HTML file.
                             (toggle-truncate-lines -1)
                             (auto-fill-mode 1)
                             (org-bullets-mode)
-                            (flyspell-mode 1)))
+                            (flyspell-mode 1)
+                            (org-indent-mode 1)))
 
 (use-package org-autolist)
 (use-package htmlize)
@@ -703,12 +757,12 @@ colorization to be present in the export HTML file.
 ;; (require 'ox-reveal)
 ```
 
-I've started using `ox-reveal` for generating presentations from `org-mode`. Here's a [good article](https://opensource.com/article/18/2/how-create-slides-emacs-org-mode-and-revealjs) on getting started. I've set
-the `org-reveal-root` to point to <http://cdn.jsdelivr.net/reveal.js/3.0.0/> so that you do not need to install it on your system.
-If you want to use your own customized theme, see the instructions at <https://github.com/hakimel/reveal.js/>. NB: I have removed
-`ox-reveal` from the normal package load because it has a dependency on the `org` package, but we already install
-`org-plus-contrib` which `ox-reveal`, I guess, doesn't recognize. Leaving the code here to make it easy to bring in if you are
-working with reveal.js and presentations.
+I've started using `ox-reveal` for generating presentations from `org-mode`. Here's a [good article](https://opensource.com/article/18/2/how-create-slides-emacs-org-mode-and-revealjs) on getting started. I've set the
+`org-reveal-root` to point to <http://cdn.jsdelivr.net/reveal.js/3.0.0/> so that you do not need to install it on your system. If you
+want to use your own customized theme, see the instructions at <https://github.com/hakimel/reveal.js/>. NB: I have removed `ox-reveal`
+from the normal package load because it has a dependency on the `org` package, but we already install `org-plus-contrib` which
+`ox-reveal`, I guess, doesn't recognize. Leaving the code here to make it easy to bring in if you are working with reveal.js and
+presentations.
 
 Customized variables for org-mode:
 
@@ -760,7 +814,7 @@ Customized variables for org-mode:
 </table>
 
 
-<a id="org1d28f16"></a>
+<a id="orgb0a6ba0"></a>
 
 ### For blogging
 
@@ -782,7 +836,7 @@ credentials so there is the setup of `org2blog/wp-blog-alist` here (according to
 ```
 
 
-<a id="orgcfcb034"></a>
+<a id="orge6ded1d"></a>
 
 ### Use of babel
 
@@ -807,36 +861,53 @@ To do literate programming you need to include the languages to "tangle". Here I
 <tbody>
 <tr>
 <td class="org-left">org-babel-load-languages</td>
-<td class="org-left">((shell . t)<br>&nbsp;(plantuml . t)<br>&nbsp;(python . t)<br>&nbsp;(emacs-lisp . t))</td>
+<td class="org-left">((shell . t) (plantuml . t) (python . t) (emacs-lisp . t))</td>
 </tr>
 </tbody>
 </table>
 
 
-<a id="org9539ba8"></a>
+<a id="org29d92a4"></a>
 
 ## Language support
 
 This section covers the various language support features of this configuration.
 
 
-<a id="org998be2f"></a>
+<a id="org194aa02"></a>
 
-### Taking the `eglot` plunge
+### Back to LSP for the time being
 
-The [`eglot`](https://github.com/joaotavora/eglot) package is a [language server protocol](https://microsoft.github.io/language-server-protocol/) (LSP) client for Emacs that supports many languages out-of-the-box. After
-spending time with `elpy` and other Emacs implementations of LSP clients, it turns out `eglot` is very multipurpose with minimal
-configuration.
+LSP ([Language Server Protocol](https://microsoft.github.io/language-server-protocol/)) is a new interface for IDEs:
+
+> The Language Server Protocol (LSP) defines the protocol used between an editor or IDE and a language server that provides language
+> features like auto complete, go to definition, find all references etc.
 
 ```emacs-lisp
-(use-package eglot
-  :pin melpa
-  :config
-  (add-hook 'eglot--managed-mode-hook (lambda () (flymake-mode -1))))
+(use-package lsp-mode
+  :ensure t
+  :hook
+  (python-mode . lsp)
+  (go-mode . lsp)
+  (dart-mode . lsp)
+  (lsp-mode . lsp-enable-which-key-integration))
+
+(use-package lsp-ui
+   :commands lsp-ui-mode)
+(use-package lsp-ivy :commands lsp-ivy-workspace-symbol)
+(use-package lsp-treemacs)
+(use-package treemacs-projectile)
+
+;; optionally if you want to use debugger
+(use-package dap-mode)
+
+;; company-lsp no longer supported!!!
+(use-package company-box
+  :hook (company-mode . company-box-mode))
 ```
 
 
-<a id="orgf9b6966"></a>
+<a id="orgcf66a6d"></a>
 
 ### Python
 
@@ -851,10 +922,6 @@ Now with `eglot` this is pretty straight forward configuration.
   :bind (:map python-mode-map
               ("C-c C-p" .  flycheck-previous-error)
               ("C-c C-n" . flycheck-next-error))
-  :hook
-  (python-mode . (lambda ()
-                   (eglot-ensure)
-                   (company-mode)))
   :custom
   (python-flymake-command '("flake8" "-"))
   (python-indent-trigger-commands '(yas-expand))
@@ -867,27 +934,80 @@ Now with `eglot` this is pretty straight forward configuration.
 ```
 
 
-<a id="org23f1d34"></a>
+<a id="orge7874f5"></a>
 
 ### Go
 
-I like go and we are using at my new gig.
+For golang since we are using at my new gig. However, I'm not a big golang fan and it seems very difficult to make work with eglot
+(so that's disabled for now).
 
 ```emacs-lisp
 (use-package go-mode
   :hook
   (go-mode . (lambda ()
-               (eglot-ensure)
-               (company-mode))))
+               (set-variable 'tab-width 4))))
 ```
 
 
-<a id="org1b86798"></a>
+<a id="org77afb06"></a>
+
+### Flutter and Dart
+
+I'm trying to learn Flutter and Dart because I asked my son, "What should I learn to stay somewhat relevant?" This was his response.
+
+```emacs-lisp
+(use-package lsp-dart
+  :ensure t
+  :custom
+  (lsp-dart-sdk-dir (string-trim (shell-command-to-string "flutter sdk-path"))))
+
+(use-package dart-mode
+  :ensure t
+  :hook
+  (dart-mode . (lambda ()
+                 (flutter-test-mode))))
+
+(use-package flutter
+  :ensure t
+  :after dart-mode
+  :bind (:map dart-mode-map
+              ("C-M-x" . #'flutter-run-or-hot-reload))
+  :custom
+  (flutter-sdk-path (string-trim (shell-command-to-string "flutter sdk-path"))))
+(use-package hover)
+```
+
+
+<a id="orge083fce"></a>
+
+## Theme and mode line
+
+My progression of modelines has gone from `powerline` to `moody` and now `doom`. The `doom-modeline` package is pretty good and not
+as much fuss as I had with `moody`. All the stuff I need there and makes this configuration much easier. You **must** go install the
+fonts from the `all-the-icons` package (which is loaded as a dependency) according to the instructions found on the [`doom-modeline`
+website](https://github.com/seagle0128/doom-modeline): Run `M-x nerd-icon-install-fonts` and then, on Windows, install the font ttf file by right clicking on it and doing
+install.
+
+```emacs-lisp
+(use-package leuven-theme
+  :demand t
+  :config
+  (load-theme 'leuven t)
+  (set-face-attribute 'scroll-bar nil :foreground "lightgray")
+  (set-face-attribute 'menu nil :foreground "black" :background "lightgray"))
+(use-package doom-modeline
+  :hook (after-init . doom-modeline-mode)
+  :config
+  (set-face-attribute 'doom-modeline-buffer-modified nil :foreground "orange1"))
+```
+
+
+<a id="orgf207a71"></a>
 
 ## Additional bits-o-configuration
 
 
-<a id="org417d4cd"></a>
+<a id="org333f164"></a>
 
 ### Limit the length of [`which-function`](https://www.gnu.org/software/emacs/manual/html_node/emacs/Which-Function.html)
 
@@ -906,7 +1026,7 @@ I like go and we are using at my new gig.
 ```
 
 
-<a id="org45b8c3b"></a>
+<a id="org3b4d9dd"></a>
 
 ### `my-ansi-term`
 
@@ -916,13 +1036,13 @@ other modes and shells make this less useful these days.
 ```emacs-lisp
 (cl-defun my/ansi-term (term-name cmd)
   "Create an ansi term with a name - other than *ansi-term* given TERM-NAME and CMD."
-  (interactive "sName for terminal: \nsCommand to run [/bin/bash]: ")
+  (interactive "sName for terminal: \nsCommand to run [/bin/zsh]: ")
   (ansi-term (if (= 0 (length cmd)) "/bin/zsh" cmd))
   (rename-buffer term-name))
 ```
 
 
-<a id="orge2d5cb6"></a>
+<a id="org29bb690"></a>
 
 ### Understand file type by shebang
 
@@ -945,7 +1065,7 @@ Script-type is read from #!/... at top of file."
 ```
 
 
-<a id="orga945f6a"></a>
+<a id="orgf908dcb"></a>
 
 ### React to screen width changes for `posframe`
 
@@ -965,7 +1085,7 @@ distracting), this code reacts to the width changes and will set the custom vari
 ```
 
 
-<a id="org399519f"></a>
+<a id="org16c5d49"></a>
 
 ## Final (random) bits
 
@@ -991,11 +1111,11 @@ Setup `eldoc` mode, use `y-or-n-p` instead of `yes-or-no-p`. Key bindings&#x2026
 (put 'upcase-region 'disabled nil)
 (put 'scroll-left 'disabled nil)
 ;; add pom file to xml type
- (add-to-list 'auto-mode-alist '("\\.pom\\'" . xml-mode))
+(add-to-list 'auto-mode-alist '("\\.pom\\'" . xml-mode))
 ```
 
 
-<a id="org1a47e0b"></a>
+<a id="org3ffb11c"></a>
 
 # [`org-mode`](https://orgmode.org/) export hacks for HTML and Markdown
 

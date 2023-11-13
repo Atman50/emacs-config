@@ -489,19 +489,37 @@ credentials so there is the setup of =org2blog/wp-blog-alist= here (according to
     To do literate programming you need to include the languages to "tangle". Here I've added more than just the standard
     =emacs-lisp= value. Added Python, [[http://plantuml.com/][PlantUML]], and shell.
     #+NAME: org-babel-custom-vars
-    #+CALL: custom-vars-table(custom-vars='(org-babel-load-languages)))
+    #+CALL: custom-vars-table(custom-vars='(org-babel-load-languages))
 
 ** Language support
 This section covers the various language support features of this configuration.
-*** Taking the =eglot= plunge
-The [[https://github.com/joaotavora/eglot][=eglot=]] package is a [[https://microsoft.github.io/language-server-protocol/][language server protocol]] (LSP) client for Emacs that supports many languages out-of-the-box. After spending
-time with =elpy= and other Emacs implementations of LSP clients, it turns out =eglot= is very multipurpose with minimal configuration.
-
+*** Back to LSP for the time being
+LSP ([[https://microsoft.github.io/language-server-protocol/][Language Server Protocol]]) is a new interface for IDEs:
+#+BEGIN_QUOTE
+The Language Server Protocol (LSP) defines the protocol used between an editor or IDE and a language server that provides language
+features like auto complete, go to definition, find all references etc.
+#+END_QUOTE
 #+BEGIN_SRC emacs-lisp :tangle yes
-  (use-package eglot
-    :pin melpa
-    :config
-    (add-hook 'eglot--managed-mode-hook (lambda () (flymake-mode -1))))
+  (use-package lsp-mode
+    :ensure t
+    :hook
+    (python-mode . lsp)
+    (go-mode . lsp)
+    (dart-mode . lsp)
+    (lsp-mode . lsp-enable-which-key-integration))
+
+  (use-package lsp-ui
+     :commands lsp-ui-mode)
+  (use-package lsp-ivy :commands lsp-ivy-workspace-symbol)
+  (use-package lsp-treemacs)
+  (use-package treemacs-projectile)
+
+  ;; optionally if you want to use debugger
+  (use-package dap-mode)
+
+  ;; company-lsp no longer supported!!!
+  (use-package company-box
+    :hook (company-mode . company-box-mode))
 #+END_SRC
 
 *** Python
@@ -515,10 +533,6 @@ Now with =eglot= this is pretty straight forward configuration.
     :bind (:map python-mode-map
                 ("C-c C-p" .  flycheck-previous-error)
                 ("C-c C-n" . flycheck-next-error))
-    :hook
-    (python-mode . (lambda ()
-                     (eglot-ensure)
-                     (company-mode)))
     :custom
     (python-flymake-command '("flake8" "-"))
     (python-indent-trigger-commands '(yas-expand))
@@ -536,20 +550,21 @@ For golang since we are using at my new gig. However, I'm not a big golang fan a
   (use-package go-mode
     :hook
     (go-mode . (lambda ()
-                 (set-variable 'tab-width 4)
-                 (eglot-ensure)
-                 (company-mode))))
+                 (set-variable 'tab-width 4))))
 #+END_SRC
 *** Flutter and Dart
 I'm trying to learn Flutter and Dart because I asked my son, "What should I learn to stay somewhat relevant?" This was his response.
 #+BEGIN_SRC emacs-lisp :tangle yes
+  (use-package lsp-dart
+    :ensure t
+    :custom
+    (lsp-dart-sdk-dir (string-trim (shell-command-to-string "flutter sdk-path"))))
+
   (use-package dart-mode
     :ensure t
     :hook
     (dart-mode . (lambda ()
-                   (flutter-test-mode)
-                   (eglot-ensure)
-                   (company-mode))))
+                   (flutter-test-mode))))
 
   (use-package flutter
     :ensure t
@@ -558,13 +573,14 @@ I'm trying to learn Flutter and Dart because I asked my son, "What should I lear
                 ("C-M-x" . #'flutter-run-or-hot-reload))
     :custom
     (flutter-sdk-path (string-trim (shell-command-to-string "flutter sdk-path"))))
+  (use-package hover)
 #+END_SRC
 
 ** Theme and mode line
 My progression of modelines has gone from =powerline= to =moody= and now =doom=. The =doom-modeline= package is pretty good and not
 as much fuss as I had with =moody=. All the stuff I need there and makes this configuration much easier. You *must* go install the
 fonts from the =all-the-icons= package (which is loaded as a dependency) according to the instructions found on the [[https://github.com/seagle0128/doom-modeline][=doom-modeline=
-website]]: Run =M-x all-the-icons-install-fonts= and then, on Windows, install the font ttf file by right clicking on it and doing
+website]]: Run =M-x nerd-icon-install-fonts= and then, on Windows, install the font ttf file by right clicking on it and doing
 install.
 #+BEGIN_SRC emacs-lisp :tangle yes
   (use-package leuven-theme
@@ -726,5 +742,4 @@ A post-amble to make the tangled =.el= file has no errors/warnings.
     ,@(cl-loop for cv in custom-vars
                collect `(,cv
                          ,(replace-regexp-in-string "\n" "<br>" (string-trim-right (pp-to-string (default-value cv)))))))
-  '
 #+END_SRC

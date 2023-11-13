@@ -23,3 +23,6 @@ image-dired
 eaf
 session.*
 eln-cache
+.cache
+.dap-breakpoints
+.lsp-session*
