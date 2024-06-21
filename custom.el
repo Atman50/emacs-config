@@ -35,8 +35,6 @@
  '(command-log-mode-auto-show t)
  '(command-log-mode-is-global t)
  '(command-log-mode-open-log-turns-on-mode t)
- '(company-insertion-on-trigger 'company-explicit-action-p)
- '(company-minimum-prefix-length 1)
  '(compilation-error-regexp-alist '(ant bash java gnu gcc-include lcc perl))
  '(compilation-error-regexp-systems-list '(gnu perl))
  '(confirm-kill-emacs 'yes-or-no-p)
@@ -110,7 +108,8 @@
  '(use-package-enable-imenu-support t)
  '(vc-diff-switches '("--diff-cmd" "tkdiff"))
  '(visible-bell t)
- '(warning-suppress-types '((comp) (yasnippet backquote-change)))
+ '(warning-suppress-types
+   '((comp) (initialization) (comp) (yasnippet backquote-change)))
  '(which-function-mode t)
  '(yas-global-mode t))
 (custom-set-faces
@@ -118,6 +117,7 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(default ((t (:inherit nil :stipple nil :inverse-video nil :box nil :strike-through nil :overline nil :underline nil :slant normal :weight normal :height 120 :width normal :foundry "nil" :family "DejaVu Sans Mono")))))
+ '(default ((t (:inherit nil :stipple nil :inverse-video nil :box nil :strike-through nil :overline nil :underline nil :slant normal :weight normal :height 120 :width normal :foundry "nil" :family "DejaVu Sans Mono"))))
+ '(flycheck-error ((t (:underline (:color "#FE251E" :style line :position nil) :weight bold)))))
 
 ;;; custom.el ends here

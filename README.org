@@ -87,6 +87,11 @@ init.
   ;; (add-hook 'after-init-hook (lambda () (setq gc-cons-threshold 800000)))
 #+END_SRC
 
+** UTF encoding
+#+BEGIN_SRC emacs-lisp :tangle yes
+  (prefer-coding-system 'utf-8)
+#+END_SRC
+
 ** Speed up line movement
 I ran into this little tidbit while reading Sacha Chua's posts from Emacs. It is described [[https://emacs.stackexchange.com/questions/28736/emacs-pointcursor-movement-lag/28746][here]], but to summarize the
 =next-line= defun triggers =line-move-partial= which leads to excessive processing. By setting the variable here, the speed of
@@ -103,7 +108,7 @@ therefore I've started to bind things to Ctrl-Z, which had the annoying and usel
              :prefix "C-z"
              ("C-d" . dired-jump)
              ("c"   . comment-region)
-             ("d"   . docker)
+             ("d"   . realgud-short-key-mode)
              ("e"   . eglot-rename)
              ("f"   . magit-find-file-other-window)
              ("g"   . magit-status)
@@ -187,14 +192,17 @@ Perhaps one of the most useful packages - understands =git= repositories by defa
 #+END_SRC
 *** [[http://company-mode.github.io/][=company-mode=]]
 Use the excellent [[http://company-mode.github.io/][=company-mode=]] modular in-buffer text completion framework.
+
+For convenience I'm binding ~C-<tab>~ to completion for driving in some circumstances: In Python, I noticed that I didn't get a
+completion menu when I did "self._" - using ~C-<tab>~ at this point pops up the completion menu.
 #+BEGIN_SRC emacs-lisp :tangle yes
   (use-package company
     :diminish
-    :config (global-company-mode 1))
+    :config (global-company-mode 1)
+    :bind (("C-<tab>" . company-complete)))
 #+END_SRC
-I've found that company mode works much better if you set the ~company-minimum-prefix-length~ to 1 (from 3).
 #+NAME: companymode-custom-vars
-#+CALL: custom-vars-table(custom-vars='(company-insertion-on-trigger company-minimum-prefix-length))
+#+CALL: custom-vars-table(custom-vars='(company-insertion-on-trigger))
 *** [[https://github.com/abo-abo/swiper][=ivy/swiper=]]
 I used to be a =helm= user, but switched to =ivy=. Lots of nice features in =ivy= and very easy to configure comparatively.
 #+BEGIN_SRC emacs-lisp :tangle yes
@@ -271,8 +279,11 @@ The following code allows the =yasnippet= and =company= to work together. Got th
 to by the [[https://www.emacswiki.org/emacs/CompanyMode#toc11][company mode Wiki page]].
 #+BEGIN_SRC emacs-lisp :tangle yes
   (defvar my/company-point nil)
-  (advice-add 'company-complete-common :before (lambda () (setq my/company-point (point))))
+  (advice-add 'company-complete-common :before (lambda ()
+                                                 "Grab the point before complete."
+                                                 (setq my/company-point (point))))
   (advice-add 'company-complete-common :after (lambda ()
+                                                "If the body hasn't changed with completion, then do yas expand."
                                                 (when (equal my/company-point (point))
                                                   (yas-expand))))
 #+END_SRC
@@ -511,16 +522,16 @@ features like auto complete, go to definition, find all references etc.
     (dart-mode . lsp)
     (lsp-mode . lsp-enable-which-key-integration))
 
+  ;; Seems this package eventually kills off help popups on the modeline.
   (use-package lsp-ui
-     :commands lsp-ui-mode)
+    :commands lsp-ui-mode)
   (use-package lsp-ivy :commands lsp-ivy-workspace-symbol)
   (use-package lsp-treemacs)
   (use-package treemacs-projectile)
 
-  ;; optionally if you want to use debugger
-  (use-package dap-mode)
+  ;; optionally if you want to use debugger (here for go and flutter)
+  ;; (use-package dap-mode)
 
-  ;; company-lsp no longer supported!!!
   (use-package company-box
     :hook (company-mode . company-box-mode))
 #+END_SRC
@@ -528,7 +539,8 @@ features like auto complete, go to definition, find all references etc.
 *** Python
 Now with =eglot= this is pretty straight forward configuration.
 #+BEGIN_SRC emacs-lisp :tangle yes
-  (use-package pylint)
+  (use-package pylint
+    :diminish "")
   (use-package python-docstring
     :config
     (python-docstring-install))
@@ -537,14 +549,26 @@ Now with =eglot= this is pretty straight forward configuration.
                 ("C-c C-p" .  flycheck-previous-error)
                 ("C-c C-n" . flycheck-next-error))
     :custom
-    (python-flymake-command '("flake8" "-"))
+    ;; (python-flymake-command '("flake8" "-"))
     (python-indent-trigger-commands '(yas-expand))
     (python-shell-completion-native-disabled-interpreters '("pypy" "ipython" "jupyter"))
     (python-shell-interpreter "jupyter")
     (python-shell-interpreter-args "console --simple-prompt")
     (python-shell-prompt-detect-failure-warning nil)
     (python-shell-prompt-output-regexp "Out\\[[0-9]+\\]: ")
-    (python-shell-prompt-regexp "In \\[[0-9]+\\]: "))
+    (python-shell-prompt-regexp "In \\[[0-9]+\\]: ")
+    :hook
+    (inferior-python-mode . (lambda () (set-variable 'tab-width 4))))
+
+#+END_SRC
+I use ~mambaforge~ at this point, but it just one of the many ~anaconda~-based Python virtual environment managers. I find that
+mambaforge works great.
+#+BEGIN_SRC emacs-lisp :tangle yes
+  (use-package conda
+    :ensure t
+    :init
+    (setq conda-anaconda-home (expand-file-name "~/mambaforge"))
+    (setq conda-env-home-directory (expand-file-name "~/mambaforge")))
 #+END_SRC
 *** Go
 For golang since we are using at my new gig. However, I'm not a big golang fan and it seems very difficult to make work with eglot

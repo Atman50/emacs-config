@@ -1,18 +1,30 @@
 # Usage: pip install -r ~/.emacs.d/emacs-pip.txt
 # This sets up the necessary pyhton packages to support eglot out-of-the-box
+
+# The servers/envs...
 python-lsp-server
-pycodestyle
-pydocstyle
-rope
-autopep8
-yapf
-flake8
-flake8-pydocstyle  # install this so pydocstyle runs automatically from flake8
-pylint
-pyflakes
 ipdb
 ipython
 jupyter
+
+# The syntax checkers/tools
+pycodestyle
+pydocstyle
+flake8
+## flake8-pydocstyle  # install this so pydocstyle runs automatically from flake8
+flake8-pylint      # same for pylint
+pylint
+pyflakes
+autopep8
+rope
+yapf
+
+# The test environment
+coverage
+pytest
+pytest-cov
+pytest-mock
+
 # For emacs-application-framework - commmented out for now
 # epc
 # pyqt5-sip
