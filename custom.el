@@ -48,8 +48,6 @@
  '(electric-pair-mode t)
  '(eshell-history-size 1024)
  '(fill-column 132)
- '(flycheck-color-mode-line-face-to-color 'mode-line-buffer-id)
- '(flymake-no-changes-timeout 2)
  '(font-lock-maximum-size nil)
  '(global-font-lock-mode t nil (font-lock))
  '(history-delete-duplicates t)
@@ -68,6 +66,7 @@
  '(make-backup-files nil)
  '(org-babel-load-languages '((shell . t) (plantuml . t) (python . t) (emacs-lisp . t)))
  '(org-catch-invisible-edits 'show)
+ '(org-export-with-broken-links t)
  '(org-fold-catch-invisible-edits 'show)
  '(org-html-postamble t)
  '(org-html-postamble-format

@@ -136,10 +136,11 @@ packages earlier in this document).
 *** [[https://github.com/magit/magit][=magit=]]
 The *most awesome* git porcelain. Most here are part of magit, [[https://github.com/pidu/git-timemachine][=git-time-machine=]] is not, but well worth using.
 #+BEGIN_SRC emacs-lisp :tangle yes
-  (use-package git-commit
-    :custom
-    (git-commit-fill-column 78)
-    (git-commit-style-convention-checks '(non-empty-second-line overlong-summary-line)))
+  (if (version< emacs-version "31")
+      (use-package git-commit
+        :custom
+        (git-commit-fill-column 78)
+        (git-commit-style-convention-checks '(non-empty-second-line overlong-summary-line))))
   ;; (use-package forge
   ;;   :after magit)
   (use-package magit
@@ -432,7 +433,7 @@ checked here against the list of built-ins to avoid warnings when loading a late
     (use-package sh-script))
   (unless (package-built-in-p 'desktop)
     (use-package desktop))
-  (set-variable 'desktop-path (cons default-directory desktop-path))(ref:desktop-path)
+  (set-variable 'desktop-path (cons default-directory desktop-path))
   (desktop-save-mode t)
   (use-package lispy
     :hook
@@ -489,14 +490,14 @@ credentials so there is the setup of =org2blog/wp-blog-alist= here (according to
       (use-package org2blog)
       (require 'auth-source)
 
-      (let* ((credentials (auth-source-user-and-password "myblog"))
-             (username (nth 0 credentials))
-             (password (nth 1 credentials))
-             (config `(("myblog"
-                       :url "http://adamhitstheroad.com/xmlrpc.php"
-                       :username ,username
-                       :password ,password))))
-        (setq org2blog/wp-blog-alist config))
+      ;; (let* ((credentials (auth-source-user-and-password "myblog"))
+      ;;        (username (nth 0 credentials))
+      ;;        (password (nth 1 credentials))
+      ;;        (config `(("myblog"
+      ;;                  :url "http://adamhitstheroad.com/xmlrpc.php"
+      ;;                  :username ,username
+      ;;                  :password ,password))))
+      ;;   (setq org2blog/wp-blog-alist config))
     #+END_SRC
 
 *** Use of babel
@@ -535,6 +536,28 @@ features like auto complete, go to definition, find all references etc.
   (use-package company-box
     :hook (company-mode . company-box-mode))
 #+END_SRC
+
+*** Fix for lsp warnings
+I've encountered an annoying, and apparently innocuous, warning from lsp that reads ="Warning (lsp-mode): Unknown notification:
+semgrep/rulesRefreshed"=. Here's a way to filter specifically for this issue:
+#+BEGIN_SRC emacs-lisp :tangle yes
+  (defcustom my/warning-suppress-message-regexps '(".*semgrep/rulesRefreshed.*")
+    "List of warning messages to suppress.
+  See also `warning-suppress-log-types'."
+    :type '(repeat string)
+    :group 'my-configuration)
+
+  (defun my/display-warning-advise (type message &optional level buffer-name)
+    "Allow filtering Emacs warning messages using regexp.
+  See the varibale `my/warning-suppress-message-regexps'."
+    (catch 'exit
+      (dolist (regexp my/warning-suppress-message-regexps)
+        (when (string-match-p regexp message) (throw 'exit nil)))
+      (throw 'exit t)))
+
+  (add-function :before-while (symbol-function 'display-warning) #'my/display-warning-advise)
+#+END_SRC
+
 
 *** Python
 Now with =eglot= this is pretty straight forward configuration.
@@ -632,9 +655,10 @@ install.
     :group 'my-configuration
     :type 'integer)
   (advice-add #'which-function :filter-return
-              (lambda (s) (when (stringp s)
-                            (if (< (string-width s) my/which-function-max-width) s
-                              (concat (truncate-string-to-width s (- my/which-function-max-width 3)) "...")))))
+              (lambda (s) (if s
+                              (when (stringp s)
+                              (if (< (string-width s) my/which-function-max-width) s
+                                (concat (truncate-string-to-width s (- my/which-function-max-width 3)) "..."))))))
 #+END_SRC
 *** =my-ansi-term=
 Allows me to name my ANSI terms. Was very useful when I used more ANSI shells (so that tabs were interpreted by the shell). Some
