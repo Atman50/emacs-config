@@ -1,67 +1,69 @@
 
 # Table of Contents
 
-1.  [Overview](#orge0ac88a)
-    1.  [Quick start](#orgce65ebc)
-    2.  [Why a literate configuration](#orgddfff09)
-    3.  [My customizations](#org63375ba)
-    4.  [The importance of the `init.el` file](#org5217cf6)
-2.  [The Configuration](#orgec64014)
-    1.  [A preamble](#orgd047344)
-    2.  [Speed up loading](#orgd2bc93e)
-    3.  [Speed up line movement](#orgba744ab)
-    4.  [I use Ctrl-Z for personal bindings](#org4374d98)
-    5.  [Extra org mode key bindings](#org2d09065)
-    6.  [Packages](#orgc61ef71)
-        1.  [`magit`](#org192ae39)
-        2.  [`diminish`](#orgad062cc)
-        3.  [`which-key`](#org613f3ba)
-        4.  [`projectile`](#orge181d7a)
-        5.  [`company-mode`](#org1413eea)
-        6.  [`ivy/swiper`](#orge29d403)
-        7.  [Use `ivy` and `posframe` together](#orgd119866)
-        8.  [`prescient`](#org50e57a4)
-        9.  [`yasnippet`](#orgfa2e4eb)
-        10. [Emacs Application Framework](#orgfec5855)
-        11. [Jinja2](#orga42460e)
-        12. [`command-log-mod`](#org9049a6b)
-        13. [Markdown mode](#org7b1f9b9)
-        14. [Docker](#orgc7c5c74)
-        15. [`flycheck`](#org90e11d7)
-        16. [yaml-mode](#org915f095)
-        17. [`bind-key`](#org5ff1c78)
-        18. [`helpful`](#orgcb88bbf)
-        19. [`savehist`](#org354cf90)
-        20. [Very large files](#org4ee4630)
-        21. [Logs in general](#org5c4a61a)
-        22. [Random packages](#org4d0eca8)
-    7.  [`org-mode`](#org9a51d7e)
-        1.  [For blogging](#org1b2e505)
-        2.  [Use of babel](#orgef4bf16)
-    8.  [Language support](#orge439cbf)
-        1.  [Back to LSP for the time being](#orgfbedceb)
-        2.  [Python](#org43bb42c)
-        3.  [Go](#org6133daf)
-        4.  [Flutter and Dart](#org6121aad)
-    9.  [Theme and mode line](#org7633dc4)
-    10. [Additional bits-o-configuration](#org448a2f6)
-        1.  [Limit the length of `which-function`](#orgd88fa0d)
-        2.  [`my-ansi-term`](#orgcfdef7e)
-        3.  [Understand file type by shebang](#org74a02e7)
-        4.  [React to screen width changes for `posframe`](#org966dc5b)
-    11. [Final (random) bits](#org646b2ea)
-3.  [`org-mode` export hacks for HTML and Markdown](#org8eb8718)
+1.  [Overview](#orgf503e1a)
+    1.  [Quick start](#orga08a4db)
+    2.  [Why a literate configuration](#orga7f5b77)
+    3.  [My customizations](#org745b7e2)
+    4.  [The importance of the `init.el` file](#org74d3cfc)
+2.  [The Configuration](#org2aed72f)
+    1.  [A preamble](#org3be0fa7)
+    2.  [Speed up loading](#orgfbc13f9)
+    3.  [UTF encoding](#org028d532)
+    4.  [Speed up line movement](#orgf3af44d)
+    5.  [I use Ctrl-Z for personal bindings](#org7474bd0)
+    6.  [Extra org mode key bindings](#org506ecf8)
+    7.  [Packages](#org028f496)
+        1.  [`magit`](#orgdac4ab9)
+        2.  [`diminish`](#org1e1496e)
+        3.  [`which-key`](#org680797f)
+        4.  [`projectile`](#orgd64ac63)
+        5.  [`company-mode`](#org403d46e)
+        6.  [`ivy/swiper`](#org2ff287e)
+        7.  [Use `ivy` and `posframe` together](#orgbad230c)
+        8.  [`prescient`](#orgc2a6272)
+        9.  [`yasnippet`](#org2e641a9)
+        10. [Emacs Application Framework](#orgda12893)
+        11. [Jinja2](#orga11387f)
+        12. [`command-log-mod`](#org61f4615)
+        13. [Markdown mode](#orgf6a15a8)
+        14. [Docker](#org6ba7e18)
+        15. [`flycheck`](#orgc2f1436)
+        16. [yaml-mode](#orgb1e2b99)
+        17. [`bind-key`](#orgb32267c)
+        18. [`helpful`](#org1d13269)
+        19. [`savehist`](#orgcacea43)
+        20. [Very large files](#orgbc64dd4)
+        21. [Logs in general](#org280e6aa)
+        22. [Random packages](#orga85599f)
+    8.  [`org-mode`](#org341d7c1)
+        1.  [For blogging](#orgbe163d1)
+        2.  [Use of babel](#org79f9c9f)
+    9.  [Language support](#org6cd4cba)
+        1.  [Back to LSP for the time being](#orge5ec41a)
+        2.  [Fix for lsp warnings](#orge83411c)
+        3.  [Python](#org2bdaf12)
+        4.  [Go](#org641989a)
+        5.  [Flutter and Dart](#org134b0f5)
+    10. [Theme and mode line](#org16d613d)
+    11. [Additional bits-o-configuration](#orgdb3d29f)
+        1.  [Limit the length of `which-function`](#org419fd66)
+        2.  [`my-ansi-term`](#orgf0b84f7)
+        3.  [Understand file type by shebang](#org6836042)
+        4.  [React to screen width changes for `posframe`](#org4682ba1)
+    12. [Final (random) bits](#org1a71d74)
+3.  [`org-mode` export hacks for HTML and Markdown](#org7d2d846)
 
 
 
-<a id="orge0ac88a"></a>
+<a id="orgf503e1a"></a>
 
 # Overview
 
 This is a literate and <font color=red size=+3><b><u>portable</u></b></font> Emacs initialization.
 
 
-<a id="orgce65ebc"></a>
+<a id="orga08a4db"></a>
 
 ## Quick start
 
@@ -89,7 +91,7 @@ The ability to simply clone and start is what makes this configuration **portabl
 `custom.el` and then apply it whenever I take updated configurations from the repository.
 
 
-<a id="orgddfff09"></a>
+<a id="orga7f5b77"></a>
 
 ## Why a literate configuration
 
@@ -104,7 +106,7 @@ I have tried to make this configuration 100% portable meaning that on a new syst
 installed. I simple git clone this repository to `~/.emacs.d` and then fire up Emacs. Should work every time. 
 
 
-<a id="org63375ba"></a>
+<a id="org745b7e2"></a>
 
 ## My customizations
 
@@ -127,14 +129,12 @@ While not many, I use the customization engine to provide any custom definitions
 <th scope="col" class="org-left">Standard Value</th>
 </tr>
 </thead>
-
 <tbody>
 <tr>
 <td class="org-left">my/cfg-file</td>
 <td class="org-left">"~/.emacs.d/README"</td>
 <td class="org-left">~/.emacs.d/README</td>
 </tr>
-
 
 <tr>
 <td class="org-left">my/which-function-max-width</td>
@@ -145,7 +145,7 @@ While not many, I use the customization engine to provide any custom definitions
 </table>
 
 
-<a id="org5217cf6"></a>
+<a id="org74d3cfc"></a>
 
 ## The importance of the `init.el` file
 
@@ -159,7 +159,7 @@ The `init.el` file itself is well commented and needs no extra documentation her
 the minimal amount of work to load (`org-babel-tangle-file`) this file.
 
 
-<a id="orgec64014"></a>
+<a id="org2aed72f"></a>
 
 # The Configuration
 
@@ -167,7 +167,7 @@ Here are the configuration bits. All of the following code snippets that are tan
 from the initialization (`~/emacs.d/init.el`) file.
 
 
-<a id="orgd047344"></a>
+<a id="org3be0fa7"></a>
 
 ## A preamble
 
@@ -182,7 +182,7 @@ First make sure that we are doing lexical scoping for speed. See [Some Performan
 ```
 
 
-<a id="orgd2bc93e"></a>
+<a id="orgfbc13f9"></a>
 
 ## Speed up loading
 
@@ -197,7 +197,16 @@ init.
 ```
 
 
-<a id="orgba744ab"></a>
+<a id="org028d532"></a>
+
+## UTF encoding
+
+```emacs-lisp
+(prefer-coding-system 'utf-8)
+```
+
+
+<a id="orgf3af44d"></a>
 
 ## Speed up line movement
 
@@ -210,7 +219,7 @@ using `next-line` gets very cut down.
 ```
 
 
-<a id="org4374d98"></a>
+<a id="org7474bd0"></a>
 
 ## I use Ctrl-Z for personal bindings
 
@@ -223,7 +232,7 @@ therefore I've started to bind things to Ctrl-Z, which had the annoying and usel
            :prefix "C-z"
            ("C-d" . dired-jump)
            ("c"   . comment-region)
-           ("d"   . docker)
+           ("d"   . realgud-short-key-mode)
            ("e"   . eglot-rename)
            ("f"   . magit-find-file-other-window)
            ("g"   . magit-status)
@@ -242,7 +251,7 @@ therefore I've started to bind things to Ctrl-Z, which had the annoying and usel
 ```
 
 
-<a id="org2d09065"></a>
+<a id="org506ecf8"></a>
 
 ## Extra org mode key bindings
 
@@ -253,7 +262,7 @@ Seems at least one key binding disappeared on me in org mode.
 ```
 
 
-<a id="orgc61ef71"></a>
+<a id="org028f496"></a>
 
 ## Packages
 
@@ -261,17 +270,18 @@ Here are the packages I use and I've tried to list them in a relatively logical 
 packages earlier in this document).
 
 
-<a id="org192ae39"></a>
+<a id="orgdac4ab9"></a>
 
 ### [`magit`](https://github.com/magit/magit)
 
 The **most awesome** git porcelain. Most here are part of magit, [`git-time-machine`](https://github.com/pidu/git-timemachine) is not, but well worth using.
 
 ```emacs-lisp
-(use-package git-commit
-  :custom
-  (git-commit-fill-column 78)
-  (git-commit-style-convention-checks '(non-empty-second-line overlong-summary-line)))
+(if (version< emacs-version "31")
+    (use-package git-commit
+      :custom
+      (git-commit-fill-column 78)
+      (git-commit-style-convention-checks '(non-empty-second-line overlong-summary-line))))
 ;; (use-package forge
 ;;   :after magit)
 (use-package magit
@@ -288,7 +298,7 @@ The **most awesome** git porcelain. Most here are part of magit, [`git-time-mach
 ```
 
 
-<a id="orgad062cc"></a>
+<a id="org1e1496e"></a>
 
 ### `diminish`
 
@@ -301,7 +311,7 @@ because it is used later on.
 ```
 
 
-<a id="org613f3ba"></a>
+<a id="org680797f"></a>
 
 ### [`which-key`](https://github.com/justbur/emacs-which-key)
 
@@ -323,7 +333,7 @@ options. This is, IMO, a great way to learn Emacs key-bindings.
 ```
 
 
-<a id="orge181d7a"></a>
+<a id="orgd64ac63"></a>
 
 ### `projectile`
 
@@ -342,19 +352,21 @@ Perhaps one of the most useful packages - understands `git` repositories by defa
 ```
 
 
-<a id="org1413eea"></a>
+<a id="org403d46e"></a>
 
 ### [`company-mode`](http://company-mode.github.io/)
 
 Use the excellent [`company-mode`](http://company-mode.github.io/) modular in-buffer text completion framework.
 
+For convenience I'm binding `C-<tab>` to completion for driving in some circumstances: In Python, I noticed that I didn't get a
+completion menu when I did "self.\_" - using `C-<tab>` at this point pops up the completion menu.
+
 ```emacs-lisp
 (use-package company
   :diminish
-  :config (global-company-mode 1))
+  :config (global-company-mode 1)
+  :bind (("C-<tab>" . company-complete)))
 ```
-
-I've found that company mode works much better if you set the `company-minimum-prefix-length` to 1 (from 3).
 
 <table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
 
@@ -373,25 +385,17 @@ I've found that company mode works much better if you set the `company-minimum-p
 <th scope="col" class="org-left">Standard Value</th>
 </tr>
 </thead>
-
 <tbody>
 <tr>
 <td class="org-left">company-insertion-on-trigger</td>
-<td class="org-left">company-explicit-action-p</td>
 <td class="org-left">nil</td>
-</tr>
-
-
-<tr>
-<td class="org-left">company-minimum-prefix-length</td>
-<td class="org-left">1</td>
-<td class="org-left">3</td>
+<td class="org-left">nil</td>
 </tr>
 </tbody>
 </table>
 
 
-<a id="orge29d403"></a>
+<a id="org2ff287e"></a>
 
 ### [`ivy/swiper`](https://github.com/abo-abo/swiper)
 
@@ -430,7 +434,7 @@ I used to be a `helm` user, but switched to `ivy`. Lots of nice features in `ivy
 ```
 
 
-<a id="orgd119866"></a>
+<a id="orgbad230c"></a>
 
 ### Use `ivy` and `posframe` together
 
@@ -451,7 +455,7 @@ example when trying to write to a buffer to a new file name). To fix this, setti
 back before the first candidate to a "verbatim" prompt.
 
 
-<a id="org50e57a4"></a>
+<a id="orgc2a6272"></a>
 
 ### [`prescient`](https://github.com/raxod502/prescient.el)
 
@@ -464,7 +468,7 @@ back before the first candidate to a "verbatim" prompt.
 ```
 
 
-<a id="orgfa2e4eb"></a>
+<a id="org2e641a9"></a>
 
 ### [`yasnippet`](https://www.emacswiki.org/emacs/Yasnippet)
 
@@ -492,14 +496,17 @@ to by the [company mode Wiki page](https://www.emacswiki.org/emacs/CompanyMode#t
 
 ```emacs-lisp
 (defvar my/company-point nil)
-(advice-add 'company-complete-common :before (lambda () (setq my/company-point (point))))
+(advice-add 'company-complete-common :before (lambda ()
+                                               "Grab the point before complete."
+                                               (setq my/company-point (point))))
 (advice-add 'company-complete-common :after (lambda ()
+                                              "If the body hasn't changed with completion, then do yas expand."
                                               (when (equal my/company-point (point))
                                                 (yas-expand))))
 ```
 
 
-<a id="orgfec5855"></a>
+<a id="orgda12893"></a>
 
 ### Emacs Application Framework
 
@@ -542,7 +549,7 @@ I had to modify the directions to work with `use-package` used along with `strai
 ```
 
 
-<a id="orga42460e"></a>
+<a id="orga11387f"></a>
 
 ### Jinja2
 
@@ -553,7 +560,7 @@ I'm using [Pyramid](https://docs.pylonsproject.org/projects/pyramid/en/2.0-branc
 ```
 
 
-<a id="org9049a6b"></a>
+<a id="org61f4615"></a>
 
 ### `command-log-mod`
 
@@ -564,7 +571,7 @@ These packages are useful when doing presentations.
 ```
 
 
-<a id="org7b1f9b9"></a>
+<a id="orgf6a15a8"></a>
 
 ### Markdown mode
 
@@ -575,7 +582,7 @@ Nice for editing all those markdown files (that should really just be org files)
 ```
 
 
-<a id="orgc7c5c74"></a>
+<a id="org6ba7e18"></a>
 
 ### Docker
 
@@ -586,7 +593,7 @@ I manage a lot of docker stuff. The docker package is quite useful.
 ```
 
 
-<a id="org90e11d7"></a>
+<a id="orgc2f1436"></a>
 
 ### `flycheck`
 
@@ -602,7 +609,7 @@ I've abandoned `flymake` (built-in) with `flycheck` (see [flycheck a flymake rep
 ```
 
 
-<a id="org915f095"></a>
+<a id="orgb1e2b99"></a>
 
 ### yaml-mode
 
@@ -611,7 +618,7 @@ I've abandoned `flymake` (built-in) with `flycheck` (see [flycheck a flymake rep
 ```
 
 
-<a id="org5ff1c78"></a>
+<a id="orgb32267c"></a>
 
 ### [`bind-key`](https://github.com/priyadarshan/bind-key)
 
@@ -622,7 +629,7 @@ Much better binding capabilities (in later versions this is already loaded via `
 ```
 
 
-<a id="orgcb88bbf"></a>
+<a id="org1d13269"></a>
 
 ### [`helpful`](https://github.com/Wilfred/helpful)
 
@@ -634,7 +641,7 @@ Much better binding capabilities (in later versions this is already loaded via `
 ```
 
 
-<a id="org354cf90"></a>
+<a id="orgcacea43"></a>
 
 ### [`savehist`](https://www.emacswiki.org/emacs/SaveHist)
 
@@ -667,7 +674,6 @@ Set the following variables to control `savehist` (use customize).
 <th scope="col" class="org-left">Standard Value</th>
 </tr>
 </thead>
-
 <tbody>
 <tr>
 <td class="org-left">savehist-file</td>
@@ -675,13 +681,11 @@ Set the following variables to control `savehist` (use customize).
 <td class="org-left">~/.emacs.d/history</td>
 </tr>
 
-
 <tr>
 <td class="org-left">savehist-additional-variables</td>
 <td class="org-left">(tablist-named-filter kill-ring search-ring regexp-search-ring)</td>
 <td class="org-left">nil</td>
 </tr>
-
 
 <tr>
 <td class="org-left">savehist-mode</td>
@@ -692,7 +696,7 @@ Set the following variables to control `savehist` (use customize).
 </table>
 
 
-<a id="org4ee4630"></a>
+<a id="orgbc64dd4"></a>
 
 ### Very large files
 
@@ -708,7 +712,7 @@ logs in your day to day, then this article is invaluable. I've yet to adopt some
 I have no need as of yet. Soon maybe.
 
 
-<a id="org5c4a61a"></a>
+<a id="org280e6aa"></a>
 
 ### Logs in general
 
@@ -735,7 +739,7 @@ First make all the logs read-only (view) mode.
 ```
 
 
-<a id="org4d0eca8"></a>
+<a id="orga85599f"></a>
 
 ### Random packages
 
@@ -771,12 +775,12 @@ checked here against the list of built-ins to avoid warnings when loading a late
   (use-package powershell))
 ```
 
-Note that the setting of `desktop-path` allows the multiple `.emacs.desktop` files, each in the directory where `emacs` was started.
+Note that the setting of allows the multiple `.emacs.desktop` files, each in the directory where `emacs` was started.
 Although `desktop-path` is changed outside `custom.el`, I've included it here in the table below so you can see that the default is
 augmented with the start-up directory which in this case is `~/.emacs.d`.
 
 
-<a id="org9a51d7e"></a>
+<a id="org341d7c1"></a>
 
 ## [`org-mode`](https://orgmode.org/)
 
@@ -830,7 +834,6 @@ Customized variables for org-mode:
 <th scope="col" class="org-left">Standard Value</th>
 </tr>
 </thead>
-
 <tbody>
 <tr>
 <td class="org-left">org-catch-invisible-edits</td>
@@ -838,13 +841,11 @@ Customized variables for org-mode:
 <td class="org-left">nil</td>
 </tr>
 
-
 <tr>
 <td class="org-left">org-html-postamble</td>
 <td class="org-left">t</td>
 <td class="org-left">auto</td>
 </tr>
-
 
 <tr>
 <td class="org-left">org-html-postamble-format</td>
@@ -854,8 +855,37 @@ Customized variables for org-mode:
 </tbody>
 </table>
 
+&lt;p class="date"&gt;Date: %d&lt;/p&gt;
+&lt;p class="creator"&gt;%c&lt;/p&gt;
+&lt;p class="validation"&gt;%v&lt;/p&gt;)) |
 
-<a id="org1b2e505"></a>
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-left" />
+
+<col  class="org-left" />
+
+<col  class="org-left" />
+</colgroup>
+<tbody>
+<tr>
+<td class="org-left">org-log-done</td>
+<td class="org-left">time</td>
+<td class="org-left">nil</td>
+</tr>
+
+<tr>
+<td class="org-left">org-log-into-drawer</td>
+<td class="org-left">t</td>
+<td class="org-left">nil</td>
+</tr>
+</tbody>
+</table>
+
+
+<a id="orgbe163d1"></a>
 
 ### For blogging
 
@@ -866,18 +896,18 @@ credentials so there is the setup of `org2blog/wp-blog-alist` here (according to
 (use-package org2blog)
 (require 'auth-source)
 
-(let* ((credentials (auth-source-user-and-password "myblog"))
-       (username (nth 0 credentials))
-       (password (nth 1 credentials))
-       (config `(("myblog"
-                 :url "http://adamhitstheroad.com/xmlrpc.php"
-                 :username ,username
-                 :password ,password))))
-  (setq org2blog/wp-blog-alist config))
+;; (let* ((credentials (auth-source-user-and-password "myblog"))
+;;        (username (nth 0 credentials))
+;;        (password (nth 1 credentials))
+;;        (config `(("myblog"
+;;                  :url "http://adamhitstheroad.com/xmlrpc.php"
+;;                  :username ,username
+;;                  :password ,password))))
+;;   (setq org2blog/wp-blog-alist config))
 ```
 
 
-<a id="orgef4bf16"></a>
+<a id="org79f9c9f"></a>
 
 ### Use of babel
 
@@ -901,7 +931,6 @@ To do literate programming you need to include the languages to "tangle". Here I
 <th scope="col" class="org-left">Standard Value</th>
 </tr>
 </thead>
-
 <tbody>
 <tr>
 <td class="org-left">org-babel-load-languages</td>
@@ -912,14 +941,14 @@ To do literate programming you need to include the languages to "tangle". Here I
 </table>
 
 
-<a id="orge439cbf"></a>
+<a id="org6cd4cba"></a>
 
 ## Language support
 
 This section covers the various language support features of this configuration.
 
 
-<a id="orgfbedceb"></a>
+<a id="orge5ec41a"></a>
 
 ### Back to LSP for the time being
 
@@ -937,29 +966,56 @@ LSP ([Language Server Protocol](https://microsoft.github.io/language-server-prot
   (dart-mode . lsp)
   (lsp-mode . lsp-enable-which-key-integration))
 
+;; Seems this package eventually kills off help popups on the modeline.
 (use-package lsp-ui
-   :commands lsp-ui-mode)
+  :commands lsp-ui-mode)
 (use-package lsp-ivy :commands lsp-ivy-workspace-symbol)
 (use-package lsp-treemacs)
 (use-package treemacs-projectile)
 
-;; optionally if you want to use debugger
-(use-package dap-mode)
+;; optionally if you want to use debugger (here for go and flutter)
+;; (use-package dap-mode)
 
-;; company-lsp no longer supported!!!
 (use-package company-box
   :hook (company-mode . company-box-mode))
 ```
 
 
-<a id="org43bb42c"></a>
+<a id="orge83411c"></a>
+
+### Fix for lsp warnings
+
+I've encountered an annoying, and apparently innocuous, warning from lsp that reads `"Warning (lsp-mode): Unknown notification:
+semgrep/rulesRefreshed"`. Here's a way to filter specifically for this issue:
+
+```emacs-lisp
+(defcustom my/warning-suppress-message-regexps '(".*semgrep/rulesRefreshed.*")
+  "List of warning messages to suppress.
+See also `warning-suppress-log-types'."
+  :type '(repeat string)
+  :group 'my-configuration)
+
+(defun my/display-warning-advise (type message &optional level buffer-name)
+  "Allow filtering Emacs warning messages using regexp.
+See the varibale `my/warning-suppress-message-regexps'."
+  (catch 'exit
+    (dolist (regexp my/warning-suppress-message-regexps)
+      (when (string-match-p regexp message) (throw 'exit nil)))
+    (throw 'exit t)))
+
+(add-function :before-while (symbol-function 'display-warning) #'my/display-warning-advise)
+```
+
+
+<a id="org2bdaf12"></a>
 
 ### Python
 
 Now with `eglot` this is pretty straight forward configuration.
 
 ```emacs-lisp
-(use-package pylint)
+(use-package pylint
+  :diminish "")
 (use-package python-docstring
   :config
   (python-docstring-install))
@@ -968,18 +1024,32 @@ Now with `eglot` this is pretty straight forward configuration.
               ("C-c C-p" .  flycheck-previous-error)
               ("C-c C-n" . flycheck-next-error))
   :custom
-  (python-flymake-command '("flake8" "-"))
+  ;; (python-flymake-command '("flake8" "-"))
   (python-indent-trigger-commands '(yas-expand))
   (python-shell-completion-native-disabled-interpreters '("pypy" "ipython" "jupyter"))
   (python-shell-interpreter "jupyter")
   (python-shell-interpreter-args "console --simple-prompt")
   (python-shell-prompt-detect-failure-warning nil)
   (python-shell-prompt-output-regexp "Out\\[[0-9]+\\]: ")
-  (python-shell-prompt-regexp "In \\[[0-9]+\\]: "))
+  (python-shell-prompt-regexp "In \\[[0-9]+\\]: ")
+  :hook
+  (inferior-python-mode . (lambda () (set-variable 'tab-width 4))))
+
+```
+
+I use `mambaforge` at this point, but it just one of the many `anaconda`-based Python virtual environment managers. I find that
+mambaforge works great.
+
+```emacs-lisp
+(use-package conda
+  :ensure t
+  :init
+  (setq conda-anaconda-home (expand-file-name "~/mambaforge"))
+  (setq conda-env-home-directory (expand-file-name "~/mambaforge")))
 ```
 
 
-<a id="org6133daf"></a>
+<a id="org641989a"></a>
 
 ### Go
 
@@ -994,7 +1064,7 @@ For golang since we are using at my new gig. However, I'm not a big golang fan a
 ```
 
 
-<a id="org6121aad"></a>
+<a id="org134b0f5"></a>
 
 ### Flutter and Dart
 
@@ -1023,7 +1093,7 @@ I'm trying to learn Flutter and Dart because I asked my son, "What should I lear
 ```
 
 
-<a id="org7633dc4"></a>
+<a id="org16d613d"></a>
 
 ## Theme and mode line
 
@@ -1047,12 +1117,12 @@ install.
 ```
 
 
-<a id="org448a2f6"></a>
+<a id="orgdb3d29f"></a>
 
 ## Additional bits-o-configuration
 
 
-<a id="orgd88fa0d"></a>
+<a id="org419fd66"></a>
 
 ### Limit the length of [`which-function`](https://www.gnu.org/software/emacs/manual/html_node/emacs/Which-Function.html)
 
@@ -1065,13 +1135,14 @@ install.
   :group 'my-configuration
   :type 'integer)
 (advice-add #'which-function :filter-return
-            (lambda (s) (when (stringp s)
-                          (if (< (string-width s) my/which-function-max-width) s
-                            (concat (truncate-string-to-width s (- my/which-function-max-width 3)) "...")))))
+            (lambda (s) (if s
+                            (when (stringp s)
+                            (if (< (string-width s) my/which-function-max-width) s
+                              (concat (truncate-string-to-width s (- my/which-function-max-width 3)) "..."))))))
 ```
 
 
-<a id="orgcfdef7e"></a>
+<a id="orgf0b84f7"></a>
 
 ### `my-ansi-term`
 
@@ -1087,7 +1158,7 @@ other modes and shells make this less useful these days.
 ```
 
 
-<a id="org74a02e7"></a>
+<a id="org6836042"></a>
 
 ### Understand file type by shebang
 
@@ -1110,7 +1181,7 @@ Script-type is read from #!/... at top of file."
 ```
 
 
-<a id="org966dc5b"></a>
+<a id="org4682ba1"></a>
 
 ### React to screen width changes for `posframe`
 
@@ -1130,7 +1201,7 @@ distracting), this code reacts to the width changes and will set the custom vari
 ```
 
 
-<a id="org646b2ea"></a>
+<a id="org1a71d74"></a>
 
 ## Final (random) bits
 
@@ -1160,7 +1231,7 @@ Setup `eldoc` mode, use `y-or-n-p` instead of `yes-or-no-p`. Key bindings&#x2026
 ```
 
 
-<a id="org8eb8718"></a>
+<a id="org7d2d846"></a>
 
 # [`org-mode`](https://orgmode.org/) export hacks for HTML and Markdown
 

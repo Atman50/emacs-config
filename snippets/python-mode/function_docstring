@@ -6,6 +6,6 @@
 # --
 def ${1:name}($2):
     """$3
-    ${2:$(python-args-to-docstring)}
+    ${2:$(my/python-args-to-docstring)}
     """
     $0
