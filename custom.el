@@ -1,5 +1,4 @@
-;;; custom.el --- Your emacs custom file.
-;; -*- lexical-binding: t; -*-
+;;; custom.el --- Your emacs custom file.  -*- lexical-binding: t; -*-
 
 ;;; Commentary:
 ;;;    Where your settings are saved. This file is pointed

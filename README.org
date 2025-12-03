@@ -70,8 +70,7 @@ the minimal amount of work to load (=org-babel-tangle-file=) this file.
 ** A preamble
 First make sure that we are doing lexical scoping for speed. See [[https://nullprogram.com/blog/2016/12/22/][Some Performance Advantages of Lexical Scope blog]].
 #+BEGIN_SRC emacs-lisp :tangle yes
-  ;;; README.el --- a file generated from README.org - do not edit by hand!!!!
-  ;; -*- lexical-binding: t; -*-
+  ;;; README.el --- a file generated from README.org - do not edit by hand!!!!  -*- lexical-binding: t -*-
   ;;; Commentary:
   ;;;     Org tangled from README.org. Edit the org file to chnage this configuration
   ;;; Code:

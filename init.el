@@ -1,5 +1,4 @@
-;;; init.el --- emacs initialization file
-;; -*- lexical-binding: t; -*-
+;;; init.el --- emacs initialization file -*- lexical-binding: t -*-
 
 ;; Copyright (C) 2017-2018 Adam Taylor
 
