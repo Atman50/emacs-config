@@ -132,6 +132,10 @@ Seems at least one key binding disappeared on me in org mode.
 ** Packages
 Here are the packages I use and I've tried to list them in a relatively logical order (trying to put the more significant
 packages earlier in this document).
+#+BEGIN_SRC emacs-lisp :tangle yes
+  ;; We need to setup the package-built-in-p
+  (load-library "package-activate")
+#+END_SRC
 *** [[https://github.com/magit/magit][=magit=]]
 The *most awesome* git porcelain. Most here are part of magit, [[https://github.com/pidu/git-timemachine][=git-time-machine=]] is not, but well worth using.
 #+BEGIN_SRC emacs-lisp :tangle yes
