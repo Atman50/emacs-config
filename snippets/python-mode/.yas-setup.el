@@ -1,5 +1,4 @@
-;;; .yas-setup.el --- fix the friggin' yasnippets python stuff
-;;; -*- lexical-binding: t -*-
+;;; .yas-setup.el --- fix the friggin' yasnippets python stuff  -*- lexical-binding: t -*-
 ;;; Commentary:
 
 ;;; Code:
