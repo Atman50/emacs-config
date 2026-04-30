@@ -1,5 +1,5 @@
 #+STARTUP: showeverything
-#+OPTIONS: toc:3 h:3
+#+OPTIONS: toc:3 H:3
 #+OPTIONS: ^:nil
 #+HTML_HEAD: <style>
 #+HTML_HEAD:     table { border: 1px solid black; border-collapse:collapse; margin-left: 2%; }
@@ -448,7 +448,7 @@ checked here against the list of built-ins to avoid warnings when loading a late
   (when (string-match "windows" (symbol-name system-type))
     (use-package powershell))
 #+END_SRC
-Note that the setting of [[(desktop-path)][=desktop-path=]] allows the multiple =.emacs.desktop= files, each in the directory where =emacs= was started.
+Note that the setting of =desktop-path= allows the multiple =.emacs.desktop= files, each in the directory where =emacs= was started.
 Although =desktop-path= is changed outside =custom.el=, I've included it here in the table below so you can see that the default is
 augmented with the start-up directory which in this case is =~/.emacs.d=.
 ** [[https://orgmode.org/][=org-mode=]]
